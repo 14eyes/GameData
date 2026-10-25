@@ -1,0 +1,999 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Property_Control": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "durationRatio": 0.8999999761581421,
+              "resistanceBuffDebuffs": [
+                "ElementFreeze"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0.75
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Stage1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Enhanced"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "Stage",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Stage2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "Enhanced"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "Stage",
+              "value": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Stage3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "Enhanced"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "Stage",
+              "value": 3
+            }
+          ],
+          "properties": {
+            "Actor_AttackRatio": 0.4
+          },
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "HP_Stage3"
+            }
+          ],
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToHPPercentMixin",
+          "valueSteps": [
+            0.8,
+            0.4
+          ],
+          "modifierNameSteps": [
+            "HP_Stage1",
+            "HP_Stage2",
+            "HP_Stage3"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 700.0,
+          "steerStateIDs": [
+            "Disappear_Trans_ToPowerStrike"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5600000023841858,
+          "steerStateIDs": [
+            "NormalAtk_P1"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 600.0,
+          "endNormalizedTime": 0.10499999672174454,
+          "steerStateIDs": [
+            "PowerStrike_AS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 400.0,
+          "endNormalizedTime": 0.7900000214576721,
+          "CHMMMGEJCME": "Right",
+          "steerStateIDs": [
+            "PowerStrike_AS"
+          ],
+          "startNormalizedTime": 0.6370000243186951
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 600.0,
+          "endNormalizedTime": 0.7099999785423279,
+          "steerStateIDs": [
+            "LandStrike_BreakStone"
+          ],
+          "startNormalizedTime": 0.5019999742507935
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_PoseManager",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Property_Control"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Counter_Able": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Counter_Able"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionByAnimatorStateIDMixin",
+              "stateIDs": [
+                "Hit_H",
+                "HitThrowToGround"
+              ],
+              "exitActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_COUNTER_COOLDOWN",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Counter_Cooldown": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Counter_Able"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_COUNTER_COOLDOWN",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear_Push_Logic": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear_Logic": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "GhostState"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Thoarder_Common_Die_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeLockTypeMixin",
+              "overrideRange": 0.009999999776482582,
+              "lockType": "Default",
+              "MPNEFIAAKHC": 0.20000000298023224
+            },
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox",
+                    "HeadBox"
+                  ]
+                },
+                {
+                  "$type": "HideUIBillBoard",
+                  "hide": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox",
+                    "HeadBox"
+                  ],
+                  "setEnable": true
+                },
+                {
+                  "$type": "HideUIBillBoard"
+                }
+              ]
+            },
+            {
+              "$type": "EntityInVisibleMixin",
+              "AAHPKGHIPPG": true,
+              "reason": "SelfAbility"
+            }
+          ],
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "GhostState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "LandStrike_JusticeCrash_Disappear",
+            "Disappear_Trans"
+          ],
+          "modifierName": "Disappear_Logic"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "LandStrike_JusticeCrash_Disappear",
+            "LandStrike_JusticeCrash_NoPush",
+            "Disappear_Trans",
+            "Disappear_Trans_ToPowerStrike"
+          ],
+          "modifierName": "Disappear_Push_Logic"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "stateIDs": [
+            "Disappear_Trans_ToPowerStrike"
+          ],
+          "exitActions": [
+            {
+              "$type": "TryFindBlinkPointByBorn",
+              "limitY": 2.5,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 2.5,
+                  "maxRandomRange": 4.5
+                }
+              },
+              "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Thoarder_Common_Die_01",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByTeleportToPoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "DoBlink"
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetAnimatorFloat",
+              "useRandomValue": true,
+              "floatID": "RandomValue",
+              "FODOKEONKCH": 0,
+              "randomValueMax": 1
+            }
+          ],
+          "stateIDs": [
+            "Disappear_Trans"
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Counter_Able",
+            "Counter_Cooldown"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_COUNTER_COOLDOWN",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_Disappear_Manager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "JusticeCrash_Logic": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "DoBlinkByGlobalPos",
+              "positionKey": "_CRASH_POINT",
+              "useGlobalUp": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalPos",
+              "target": "SelfAttackActiveTarget",
+              "LINAHBPILJD": false,
+              "key": "_CRASH_POINT",
+              "born": {
+                "$type": "ConfigBornByPredicatePoint",
+                "onGround": true,
+                "useRotation": true,
+                "timeForPredictive": 0.30000001192092896,
+                "HNOJOOKALCE": true
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_WarningCircle",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "_CRASH_POINT"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "GhostState"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeLockTypeMixin",
+              "overrideRange": 0.009999999776482582,
+              "lockType": "Default",
+              "MPNEFIAAKHC": 0.20000000298023224
+            },
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox",
+                    "HeadBox"
+                  ]
+                },
+                {
+                  "$type": "HideUIBillBoard",
+                  "hide": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox",
+                    "HeadBox"
+                  ],
+                  "setEnable": true
+                },
+                {
+                  "$type": "HideUIBillBoard"
+                }
+              ]
+            },
+            {
+              "$type": "EntityInVisibleMixin",
+              "AAHPKGHIPPG": true,
+              "reason": "SelfAbility"
+            }
+          ],
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "GhostState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "LandStrike_JusticeCrash_Disappear"
+          ],
+          "modifierName": "JusticeCrash_Logic"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 250.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "extension": {
+                      "$type": "ConfigCameraShakeExt",
+                      "baseCycle": 0.30000001192092896,
+                      "cycleDamping": 0.25
+                    },
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "y": -1.0
+                    },
+                    "shakeTime": 0.15000000596046448,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 25.0,
+                    "shakeRange": 1.600000023841858
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Air",
+                      "hitImpulseX": 150,
+                      "hitImpulseY": 1030
+                    }
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "y": -2
+                    }
+                  },
+                  "radius": 4.86,
+                  "height": 3.549999952316284
+                }
+              }
+            }
+          ],
+          "stateIDs": [
+            "LandStrike_JusticeCrash"
+          ]
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_JusticeCrash_Manager",
+      "onAdded": [
+        {
+          "$type": "SetGlobalPos",
+          "key": "_CRASH_POINT",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "onGround": true,
+            "useRotation": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RushMove",
+          "toPos": {
+            "$type": "ConfigBornBySelf",
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "z": 1.2
+            }
+          },
+          "timeRange": 0.07999999821186066,
+          "maxRange": 1.2000000476837158
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_RushMove"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 2.4,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 0
+              }
+            }
+          },
+          "bulletID": 42506021
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_BreakStone_CreateBullet_TypeI"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": -1.5,
+              "z": 2,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": -15
+              }
+            }
+          },
+          "bulletID": 42506021
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 1.5,
+              "z": 2,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 15
+              }
+            }
+          },
+          "bulletID": 42506021
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_BreakStone_CreateBullet_TypeV"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 1.6,
+              "z": -1.6,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 135
+              }
+            }
+          },
+          "bulletID": 42506021,
+          "trackTarget": "SelfAttackActiveTarget"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": -1.6,
+              "z": -1.6,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": -135
+              }
+            }
+          },
+          "bulletID": 42506021,
+          "trackTarget": "SelfAttackActiveTarget"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 1.6,
+              "z": 1.6,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 45
+              }
+            }
+          },
+          "bulletID": 42506021,
+          "trackTarget": "SelfAttackActiveTarget"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": -1.6,
+              "z": 1.6,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": -45
+              }
+            }
+          },
+          "bulletID": 42506021,
+          "trackTarget": "SelfAttackActiveTarget"
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_BreakStone_CreateBullet_TypeX"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_TriggerDamage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 0.81,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_Rock",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 101.0,
+                    "damagePercentage": 0.6,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByOriginOwner",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV5"
+                  },
+                  "attenuationGroup": "Universal_RushAttack",
+                  "attenuationTag": "BreakStone_Damage",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -0.5
+                    }
+                  },
+                  "radius": 1.5,
+                  "height": 2.0
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_Rock",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 101.0,
+                    "damagePercentage": 0.6,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByOriginOwner",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV5"
+                  },
+                  "attenuationGroup": "Universal_RushAttack",
+                  "attenuationTag": "BreakStone_Damage",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -0.5
+                    }
+                  },
+                  "radius": 1.5,
+                  "height": 2.0
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_LandStrike_BreakStone_BulletLogic",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Bullet_TriggerDamage"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "MPTriggerOnRemote": true,
+                      "triggerID": "BreakFall_H_PowerStrike"
+                    }
+                  ],
+                  "chance": 0.4,
+                  "successActions": [
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "MPTriggerOnRemote": true,
+                      "triggerID": "BreakFall_H_LandStrike"
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "MPTriggerOnRemote": true,
+                  "triggerID": "BreakFall_H_PowerStrike"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAnimatorInt",
+                  "target": "Self",
+                  "value": 1,
+                  "parameter": "Stage"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "key": "_COUNTER_COOLDOWN"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Thoarder_MuscleMan_NoWeapon_Zeppeli_HitH_BreakFall"
+    }
+  }
+]

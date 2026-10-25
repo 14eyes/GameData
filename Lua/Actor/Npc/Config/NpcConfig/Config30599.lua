@@ -1,0 +1,50 @@
+require("Actor/ActorCommon")
+local NpcConfigCommon = require("Actor/Npc/Config/NpcConfigCommon")
+
+local generalPattern = NpcConfigCommon.GeneralPattern
+local dailyCondition = NpcConfigCommon.DailyCondition
+local questState = NpcConfigCommon.QuestState
+local actionPointType = NpcConfigCommon.ActionPointType
+local compareOperation = NpcConfigCommon.CompareOperation
+local focusToPlayerType = NpcConfigCommon.FocusToPlayerType
+local reactEnableType = NpcConfigCommon.ReactEnableType
+local reactEventType = NpcConfigCommon.ReactEventType
+local actorMoveType = NpcConfigCommon.ActorMoveType
+
+return {
+    Data = {
+        NpcId = "30599",
+        Alias = "Npc30599",
+        DailyScheduleData = {
+            {
+                bornConfigId = 483059900,
+                condition = {daily = dailyCondition.AllDay, sceneId = 3, priority = 0},
+                conditionGrp = {
+                    {
+                        {
+                            _type_ = LuaVirtualType.NpcActionSubQuestCondition,
+                            subQuestId = 4016505,
+                            questState = questState.Finished
+                        },
+                        {
+                            _type_ = LuaVirtualType.NpcActionActivityCondCondition,
+                            activityId = 2032,
+                            activityCondId = 2032004,
+                            isActivityValid = true
+                        }
+                    }
+                },
+                actionPoints = {
+                    {
+                        dummypoint = {pos = {x = -3124.024, y = 250.7539, z = -4417.934}, rot = {x = 0, y = 0, z = 0}},
+                        freestyle = 1190,
+                        lookAtType = focusToPlayerType.Ignore,
+                        reactOnCollide = reactEnableType.Ignore,
+                        reactOnBodyLang = reactEnableType.Ignore,
+                        action = generalPattern.Stand
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,5481 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "attackDistance": 7.0,
+          "steerStateIDs": [
+            "Life_Warning"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 720.0,
+          "attackDistance": 7.0,
+          "steerStateIDs": [
+            "DigOut_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 720.0,
+          "attackDistance": 7.0,
+          "steerStateIDs": [
+            "DigOut"
+          ],
+          "startNormalizedTime": 0.800000011920929
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "attackDistance": 7.0,
+          "steerStateIDs": [
+            "SnowBall_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "attackDistance": 7.0,
+          "steerStateIDs": [
+            "SnowBall_Shoot"
+          ],
+          "startNormalizedTime": 0.5
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "attackDistance": 7.0,
+          "steerStateIDs": [
+            "SnowBall_AS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "attackDistance": 4.75,
+          "steerStateIDs": [
+            "MeleeAttack01_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 10.0,
+          "attackDistance": 15.0,
+          "steerStateIDs": [
+            "UpperShoot02_Shrink"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 10.0,
+          "attackDistance": 15.0,
+          "steerStateIDs": [
+            "ForwardShoot01_Shrink"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 10.0,
+          "attackDistance": 15.0,
+          "steerStateIDs": [
+            "UpperShoot01"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 10.0,
+          "attackDistance": 15.0,
+          "steerStateIDs": [
+            "ForwardShoot02"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_SteerAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UltimateShoot_WatcherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_IS_IN_ULTIMATESHOOT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_IS_IN_ULTIMATESHOOT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DigOutAttack_WatcherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_DIGOUTATTACK_HIT_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "DigOutAttack_WatcherSLCHandler"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Mimik_Fel_DigOutAttack"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DigOutAttack_WatcherSLCHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Watcher_OnHitBy_SkillA",
+              "param3": 0,
+              "CallParamList": [
+                133002066
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "DoWatcherSystemAction",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_SUMMONEDFRUIT_NOT_DESTROYED_"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+            }
+          ],
+          "inThreatListOnly": true,
+          "watcherId": 12009201
+        },
+        {
+          "$type": "DoWatcherSystemAction",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_DIGOUTATTACK_HIT_"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+            }
+          ],
+          "inThreatListOnly": true,
+          "watcherId": 12009203
+        },
+        {
+          "$type": "DoWatcherSystemAction",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_SUMMONEDFRUIT_FALLINGATTACK_HIT_"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+            }
+          ],
+          "inThreatListOnly": true,
+          "watcherId": 12009204
+        },
+        {
+          "$type": "DoWatcherSystemAction",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_ENERGYCHIT_NOT_PICKED_"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+            }
+          ],
+          "inThreatListOnly": true,
+          "watcherId": 12009206
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "AbsorbFruit",
+            "AbsorbFruit_Loop",
+            "ForwardShoot02",
+            "UpperShoot01",
+            "SnowBall_BS",
+            "SnowBall_Shoot",
+            "SnowBall_AS"
+          ],
+          "modifierName": "UltimateShoot_WatcherHandler"
+        },
+        {
+          "$type": "ServerFinishWatcherMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "_ULTIMATESHOOT_BROKEN_"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+            }
+          ],
+          "watcherId": 12009202
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Watcher",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SUMMONEDFRUIT_NOT_DESTROYED_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ULTIMATESHOOT_BROKEN_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_DIGOUTATTACK_HIT_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SUMMONEDFRUIT_FALLINGATTACK_HIT_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ENERGYCHIT_NOT_PICKED_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_IS_IN_ULTIMATESHOOT_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "DigOutAttack_WatcherHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_GiantState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetOverrideMapValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+                }
+              ],
+              "value": 1800,
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "GiantStateShield"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_Mimik_Fel_GiantStateShield"
+            },
+            {
+              "$type": "SetEntityScale",
+              "canBeHandledOnRecover": true,
+              "scale": 6.25
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                1,
+                1,
+                0
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_HpThresholdRatio": 0
+          },
+          "elementDurability": 100,
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Mimik_Fel_GiantStateShield": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "ShaderShieldOn"
+            }
+          ],
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": 2,
+            "Actor_FireSubHurtDelta": 2,
+            "Actor_ElecSubHurtDelta": 2,
+            "Actor_IceSubHurtDelta": 2,
+            "Actor_WaterSubHurtDelta": 2,
+            "Actor_GrassSubHurtDelta": 2,
+            "Actor_WindSubHurtDelta": 2,
+            "Actor_RockSubHurtDelta": 2,
+            "Actor_EndureDelta": 0,
+            "Entity_MassRatio": 100,
+            "Entity_WeightRatio": 100
+          },
+          "stacking": "Unique",
+          "elementDurability": "GiantStateShield",
+          "modifierMixins": [
+            {
+              "$type": "ShieldBarMixin",
+              "onShieldBroken": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "DownTrigger"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Mimik_Fel_DownState"
+                },
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "ShaderShieldOn"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MIMIK_FEL_STATE_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "useMutiPlayerFixData": true
+            },
+            {
+              "$type": "DoActionBySelfModifierElementDurabilityRatioMixin",
+              "valueSteps": [
+                0.1,
+                0.2,
+                0.3,
+                0.4,
+                0.5,
+                0.6,
+                0.7,
+                0.8,
+                0.9
+              ],
+              "actionQueues": [
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ],
+                [
+                  {
+                    "$type": "TriggerBullet",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 2
+                      },
+                      "direction": {
+                        "$type": "ConfigDirectionByEntity",
+                        "randomAngleHor": 90.0
+                      }
+                    },
+                    "bulletID": 42601020
+                  }
+                ]
+              ]
+            },
+            {
+              "$type": "RigidBodyFreezeMixin"
+            }
+          ],
+          "elementType": "Frozen",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_ShrinkState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetEntityScale",
+              "canBeHandledOnRecover": true,
+              "scale": 2.0
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "Shrinked"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "DownTrigger"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Shrinking"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Mimik_Fel_GiantStateShield"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Mimik_Fel_DownState"
+            },
+            {
+              "$type": "KillGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42601020
+              }
+            },
+            {
+              "$type": "KillGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42601018
+              }
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42601017
+              },
+              "modifierName": "Mimik_Fel_Gadget_KillSelf"
+            },
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42601017
+              }
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MIMIK_FEL_IS_SUMMONEDFRUIT_"
+                }
+              ],
+              "modifierName": "Mimik_Fel_Gadget_KillSelf"
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                2,
+                1,
+                0
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_DownState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "RecoverTrigger"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Down"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "Down"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Shrinking": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights01",
+                "Lights02",
+                "Lights03",
+                "Body"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Shrink_End",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Mimik_Add3Fruit"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights01",
+                "Lights02",
+                "Lights03",
+                "Body"
+              ]
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Shrink",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "Repeated",
+              "repeatTimes": 3,
+              "actions": [
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Monster_Mimik_ReduceFruit"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        },
+        "AbsorbingFruit": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "ShaderCharging"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MIMIK_FEL_ISABSORBINGFRUIT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "ShaderCharging"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_AbsorbFruit_Loop_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                201,
+                202,
+                203,
+                204
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MIMIK_FEL_ISABSORBINGFRUIT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_TriggerShrink": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "DownTrigger"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Mimik_Fel_DownState"
+                },
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "ShaderShieldOn"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MIMIK_FEL_STATE_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_Gadget_KillSelf": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42601017,
+                42601019,
+                42601027,
+                42601028
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BreakState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Down",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "AbsorbFruit_Loop"
+          ],
+          "modifierName": "AbsorbingFruit"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Mimik_Fel_GiantState",
+            "Mimik_Fel_ShrinkState"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_MIMIK_FEL_STATE_",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToHPPercentMixin",
+          "valueSteps": [
+            0.05
+          ],
+          "modifierNameSteps": [
+            "Empty",
+            "Mimik_Fel_TriggerShrink"
+          ]
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Break_BS",
+            "Break_Loop",
+            "Break_AS"
+          ],
+          "modifierName": "BreakState"
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Giant_GiantStateManager",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_STATE_SHRINKED",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_IS_MIMIK_FEL",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 13002
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_STATE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "CurrentPhase": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "LastPhase": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "PhaseDifferencial": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "GiantStateShield": {
+          "$type": "GNPGOLDCAGO",
+          "value": 2500.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Fruit00": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "NoFruit"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "NoFruit"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Fruit01": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42601005
+              },
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_AbsorbFruit_Trail",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 180
+                      },
+                      "attachPointName": "Fruit01",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "Fruit01"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_MIMIK_IS_FRUITMOVETARGET"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit01"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit01"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights01"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights01"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Idle01",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_MIMIK_FEL_FRUIT01_NOFX_"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Appear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit01"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AttachEffect",
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Middle_Fruit_Idle01",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_MIMIK_FEL_FRUIT01_NOFX_"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Middle_Fruit_Appear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit01"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "NoFruit"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MIMIK_FEL_FRUIT01_NOFX_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Fruit02": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42601005
+              },
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_AbsorbFruit_Trail",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 180
+                      },
+                      "attachPointName": "Fruit02",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "Fruit02"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_MIMIK_IS_FRUITMOVETARGET"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit02"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit02"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights02"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights02"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Idle02",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_MIMIK_FEL_FRUIT02_NOFX_"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Appear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit02"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AttachEffect",
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Middle_Fruit_Idle02",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_MIMIK_FEL_FRUIT02_NOFX_"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Middle_Fruit_Appear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit02"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "NoFruit"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MIMIK_FEL_FRUIT02_NOFX_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Fruit03": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42601005
+              },
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_AbsorbFruit_Trail",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 180
+                      },
+                      "attachPointName": "Fruit03",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "Fruit03"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_MIMIK_IS_FRUITMOVETARGET"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit03"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit03"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights03"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Lights03"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Idle03",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_MIMIK_FEL_FRUIT03_NOFX_"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Appear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit03"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AttachEffect",
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Middle_Fruit_Idle03",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_MIMIK_FEL_FRUIT03_NOFX_"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Middle_Fruit_Appear",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "Fruit03"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_FEL_STATE_SHRINKED"
+                }
+              ]
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "NoFruit"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MIMIK_FEL_FRUIT03_NOFX_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_FruitEmpty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_Fruit00",
+            "UNIQUE_Fruit01"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            3.5
+          ],
+          "globalValueKey": "_MONSTER_MIMIK_FRUITCOUNT",
+          "defaultGlobalValueOnCreate": 3
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_FruitEmpty",
+            "UNIQUE_Fruit02"
+          ],
+          "valueSteps": [
+            -0.5,
+            1.5,
+            3.5
+          ],
+          "globalValueKey": "_MONSTER_MIMIK_FRUITCOUNT",
+          "defaultGlobalValueOnCreate": 3
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_FruitEmpty",
+            "UNIQUE_Fruit03"
+          ],
+          "valueSteps": [
+            -0.5,
+            2.5,
+            3.5
+          ],
+          "globalValueKey": "_MONSTER_MIMIK_FRUITCOUNT",
+          "defaultGlobalValueOnCreate": 3
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_FruitManager",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_MONSTER_MIMIK_FRUITCOUNT",
+          "maxValue": 3,
+          "minValue": 0,
+          "value": 3
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_FRUIT01_NOFX_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_FRUIT02_NOFX_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_FRUIT03_NOFX_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_Move": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ResetAIAttackTarget"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42004006
+              },
+              "turnToTargetImmediately": true
+            },
+            {
+              "$type": "SetGlobalValueByTargetDistance",
+              "target": "SelfAttackTarget",
+              "key": "_MONSTER_MIMIK_FEL_RUSHDISTANCE"
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_MONSTER_MIMIK_FEL_RUSHDISTANCE",
+              "overrideMapKey": "RushDistance"
+            },
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 30.0,
+              "animatorStateIDs": [
+                "Move_BS",
+                "Move_BS02",
+                "Move_Loop"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": "RushDistance",
+                  "y": 0
+                }
+              },
+              "timeRange": 1.76
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ResetAIAttackTarget": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42004012
+              }
+            },
+            {
+              "$type": "ResetAIAttackTarget"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Move_BS",
+            "Move_BS02",
+            "Move_Loop"
+          ],
+          "modifierName": "Mimik_Fel_Move"
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Move",
+      "onAdded": [
+        {
+          "$type": "CreateGadget",
+          "lifeByOwnerIsAlive": true,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "gadgetID": 42004006,
+          "byServer": true
+        }
+      ],
+      "abilitySpecials": {
+        "RushDistance": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "CreateGadget",
+              "target": "SelfAttackTarget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ],
+              "lifeByOwnerIsAlive": true,
+              "CEMJCDOPCGG": true,
+              "born": {
+                "$type": "ConfigBornByPredicatePoint",
+                "onGround": true,
+                "onGroundRaycastUpDist": 0.20000000298023224,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0,
+                  "maxRandomRange": 1
+                },
+                "timeForPredictive": 0.5
+              },
+              "gadgetID": 42601019,
+              "byServer": true,
+              "campID": 4001
+            },
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ],
+              "param1": 1,
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_TryCreateGadget",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_TryCreateGadget",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ShowReminder",
+              "id": 400099
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Mimik_ReduceFruit"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MIMIK_FEL_SUMMONLOOP_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_MIMIK_FEL_COUNTNEARBYAVATARS"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "CreateGadget",
+                  "target": "SelfAttackTarget",
+                  "lifeByOwnerIsAlive": true,
+                  "CEMJCDOPCGG": true,
+                  "born": {
+                    "$type": "ConfigBornByPredicatePoint",
+                    "onGround": true,
+                    "onGroundRaycastUpDist": 0.20000000298023224,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 0,
+                      "maxRandomRange": 1
+                    },
+                    "timeForPredictive": 0.5
+                  },
+                  "gadgetID": 42601019,
+                  "byServer": true,
+                  "campID": 4001
+                },
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 1,
+                  "param2": 0,
+                  "paramNum": 1,
+                  "funcName": "SLC_TryCreateGadget",
+                  "param3": 0,
+                  "luaCallType": "FromGroup"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 0,
+                  "param2": 0,
+                  "paramNum": 1,
+                  "funcName": "SLC_TryCreateGadget",
+                  "param3": 0,
+                  "luaCallType": "FromGroup"
+                },
+                {
+                  "$type": "CreateGadget",
+                  "target": "SelfAttackTarget",
+                  "lifeByOwnerIsAlive": true,
+                  "CEMJCDOPCGG": true,
+                  "born": {
+                    "$type": "ConfigBornByPredicatePoint",
+                    "onGround": true,
+                    "onGroundRaycastUpDist": 0.20000000298023224,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 0,
+                      "maxRandomRange": 1
+                    },
+                    "timeForPredictive": 0.5
+                  },
+                  "gadgetID": 42601019,
+                  "byServer": true,
+                  "campID": 4001
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 1,
+                  "param2": 0,
+                  "paramNum": 1,
+                  "funcName": "SLC_TryCreateGadget",
+                  "param3": 0,
+                  "luaCallType": "FromGroup"
+                },
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 0,
+                  "param2": 0,
+                  "paramNum": 1,
+                  "funcName": "SLC_TryCreateGadget",
+                  "param3": 0,
+                  "luaCallType": "FromGroup"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ]
+            },
+            {
+              "$type": "ShowReminder",
+              "id": 400099
+            },
+            {
+              "$type": "Repeated",
+              "repeatTimes": 2,
+              "actions": [
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Monster_Mimik_ReduceFruit"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MIMIK_FEL_SUMMONLOOP_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_MIMIK_FEL_SUMMONLOOP_"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 2,
+              "key": "_ABILITY_MIMIK_FEL_COUNTNEARBYAVATARS"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "CreateGadget",
+              "target": "SelfAttackTarget",
+              "lifeByOwnerIsAlive": true,
+              "CEMJCDOPCGG": true,
+              "born": {
+                "$type": "ConfigBornByPredicatePoint",
+                "onGround": true,
+                "onGroundRaycastUpDist": 0.20000000298023224,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0,
+                  "maxRandomRange": 1
+                },
+                "timeForPredictive": 0.5
+              },
+              "gadgetID": 42601019,
+              "byServer": true,
+              "campID": 4001
+            },
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_TryCreateGadget",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "param1": 1,
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_TryCreateGadget",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ShowReminder",
+              "id": 400099
+            },
+            {
+              "$type": "Repeated",
+              "repeatTimes": 3,
+              "actions": [
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Monster_Mimik_ReduceFruit"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3,
+              "compareType": "MoreThanAndEqual",
+              "key": "_ABILITY_MIMIK_FEL_COUNTNEARBYAVATARS"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Mimik_Fel_SummonFruit",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_SUMMONLOOP_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_MIMIK_FEL_COUNTNEARBYAVATARS",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR25"
+          },
+          "successActions": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_MIMIK_FEL_COUNTNEARBYAVATARS",
+              "maxValue": 4,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Mimik_Fel_CountAvatar",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_MIMIK_FEL_COUNTNEARBYAVATARS",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Mimik_Fel_Fruit_Shield": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Standby",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 7,
+          "modifierMixins": [
+            {
+              "$type": "ShieldBarMixin",
+              "onShieldBroken": [
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "topLimit": 1,
+                    "sortType": "Nearest",
+                    "sizeRatio": 1,
+                    "campTargetType": "AllExceptSelf",
+                    "shapeName": "CircleR50"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_IS_MIMIK_FEL"
+                    }
+                  ]
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "damagePercentage": 0,
+                        "elementDurability": 100,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "extension": {
+                          "$type": "ConfigCameraShakeExt",
+                          "baseOnCamera": true
+                        },
+                        "shakeDir": {
+                          "$type": "NFFDDFHHDHG",
+                          "z": 2.0
+                        },
+                        "shakeTime": 0.20000000298023224,
+                        "shakeType": "CustomVector",
+                        "shakeDistance": 10.0,
+                        "shakeRange": 1.0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "none",
+                        "hitHaltTimeScale": 0.05000000074505806,
+                        "hitImpulseType": "LV0"
+                      },
+                      "forceCameraShake": true,
+                      "attenuationGroup": "default"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "ignoreMassive": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf"
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0.1,
+                        "z": 0.1,
+                        "y": 0.1
+                      }
+                    }
+                  }
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": -90,
+                        "z": 0,
+                        "y": 0
+                      },
+                      "attachPointName": "FruitCenter",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "FruitCenter",
+                    "attachPointTargetType": "Self"
+                  },
+                  "bulletID": 42601016
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Effective",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "BreakTrigger"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Mimik_Fel_Fruit_ShieldBreakKillTimer"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Break",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "FruitCenter",
+                    "attachPointTargetType": "Self"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "KillSelf"
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Effective",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByHitPoint"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Ineffective",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByHitPoint",
+                    "alongGround": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByBackToHitBoxCenter"
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Fire"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Electric"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Water"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Wind"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Rock"
+                    },
+                    {
+                      "$type": "ByHitStrikeType",
+                      "strikeType": "Blunt"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "AddElementDurability",
+              "predicates": [
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                }
+              ],
+              "value": -1,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 7,
+              "modifierName": "UNIQUE_Mimik_Fel_Fruit_Shield"
+            }
+          ]
+        },
+        "Mimik_Fel_Fruit_ShieldBreakKillTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_Fruit_WatcherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SUMMONEDFRUIT_NOT_DESTROYED_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "FruitCenter",
+            "attachPointTargetType": "Self"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR50"
+          },
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_IS_MIMIK_FEL"
+            }
+          ],
+          "modifierName": "Mimik_Fel_Fruit_WatcherHandler"
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "Mimik_Fel_Fruit_Common",
+      "onAdded": [
+        {
+          "$type": "SetSelfAttackTarget",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR20H10"
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Mimik_Fel_Fruit_Shield"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_IS_SUMMONEDFRUIT_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Mimik_Fel_Fruit_WeakShield": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Standby",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 2,
+          "modifierMixins": [
+            {
+              "$type": "ShieldBarMixin",
+              "onShieldBroken": [
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "topLimit": 1,
+                    "sortType": "Nearest",
+                    "sizeRatio": 1,
+                    "campTargetType": "AllExceptSelf",
+                    "shapeName": "CircleR50"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_IS_MIMIK_FEL"
+                    }
+                  ]
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "damagePercentage": 0,
+                        "elementDurability": 100,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "extension": {
+                          "$type": "ConfigCameraShakeExt",
+                          "baseOnCamera": true
+                        },
+                        "shakeDir": {
+                          "$type": "NFFDDFHHDHG",
+                          "z": 2.0
+                        },
+                        "shakeTime": 0.20000000298023224,
+                        "shakeType": "CustomVector",
+                        "shakeDistance": 10.0,
+                        "shakeRange": 1.0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "none",
+                        "hitHaltTimeScale": 0.05000000074505806,
+                        "hitImpulseType": "LV0"
+                      },
+                      "forceCameraShake": true,
+                      "attenuationGroup": "default"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "ignoreMassive": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf"
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0.1,
+                        "z": 0.1,
+                        "y": 0.1
+                      }
+                    }
+                  }
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": -90,
+                        "z": 0,
+                        "y": 0
+                      },
+                      "attachPointName": "FruitCenter",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "FruitCenter",
+                    "attachPointTargetType": "Self"
+                  },
+                  "bulletID": 42601016
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "BreakTrigger"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Mimik_Fel_Fruit_ShieldBreakKillTimer"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Break",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "FruitCenter",
+                    "attachPointTargetType": "Self"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "KillSelf"
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Effective",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByHitPoint"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Ineffective",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByHitPoint",
+                    "alongGround": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByBackToHitBoxCenter"
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Fire"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Electric"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Water"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Wind"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Rock"
+                    },
+                    {
+                      "$type": "ByHitStrikeType",
+                      "strikeType": "Blunt"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "AddElementDurability",
+              "predicates": [
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                }
+              ],
+              "value": -1,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 2,
+              "modifierName": "UNIQUE_Mimik_Fel_Fruit_WeakShield"
+            }
+          ]
+        },
+        "Mimik_Fel_Fruit_ShieldBreakKillTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_Fruit_WatcherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SUMMONEDFRUIT_NOT_DESTROYED_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "FruitCenter",
+            "attachPointTargetType": "Self"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR50"
+          },
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_IS_MIMIK_FEL"
+            }
+          ],
+          "modifierName": "Mimik_Fel_Fruit_WatcherHandler"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Mimik_Fel_Fruit_ShieldBreakKillTimer"
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "Mimik_Fel_Fruit_Weak",
+      "onAdded": [
+        {
+          "$type": "SetSelfAttackTarget",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR20H10"
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Mimik_Fel_Fruit_WeakShield"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MIMIK_FEL_IS_SUMMONEDFRUIT_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR50"
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "LINAHBPILJD": false,
+          "key": "_MIMIK_FEL_FRUIT_FALLINGATTACK_BLINKPOS_",
+          "born": {
+            "$type": "ConfigBornByPredicatePoint",
+            "onGround": true,
+            "onGroundRaycastUpDist": 0.800000011920929,
+            "bornRandom": {
+              "$type": "BornRandomFromCenter",
+              "minRandomRange": 0,
+              "maxRandomRange": 1
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Fruit_FindBlinkPoint"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Disappear",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "FruitCenter",
+            "attachPointTargetType": "Self"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "DoBlinkByGlobalPos",
+          "positionKey": "_MIMIK_FEL_FRUIT_FALLINGATTACK_BLINKPOS_"
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Fruit_Blink"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerSetRenderersEnable",
+          "renderNames": [
+            "SkillObj_Monster_Mimik_Fel_Fruit"
+          ],
+          "setEnable": true
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Appear",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "FruitCenter",
+            "attachPointTargetType": "Self"
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Fruit_Show"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerSetRenderersEnable",
+          "renderNames": [
+            "SkillObj_Monster_Mimik_Fel_Fruit"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Fruit_Hide"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FallingAttackAlertEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "FallingAttackCrushEffect"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Crush_OnGround_Alert",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAttackCrushEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Crush_OnGround",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WatcherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Owner",
+                  "modifierName": "FallingAttack_WatcherHandler"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "FallingAttack_WatcherSLCHandler"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Mimik_Fel_FallingAttack"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAttack_WatcherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SUMMONEDFRUIT_FALLINGATTACK_HIT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAttack_WatcherSLCHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Watcher_OnHitBy_SkillB",
+              "param3": 0,
+              "CallParamList": [
+                133002066
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 23,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Mimik_Fel_Fruit_FallingAttack",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "WatcherHandler"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Crush_OnGround_Alert",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "onGround": true
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Fruit_FallingAttack_AlertEffect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Crush_OnGround",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "onGround": true
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Fruit_FallingAttack_GroundEffect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 22,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetSelfAttackTarget",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR50"
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Shoot_BS",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "LaunchPoint",
+            "attachPointTargetType": "Self"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "LaunchPoint",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601026
+        }
+      ],
+      "abilityName": "Mimik_Fel_Fruit_Shoot",
+      "onAdded": [
+        {
+          "$type": "SetPartControlTarget",
+          "target": "SelfAttackTarget",
+          "partRootNames": [
+            "LaunchDirection"
+          ]
+        },
+        {
+          "$type": "EnablePartControl",
+          "enable": true,
+          "partRootNames": [
+            "LaunchDirection"
+          ]
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Shoot_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Shoot_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeTime": 0.09000000357627869,
+                "shakeRange": 0.05999999865889549
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "Effigy_Ice_Attenuation_2",
+              "attenuationTag": "Effigy_Ice_RangeAtk",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1.25
+            }
+          }
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Effect"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Shoot_Explosion",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Bullet_Mimik_Fel_Fruit_Shoot_Bullet",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 20,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 1,
+          "param2": 0,
+          "paramNum": 1,
+          "funcName": "SLC_GadgetTryCreateMonster",
+          "param3": 0,
+          "luaCallType": "FromGroup"
+        }
+      ],
+      "abilityName": "Mimik_Fel_Fruit_TriggerSummon",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_Fruit_Broken_OnGround": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "TriggerAttackEvent",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "damagePercentage": 0,
+                        "elementDurability": 100,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "extension": {
+                          "$type": "ConfigCameraShakeExt",
+                          "baseOnCamera": true
+                        },
+                        "shakeDir": {
+                          "$type": "NFFDDFHHDHG",
+                          "z": 2.0
+                        },
+                        "shakeTime": 0.20000000298023224,
+                        "shakeType": "CustomVector",
+                        "shakeDistance": 10.0,
+                        "shakeRange": 1.0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "none",
+                        "hitHaltTimeScale": 0.05000000074505806,
+                        "hitImpulseType": "LV0"
+                      },
+                      "forceCameraShake": true,
+                      "attenuationGroup": "default"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "ignoreMassive": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf"
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0.1,
+                        "z": 0.1,
+                        "y": 0.1
+                      }
+                    }
+                  }
+                },
+                {
+                  "$type": "SetGlobalDir",
+                  "target": "Target",
+                  "key": "_ABILITY_Mimik_Fel_Fruit_Broken_KickDir",
+                  "born": {
+                    "$type": "ConfigBornByTarget"
+                  },
+                  "LINAHBPILJD": false
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByEntity",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": -90,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "attachPointName": "LaunchPoint",
+                    "attachPointTargetType": "Self"
+                  },
+                  "bulletID": 42601016
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_FRUIT_FEL_FRUIT_BROKEN_KICKED_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_FRUIT_FEL_FRUIT_BROKEN_KICKER_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Mimik_Fel_Fruit_Broken_BulletKickerModifier"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Effective",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "KillSelf"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Ineffective",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_FRUIT_FEL_FRUIT_BROKEN_KICKED_"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "ExtraAttack"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Mimik_Fel_Fruit_Broken_BulletKickerModifier": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_FRUIT_FEL_FRUIT_BROKEN_KICKER_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_FRUIT_FEL_FRUIT_BROKEN_KICKER_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_Fruit_Broken_AutoFly": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "damagePercentage": 0,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "extension": {
+                      "$type": "ConfigCameraShakeExt",
+                      "baseOnCamera": true
+                    },
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "z": 2.0
+                    },
+                    "shakeTime": 0.20000000298023224,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 10.0,
+                    "shakeRange": 1.0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV0"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "ignoreMassive": true,
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0.1,
+                    "z": 0.1,
+                    "y": 0.1
+                  }
+                }
+              }
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": -90,
+                    "z": 0,
+                    "y": 0
+                  }
+                },
+                "attachPointName": "LaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42601016
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit_Effective",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "Mimik_Fel_Fruit_Broken",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_FRUIT_FEL_FRUIT_BROKEN_KICKED_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Mimik_Fel_Fruit_Broken_AutoFly"
+        },
+        {
+          "$type": "SetSelfAttackTarget",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR50"
+          },
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_IS_MIMIK_FEL"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_Fruit_Broken_Bullet_HitDetector": {
+          "$type": "ConfigAbilityModifier",
+          "onHittingOther": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "TriggerAttackEvent",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "damagePercentage": 0,
+                        "elementDurability": 0,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "extension": {
+                          "$type": "ConfigCameraShakeExt",
+                          "rangeAttenuation": 0.0,
+                          "baseOnCamera": true
+                        },
+                        "shakeDir": {
+                          "$type": "NFFDDFHHDHG",
+                          "y": 2.0
+                        },
+                        "shakeTime": 1.0,
+                        "shakeType": "CustomVector",
+                        "shakeDistance": 35.0,
+                        "shakeRange": 0.5
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "none",
+                        "hitHaltTimeScale": 0.05000000074505806,
+                        "hitImpulseType": "LV0"
+                      },
+                      "forceCameraShake": true,
+                      "attenuationGroup": "default"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "ignoreMassive": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf"
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0.1,
+                        "z": 0.1,
+                        "y": 0.1
+                      }
+                    }
+                  }
+                },
+                {
+                  "$type": "AddElementDurability",
+                  "target": "Target",
+                  "value": -800,
+                  "useLimitRange": true,
+                  "minValue": 0,
+                  "elementType": "Frozen",
+                  "maxValue": 5000,
+                  "modifierName": "UNIQUE_Mimik_Fel_GiantStateShield"
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "target": "Target",
+                  "triggerID": "BreakTrigger"
+                },
+                {
+                  "$type": "ReTriggerAISkillInitialCD",
+                  "target": "Target",
+                  "skillIDs": [
+                    201,
+                    202,
+                    203,
+                    301
+                  ]
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_IS_IN_ULTIMATESHOOT_"
+                    }
+                  ],
+                  "modifierName": "Mimik_Fel_Fruit_Broken_Bullet_WatcherHandler"
+                },
+                {
+                  "$type": "FireEffect",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_MIMIK_FEL_ISABSORBINGFRUIT_"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Mimik_Fel_Giant_AbsorbFruit_Break",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_IS_MIMIK_FEL"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_Fruit_Broken_Bullet_WatcherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+                }
+              ],
+              "key": "_ULTIMATESHOOT_BROKEN_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 0.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV0"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByCollisionPoint"
+                  },
+                  "radius": 3
+                }
+              }
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_IS_MIMIK_FEL"
+            }
+          ]
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Hit",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Mimik_Fel_Fruit_Broken_Bullet",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Mimik_Fel_Fruit_Broken_Bullet_HitDetector"
+        },
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_Fruit_Broken_Trail",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_IS_MIMIK_FEL_FRUIT_BROKEN_KICKED_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 0,
+          "param2": 0,
+          "funcName": "SLC_Get_PlayerCount",
+          "param3": 0,
+          "luaCallType": "FromGroup"
+        },
+        {
+          "$type": "SetOverrideMapValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "compareType": "LessAndEqual",
+              "key": "SGV_Mimik_PlayerNum"
+            }
+          ],
+          "value": 1,
+          "maxValue": 0,
+          "minValue": 0,
+          "overrideMapKey": "PlayerNum"
+        },
+        {
+          "$type": "SetOverrideMapValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 2,
+              "key": "SGV_Mimik_PlayerNum"
+            }
+          ],
+          "value": 1.5,
+          "maxValue": 0,
+          "minValue": 0,
+          "overrideMapKey": "PlayerNum"
+        },
+        {
+          "$type": "SetOverrideMapValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 3,
+              "key": "SGV_Mimik_PlayerNum"
+            }
+          ],
+          "value": 1.7,
+          "maxValue": 0,
+          "minValue": 0,
+          "overrideMapKey": "PlayerNum"
+        },
+        {
+          "$type": "SetOverrideMapValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 4,
+              "compareType": "MoreThanAndEqual",
+              "key": "SGV_Mimik_PlayerNum"
+            }
+          ],
+          "value": 2,
+          "maxValue": 0,
+          "minValue": 0,
+          "overrideMapKey": "PlayerNum"
+        },
+        {
+          "$type": "AddElementDurability",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_IS_MIMIK_FEL"
+            }
+          ],
+          "value": [
+            "PlayerNum",
+            "BaseRecoverAmount",
+            "MUL"
+          ],
+          "useLimitRange": true,
+          "minValue": 0,
+          "elementType": "Frozen",
+          "maxValue": 5000,
+          "modifierName": "UNIQUE_Mimik_Fel_GiantStateShield"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Get_PlayerCount",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "stateIDs": [
+            "Summon"
+          ]
+        }
+      ],
+      "abilityName": "Mimik_Fel_RecoverGiantStateShield",
+      "onAdded": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 0,
+          "param2": 0,
+          "funcName": "SLC_Get_PlayerCount",
+          "param3": 0,
+          "luaCallType": "FromGroup"
+        },
+        {
+          "$type": "SetOverrideMapValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "_MIMIK_GIANTSTATESHIELD_REDUCED_"
+            }
+          ],
+          "value": 180,
+          "maxValue": 0,
+          "minValue": 0,
+          "overrideMapKey": "BaseRecoverAmount"
+        }
+      ],
+      "abilitySpecials": {
+        "PlayerNum": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "BaseRecoverAmount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 250.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_EnergyChit_FlyOut_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "target": "Owner",
+          "lifeByOwnerIsAlive": true,
+          "CEMJCDOPCGG": true,
+          "PMLFFAEDPOK": true,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "gadgetID": 42601017,
+          "byServer": true,
+          "campID": 4001
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Mimik_Fel_EnergyChit_FlyOut_Effect"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_Picked",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Mimik_Fel_EnergyChit_FlyOut",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Mimik_Fel_EnergyChit_FlyOut_Effect"
+        },
+        {
+          "$type": "ShowReminder",
+          "id": 400101
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_EnergyChit": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Mimik_Fel_EnergyChit"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_EnergyChit_Debuff": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "duration": 10,
+          "onAdded": [
+            {
+              "$type": "LoseHP",
+              "target": "CurLocalAvatar",
+              "IDLNCPKJJDB": true,
+              "amountByTargetMaxHPRatio": 0.015,
+              "enableLockHP": true,
+              "OIIGPGHDHHG": false,
+              "BHBDBILLNBG": true
+            },
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Player_PickUp",
+              "param3": 0,
+              "luaCallType": "CurScenePlay"
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "state": "UnlockFrequencyLimit",
+          "timeScale": "Level",
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "LoseHP",
+              "target": "CurLocalAvatar",
+              "IDLNCPKJJDB": true,
+              "amountByTargetMaxHPRatio": 0.015,
+              "enableLockHP": true,
+              "OIIGPGHDHHG": false,
+              "BHBDBILLNBG": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_EnergyChit_Debuff_EffectHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "Mimik_Fel_EnergyChit_Debuff_Effect"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_EnergyChit_Debuff_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_Debuff",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 1
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity",
+              "angleOffsetCorrect": {
+                "$type": "DynamicFloatVector",
+                "x": -90,
+                "z": 0,
+                "y": 0
+              }
+            }
+          },
+          "bulletID": 42601018,
+          "trackTarget": "OriginOwner"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "target": "OriginOwner",
+          "key": "_ENERGYCHIT_NOT_PICKED_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "KillSelf",
+          "configIdArray": [
+            42601017
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Other",
+              "modifierName": "Mimik_Fel_EnergyChit_Debuff"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Other",
+              "modifierName": "Mimik_Fel_EnergyChit_Debuff_EffectHandler"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_Picked",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42601017
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Mimik_Fel_EnergyChit",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Mimik_Fel_EnergyChit"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_EnergyChit_FlyBack_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_FlyBack",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_FlyBack_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_Picked",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": 0
+                }
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_EnergyChit_FlyBack_AddElementHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Mimik_Fel_RecoverGiantStateShield"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "RecoverShieldTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_EnergyChit_FlyBack_Hit",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "AllExceptSelf",
+            "shapeName": "CircleR10H10"
+          },
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_IS_MIMIK_FEL"
+            }
+          ],
+          "modifierName": "Mimik_Fel_EnergyChit_FlyBack_AddElementHandler"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Mimik_Fel_EnergyChit_FlyBack_Effect"
+        }
+      ],
+      "abilityName": "Mimik_Fel_EnergyChit_FlyBack",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Mimik_Fel_EnergyChit_FlyBack_Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "BulletSource01",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601021
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "BulletSource02",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601021
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "BulletSource03",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601021
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Mimik_Fel_FireSnowBall"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_Mimik_Fel_SnowBall_Falling_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Bullet_Mimik_Fel_SnowBall_Falling_Effect"
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall_Bullet_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "onGroundRaycastUpDist": 1.0
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Ice",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 200.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 50,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByCollisionPoint"
+                  },
+                  "radius": 3
+                }
+              }
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                }
+              },
+              "bulletID": 42601022
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Ice",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 400.0,
+                    "damagePercentage": 0.5,
+                    "elementDurability": 50,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByCollisionPoint"
+                  },
+                  "radius": 3
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall_Bullet_HitGround",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "onGroundRaycastUpDist": 1.0
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Monster",
+                "Gadget",
+                "Bullet"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Mimik_Fel_SnowBall_Falling",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Bullet_Mimik_Fel_SnowBall_Falling_Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 75.0,
+                "damagePercentage": 1,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 3
+            }
+          }
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall_Bullet_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "onGroundRaycastUpDist": 1.0
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall_Bullet_HitWall",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "onGroundRaycastUpDist": 1.0
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Mimik_Fel_SnowBall_Rolling",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall_Bullet",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall_TrailOnGround",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "BulletSource04",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601021
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "BulletSource05",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601021
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "BulletSource06",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601021
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_ShootSnowBall",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Mimik_Fel_Giant_FireForwardBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UpperBullet_Launcher_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UpperBullet_Launcher"
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UpperBullet_Launcher": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "CreateGadget",
+                  "target": "SelfAttackTarget",
+                  "born": {
+                    "$type": "ConfigBornByPredicatePoint",
+                    "onGround": true,
+                    "onGroundRaycastUpDist": 0.20000000298023224,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 0,
+                      "maxRandomRange": 1
+                    },
+                    "timeForPredictive": 0.5
+                  },
+                  "gadgetID": 42601023,
+                  "campID": 4001
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UpperBullet_Launcher_Delay"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_UltimateShoot_UpperBullet_BS02",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "alongGround": true,
+            "onGround": true,
+            "onGroundRaycastUpDist": 0.20000000298023224,
+            "bornRandom": {
+              "$type": "BornRandomFromCenter",
+              "minRandomRange": 4,
+              "maxRandomRange": 4
+            }
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_UpperBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Damage_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_sfx_monster_effigy_ice_vfx_spikeStrike_attack"
+                }
+              }
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "SingleDamage"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SingleDamage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.6,
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Ice",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 75.0,
+                    "damagePercentage": 0.5,
+                    "elementDurability": 50,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "Effigy_Ice_Attenuation_2",
+                  "attenuationTag": "Effigy_Ice_SpikeStrike"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "onGround": true,
+                    "onGroundRaycastUpDist": 0.20000000298023224,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 3,
+                  "height": 2.0
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Bullet_Mimik_Fel_UpperBullet_Attack",
+      "onAdded": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_UltimateShoot_UpperBullet_Alert",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "onGround": true,
+            "onGroundRaycastUpDist": 0.20000000298023224
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Giant_UltimateShoot_UpperBullet_Attack",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "onGround": true,
+            "onGroundRaycastUpDist": 0.20000000298023224
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAudio",
+          "operation": {
+            "$type": "ConfigAudioEventOp",
+            "operation": {
+              "$type": "ConfigWwiseString",
+              "text": "Play_sfx_monster_effigy_ice_vfx_spikeStrike_alert"
+            }
+          }
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Damage_Timer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Mimik_Fel_ForwardBullet_Loop": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Middle_ForwardBullet_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Middle_ForwardBullet_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "elementType": "Frozen",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Middle_ForwardBullet_Hit",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByCollisionPoint"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Mimik_Ice_ForwardBullet_Loop"
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 12.5,
+                "damagePercentage": 0.2,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeTime": 0.09000000357627869,
+                "shakeRange": 0.05999999865889549
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "radius": 0.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Bullet_Mimik_Fel_ForwardBullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_Mimik_Fel_ForwardBullet_Loop"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget"
+            },
+            "attachPointName": "BulletSource",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601024
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Shrink_FireForwardBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Mimik_Fel_UpperBullet_Loop": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Middle_UpperBullet_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Middle_UpperBullet_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Mimik_Fel_Middle_UpperBullet_Attack",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 70.0,
+                "damagePercentage": 0.6,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "massiveAttackRatio": 0.5,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "radius": 3
+            }
+          }
+        }
+      ],
+      "abilityName": "Bullet_Mimik_Fel_UpperBullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_Mimik_Fel_UpperBullet_Loop"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget"
+            },
+            "attachPointName": "BulletSource",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42601025
+        }
+      ],
+      "abilityName": "Monster_Mimik_Fel_Shrink_FireUpperBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mimik_Fel_02_Limbo": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_HpThresholdRatio": 0.02
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "RigidBodyFreezeMixin"
+            }
+          ],
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_02_ReadyToDie": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToHPPercentMixinV2",
+              "valueSteps": [
+                0.03
+              ],
+              "modifierNameSteps": [
+                "Empty",
+                "ReadyToDie"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ReadyToDie": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "renderNames": [
+                "Lights01",
+                "Lights02",
+                "Lights03",
+                "Body"
+              ]
+            },
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "EnableAIStealthy",
+              "enable": true
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Mimik_Fel_02_Invincible"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Mimik_Fel_02_IsGhostToAllied"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Mimik_Fel_02_IsGhostToEnemy"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Mimik_Fel_02_MuteTaunt"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Mimik_Fel_02_DenyLockOn"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Mimik_Fel_02_HitBoxOff"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Mimik_Fel_Shrink",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_02_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_02_IsGhostToAllied": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToAllied",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_02_IsGhostToEnemy": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_02_MuteTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "MuteTaunt",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_02_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Mimik_Fel_02_HitBoxOff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox",
+                "HeadBox",
+                "HitBox_Fruit",
+                "ChestLockHitBox"
+              ]
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "KillSelf": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                26010105
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetEntityScale",
+              "scale": 2.0
+            }
+          ],
+          "properties": {
+            "Animator_OverallSpeedRatioMultiplied": 0.01
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Mimik_Fel_02_Die",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Mimik_Fel_02_Limbo"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Mimik_Fel_02_ReadyToDie"
+        }
+      ]
+    }
+  }
+]

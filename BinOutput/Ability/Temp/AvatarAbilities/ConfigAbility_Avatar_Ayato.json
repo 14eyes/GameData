@@ -1,0 +1,4093 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExtraAttack_StaminaCost": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarSkillStart",
+              "skillID": 10001,
+              "cdRatio": 1,
+              "costStaminaRatio": "ExtraAttack_Sword_Stamina_Cost",
+              "GIBAINFKPBO": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ButtonHoldChargeMixin",
+          "skillID": 10661,
+          "OnReleaseCharged": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ],
+          "OnBeginUncharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "predicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByAnimatorInt",
+                      "logic": "Equal",
+                      "value": 0,
+                      "parameter": "ComboCount"
+                    },
+                    {
+                      "$type": "ByAnimatorInt",
+                      "logic": "Equal",
+                      "value": 5,
+                      "parameter": "ComboCount"
+                    }
+                  ]
+                }
+              ],
+              "intID": "SkillID",
+              "value": 99
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            }
+          ],
+          "secondChargeTime": 0.2,
+          "chargeTime": 0.11999999731779099,
+          "OnBeginCharged": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "IsCharging"
+            }
+          ],
+          "OnBeginSecondCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByLocalAvatarStamina",
+                  "logic": "GreaterOrEqual",
+                  "stamina": [
+                    "ExtraAttack_Sword_Stamina_Cost",
+                    "Flexible_Stamina",
+                    "ADD"
+                  ]
+                }
+              ],
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "predicates": [
+                {
+                  "$type": "ByLocalAvatarStamina",
+                  "logic": "GreaterOrEqual",
+                  "stamina": [
+                    "ExtraAttack_Sword_Stamina_Cost",
+                    "Flexible_Stamina",
+                    "ADD"
+                  ]
+                }
+              ],
+              "intID": "SkillID",
+              "value": 6
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            }
+          ],
+          "chargeStateIDs": [
+            "Attack01",
+            "Attack02",
+            "Attack03",
+            "Attack04",
+            "Run"
+          ],
+          "OnReleaseUncharged": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ExtraAttack"
+          ],
+          "modifierName": "ExtraAttack_StaminaCost"
+        }
+      ],
+      "abilityName": "Avatar_Ayato_ExtraAttack",
+      "abilitySpecials": {
+        "ExtraAttack_Sword_Stamina_Cost": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Flexible_Stamina": {
+          "$type": "GNPGOLDCAGO",
+          "value": -2.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Ayato_ExtraAttack_CloseCollider": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerSetPassThrough",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "KillGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 41066004
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetPassThrough",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "GMPACBDHKMB": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "bulletID": 41066004
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ExtraAttack_CloseCollider",
+          "normalizeEnd": 0.6499999761581421,
+          "stateID": "ExtraAttack",
+          "normalizeStart": 0.4000000059604645
+        }
+      ],
+      "abilityName": "Avatar_Ayato_ExtraAttack_CreateBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "attackType": "Melee",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Slash",
+                  "enBreak": 120.0,
+                  "damagePercentage": 0,
+                  "elementDurability": 25,
+                  "overrideByWeapon": true,
+                  "arkheGrade": 0
+                },
+                "cameraShake": {
+                  "$type": "ConfigCameraShake",
+                  "shakeDir": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": -1.0
+                  },
+                  "shakeTime": 0.11999999731779099,
+                  "shakeType": "CustomVector",
+                  "shakeDistance": 30.0,
+                  "shakeRange": 0.36000001430511475
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "hitHaltTimeScale": 0.009999999776482582,
+                  "hitImpulseType": "LV7"
+                },
+                "attenuationGroup": "Avatar_Pole_ExtraAttack",
+                "attenuationTag": "ExtraAttack",
+                "attackTag": "ExtraAttack",
+                "canBeModifiedBy": "OriginOwner"
+              }
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 120.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 25,
+                    "overrideByWeapon": true,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "x": -1.0
+                    },
+                    "shakeTime": 0.11999999731779099,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 30.0,
+                    "shakeRange": 0.36000001430511475
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV7"
+                  },
+                  "attenuationGroup": "Avatar_Pole_ExtraAttack",
+                  "attenuationTag": "ExtraAttack",
+                  "attackTag": "ExtraAttack",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "filterByFrame": true,
+                  "born": {
+                    "$type": "ConfigBornByCollisionPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 0.8
+                }
+              }
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "MonsterEquip"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Ayato_ExtraAttack_Bullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Ayato_ElementalArt_SkinSet": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "SkinSet"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalArt_Hide": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_ShowSpark",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerSetVisible",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "visible": true
+            },
+            {
+              "$type": "TriggerSetPassThrough",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_ABILITY_Ayato_ShowWeaponMark"
+                }
+              ],
+              "partNames": [
+                "equip01",
+                "equip02",
+                "equip03",
+                "sheathPoint"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_HideSpark",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ActCameraRadialBlur",
+              "cameraRadialBlur": {
+                "$type": "ConfigCameraRadialBlur",
+                "blurTime": 0.15000000596046448,
+                "fadeTime": 0.15000000596046448,
+                "power": 0.5
+              }
+            },
+            {
+              "$type": "TriggerSetVisible",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "TriggerSetPassThrough",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "GMPACBDHKMB": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalArt_AttackHide": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerSetVisible",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "visible": true
+            },
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_ABILITY_Ayato_ShowWeaponMark"
+                }
+              ],
+              "partNames": [
+                "equip01",
+                "equip02",
+                "equip03",
+                "sheathPoint"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10662,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Avatar_Ayato_KendoPose_Buff_Level",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "TriggerAbility",
+          "abilityName": "Avatar_Ayato_KendoPose"
+        },
+        {
+          "$type": "CreateGadget",
+          "gadgetID": 41066001,
+          "campID": 1001,
+          "campTargetType": "Enemy"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ElementalArt_Hide",
+          "normalizeEnd": 0.3125,
+          "stateID": "ElementalArt"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ElementalArt_Hide",
+          "normalizeEnd": 0.3125,
+          "stateID": "ElementalArt_Retreat"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalArt",
+            "ElementalArt_Retreat",
+            "ElementalArt_AS",
+            "ElementalArt_Retreat_AS"
+          ],
+          "modifierName": "Ayato_ElementalArt_SkinSet"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ElementalArt_AttackHide",
+          "normalizeEnd": 0.029999999329447746,
+          "stateID": "Katana_Attack01"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ElementalArt_AttackHide",
+          "normalizeEnd": 0.029999999329447746,
+          "stateID": "Katana_Attack02"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ElementalArt_AttackHide",
+          "normalizeEnd": 0.029999999329447746,
+          "stateID": "Katana_Attack03"
+        }
+      ],
+      "abilityName": "Avatar_Ayato_ElementalArt"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Ayato_ForceHideKatana_OnExit": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Ayato_ShowWeaponMark",
+              "maxValue": 5,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Ayato_ShowWeaponMark"
+                }
+              ],
+              "partNames": [
+                "equip01",
+                "equip02",
+                "equip03",
+                "sheathPoint"
+              ],
+              "visible": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Ayato_ShowWeaponMark",
+              "maxValue": 5,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_Weapon_Eff_On": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Ayato_Katana_FXMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Ayato_SheatheCircle_FXMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_Weapon_Eff_CircleOff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Ayato_SheatheCircle_FXMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_Weapon_Eff_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Ayato_Katana_FXMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_Weapon_Eff_OnExit": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Ayato_Katana_FXMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Ayato_SheatheCircle_FXMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_Katana_FXHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_Weapon_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_Weapon",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_Katana_FXSheathe": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_SpecialAttack_SheatheKeep",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Avatar_Ayato_KendoPose_State": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetAnimatorInt",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "intID": "SpecialAttack",
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "boolID": "Ayato_Hold_SpecialAttack"
+            }
+          ],
+          "duration": "Dura",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "boolID": "Ayato_Hold_SpecialAttack"
+            },
+            {
+              "$type": "ResetAnimatorTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Ayato_KendoPose_Buff_Level_Remove"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Ayato_KendoPose",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "intID": "SpecialAttack",
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Ayato_ShowWeaponMark",
+              "maxValue": 5,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Ayato_ShowWeaponMark"
+                }
+              ],
+              "partNames": [
+                "equip01",
+                "equip02",
+                "equip03",
+                "sheathPoint"
+              ],
+              "visible": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "boolID": "Ayato_Hold_SpecialAttack"
+            },
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "partNames": [
+                "equip01",
+                "equip02",
+                "sheathPoint"
+              ]
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Ayato_ShowWeaponMark",
+              "maxValue": 5,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ClearEndura"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Ayato_ElementalArt_DropBall"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Ayato_KendoPose",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "intID": "SpecialAttack",
+              "value": 1
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0.5
+          },
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Avatar_Ayato_KendoPose_BuffAdd"
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "_ABILITY_Avatar_Ayato_Talent6_IsCharged",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 0
+                    },
+                    {
+                      "$type": "CreateGadget",
+                      "gadgetID": 41066005,
+                      "campID": 1001,
+                      "campTargetType": "Enemy"
+                    },
+                    {
+                      "$type": "ActCameraShake",
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "extension": {
+                          "$type": "ConfigCameraShakeExt",
+                          "baseOnCamera": true
+                        },
+                        "shakeTime": 0.30000001192092896,
+                        "shakeDistance": 10.0,
+                        "shakeRange": 0.25
+                      }
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByUnlockTalentParam",
+                      "talentParam": "TalentParam_Ayato_Talent6"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "compareType": "MoreThanAndEqual",
+                      "key": "_ABILITY_Avatar_Ayato_Talent6_IsCharged"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NormalAttack_01",
+                    "NormalAttack_02",
+                    "NormalAttack_03"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SwitchSkillIDMixin",
+              "skillID": 10663
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_Buff_Level_Remove": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Avatar_Ayato_KendoPose"
+                }
+              ],
+              "key": "_ABILITY_Avatar_Ayato_KendoPose_Buff_Level",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_BuffAdd": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "abilityName": "Avatar_Ayato_KendoPose_Buff",
+              "abilitySpecials": {
+                "AddLevel": 1
+              }
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalArt_DropBall": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Ball"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NormalAttack_01",
+                    "NormalAttack_02",
+                    "NormalAttack_03"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ball": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.9,
+          "onAdded": [
+            {
+              "$type": "GenerateElemBall",
+              "ratio": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": 0
+                }
+              },
+              "configID": 2018,
+              "baseEnergy": 3.0
+            },
+            {
+              "$type": "Randomed",
+              "chance": 0.5,
+              "successActions": [
+                {
+                  "$type": "GenerateElemBall",
+                  "ratio": 1,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 1,
+                      "y": 0
+                    }
+                  },
+                  "configID": 2018,
+                  "baseEnergy": 3.0
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "UNIQUE_Avatar_Ayato_KendoPose_State"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_Avatar_Ayato_KendoPose_State"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "predicates": [
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "TalentParam_Ayato_Talent6"
+            }
+          ],
+          "key": "_ABILITY_Avatar_Ayato_Talent6_IsCharged",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Avatar_Ayato_KendoPose",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetAnimatorInt",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "intID": "SpecialAttack",
+          "value": 0
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Ayato_Katana_FXHandler"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_Ayato_Katana_FXMark",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Ayato_Katana_FXSheathe"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_Ayato_SheatheCircle_FXMark",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_On",
+          "stateID": "ElementalArt"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_On",
+          "stateID": "ElementalArt_Retreat"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_On",
+          "normalizeEnd": 0.05000000074505806,
+          "stateID": "Katana_Attack01"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_On",
+          "stateID": "Katana_Attack02"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_On",
+          "stateID": "Katana_Attack03"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_Off",
+          "stateID": "ElementalArt_AS",
+          "normalizeStart": 0.5
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_Off",
+          "stateID": "ElementalArt_Retreat_AS",
+          "normalizeStart": 0.5
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_Off",
+          "stateID": "Katana_Attack01",
+          "normalizeStart": 0.35499998927116394
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_Off",
+          "stateID": "Katana_Attack02",
+          "normalizeStart": 0.35499998927116394
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_Off",
+          "stateID": "Katana_Attack03",
+          "normalizeStart": 0.35499998927116394
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_CircleOff",
+          "stateID": "ElementalArt_AS",
+          "normalizeStart": 0.5
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_CircleOff",
+          "stateID": "ElementalArt_Retreat_AS",
+          "normalizeStart": 0.5
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_CircleOff",
+          "stateID": "Katana_Attack01",
+          "normalizeStart": 0.13699999451637268
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_CircleOff",
+          "stateID": "Katana_Attack02",
+          "normalizeStart": 0.13699999451637268
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_Weapon_Eff_CircleOff",
+          "stateID": "Katana_Attack03",
+          "normalizeStart": 0.13699999451637268
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalArt",
+            "ElementalArt_AS",
+            "ElementalArt_Retreat",
+            "ElementalArt_Retreat_AS",
+            "Katana_Attack01",
+            "Katana_Attack02",
+            "Katana_Attack03"
+          ],
+          "modifierName": "Ayato_Weapon_Eff_OnExit"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalArt",
+            "ElementalArt_AS",
+            "ElementalArt_Retreat",
+            "ElementalArt_Retreat_AS",
+            "Katana_Attack01",
+            "Katana_Attack02",
+            "Katana_Attack03"
+          ],
+          "modifierName": "Ayato_ForceHideKatana_OnExit"
+        }
+      ],
+      "abilityName": "Avatar_Ayato_KendoPose",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Avatar_Ayato_KendoPose",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Ayato_ShowWeaponMark",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      },
+      "onAvatarOut": [
+        {
+          "$type": "RemoveModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "UNIQUE_Avatar_Ayato_KendoPose_State"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Avatar_Ayato_Hold_SpecialAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "boolID": "Ayato_Hold_SpecialAttack"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Ayato_Hold_SpecialAttack"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ButtonHoldChargeMixin",
+          "skillID": 10663,
+          "OnReleaseCharged": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_Avatar_Ayato_Hold_SpecialAttack"
+            }
+          ],
+          "OnBeginUncharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 3
+            }
+          ],
+          "secondChargeTime": 999999,
+          "chargeTime": 0.15000000596046448,
+          "OnReleaseSecondCharged": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_Avatar_Ayato_Hold_SpecialAttack"
+            }
+          ],
+          "OnBeginCharged": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "UNIQUE_Avatar_Ayato_Hold_SpecialAttack"
+            }
+          ],
+          "OnBeginSecondCharged": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "UNIQUE_Avatar_Ayato_Hold_SpecialAttack"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Ayato_KendoPose_Click"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Ayato_KendoPose_BuffEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": [
+            "Buff_Dura",
+            0.5,
+            "ADD"
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_AttackBuff",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_BuffTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Buff_Dura",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Ayato_KendoPose_Buff_Level",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "Die",
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_AttackBuff"
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Ayato_KendoPose_BuffEffect_Delay"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_BuffEffect_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Ayato_KendoPose_BuffEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_Buff0": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_Buff1": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_MAX_HP",
+                "PropToDamageExtraRatio",
+                "MUL"
+              ],
+              "animEventNames": [
+                "SP_ATK01",
+                "SP_ATK02",
+                "SP_ATK03"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_Buff2": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_MAX_HP",
+                "PropToDamageExtraRatio",
+                "MUL",
+                2,
+                "MUL"
+              ],
+              "animEventNames": [
+                "SP_ATK01",
+                "SP_ATK02",
+                "SP_ATK03"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_Buff3": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_MAX_HP",
+                "PropToDamageExtraRatio",
+                "MUL",
+                3,
+                "MUL"
+              ],
+              "animEventNames": [
+                "SP_ATK01",
+                "SP_ATK02",
+                "SP_ATK03"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_Buff4": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_MAX_HP",
+                "PropToDamageExtraRatio",
+                "MUL",
+                4,
+                "MUL"
+              ],
+              "animEventNames": [
+                "SP_ATK01",
+                "SP_ATK02",
+                "SP_ATK03"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_Buff5": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_MAX_HP",
+                "PropToDamageExtraRatio",
+                "MUL",
+                5,
+                "MUL"
+              ],
+              "animEventNames": [
+                "SP_ATK01",
+                "SP_ATK02",
+                "SP_ATK03"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_KendoPose_HPBuff": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_MaxHPRatio": "Tlant2_MaxHPRatio"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Ayato_KendoPose_BuffTimer"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Avatar_Ayato_KendoPose_BuffEffect_Delay"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Ayato_KendoPose_BuffEffect"
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_Avatar_Ayato_KendoPose_Buff_Level",
+          "maxValue": "MaxKendoBuffLevel",
+          "minValue": 0,
+          "value": "AddLevel"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Avatar_Ayato_KendoPose_Buff0",
+            "Avatar_Ayato_KendoPose_Buff1",
+            "Avatar_Ayato_KendoPose_Buff2",
+            "Avatar_Ayato_KendoPose_Buff3",
+            "Avatar_Ayato_KendoPose_Buff4",
+            "Avatar_Ayato_KendoPose_Buff5"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5,
+            3.5,
+            4.5,
+            10
+          ],
+          "globalValueKey": "_ABILITY_Avatar_Ayato_KendoPose_Buff_Level",
+          "actionQueues": [
+            [
+              {
+                "$type": "RemoveModifier",
+                "born": {
+                  "$type": "PPLILBLAJHB",
+                  "value": true
+                },
+                "modifierName": "Avatar_Ayato_KendoPose_BuffTimer"
+              }
+            ],
+            [
+              {
+                "$type": "SendEffectTrigger",
+                "parameter": "L1",
+                "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_AttackBuff"
+              }
+            ],
+            [
+              {
+                "$type": "SendEffectTrigger",
+                "parameter": "L2",
+                "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_AttackBuff"
+              }
+            ],
+            [
+              {
+                "$type": "SendEffectTrigger",
+                "parameter": "L3",
+                "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_AttackBuff"
+              }
+            ],
+            [
+              {
+                "$type": "SendEffectTrigger",
+                "parameter": "L4",
+                "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_AttackBuff"
+              }
+            ],
+            [
+              {
+                "$type": "SendEffectTrigger",
+                "parameter": "L5",
+                "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_AttackBuff"
+              }
+            ]
+          ],
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Avatar_Ayato_KendoPose_HPBuff"
+          ],
+          "valueSteps": [
+            2.5,
+            10
+          ],
+          "globalValueKey": "_ABILITY_Avatar_Ayato_KendoPose_Buff_Level",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Avatar_Ayato_KendoPose_Buff",
+      "abilitySpecials": {
+        "Buff_Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 6.0
+        },
+        "MaxKendoBuffLevel": {
+          "$type": "GNPGOLDCAGO",
+          "value": 4.0
+        },
+        "Tlant2_MaxHPRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "PropToDamageExtraRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "AddLevel": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        }
+      },
+      "onAvatarOut": [
+        {
+          "$type": "RemoveModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Avatar_Ayato_KendoPose_BuffTimer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_Gadget_Break",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "target": "Caster",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Water",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 100.0,
+                "damagePercentage": "ArtGadget_Damage",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "attenuationTag": "Elemental_Art",
+              "attackTag": "Elemental_Art",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 3.5
+            }
+          }
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "target": "OriginOwner",
+              "abilityName": "Avatar_Ayato_KendoPose_Buff",
+              "abilitySpecials": {
+                "AddLevel": "AddLevel_Break"
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "target": "OriginOwner",
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_Constellation1_Avatar",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "TalentParam_Ayato_PermanentSkill_1"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "OriginOwner",
+              "value": 1,
+              "key": "_ABILITY_Avatar_Ayato_KendoPose"
+            }
+          ]
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "Avatar_Ayato_ElementalArt_Gadget",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalArt_Gadget",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAbility",
+          "target": "OriginOwner",
+          "predicates": [
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "TalentParam_Ayato_PermanentSkill_1"
+            }
+          ],
+          "abilityName": "Avatar_Ayato_KendoPose_Buff",
+          "abilitySpecials": {
+            "AddLevel": "AddLevel_Create"
+          }
+        }
+      ],
+      "abilitySpecials": {
+        "Gadget_Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "AddLevel_Create": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "AddLevel_Break": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ArtGadget_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Ayato_ElementalBurst_Weapon": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_WeaponDither",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalBurst_WeaponDisappear": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Ayato_ElementalBurst_Weapon"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_WeaponDither_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_Protection": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 11002
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "WindZoneMixin",
+              "targetType": "Enemy",
+              "innerRadius": 0,
+              "strength": -3,
+              "attenuation": 2,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "shapeName": "CircleR3",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Grass"
+                  ]
+                },
+                {
+                  "$type": "ByTargetWeight",
+                  "logic": "LesserOrEqual",
+                  "weight": 250
+                }
+              ]
+            }
+          ],
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_TriggerAction": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AvatarCameraParam",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.6000000238418579,
+                "forceRadius": 6.0
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "BurstSkinSet"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AvatarEnterCameraShot",
+                  "cameraMoveCfgPath": "Camera_Ayato_ElementalBurst"
+                },
+                {
+                  "$type": "DungeonFogEffects",
+                  "muteRemoteAction": true,
+                  "enable": true,
+                  "cameraFogEffectName": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_BeforeCamera"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_NoCamera",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackNotHitScene",
+                  "checkWaterLayer": true,
+                  "attackPattern": {
+                    "$type": "ConfigAttackCircle",
+                    "triggerType": "TriggerNoRepeat",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0.5
+                      }
+                    },
+                    "radius": 1,
+                    "height": 2.0
+                  }
+                },
+                {
+                  "$type": "ByAvatarInWaterDepth",
+                  "compareType": "LessAndEqual",
+                  "depth": 0.5
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Camera_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "DungeonFogEffects",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "cameraFogEffectName": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_BeforeCamera"
+            },
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "ControlEmotion",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "EnableHeadControl",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ControlEmotion",
+              "MJCILBIAAJA": false,
+              "PIIDHCFMKEM": false,
+              "LIIHBLNMGAF": false
+            },
+            {
+              "$type": "EnableHeadControl",
+              "LIHMHHKBCPI": false
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "duration": 3.0,
+              "transDuration": 0.05000000074505806,
+              "type": "Skill",
+              "weatherPattern": "Weather_Ayato_ElementalBurst_Start"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_WeatherAndHideWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Ayato_ShowWeaponMark"
+                }
+              ],
+              "partNames": [
+                "equip01",
+                "equip02",
+                "sheathPoint"
+              ],
+              "visible": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "partNames": [
+                "equip01",
+                "equip02",
+                "sheathPoint"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalBurst_Attack": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "gadgetID": 41066002,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "TriggerAbility",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "TalentParam_Ayato_Talent4"
+                }
+              ],
+              "abilityName": "Avatar_Ayato_Talent4"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "KillGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 41066002
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10665,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst"
+          ],
+          "modifierName": "ElementalBurst_Protection"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst",
+            "ElementalBurst_AS"
+          ],
+          "modifierName": "Camera_Handler"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst",
+            "ElementalBurst_AS"
+          ],
+          "modifierName": "ElementalBurst_WeatherAndHideWeapon"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst"
+          ],
+          "modifierName": "ElementalBurst_TriggerAction"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ElementalBurst_Attack",
+          "stateID": "ElementalBurst"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst",
+            "ElementalBurst_AS"
+          ],
+          "modifierName": "Ayato_ElementalBurst_Weapon"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Ayato_ElementalBurst_WeaponDisappear",
+          "normalizeEnd": 0.6343749761581421,
+          "stateID": "ElementalBurst_AS"
+        }
+      ],
+      "abilityName": "Avatar_Ayato_ElementalBurst"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Ayato_ElementalBurst_Gadget_Select": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "duration": [
+            "Field_Dura",
+            0.2,
+            "SUB"
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_ABILITY_Ayato_ElementalBurst_TriggerPos1",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 1.5,
+                  "maxRandomRange": 9.5
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Random",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR10H10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Ayato_ElementalBurstMark"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Ayato_ElementalBurst_Mark"
+                },
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "Target",
+                  "LINAHBPILJD": false,
+                  "key": "_ABILITY_Ayato_ElementalBurst_TriggerPos1"
+                }
+              ]
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Ayato_ElementalBurst_Gadget_Timer1"
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR10H10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_Avatar_Ayato_ElementalBurst_NormalAttackUp"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "SetOverrideMapValue",
+              "value": [
+                "Tag",
+                "Minus",
+                "MUL"
+              ],
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Tag"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "key": "_ABILITY_Ayato_ElementalBurst_TriggerPos1",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "onGround": true,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 1.5,
+                      "maxRandomRange": 9.5
+                    }
+                  }
+                },
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "topLimit": 1,
+                    "sortType": "Random",
+                    "sizeRatio": 1,
+                    "campTargetType": "Enemy",
+                    "shapeName": "CircleR10H10"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Ayato_ElementalBurstMark"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ANIMAL_ENTITY_TYPE"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "target": "Target",
+                      "modifierName": "Ayato_ElementalBurst_Mark"
+                    },
+                    {
+                      "$type": "SetGlobalPos",
+                      "target": "Target",
+                      "LINAHBPILJD": false,
+                      "key": "_ABILITY_Ayato_ElementalBurst_TriggerPos1"
+                    }
+                  ]
+                },
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "Ayato_ElementalBurst_Gadget_Timer1"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "key": "_ABILITY_Ayato_ElementalBurst_TriggerPos2",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "onGround": true,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 1.5,
+                      "maxRandomRange": 9.5
+                    }
+                  }
+                },
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "topLimit": 1,
+                    "sortType": "Random",
+                    "sizeRatio": 1,
+                    "campTargetType": "Enemy",
+                    "shapeName": "CircleR10H10"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Ayato_ElementalBurstMark"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ANIMAL_ENTITY_TYPE"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "target": "Target",
+                      "modifierName": "Ayato_ElementalBurst_Mark"
+                    },
+                    {
+                      "$type": "SetGlobalPos",
+                      "target": "Target",
+                      "LINAHBPILJD": false,
+                      "key": "_ABILITY_Ayato_ElementalBurst_TriggerPos2"
+                    }
+                  ]
+                },
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "Ayato_ElementalBurst_Gadget_Timer2"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetOverrideMapValue",
+                  "targetValue": 0,
+                  "targetAbilityName": "Avatar_Ayato_ElementalBurst_Gadget",
+                  "targetKey": "Tag"
+                }
+              ]
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR10H10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_Avatar_Ayato_ElementalBurst_NormalAttackUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalBurst_Gadget_Timer1": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.6,
+          "duration": 0.75,
+          "onAdded": [
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "FireSubEmitterEffect",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ABILITY_Ayato_ElementalBurst_TriggerPos1"
+                  },
+                  "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_Image_03"
+                }
+              ],
+              "chance": 0.5,
+              "successActions": [
+                {
+                  "$type": "FireSubEmitterEffect",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ABILITY_Ayato_ElementalBurst_TriggerPos1"
+                  },
+                  "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_Image_02"
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Water",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "damagePercentage": "Damage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attenuationTag": "Elemental_Burst",
+                  "attackTag": "Elemental_Burst",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "massiveAttackRatio": 0.6000000238418579,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    },
+                    "positionKey": "_ABILITY_Ayato_ElementalBurst_TriggerPos1"
+                  },
+                  "radius": 2.5,
+                  "height": 3.5
+                }
+              }
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Ayato_ElementalBurst_Gadget_Timer1"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalBurst_Gadget_Timer2": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.6,
+          "duration": 0.75,
+          "onAdded": [
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "FireSubEmitterEffect",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ABILITY_Ayato_ElementalBurst_TriggerPos2"
+                  },
+                  "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_Image_03"
+                }
+              ],
+              "chance": 0.5,
+              "successActions": [
+                {
+                  "$type": "FireSubEmitterEffect",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ABILITY_Ayato_ElementalBurst_TriggerPos2"
+                  },
+                  "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_Image_02"
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Water",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "damagePercentage": "Damage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attenuationTag": "Elemental_Burst",
+                  "attackTag": "Elemental_Burst",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "massiveAttackRatio": 0.6000000238418579,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    },
+                    "positionKey": "_ABILITY_Ayato_ElementalBurst_TriggerPos2"
+                  },
+                  "radius": 2.5,
+                  "height": 3.5
+                }
+              }
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Ayato_ElementalBurst_Gadget_Timer2"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Avatar_Ayato_ElementalBurst_NormalAttackUp": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_Buff",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": "NormalAttackUp",
+              "attackTags": [
+                "NormalAttack_01",
+                "NormalAttack_02",
+                "NormalAttack_03",
+                "NormalAttack_04",
+                "NormalAttack_05",
+                "NormalAttack_06"
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalBurst_Mark": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.45,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Ayato_ElementalBurstMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Ayato_ElementalBurstMark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_ElementalBurst_Gadget_Weather": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "duration": 18.0,
+              "transDuration": 1.0,
+              "type": "Skill",
+              "weatherPattern": "Weather_Ayato_ElementalBurst_Keep"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Ayato_ElementalBurst_Gadget",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Ayato_ElementalBurst_Gadget_Select"
+        },
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_Avatar_Male_Sword_Ayato_ElementalBurst_Circle",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Ayato_ElementalBurst_Gadget_Weather"
+        }
+      ],
+      "abilitySpecials": {
+        "NormalAttackUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Field_Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Tag": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "Minus": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Ayato_OffStage": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToPredicateMixin",
+              "predicates": [
+                {
+                  "$type": "ByEnergyRatio",
+                  "logic": "Lesser",
+                  "ratio": "TriggerRatio"
+                }
+              ],
+              "modifierName": "Avatar_Ayato_ReviveEnergy_OffStage"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Ayato_ReviveEnergy_OffStage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "Interval",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": "Energy"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAvatarIn": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Avatar_Ayato_IsOffStage",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Avatar_Ayato_OffStage"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_Avatar_Ayato_IsOffStage",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Avatar_Ayato_PermanentSkill_2_ReviveEnergy",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Avatar_Ayato_IsOffStage",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Avatar_Ayato_IsOffStage",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByIsLocalAvatar",
+              "target": "Self"
+            }
+          ]
+        }
+      ],
+      "abilitySpecials": {
+        "TriggerRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Interval": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Energy": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      },
+      "onAvatarOut": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Avatar_Ayato_IsOffStage",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": "DamageUp",
+          "predicates": [
+            {
+              "$type": "ByTargetHPRatio",
+              "logic": "LesserOrEqual",
+              "HPRatio": "HPRatio"
+            }
+          ],
+          "animEventNames": [
+            "SP_ATK01",
+            "SP_ATK02",
+            "SP_ATK03",
+            "SP_ATK04",
+            "SP_ATK05"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Ayato_Talent1_DamageUp",
+      "isDynamicAbility": true,
+      "abilitySpecials": {
+        "DamageUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "HPRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Ayato_ElementalBurst_Talent4Buff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Talent4_Time",
+          "properties": {
+            "Animator_AttackSpeedRatio": "AttackSpeed"
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "target": "AllPlayerAvatars",
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "logic": "LesserOrEqual",
+              "value": 40
+            }
+          ],
+          "modifierName": "UNIQUE_Ayato_ElementalBurst_Talent4Buff"
+        },
+        {
+          "$type": "ApplyModifier",
+          "target": "AllPlayerAvatars",
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "logic": "LesserOrEqual",
+              "value": 40
+            }
+          ],
+          "modifierName": "UNIQUE_Ayato_ElementalBurst_Talent4Buff"
+        }
+      ],
+      "abilityName": "Avatar_Ayato_Talent4",
+      "isDynamicAbility": true,
+      "abilitySpecials": {
+        "AttackSpeed": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Talent4_Time": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Ayato_Talent6_Ready": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.8,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Ayato_Constellation_6_Fx"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_Constellation_6_Watch",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Ayato_Constellation_6_Fx"
+            }
+          ],
+          "elementDurability": 100,
+          "onAvatarIn": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Ayato_Constellation_6_Fx"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": false
+              },
+              "modifierName": "Ayato_Constellation_6_Fx"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Ayato_Constellation_6_Fx": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Male_Sword_Ayato_Constellation_6_WatchTrail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Avatar_Ayato_Talent6_Ready"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_Avatar_Ayato_Talent6_IsCharged",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Avatar_Ayato_Talent6",
+      "isDynamicAbility": true
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Ayato_Talent6_BeforeCamera": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerPostProcessEffectMixin",
+              "duration": 1.0,
+              "postEffectAssetName": "PostEffect_Avatar_Ayato_Talent6_ScreenEffect"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Ayato_Talent6_Gadget",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Ayato_Talent6_BeforeCamera"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Attack01",
+          "animEventNames": [
+            "ATK01"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Attack02",
+          "animEventNames": [
+            "ATK02"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Attack03",
+          "animEventNames": [
+            "ATK03"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Attack04",
+          "animEventNames": [
+            "ATK04"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Attack04",
+          "animEventNames": [
+            "ATK04_01"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Attack05",
+          "animEventNames": [
+            "ATK05"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "ExtraAttack",
+          "attackTags": [
+            "ExtraAttack"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "SPAttack01",
+          "animEventNames": [
+            "SP_ATK01"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "SPAttack02",
+          "animEventNames": [
+            "SP_ATK02"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "SPAttack03",
+          "animEventNames": [
+            "SP_ATK03"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "SPAttack04",
+          "animEventNames": [
+            "SP_ATK04"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "SPAttack05",
+          "animEventNames": [
+            "SP_ATK05"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Ayato_NormalAttack_DamageHandler",
+      "abilitySpecials": {
+        "Attack01": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Attack02": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Attack03": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Attack04": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Attack05": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ExtraAttack": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "SPAttack01": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "SPAttack02": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "SPAttack03": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "SPAttack04": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "SPAttack05": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FallingAnthem_AttachWeaponEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Sword_FallAnthem_Self_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_CameraRadialBlur": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.23,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CameraBlurMixin",
+              "cameraRadialBlur": {
+                "$type": "ConfigCameraRadialBlur",
+                "fadeTime": 0.15000000596046448,
+                "power": 0.30000001192092896
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_Material": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Sword_FallAnthem_BS",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_VelocityForce_Initialize": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_LoopDamage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 25.0,
+                    "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                    "elementDurability": 0,
+                    "overrideByWeapon": true,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 1,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_FallingAttack_Altitude"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "value": "FallingAnthem_FallingDamageRatio_Lv0"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "value": "FallingAnthem_FallingDamageRatio_Lv1"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "value": "FallingAnthem_FallingDamageRatio_Lv2"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "value": "FallingAnthem_FallingDamageRatio_Lv3"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "value": "FallingAnthem_FallingDamageRatio_Lv4"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_02"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_FallingAttack_Altitude",
+              "overrideMapKey": "FallingAnthem_FallingDamageRatio"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_03"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_03": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": "FallingAnthem_FallingDamageRatio"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "FallingAnthem_Loop_Normal_Rank_1",
+                "FallingAnthem_Loop_Normal_Rank_2"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_FallingAnthem_UseCamera",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Sword_FallAnthem_Loop_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Sword_FallAnthem_Loop_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Inertia": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyInertiaVelocityMixin",
+              "JOHELJNOOBE": false,
+              "useY": false
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Height_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 5
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.20000000298023224,
+                "forceRadius": 4.5
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Landed_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.10000000149011612,
+                "forceRadius": 6.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_ClearVelocityForce": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "InertiaType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_ClearVelocityForce_AS": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "InertiaType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 100.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_1_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.23999999463558197,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.23999999463558197
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV4"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": -0.5
+                }
+              },
+              "radius": 3,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 150.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_2_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.4000000059604645,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0,
+                  "z": 1.0
+                },
+                "shakeTime": 0.20000000298023224,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.5
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV7"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": -0.5
+                }
+              },
+              "radius": 5,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Sword_FallAnthem_Strike_01",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Sword_FallAnthem_Strike_02",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AvatarChangeSkillMixin",
+          "OLDBNEGFONF": 5066010,
+          "IJBAHBAGBCN": 5066010
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_Material"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_Loop_Normal"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS_2",
+            "FallingAnthem_Loop",
+            "FallingAnthem_Loop_Low"
+          ],
+          "modifierName": "FallingAnthem_LoopDamage"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_VelocityForce_Initialize"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_Height_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_FallingDamageImmune_01"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "Inertia"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_OverHead_Camera"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_ClearVelocityForce"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_ClearVelocityForce_AS"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_AttachWeaponEffect"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS_2"
+          ],
+          "modifierName": "FallingAnthem_CameraRadialBlur"
+        }
+      ],
+      "abilityName": "Avatar_Ayato_FallingAnthem",
+      "abilitySpecials": {
+        "FallingAnthem_Normal_Loop_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_1_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_2_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Altitude_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": 20.0
+        },
+        "FallingAnthem_Altitude_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": 40.0
+        },
+        "FallingAnthem_Altitude_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": 60.0
+        },
+        "FallingAnthem_Altitude_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": 100.0
+        },
+        "FallingAnthem_Altitude_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 200.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.8999999761581421
+        },
+        "FallingAnthem_FallingDamageRatio_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.800000011920929
+        },
+        "FallingAnthem_FallingDamageRatio_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.6000000238418579
+        },
+        "FallingAnthem_FallingDamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  }
+]

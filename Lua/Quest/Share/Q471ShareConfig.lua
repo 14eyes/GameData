@@ -1,0 +1,10 @@
+main_id = 471
+local tbl = {}
+local n = 47102
+tbl[1] = 47101
+tbl[2] = n
+sub_ids = tbl
+rewind_data = {}
+rewind_data["47101"] = {}
+rewind_data["47102"] = {}
+quest_data = {}

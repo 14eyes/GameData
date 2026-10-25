@@ -1,0 +1,47 @@
+main_id = 20038
+local tbl = {}
+local n = 2003802
+local v = 2003803
+local n2 = 2003804
+local n3 = 2003805
+local n4 = 2003806
+local n5 = 2003807
+local n6 = 2003808
+local n7 = 2003809
+local n8 = 2003810
+tbl[1] = 2003801
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+tbl[5] = n3
+tbl[6] = n4
+tbl[7] = n5
+tbl[8] = n6
+tbl[9] = n7
+tbl[10] = n8
+sub_ids = tbl
+finish_action = {CLIENT = {}, SERVER = {}}
+fail_action = {CLIENT = {}, SERVER = {}}
+local tbl2 = {CLIENT = {}}
+local server = {}
+local qUEST_EXEC_REFRESH_GROUP_SUITE = {}
+local tbl3 = {}
+local str = "133003487,1"
+tbl3[1] = "3"
+tbl3[2] = str
+local tbl4 = {}
+local str2 = "133001316,1"
+tbl4[1] = "3"
+tbl4[2] = str2
+local tbl5 = {}
+local str3 = "133002293,1"
+tbl5[1] = "3"
+tbl5[2] = str3
+qUEST_EXEC_REFRESH_GROUP_SUITE[1] = tbl3
+qUEST_EXEC_REFRESH_GROUP_SUITE[2] = tbl4
+qUEST_EXEC_REFRESH_GROUP_SUITE[3] = tbl5
+server.QUEST_EXEC_REFRESH_GROUP_SUITE = qUEST_EXEC_REFRESH_GROUP_SUITE
+tbl2.SERVER = server
+cancel_action = tbl2
+rewind_data = {}
+quest_data = {}

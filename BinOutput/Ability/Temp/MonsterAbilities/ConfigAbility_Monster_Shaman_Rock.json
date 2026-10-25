@@ -1,0 +1,888 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Spike_Damage_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Rock",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "damagePercentage": 0.5,
+                    "elementDurability": 50,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "y": 1.0
+                    },
+                    "shakeTime": 0.09000000357627869,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 7.5,
+                    "shakeRange": 0.03999999910593033
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV2"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -0.75,
+                      "y": 1.25
+                    },
+                    "positionKey": "_MONSTER_SHAMAN_ROCK_SPIKE_POS"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 1.25,
+                    "z": 1.25,
+                    "y": 2.5
+                  }
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackTarget",
+          "LINAHBPILJD": false,
+          "key": "_MONSTER_SHAMAN_ROCK_SPIKE_POS",
+          "born": {
+            "$type": "ConfigBornByPredicatePoint",
+            "alongGround": true,
+            "onGround": true,
+            "timeForPredictive": 0.75
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Shaman_Rock_NormalAttack_Spike",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "_MONSTER_SHAMAN_ROCK_SPIKE_POS"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Spike_Damage_Timer"
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_MONSTER_SHAMAN_ROCK_SPIKE",
+          "maxValue": 3,
+          "minValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_MONSTER_SHAMAN_ROCK_SPIKE",
+              "maxValue": 3,
+              "minValue": 0,
+              "value": -10
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "NormalAttackTrigger"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3,
+              "key": "_MONSTER_SHAMAN_ROCK_SPIKE"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Shaman_Rock_Spike"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ReturnToBorn_DestoryPillar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42103011
+              },
+              "modifierName": "UNIQUE_RockPillar_Element"
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                401
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CreatePillar_BS": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR10"
+              },
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "target": "Target",
+                  "modifierName": "CreatePillar_Ready"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHasFeatureTag",
+                      "featureTagIDs": [
+                        4001,
+                        4901
+                      ]
+                    },
+                    {
+                      "$type": "ByHasFeatureTag",
+                      "featureTagIDs": [
+                        4004,
+                        4901
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CreatePillar_Ready": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_MONSTER_SHAMAN_ROCK_CREATEPILLAR",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -10
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_MONSTER_SHAMAN_ROCK_CREATEPILLAR",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_CreateBS",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "SelfCamp",
+            "shapeName": "CircleR15"
+          },
+          "successActions": [
+            {
+              "$type": "CreateGadget",
+              "target": "Target",
+              "lifeByOwnerIsAlive": true,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true
+              },
+              "gadgetID": 42103011,
+              "byServer": true
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Monster"
+              ]
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    4001,
+                    4901
+                  ]
+                },
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    4004,
+                    4901
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_MONSTER_SHAMAN_ROCK_CREATEPILLAR"
+            }
+          ]
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "CreatePillar_BS"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42103011
+          },
+          "modifierName": "UNIQUE_RockPillar_Element"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "CreatePillar_BS",
+            "CreatePillar"
+          ],
+          "modifierName": "CreatePillar_BS"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            901
+          ],
+          "modifierName": "ReturnToBorn_DestoryPillar"
+        }
+      ],
+      "abilityName": "Shaman_Rock_CreatePillar"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_RockPillar_Element": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "target": "Owner",
+              "boolID": "OnPillar"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "Owner",
+              "triggerID": "StopSupportAtk"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Disappear",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Explosion",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Alliance",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "attackType": "Melee",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Blunt",
+                        "enBreak": 200.0,
+                        "damagePercentage": 0,
+                        "elementDurability": 100,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "shakeDir": {
+                          "$type": "NFFDDFHHDHG",
+                          "y": -1.0
+                        },
+                        "shakeTime": 0.30000001192092896,
+                        "shakeType": "CustomVector",
+                        "shakeDistance": 10.0,
+                        "shakeRange": 0.36000001430511475
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "default",
+                        "hitImpulseType": "LV7"
+                      },
+                      "forceCameraShake": true,
+                      "attenuationGroup": "default"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackCircle",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "x": 0,
+                          "z": 0,
+                          "y": 2.5
+                        }
+                      },
+                      "radius": 1
+                    }
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Rock"
+                }
+              ]
+            },
+            {
+              "$type": "KillSelf",
+              "hideEntity": true,
+              "duration": 1.0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Create",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetPoseBool",
+              "target": "Owner",
+              "value": true,
+              "boolID": "OnPillar"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 300,
+          "modifierMixins": [
+            {
+              "$type": "ElementShieldMixin",
+              "shieldHPRatio": 1,
+              "onShieldFailed": [
+                {
+                  "$type": "Predicated",
+                  "target": "Target",
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalDir",
+                      "target": "Target",
+                      "key": "_MONSTER_SHAMAN_ROCK_ELEMENTSHIELD_HIT",
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigDirectionByLookAtEntity"
+                        }
+                      },
+                      "LINAHBPILJD": false
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetGlobalDir",
+                      "target": "TargetOriginOwner",
+                      "key": "_MONSTER_SHAMAN_ROCK_ELEMENTSHIELD_HIT",
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigDirectionByLookAtEntity"
+                        }
+                      },
+                      "LINAHBPILJD": false
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Vehicle",
+                        "Partner"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_BeHitSuccess",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "direction": {
+                      "$type": "ConfigDirectionByGlobalValue",
+                      "directionKey": "_MONSTER_SHAMAN_ROCK_ELEMENTSHIELD_HIT"
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "shieldAngle": 360,
+              "elementType": "Rock",
+              "onShieldSuccess": [
+                {
+                  "$type": "Predicated",
+                  "target": "Target",
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalDir",
+                      "target": "Target",
+                      "key": "_MONSTER_SHAMAN_ROCK_ELEMENTSHIELD_HIT",
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigDirectionByLookAtEntity"
+                        }
+                      },
+                      "LINAHBPILJD": false
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetGlobalDir",
+                      "target": "TargetOriginOwner",
+                      "key": "_MONSTER_SHAMAN_ROCK_ELEMENTSHIELD_HIT",
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigDirectionByLookAtEntity"
+                        }
+                      },
+                      "LINAHBPILJD": false
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Vehicle",
+                        "Partner"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_BeHitFailed",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "direction": {
+                      "$type": "ConfigDirectionByGlobalValue",
+                      "directionKey": "_MONSTER_SHAMAN_ROCK_ELEMENTSHIELD_HIT"
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "damageRatio": 0
+            },
+            {
+              "$type": "AttachModifierToElementDurabilityMixin",
+              "modifierNameSteps": [
+                "Empty",
+                "RockPillar_Stage01"
+              ],
+              "valueSteps": [
+                0.5,
+                300.5,
+                600.5
+              ]
+            }
+          ],
+          "elementType": "Rock",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RockPillar_Stage01": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Damaged",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Damaged",
+              "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Create"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Normal",
+              "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Create"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Shaman_RockPillar_Element",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_RockPillar_Element"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Shaman_Rock_EscapeState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.75,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "EscapeState"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "EscapeState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Shaman_Rock_EscapeState"
+            }
+          ]
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "logic": "Lesser",
+              "value": 5
+            }
+          ],
+          "modifierName": "Shaman_Rock_EscapeState"
+        }
+      ],
+      "abilityName": "Monster_Shaman_Rock_EscapeState"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "NormalAttack_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "SupportAttack_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.15000000596046448,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "MeleeAttack"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.75,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "Turn"
+          ],
+          "startNormalizedTime": 0.20000000298023224
+        }
+      ],
+      "abilityName": "Shaman_Rock_AnimationSteer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SupportAttackState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "WeaponEffect_SupportAttack"
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42103011
+              },
+              "modifierName": "Shaman_RockPillar_Resonance"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "configID": 42103011
+                  },
+                  "modifierName": "Shaman_RockPillar_Resonance"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "StopSupportAtk"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "Lesser",
+                  "compareType": "XYZ",
+                  "value": 10
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponEffect_SupportAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Rock_WeaponElement_Resonance",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Rock_SupportAttack_Gather",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Shaman_RockPillar_Resonance": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 4,
+          "duration": 4.5,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Shaman_RockPillar_Resonance_Effect"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "timeScale": "Level",
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Impulse",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR5"
+              },
+              "modifierName": "UNIQUE_Shaman_RockPillar_Resonance_Damage"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Shaman_RockPillar_Resonance_Effect"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Shaman_RockPillar_Resonance_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Rock_Pillar_Resonance",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Shaman_RockPillar_Resonance_Damage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "DamageByAttackValue",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Rock",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Default",
+                  "enBreak": 0.0,
+                  "damagePercentage": 1,
+                  "elementDurability": 50,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "hitImpulseType": "LV4"
+                },
+                "attenuationGroup": "default"
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "SupportAttack"
+          ],
+          "modifierName": "SupportAttackState"
+        }
+      ],
+      "abilityName": "Monster_Shaman_Rock_SupportAttack"
+    }
+  }
+]

@@ -1,0 +1,30 @@
+main_id = 75106
+local tbl = {}
+local n = 7510601
+local v = 7510607
+local n2 = 7510603
+local n3 = 7510602
+local n4 = 7510604
+local n5 = 7510605
+tbl[1] = 7510606
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+tbl[5] = n3
+tbl[6] = n4
+tbl[7] = n5
+sub_ids = tbl
+finish_action = {CLIENT = {}, SERVER = {}}
+fail_action = {CLIENT = {}, SERVER = {}}
+cancel_action = {CLIENT = {}, SERVER = {}}
+rewind_data = {["7510601"] = {}, ["7510603"] = {}, ["7510604"] = {}, ["7510606"] = {}, ["7510607"] = {}}
+
+quest_data = {
+    ["7510601"] = {},
+    ["7510602"] = {},
+    ["7510603"] = {},
+    ["7510604"] = {},
+    ["7510605"] = {},
+    ["7510606"] = {},
+    ["7510607"] = {}
+}

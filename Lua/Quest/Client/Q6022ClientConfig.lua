@@ -1,0 +1,200 @@
+return {
+    MainID = 6022,
+    ActorAlias = "6022",
+    SubIDs = {
+        q602201 = 602201,
+        q602202 = 602202,
+        q602203 = 602203,
+        q602204 = 602204,
+        q602205 = 602205,
+        q602206 = 602206,
+        q602207 = 602207,
+        q602208 = 602208,
+        q602209 = 602209,
+        q602210 = 602210,
+        q602240 = 602240,
+        q602234 = 602234,
+        q602235 = 602235,
+        q602233 = 602233,
+        q602241 = 602241,
+        q602211 = 602211,
+        q602242 = 602242,
+        q602212 = 602212,
+        q602213 = 602213,
+        q602214 = 602214,
+        q602215 = 602215,
+        q602216 = 602216,
+        q602217 = 602217,
+        q602218 = 602218,
+        q602243 = 602243,
+        q602219 = 602219,
+        q602220 = 602220,
+        q602221 = 602221,
+        q602244 = 602244,
+        q602222 = 602222,
+        q602223 = 602223,
+        q602245 = 602245,
+        q602224 = 602224,
+        q602225 = 602225,
+        q602246 = 602246,
+        q602226 = 602226,
+        q602247 = 602247,
+        q602236 = 602236,
+        q602227 = 602227,
+        q602237 = 602237,
+        q602238 = 602238,
+        q602228 = 602228,
+        q602229 = 602229,
+        q602230 = 602230,
+        q602231 = 602231,
+        q602248 = 602248
+    },
+    Npcs = {
+        Npc16190 = {
+            id = 16190,
+            alias = "Npc16190",
+            script = "Actor/Npc/TempNPC",
+            point = {pos = {x = 0, y = 0, z = 0}, rot = {x = 0, y = 0, z = 0}}
+        },
+        Npc1318 = {
+            id = 1318,
+            alias = "Npc1318",
+            script = "Actor/Npc/TempNPC",
+            point = {pos = {x = 0, y = 0, z = 0}, rot = {x = 0, y = 0, z = 0}}
+        },
+        Npc1315 = {
+            id = 1315,
+            alias = "Npc1315",
+            script = "Actor/Npc/TempNPC",
+            point = {pos = {x = 0, y = 0, z = 0}, rot = {x = 0, y = 0, z = 0}}
+        },
+        Npc1316 = {
+            id = 1316,
+            alias = "Npc1316",
+            script = "Actor/Npc/TempNPC",
+            point = {pos = {x = 0, y = 0, z = 0}, rot = {x = 0, y = 0, z = 0}}
+        },
+        Npc12695 = {
+            id = 12695,
+            alias = "Npc12695",
+            script = "Actor/Npc/TempNPC",
+            point = {pos = {x = 0, y = 0, z = 0}, rot = {x = 0, y = 0, z = 0}}
+        },
+        Npc1324 = {
+            id = 1324,
+            alias = "Npc1324",
+            script = "Actor/Npc/TempNPC",
+            point = {pos = {x = 0, y = 0, z = 0}, rot = {x = 0, y = 0, z = 0}}
+        }
+    },
+    Points = {
+        _Q602201Trigger_TransmitPoint_ = {pos = {x = 1773.557, y = 220.6853, z = 9500.864}, rot = {x = 0, y = 0, z = 0}},
+        _Q602201Trigger_Transmit_1Point_ = {pos = {x = 335.5399, y = 288.7379, z = 238.6145}, rot = {x = 0, y = 0, z = 0}},
+        _Q602201TriggerPoint_ = {pos = {x = 1603.782, y = 243.775, z = 9447.892}, rot = {x = 0.0, y = 298.497, z = 0.0}},
+        _Q602203Trigger_TransmitPoint_ = {pos = {x = 1598.991, y = 243.775, z = 9451.155}, rot = {x = 0.0, y = 304.295, z = 0.0}},
+        _Q602203TriggerPoint_ = {pos = {x = 2516.593, y = -413.31, z = 10127.63}, rot = {x = 0.0, y = 102.614, z = 0.0}},
+        _Q602208TriggerPoint_ = {pos = {x = 1683.547, y = 224.129, z = 9424.933}, rot = {x = 0.0, y = 256.29, z = 0.0}},
+        _Q602240TriggerPoint_ = {pos = {x = 1683.547, y = 224.129, z = 9424.933}, rot = {x = 0.0, y = 256.29, z = 0.0}},
+        _Q602233TriggerPoint_ = {pos = {x = 1649.877, y = 227.689, z = 9475.968}, rot = {x = 0.0, y = 0.0, z = 0.0}},
+        _Q602241TriggerPoint_ = {pos = {x = 2091.272, y = -206.614, z = 9922.468}, rot = {x = 0.0, y = 357.104, z = 0.0}},
+        _Q602241Trigger_TransmitPoint_ = {pos = {x = 1668.436, y = 227.899, z = 9500.147}, rot = {x = 0.0, y = 207.394, z = 0.0}},
+        _Q602242TriggerPoint_ = {pos = {x = 2513.718, y = -413.31, z = 10051.43}, rot = {x = 0.0, y = 150.515, z = 0.0}},
+        _Q602242Trigger_TransmitPoint_ = {pos = {x = 2091.272, y = -206.614, z = 9922.468}, rot = {x = 0.0, y = 357.104, z = 0.0}},
+        _Q602216TriggerPoint_ = {pos = {x = 1637.289, y = 227.902, z = 9482.415}, rot = {x = 0.662, y = 136.771, z = 359.992}},
+        _Q602243TriggerPoint_ = {pos = {x = 1637.289, y = 227.902, z = 9482.415}, rot = {x = 0.662, y = 136.771, z = 359.992}},
+        _Q602219TriggerPoint_ = {pos = {x = 1701.043, y = 265.94, z = 9510.942}, rot = {x = 0.0, y = 265.35, z = 0.0}},
+        _Q602219Trigger_TransmitPoint_ = {pos = {x = 2572.0, y = -413.31, z = 10065.0}, rot = {x = 0.0, y = 92.384, z = 0.0}},
+        _Q602219Trigger_Transmit2Point_ = {pos = {x = 1650.073, y = 224.019, z = 9431.269}, rot = {x = 0.0, y = 345.489, z = 0.0}},
+        _Q602220Trigger_TransmitPoint_ = {pos = {x = 1701.043, y = 265.94, z = 9510.942}, rot = {x = 0.0, y = 265.35, z = 0.0}},
+        _Q602221Trigger_DestroyPoint_ = {pos = {x = 4484.631, y = 200.175, z = 9746.962}, rot = {x = 0.0, y = 88.513, z = 0.0}},
+        _Q602244TriggerPoint_ = {pos = {x = 4484.631, y = 200.175, z = 9746.962}, rot = {x = 0.0, y = 88.513, z = 0.0}},
+        _Q602245TriggerPoint_ = {pos = {x = 4495.031, y = 581.05, z = 9751.394}, rot = {x = 0.0, y = 255.366, z = 0.0}},
+        _Q602246TriggerPoint_ = {pos = {x = 4467.354, y = 581.05, z = 9772.392}, rot = {x = 0.0, y = 272.559, z = 0.0}},
+        _Q602247TriggerPoint_ = {pos = {x = 3629.444, y = 202.5, z = 9861.088}, rot = {x = 0.0, y = 273.414, z = 0.0}},
+        _Q602236TriggerPoint_ = {pos = {x = 2091.272, y = -206.614, z = 9922.468}, rot = {x = 0.0, y = 357.104, z = 0.0}},
+        _Q602236Trigger_TransmitPoint_ = {pos = {x = 3629.444, y = 202.5, z = 9861.088}, rot = {x = 0.0, y = 273.414, z = 0.0}},
+        _Q602237Trigger_TransmitPoint_ = {pos = {x = 2091.272, y = -206.614, z = 9922.468}, rot = {x = 0.0, y = 357.104, z = 0.0}},
+        _Q602237TriggerPoint_ = {pos = {x = 1650.338, y = 239.872, z = 9378.495}, rot = {x = 0.0, y = 38.045, z = 0.0}},
+        _Q602228TriggerPoint_ = {pos = {x = 2572.0, y = -413.31, z = 10065.0}, rot = {x = 0.0, y = 92.384, z = 0.0}},
+        _Q602228Trigger_TransmitPoint_ = {pos = {x = 1657.821, y = 239.87, z = 9388.303}, rot = {x = 0.0, y = 19.237, z = 0.0}},
+        _Q602248Trigger_TransmitPoint_ = {pos = {x = 2629.58, y = -412.851, z = 10093.16}, rot = {x = 0.0, y = 36.837, z = 0.0}},
+        _Q602248TriggerPoint_ = {pos = {x = 2079.746, y = -205.635, z = 10058.24}, rot = {x = 0.0, y = 0.0, z = 0.0}}
+    },
+    Datas = {
+        NoBlackDataNormal = {
+            hideUIWhenCamLook = false,
+            hidePlayer = 2,
+            forceWalk = true,
+            delayTime = 0.2,
+            forbidInput = false,
+            preTriggerIn = true
+        },
+        NarratorWithId_602207 = {narratorId = 602207, tag = "StoryInMainPage", startCheckPause = true, resumeReminder = 0},
+        NarratorWithId_602214 = {narratorId = 602214, tag = "StoryInMainPage", startCheckPause = true, resumeReminder = 0},
+        TransmitDataWhite = {
+            textMapId = {"QUEST_Black_Clear"},
+            textShowTime = 0,
+            showBlackScreen = true,
+            useWhiteScreen = true,
+            disableTPAudio = false,
+            loadCtxCloseDelay = 1,
+            isKeepVehicle = false,
+            interruptInteract = false
+        },
+        GolumbiaTransmitDataIn = {
+            textMapId = {"QUEST_Black_Clear"},
+            prefabPath = "ART/UI/Menus/Dialog/InLevel/InLevelLoading_AQ6022TransIn",
+            loadCtxTag = "GolumbiaInFadeOut",
+            loadCtxCloseDelay = 3,
+            disableTPAudio = true,
+            isKeepVehicle = false,
+            interruptInteract = true
+        },
+        GolumbiaTransmitDataOut = {
+            textMapId = {"QUEST_Black_Clear"},
+            prefabPath = "ART/UI/Menus/Dialog/InLevel/InLevelLoading_AQ6022TransOut",
+            loadCtxTag = "GolumbiaOutFadeOut",
+            loadCtxCloseDelay = 3,
+            disableTPAudio = true,
+            isKeepVehicle = false,
+            interruptInteract = true
+        },
+        TransmitDataWithPlayerPicture = {
+            disableTPAudio = true,
+            picPaths = {"ART/UI/Atlas/CutSceneUI/UI_CutScene_60231602"},
+            picPathsGirl = {"ART/UI/Atlas/CutSceneUI/UI_CutScene_60231602"},
+            picAutoNextInterval = 0,
+            canSkipPic = false,
+            isPicLoopPlay = false,
+            loadCtxCloseDelay = 1,
+            isKeepVehicle = false,
+            WithoutBlackMask = true,
+            WithoutFadeIn = true,
+            interruptInteract = true
+        },
+        TransmitDataMapTrans01 = {
+            textMapId = {"QUEST_Black_Clear"},
+            prefabPath = "ART/UI/Menus/Dialog/InlevelLoading/InLevelLoading_AQ602201",
+            loadCtxTag = "AQ602201_p1",
+            loadCtxCloseDelay = 3,
+            disableTPAudio = false,
+            isKeepVehicle = false,
+            interruptInteract = true
+        },
+        TransmitDataBlack = {
+            textMapId = {"UI_INLEVEL_TRANSMIT_SAVING"},
+            prefabPath = "ART/UI/Menus/Dialog/InlevelLoading/InLevelLoading_Saving",
+            loadCtxCloseDelay = 0,
+            disableTPAudio = false,
+            isKeepVehicle = false,
+            interruptInteract = true
+        },
+        EnterDungeonBlack = {
+            textMapId = {"UI_INLEVEL_TRANSMIT_SAVING"},
+            useQuestLoadingPage = true,
+            prefabPath = "ART/UI/Menus/Dialog/InlevelLoading/InLevelLoading_Saving",
+            loadCtxCloseDelay = 0,
+            isUseQuestRelatedPoint = true
+        }
+    }
+}

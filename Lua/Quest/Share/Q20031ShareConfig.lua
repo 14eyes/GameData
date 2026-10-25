@@ -1,0 +1,16 @@
+main_id = 20031
+local tbl = {}
+local n = 2003102
+local v = 2003103
+local n2 = 2003104
+local n3 = 2003105
+local n4 = 2003106
+tbl[1] = 2003101
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+tbl[5] = n3
+tbl[6] = n4
+sub_ids = tbl
+rewind_data = {}
+quest_data = {}

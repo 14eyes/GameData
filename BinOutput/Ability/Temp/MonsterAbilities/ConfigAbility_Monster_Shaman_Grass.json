@@ -1,0 +1,1804 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CreateGrassFeild": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "DebugLog",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "content": "_LIFETAG Set 0!"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_LIFETAG",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_LIFETAG",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "CreateGadget",
+              "target": "SelfAttackTarget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true
+              },
+              "gadgetID": 42103003,
+              "campID": 9001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "SupportAttack",
+            "SupportAttack_BS",
+            "SupportAttack2",
+            "SupportAttack2_BS"
+          ],
+          "modifierName": "CreateGrassFeild"
+        }
+      ],
+      "abilityName": "Monster_Shaman_Grass_CreateGrassFeild"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Test_GrassAdheringTest",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_TEST_GRASSADHERING",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GrassField_LifeTime_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "GrassField_Destroy_Modifier"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "GrassFieldDie"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "Owner",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "GrassStack_Modifier_TestAdhering"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AttachModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Owner",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                    }
+                  ],
+                  "modifierName": "GrassStack_Modifier"
+                },
+                {
+                  "$type": "AddGlobalValue",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Owner",
+                      "value": 1,
+                      "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                    }
+                  ],
+                  "useLimitRange": true,
+                  "key": "_GRASSSTACK_STAGE_COUNT",
+                  "maxValue": 6,
+                  "minValue": 0,
+                  "value": -9
+                },
+                {
+                  "$type": "AttachModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Owner",
+                      "value": 1,
+                      "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                    }
+                  ],
+                  "modifierName": "GrassStack_Modifier_StageManager"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_TEST_GRASSADHERING"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_LIFETAG",
+              "isFromOwner": true,
+              "overrideMapKey": "lifetag"
+            },
+            {
+              "$type": "RemoveModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetOverrideMapValue",
+                  "logic": "Equal",
+                  "targetValue": 0,
+                  "targetKey": "lifetag"
+                }
+              ],
+              "modifierName": "GrassField_LifeTime_Modifier"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassStack_Modifier_TestAdhering": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Avatar",
+                    "NPC",
+                    "Partner",
+                    "Vehicle"
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_GrassElement_Modifier_TestAdhering"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Avatar",
+                    "NPC",
+                    "Partner",
+                    "Vehicle"
+                  ]
+                }
+              ],
+              "modifierName": "GrassElement_EffectModifier_TestAdhering"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_GrassElement_Modifier_TestAdhering": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "duration": 8,
+          "properties": {
+            "Actor_ElecSubHurtDelta": -0.15,
+            "Actor_WaterSubHurtDelta": -0.15,
+            "Actor_GrassSubHurtDelta": -0.15,
+            "Actor_WindSubHurtDelta": -0.15,
+            "Actor_IceSubHurtDelta": -0.15,
+            "Actor_FireSubHurtDelta": -0.15,
+            "Actor_RockSubHurtDelta": -0.15
+          },
+          "elementDurability": 100,
+          "elementType": "Grass",
+          "isUnique": true,
+          "overrideWeaponElement": true,
+          "onThinkInterval": [
+            {
+              "$type": "DamageByAttackValue",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Grass",
+                  "damagePercentageRatio": 0,
+                  "enBreak": 0.0,
+                  "damagePercentage": 0.125,
+                  "elementDurability": 0,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "retreatType": "ByHitDirection",
+                  "hitHaltTimeScale": 0.05000000074505806,
+                  "hitImpulseType": "LV0"
+                },
+                "attenuationGroup": "default"
+              },
+              "born": {
+                "$type": "ConfigBornByTarget"
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassElement_EffectModifier_TestAdhering": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 8,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_SupportAttack_GrassBuff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Properties_Defense_Down",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "elementType": "Grass",
+          "onThinkInterval": [
+            {
+              "$type": "RemoveModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasAbilityState",
+                  "abilityState": "ElementBurning"
+                }
+              ],
+              "modifierName": "GrassElement_EffectModifier_TestAdhering"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassStack_Modifier_StageManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "GrassStack_Modifier",
+                "GrassStack_Stage2_Modifier"
+              ],
+              "valueSteps": [
+                -0.5,
+                3.5,
+                6.5
+              ],
+              "globalValueKey": "_GRASSSTACK_STAGE_COUNT",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassStack_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_SupportAttack_GrassStream",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Owner",
+                  "value": 1,
+                  "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                }
+              ],
+              "modifierName": "GrassStack_CreateGadget_Latency"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_GRASSSTACK_AVATARCOUNT",
+              "maxValue": 99,
+              "minValue": 0,
+              "value": -999
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR5"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "GrassElement_Modifier"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "GrassElement_TimeControl"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "GrassElement_EffectModifier"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Avatar",
+                    "NPC",
+                    "Partner",
+                    "Vehicle"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_SHAMAN_GRASS_SUPPORTATK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Owner",
+                  "value": 1,
+                  "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "key": "_GRASSSTACK_AVATARCOUNT",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "LessAndEqual",
+                  "key": "_GRASSSTACK_AVATARCOUNT"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_GRASSSTACK_STAGE_COUNT",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_GRASSSTACK_AVATARCOUNT"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_GRASSSTACK_STAGE_COUNT",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassStack_CreateGadget_Latency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 5,
+                  "y": 0
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 4.4,
+                  "z": -2.5,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 120
+                  }
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -4.4,
+                  "z": -2.5,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": -120
+                  }
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassStack_Stage2_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_SupportAttack_GrassStream_Stage2",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Owner",
+                  "value": 1,
+                  "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                }
+              ],
+              "modifierName": "GrassStack_Stage2_CreateGadget_Latency"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR10"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "GrassElement_Modifier"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "GrassElement_TimeControl"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "GrassElement_EffectModifier"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Avatar",
+                    "NPC",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_SHAMAN_GRASS_SUPPORTATK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR10"
+              },
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "key": "_GRASSSTACK_AVATARCOUNT",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "LessAndEqual",
+                  "key": "_GRASSSTACK_AVATARCOUNT"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_GRASSSTACK_STAGE_COUNT",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_GRASSSTACK_AVATARCOUNT"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_GRASSSTACK_STAGE_COUNT",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassStack_Stage2_CreateGadget_Latency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 10,
+                  "y": 0
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 8.7,
+                  "z": -5,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 120
+                  }
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -8.7,
+                  "z": -5,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": -120
+                  }
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassElement_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 8,
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "GrassElement_EffectModifier"
+            }
+          ],
+          "elementDurability": 40,
+          "elementType": "Grass",
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassElement_TimeControl": {
+          "$type": "ConfigAbilityModifier",
+          "useDummyAbility": true,
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_SHAMAN_GRASS_SUPPORTATK",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_SHAMAN_GRASS_SUPPORTATK",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "onKill": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_SHAMAN_GRASS_SUPPORTATK",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassElement_EffectModifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 8,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_SupportAttack_GrassBuff",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MONSTER_SHAMAN_GRASS_SUPPORTATK",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "GrassElement_EffectModifier"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasAbilityState",
+                  "abilityState": "ElementBurning"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassField_Destroy_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "DebugLog",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "content": "GrassField KillSelf Success!"
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Shaman_GrassField",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "GrassField_LifeTime_Modifier"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CreateGrassWall_Near": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Interrupt"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 200.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "alongGround": true,
+                    "onGround": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 3,
+                      "y": 1
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByAttackTarget"
+                    }
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 1,
+                    "y": 1.5
+                  }
+                }
+              }
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 3.5,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CreateGrassWall_FarLeft": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 200.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "alongGround": true,
+                    "onGround": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 3.75,
+                      "z": 7.5,
+                      "y": 1
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByAttackTarget"
+                    }
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 1,
+                    "y": 1.5
+                  }
+                }
+              }
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 3.75,
+                  "z": 8,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CreateGrassWall_FarRight": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 200.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "alongGround": true,
+                    "onGround": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": -3.75,
+                      "z": 7.5,
+                      "y": 1
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByAttackTarget"
+                    }
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 1,
+                    "y": 1.5
+                  }
+                }
+              }
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -3.75,
+                  "z": 8,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                }
+              },
+              "gadgetID": 42103004,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "NormalAttack_AS"
+          ],
+          "modifierName": "CreateGrassWall_Near"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "NormalAttack_AS"
+          ],
+          "modifierName": "CreateGrassWall_FarLeft"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "NormalAttack_AS"
+          ],
+          "modifierName": "CreateGrassWall_FarRight"
+        }
+      ],
+      "abilityName": "Monster_Shaman_Grass_CreateGrassWall"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LifeTime": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6.5,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasAbilityState",
+                      "target": "Self",
+                      "abilityState": "ElementBurning"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Shaman_GrassWall_LifeTime",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LifeTime"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Burning": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_WoodenObject_BurnOut",
+              "scale": 1.5,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                },
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 30,
+          "elementType": "Wood",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Shaman_GrassWall_Interact",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Burning"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "enBreak": 100.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "checkHitLayerType": "Both",
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 0.3,
+                "z": 0.3,
+                "y": 0.3
+              }
+            }
+          }
+        }
+      ],
+      "abilityName": "Shaman_GrassWall_Attack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gadget_Summon_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 0.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "Gadget_Summon_Detect"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -0.75,
+                      "y": -1
+                    }
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 1.5,
+                    "y": 2
+                  }
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gadget_Summon_Suicide": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "KillSelf"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetType",
+                  "isTarget": false
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_COMMON_GRASSWALL_ISSUMMON"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Shaman_GrassWall_Detect",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_COMMON_GRASSWALL_ISSUMMON",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gadget_Summon_Detect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gadget_Summon_Suicide"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GrassWall_Effect_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "GrassWall_Effect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GrassWall_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_NormalAttack_GrassWall",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Shaman_Grass_NormalAttack_GrassWall_AS",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "RootNode"
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Shaman_GrassWall_Effect",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "GrassWall_Effect_Timer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GrassWall_EnableCollider": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.75,
+          "onRemoved": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "Collider"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "Collider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Shaman_GrassWall_EnableCollider",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "GrassWall_EnableCollider"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Shaman_Grass_DistanceCharge_NormalAttack": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.05,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "SupportAttackExit"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "Lesser",
+                  "value": 11
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Shaman_Grass_DistanceCharge_MeleeAttack": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "SupportAttackExit2"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "Lesser",
+                  "value": 3.5
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ELITEAFFIX_SUPPORT_ENHANCE"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "SupportAttack"
+          ],
+          "modifierName": "Shaman_Grass_DistanceCharge_NormalAttack"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "SupportAttack2"
+          ],
+          "modifierName": "Shaman_Grass_DistanceCharge_MeleeAttack"
+        }
+      ],
+      "abilityName": "Monster_Shaman_Grass_DistanceCharge"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Shaman_Grass_EscapeState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.75,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "EscapeState"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "EscapeState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Shaman_Grass_EscapeState"
+            }
+          ]
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "logic": "LesserOrEqual",
+              "value": 5
+            }
+          ],
+          "modifierName": "Shaman_Grass_EscapeState"
+        }
+      ],
+      "abilityName": "Monster_Shaman_Grass_EscapeState"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "SupportAttack_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "NormalAttack_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.15000000596046448,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "MeleeAttack"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.75,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "Turn"
+          ],
+          "startNormalizedTime": 0.20000000298023224
+        }
+      ],
+      "abilityName": "Monster_Shaman_Grass_AnimationSteer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Effect_SupportAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "GatherDie",
+              "effectPattern": "Eff_Monster_Shaman_Grass_SupportAttack_Gather"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_WeaponElement_GrassStream",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Shaman_SupportAttack_Gather"
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Effect_SupportAttack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Shaman_SupportAttack_Gather": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_SupportAttack_Gather",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponEffect_NormalAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Shaman_Grass_WeaponElement_GrassWall",
+              "effectTempleteID": -1
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "WeaponEffect_NormalAttack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponEffect_MeleeAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "WeaponEffect_MeleeAttack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "SupportAttack",
+            "SupportAttack_BS",
+            "SupportAttack2"
+          ],
+          "modifierName": "Effect_SupportAttack"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "NormalAttack_AS",
+            "NormalAttack_BS"
+          ],
+          "modifierName": "WeaponEffect_NormalAttack"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "MeleeAttack"
+          ],
+          "modifierName": "WeaponEffect_MeleeAttack"
+        }
+      ],
+      "abilityName": "Monster_Shaman_Grass_WeaponElementEffect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Monster_Shaman_Grass_WeaponInit",
+      "onAdded": [
+        {
+          "$type": "TriggerAbility",
+          "target": "Owner",
+          "abilityName": "Monster_Shaman_Grass_WeaponElementEffect"
+        }
+      ]
+    }
+  }
+]

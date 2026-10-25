@@ -1,0 +1,2989 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Area_Common_Property_6_4_PlayerShootManager_Advance",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "_CurrentLocalAvatarPredicate",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EndWindCannonAnimation": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_WindCannonEnd",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "EndSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ContinueTryWing": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "failActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 3,
+                  "key": "_CurrentRandomFlyTime",
+                  "randomInRange": true,
+                  "maxValue": 8,
+                  "useLimitRange": true,
+                  "value": 0
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 2,
+                  "key": "_CurrentWingTime",
+                  "randomInRange": true,
+                  "maxValue": 4,
+                  "useLimitRange": true,
+                  "value": 0
+                },
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "DelayAddWing"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "target": "Self",
+                      "modifierName": "DelayAddWing"
+                    },
+                    {
+                      "$type": "ByHasModifier",
+                      "target": "Self",
+                      "modifierName": "Wing"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DelayAddWing": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "_CurrentRandomFlyTime",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Wing"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "KeepWing"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Wing": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "_CurrentWingTime",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "KeepWing"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanModeSync": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "Yaw",
+              "transitionTime": 2.0,
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "Pitch",
+              "transitionTime": 2.0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OceanModeSyncNormal",
+                "OceanModeSyncReverse"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_ReverseControlMode_Interrupt",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanModeSyncNormal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SyncInputToAnimatorParamMixin",
+              "DNPFGJBFKNB": "Pitch",
+              "AEHOHHAOJCP": "Yaw",
+              "GKEKJOMOHOG": 1,
+              "HAILIGIPCIJ": 3,
+              "HDIBMMKPLOI": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanModeSyncReverse": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SyncInputToAnimatorParamMixin",
+              "DNPFGJBFKNB": "Pitch",
+              "AEHOHHAOJCP": "Yaw",
+              "GKEKJOMOHOG": -1,
+              "HAILIGIPCIJ": 3,
+              "HDIBMMKPLOI": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LightingModeSync": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SyncInputToAnimatorParamMixin",
+              "AEHOHHAOJCP": "Yaw",
+              "GKEKJOMOHOG": 1,
+              "HAILIGIPCIJ": 3
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FlappyBirdSync": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SyncInputToAnimatorParamMixin",
+              "DNPFGJBFKNB": "Pitch",
+              "HAILIGIPCIJ": 3,
+              "HDIBMMKPLOI": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "TriggerFalconSpecial": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_TriggerFalconSpecial",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Dash"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "_CurrentRandomFlyTime",
+        "_CurrentWingTime"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "OceanModeSync",
+            "LightingModeSync",
+            "FlappyBirdSync"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "GV_LevelOffsetControlMode",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "TriggerFalconSpecial"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "GV_TriggerFalconSpecial",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "EndWindCannonAnimation"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "_WindCannonEnd",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_6_4_PlayerShootManager_Animator",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_TriggerFalconSpecial",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ContinueTryWing"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CD_Contoller": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_CurrentShootCD",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValueV2",
+                  "target": "Team",
+                  "minValue": 0,
+                  "key": "_CurrentShootCD",
+                  "value": -1,
+                  "maxValue": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_CurrentShootCD"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "_CurrentShootCD"
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_6_4_PlayerShootManager_CD",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "CD_Contoller"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UIStateSync": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OceanShootState",
+                "LightingShootState",
+                "LightingShootState",
+                "MuteUI"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_LevelOffsetControlMode",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5,
+                2.5,
+                3.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanShootState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_UIControlMode",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LightingShootState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_UIControlMode",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "MuteUI": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_UIControlMode",
+              "maxValue": 0,
+              "value": 3
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_6_4_PlayerShootManager_UIController",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_UIControlMode",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UIStateSync"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "abilityStartCDModifier": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_onAbilityStartCD",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "InvincibleModifier": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_InvincibleFrame",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "FieldTrigger"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Hit"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_InvincibleFrame",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "FieldTrigger"
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AudioListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AttachToCamera",
+                "AttachToPlayer"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_CurrentAudioListenerAttachToPlayer",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AttachToPlayer": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "Attach AudioListener to Player"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AttachToCamera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "Attach AudioListener to Camera"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TailListenerToMainCameraMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootModeManagerBranch": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "ShootBulletNormalCheckHoldingState",
+                "ShootBulletUpgradeCheckHoldingState"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_ShootUpgradeItem",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootBulletNormalCheckHoldingState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "GV_STG_6_4_Shooting"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "LessAndEqual",
+                  "key": "_CurrentShootCD"
+                }
+              ],
+              "modifierName": "SingleNormalShootLogic"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootBulletUpgradeCheckHoldingState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_BulletLockMode",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_BulletLockMode",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "GV_STG_6_4_Shooting"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "LessAndEqual",
+                  "key": "_CurrentShootCD"
+                }
+              ],
+              "modifierName": "SingleUpgradeShootLogic"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SingleNormalShootLogic": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onAdded": [
+            {
+              "$type": "CopyGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "srcKey": "GV_STG_6_4_AimPosition_0",
+              "dstTarget": "Self",
+              "srcTarget": "Team",
+              "dstKey": "GV_STG_6_4_AimPosition_0"
+            },
+            {
+              "$type": "CopyGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "srcKey": "GV_STG_6_4_AimPosition_1",
+              "dstTarget": "Self",
+              "srcTarget": "Team",
+              "dstKey": "GV_STG_6_4_AimPosition_1"
+            },
+            {
+              "$type": "CopyGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "srcKey": "GV_STG_6_4_AimPosition_2",
+              "dstTarget": "Self",
+              "srcTarget": "Team",
+              "dstKey": "GV_STG_6_4_AimPosition_2"
+            },
+            {
+              "$type": "SetGlobalPos",
+              "LINAHBPILJD": false,
+              "key": "_ShootAttachPointPos",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "useCorrectDir": true
+                },
+                "attachPointName": "FireNode",
+                "attachPointTargetType": "Self"
+              }
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "FireNodeEffectNormal"
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "DGHHMPBBIPF",
+                      "HFKNPMKDLDG": "_ShootAttachPointPos",
+                      "DDNHGCMGHFK": "GV_STG_6_4_AimPosition"
+                    },
+                    "attachPointName": "FireNode"
+                  },
+                  "bulletID": 73120004
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "minValue": 0,
+                  "key": "_CurrentShootCD",
+                  "maxValue": 0,
+                  "value": 2
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "key": "GV_LevelOffsetControlMode"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "FireNodeEffectNormal"
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "attachPointName": "FireNode",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "FireNode"
+                  },
+                  "bulletID": 73120004
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "minValue": 0,
+                  "key": "_CurrentShootCD",
+                  "maxValue": 0,
+                  "value": 2
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": 1,
+                      "key": "GV_LevelOffsetControlMode"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": 2,
+                      "key": "GV_LevelOffsetControlMode"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SingleUpgradeShootLogic": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onAdded": [
+            {
+              "$type": "TriggerAudioV2",
+              "muteRemoteAction": true,
+              "pattern": "v6_4_AirFight_LotsBulletShoot"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FireNodeEffectUpgrade"
+            },
+            {
+              "$type": "DoActionBySelectTargetsInShape",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "NLNIBNNOOCK": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "shapeName": "CircleR200",
+              "configID": 73120019,
+              "topLimit": 30,
+              "sizeRatio": 1,
+              "DPENJPGJLEI": [
+                {
+                  "$type": "TriggerBullet",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "MOFKBDHMHJP"
+                    }
+                  ],
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "randomAngleHor": 35.0,
+                      "randomAngleVer": 35.0,
+                      "attachPointName": "FireNodeEffect",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "FireNodeEffect",
+                    "attachPointTargetType": "Caster"
+                  },
+                  "bulletID": 73120041,
+                  "trackTarget": "Target"
+                }
+              ],
+              "LAPMNDNLBLI": [
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByAttachPoint",
+                      "attachPointName": "FireNode",
+                      "attachPointTargetType": "Self"
+                    },
+                    "attachPointName": "FireNode"
+                  },
+                  "bulletID": 73120004
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_CurrentShootCD",
+              "maxValue": 0,
+              "value": 4
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FireNodeEffectNormal": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachSubEmitterEffectMixin",
+              "effectPattern": "Eff_SceneObj_CharacterBullet_Brust_01",
+              "APFNECGPPJJ": true,
+              "GKHPNAJNIAA": "FireNodeEffect",
+              "NHHILEOGIDN": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FireNodeEffectUpgrade": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachSubEmitterEffectMixin",
+              "effectPattern": "Eff_SceneObj_CharacterBullet_Brust_03",
+              "APFNECGPPJJ": true,
+              "GKHPNAJNIAA": "FireNodeEffect",
+              "NHHILEOGIDN": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_onAbilityStartCD",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "abilityStartCDModifier"
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "key": "GV_ShootUpgradeItem"
+                }
+              ],
+              "modifierName": "SingleNormalShootLogic"
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "GV_ShootUpgradeItem"
+                }
+              ],
+              "modifierName": "SingleUpgradeShootLogic"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Team",
+              "value": 0,
+              "compareType": "LessAndEqual",
+              "key": "_CurrentShootCD"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Team",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_onAbilityStartCD"
+            }
+          ]
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "GV_SkillEnable",
+        "GV_ShootUpgradeItem",
+        "GV_Heal",
+        "GV_RotateBallItem",
+        "GV_STG_6_4_ShootDirection",
+        "GV_STG_6_4_ShootDirection_0",
+        "GV_STG_6_4_ShootDirection_1",
+        "GV_STG_6_4_ShootDirection_2",
+        "GV_STG_6_4_AimPosition",
+        "GV_STG_6_4_AimPosition_0",
+        "GV_STG_6_4_AimPosition_1",
+        "GV_STG_6_4_AimPosition_2",
+        "_ShootAttachPointPos",
+        "_ShootAttachPointPos_0",
+        "_ShootAttachPointPos_1",
+        "_ShootAttachPointPos_2",
+        "GV_InvincibleFrame"
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_6_4_PlayerShootManager",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Other",
+          "successActions": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_PlayerBeingDoubleHitEvent",
+                  "param3": 0,
+                  "CallParamList": [
+                    251187013,
+                    251212001,
+                    251193002,
+                    251199001
+                  ],
+                  "luaCallType": "SpecificGroup"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_PlayerBeingHitEvent",
+                  "param3": 0,
+                  "CallParamList": [
+                    251187013,
+                    251212001,
+                    251193002,
+                    251199001
+                  ],
+                  "luaCallType": "SpecificGroup"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "configIdArray": [
+                    73120012
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Other",
+              "predicates": [
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "configIdArray": [
+                    73120002,
+                    73120001,
+                    73120012
+                  ]
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_SkillHitByPlayer",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "InvincibleModifier"
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "DebugLog",
+              "content": "Failed to apply damage - "
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ILMHBGFOAJN",
+              "configIdArray": [
+                73120002,
+                73120001,
+                73120003,
+                73120027,
+                73120006,
+                73120046,
+                73120012,
+                73120008,
+                73120009,
+                73120010,
+                73120011
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "GV_InvincibleFrame"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Team",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "GV_WindCannonShooting"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Team",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_HasRotateControllerInstance"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_CreateShootManagerReady",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_ShootUpgradeItem",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_Heal",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_RotateBallItem",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_SkillEnable",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_CurrentAudioListenerAttachToPlayer",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShootModeManagerBranch"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AudioListener"
+        },
+        {
+          "$type": "CreateGadget",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "JIBBGCFIDIM": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true
+          },
+          "gadgetID": 73120028
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ListenCurveMoveSpeedUp_Level": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "AttachModifier",
+                  "target": "Caster",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "CurLocalAvatar",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "GV_CurveMoveSpeedUp_Level"
+                    }
+                  ],
+                  "modifierName": "SpeedUpEffect"
+                }
+              ],
+              "NBOEEIHGCPD": true,
+              "globalValueKey": "GV_CurveMoveSpeedUp_Level"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "HealEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_Heal",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 2,
+              "effectPattern": "Eff_SceneObj_FalconJet_Heal",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SkillAnimation": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "WindSkill"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_TriggerEventUseSkill",
+              "param3": 0,
+              "CallParamList": [
+                251187013,
+                251212001,
+                251193002,
+                251199001
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SpeedUpEffect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.25,
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Dashend"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_SpeedUpEffectTriggerd",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FalconJet_Trail_L",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FalconJet_Trail_R",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_SpeedUpEffectTriggerd"
+                }
+              ],
+              "triggerID": "Dash"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_SpeedUpEffectTriggerd",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ReverseFlyEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FalconJet_Destroy",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "TriggerExplosionEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_TriggerExplosionEffect",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_BalloonEnemy_Exp_Small",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "FireNode"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "HealEffect"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "GV_Heal",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "SkillAnimation"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "GV_UsingWindCannon",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "ReverseFlyEffect"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "SGV_ReverseFly",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "TriggerExplosionEffect"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "GV_TriggerExplosionEffect",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_6_4_PlayerShootManager_ItemsEffect",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "target": "CurLocalAvatar",
+          "modifierName": "ListenCurveMoveSpeedUp_Level"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FeverScreenEffectModifier": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "predicates": [
+                    {
+                      "$type": "ByAny",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "GV_ShootUpgradeItem"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "_HasRotateControllerInstance"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "GV_WindCannonShooting"
+                        }
+                      ]
+                    }
+                  ],
+                  "minValue": 0,
+                  "key": "GV_FeverStateEffect",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "predicates": [
+                    {
+                      "$type": "GOBNKFIFGFJ",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "GV_ShootUpgradeItem"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "_HasRotateControllerInstance"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "GV_WindCannonShooting"
+                        }
+                      ]
+                    }
+                  ],
+                  "minValue": 0,
+                  "key": "GV_FeverStateEffect",
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "NBOEEIHGCPD": true,
+              "globalValueKey": "GV_ShootUpgradeItem"
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "predicates": [
+                    {
+                      "$type": "ByAny",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "GV_ShootUpgradeItem"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "_HasRotateControllerInstance"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "GV_WindCannonShooting"
+                        }
+                      ]
+                    }
+                  ],
+                  "minValue": 0,
+                  "key": "GV_FeverStateEffect",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "predicates": [
+                    {
+                      "$type": "GOBNKFIFGFJ",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "GV_ShootUpgradeItem"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "_HasRotateControllerInstance"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "GV_WindCannonShooting"
+                        }
+                      ]
+                    }
+                  ],
+                  "minValue": 0,
+                  "key": "GV_FeverStateEffect",
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "NBOEEIHGCPD": true,
+              "globalValueKey": "_HasRotateControllerInstance"
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "predicates": [
+                    {
+                      "$type": "ByAny",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "GV_ShootUpgradeItem"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "_HasRotateControllerInstance"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "GV_WindCannonShooting"
+                        }
+                      ]
+                    }
+                  ],
+                  "minValue": 0,
+                  "key": "GV_FeverStateEffect",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "predicates": [
+                    {
+                      "$type": "GOBNKFIFGFJ",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "GV_ShootUpgradeItem"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "_HasRotateControllerInstance"
+                        },
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 0,
+                          "compareType": "NoneOrEqual",
+                          "key": "GV_WindCannonShooting"
+                        }
+                      ]
+                    }
+                  ],
+                  "minValue": 0,
+                  "key": "GV_FeverStateEffect",
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "NBOEEIHGCPD": true,
+              "globalValueKey": "GV_WindCannonShooting"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FeverModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CameraScreenEffect",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "effectName": "Eff_UI_BubbleDrama_AirFight_ScreenEffect"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "CameraScreenEffect",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "enable": true,
+              "effectName": "Eff_UI_BubbleDrama_AirFight_ScreenEffect"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "EnterCurveDebugGroupCall"
+              ],
+              "globalValueKey": "SGV_EnterLevelCurveMove",
+              "valueSteps": [
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "EnterCurveDebug"
+              ],
+              "globalValueKey": "GV_EnterLevelCurveMove",
+              "valueSteps": [
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "LeaveCurveDebug"
+              ],
+              "globalValueKey": "GV_LeaveLevelCurveMove",
+              "valueSteps": [
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            },
+            {
+              "$type": "LevelCurveMoveGVMixin",
+              "isTeam": true,
+              "MPDDBCKMOAP": "GV_IsInTempCurve",
+              "CIFADBDOAFI": "GV_CurveSpeed",
+              "KANDAGINNDK": "GV_IsInCurve"
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "ExitCurve"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -0.5,
+                0.5
+              ],
+              "globalValueKey": "GV_IsInCurve",
+              "defaultGlobalValueOnCreate": 0
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "FeverModifier"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "GV_FeverStateEffect",
+              "defaultGlobalValueOnCreate": 0
+            },
+            {
+              "$type": "StageReadyMixin",
+              "onStageReady": [
+                {
+                  "$type": "ServerLuaCall",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_DungeonInitComplete",
+                  "param3": 0,
+                  "CallParamList": [
+                    251187013,
+                    251212001,
+                    251193002,
+                    251199001
+                  ],
+                  "luaCallType": "SpecificGroup"
+                }
+              ]
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "GV_GainUpgradeItem"
+                    }
+                  ],
+                  "modifierName": "UNIQUE_KeepUpgradeFireMode"
+                }
+              ],
+              "NBOEEIHGCPD": true,
+              "globalValueKey": "GV_GainUpgradeItem"
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "minValue": 0,
+                  "key": "GV_ReverseControlMode_Interrupt",
+                  "maxValue": 0,
+                  "value": "SGV_ReverseFly"
+                }
+              ],
+              "globalValueKey": "SGV_ReverseFly"
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": 0,
+              "key": "GV_LevelOffsetControlMode",
+              "minValue": 0
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": 0,
+              "key": "GV_ForceCancelRotateBalls",
+              "minValue": 0
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": 0,
+              "key": "GV_TriggerFalconSpecial",
+              "minValue": 0
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": 0,
+              "key": "GV_ShootUpgradeItem",
+              "minValue": 0
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": 0,
+              "key": "GV_TriggerExplosionEffect",
+              "minValue": 0
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": 0,
+              "key": "GV_SkillEnable",
+              "minValue": 0
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": 0,
+              "key": "_ForceEndWindCannon",
+              "minValue": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_KeepUpgradeFireMode": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_ShootUpgradeItem",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_ShootUpgradeItem",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ServerLuaCall",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Banner_UpgradeShootItem",
+              "param3": 0,
+              "CallParamList": [
+                251187013,
+                251212001,
+                251193002,
+                251199001
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "stacking": "Prolong",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "CurveRegionEventListener": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_LevelOffsetControlMode",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_ReverseControlMode_Interrupt",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LevelCurveMixin",
+              "EDFJOMKHLFM": [
+                [
+                  {
+                    "$type": "SetGlobalValueV2",
+                    "target": "Team",
+                    "minValue": 0,
+                    "key": "GV_LevelOffsetControlMode",
+                    "maxValue": 0,
+                    "value": 0
+                  }
+                ]
+              ],
+              "BEDOJLFENKK": [
+                "OceanMode"
+              ],
+              "tag": "Maglev"
+            },
+            {
+              "$type": "LevelCurveMixin",
+              "EDFJOMKHLFM": [
+                [
+                  {
+                    "$type": "SetGlobalValueV2",
+                    "target": "Team",
+                    "minValue": 0,
+                    "key": "GV_LevelOffsetControlMode",
+                    "maxValue": 0,
+                    "value": 1
+                  }
+                ]
+              ],
+              "BEDOJLFENKK": [
+                "LightingMode"
+              ],
+              "tag": "Maglev"
+            },
+            {
+              "$type": "LevelCurveMixin",
+              "EDFJOMKHLFM": [
+                [
+                  {
+                    "$type": "SetGlobalValueV2",
+                    "target": "Team",
+                    "minValue": 0,
+                    "key": "GV_LevelOffsetControlMode",
+                    "maxValue": 0,
+                    "value": -1
+                  }
+                ]
+              ],
+              "BEDOJLFENKK": [
+                "DisableOffsetMode"
+              ],
+              "tag": "Maglev"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckCurveMoveCameraState": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "CameraModifier"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_IsInCurve",
+              "valueSteps": [
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CameraModifier": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SpawnCameraStateMixin",
+              "target": "CurLocalAvatar",
+              "DGPDJMGNEHP": {
+                "$type": "EOOBGFLJEEJ",
+                "BJFFNFAIGBM": 2,
+                "NAOIPIIJHAJ": 4,
+                "duration": 5.0,
+                "blendType": 2
+              },
+              "AFDENKPAECI": {
+                "$type": "PPNIODHBMIC",
+                "EJMHJALFMOG": 0.0,
+                "FPBINHDGKBM": 0.0,
+                "fov": 70.0,
+                "HMEBICGDCLB": true,
+                "NNKOJFAKFHP": true,
+                "EAABOPNFALF": 5.0,
+                "IDMHDDKAHPE": true,
+                "MKFEHNLPGNF": 0.0,
+                "BHIEPGKBNIL": 0.0
+              }
+            },
+            {
+              "$type": "OverrideCameraModuleParamMixin",
+              "LKEEIOFIMMG": [
+                {
+                  "$type": "MCKDLNJHFJA",
+                  "JHKOBNDIIHK": 0.0,
+                  "PBKGFNJLFEF": 0.0
+                }
+              ],
+              "stateName": "CurveMove"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "EnterCurveDebugGroupCall": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onAdded": [
+            {
+              "$type": "EnterLevelCurveMove",
+              "target": "CurLocalAvatar",
+              "GAFKNEFILMF": 6401,
+              "LPHLKIGMFMA": false,
+              "source": "TeamTempTarget",
+              "MKOHICFPOEL": 10002,
+              "speed": 8.0
+            },
+            {
+              "$type": "EnterLevelCurveMove",
+              "target": "CurLocalAvatar",
+              "GAFKNEFILMF": 6401,
+              "LPHLKIGMFMA": false,
+              "source": "TeamTempTarget",
+              "MKOHICFPOEL": 10001,
+              "speed": 8.0
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "AfterEnterCurveModifier"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "failActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_ResetEnterCurveMoveFlag",
+                  "param3": 0,
+                  "CallParamList": [
+                    251187011
+                  ],
+                  "luaCallType": "SpecificGroup"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "GV_IsInCurve"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "EnterCurve": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnterLevelCurveMove",
+              "target": "CurLocalAvatar",
+              "GAFKNEFILMF": 6401,
+              "LPHLKIGMFMA": false,
+              "source": "TeamTempTarget",
+              "MKOHICFPOEL": 10002,
+              "speed": 8.0
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "AfterEnterCurveModifier"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AfterEnterCurveModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "key": "GV_CreateShootManagerReady"
+                }
+              ],
+              "gadgetID": 73120005,
+              "campID": 5001,
+              "campTargetType": "Self"
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "CurveRegionEventListener"
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "CheckCurveMoveCameraState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LeaveCurveDebug": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarExitCurveMove",
+              "target": "CurLocalAvatar"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "EnterCurveDebug": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnterLevelCurveMove",
+              "target": "CurLocalAvatar",
+              "GAFKNEFILMF": 6401,
+              "LPHLKIGMFMA": false,
+              "source": "TeamTempTarget",
+              "MKOHICFPOEL": 10006,
+              "speed": 16.0
+            },
+            {
+              "$type": "CreateGadget",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "key": "GV_CreateShootManagerReady"
+                }
+              ],
+              "gadgetID": 73120005,
+              "campID": 5001,
+              "campTargetType": "Self"
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "CurveRegionEventListener"
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "CheckCurveMoveCameraState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ExitCurve": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_EnterLevelCurveMove",
+        "GV_EnterLevelCurveMove",
+        "GV_LeaveLevelCurveMove",
+        "SGV_ReverseFly",
+        "SGV_ChangeFire",
+        "GV_STG_6_4_Shooting",
+        "GV_UsingWindCannon",
+        "GV_WindCannonShooting",
+        "GV_STG_6_4_ShootDirection",
+        "GV_CreateShootManagerReady",
+        "GV_GainUpgradeItem",
+        "GV_STG_ShootTargetKey_0",
+        "GV_STG_ShootTargetKey_1",
+        "GV_STG_6_4_ShootDirection_0",
+        "GV_STG_6_4_ShootDirection_1",
+        "GV_STG_6_4_ShootDirection_2",
+        "GV_STG_6_4_ShootDirection",
+        "GV_STG_6_4_AimPosition_0",
+        "GV_STG_6_4_AimPosition_1",
+        "GV_STG_6_4_AimPosition_2",
+        "GV_STG_6_4_AimPosition"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "CameraCollisionMixin"
+        }
+      ],
+      "abilityName": "DynamicAbility_WhiteBox_CurveMoveAbility",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_ShootTargetKey_0",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_ShootTargetKey_1",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_ShootDirection_0",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_ShootDirection_1",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_ShootDirection_2",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_AimPosition_0",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_AimPosition_1",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_AimPosition_2",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_ShootTargetKey_1",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_ShootTargetKey_1",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_CreateShootManagerReady",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_Shooting",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_STG_6_4_ShootDirection",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_EnterLevelCurveMove",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_LeaveLevelCurveMove",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_ReverseControlMode_Interrupt",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "StateMachineHandler"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "FeverScreenEffectModifier"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "InvincibleModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "ServerLuaCall",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_ReconnectEvent",
+              "param3": 0,
+              "CallParamList": [
+                251187013,
+                251212001,
+                251193002,
+                251199001
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityInVisibleMixin",
+              "AAHPKGHIPPG": true,
+              "reason": "Gallary"
+            }
+          ],
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "SyncSGV": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "CopyGlobalValue",
+                  "srcKey": "SGV_OffsetMoveRadiusLimit",
+                  "dstTarget": "CurLocalAvatar",
+                  "srcTarget": "Team",
+                  "dstKey": "GV_OffsetRadiusLimit"
+                }
+              ],
+              "globalValueKey": "SGV_OffsetMoveRadiusLimit"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FlappyBirdModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_SkillEnable",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "OnceSetForceCancelRotateBalls"
+            },
+            {
+              "$type": "TriggerAudioV2",
+              "muteRemoteAction": true,
+              "pattern": "v6_4_AirFight_CameraMove_End"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LevelCurveOffsetMoveMixin",
+              "EGELGFLODNB": 10,
+              "BKHKFJEPBPB": 9999,
+              "OCKMIFLNILO": "Rectangle",
+              "NIGBPHHGPDF": "Back",
+              "IFIMDJPLGKB": 9999,
+              "LHMICKNPIJG": 5,
+              "FEECDEGLGEO": 13,
+              "CAFFPAJFKEA": 15,
+              "HNCKOJJDLKC": -13,
+              "BAGIHAKPICD": true,
+              "IEFNMIKMCAE": 5.5,
+              "LBHBBDONCGP": -24
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanModeModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerAudioV2",
+              "muteRemoteAction": true,
+              "pattern": "v6_4_AirFight_CameraMove_Start"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAudioV2",
+              "muteRemoteAction": true,
+              "pattern": "v6_4_AirFight_CameraMove_End"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OceanModeNormal",
+                "OceanModeReverse"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_ReverseControlMode_Interrupt",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanModeNormal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_SkillEnable",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "OnceSetForceCancelRotateBalls"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LevelCurveOffsetMoveMixin",
+              "EGELGFLODNB": 3,
+              "BKHKFJEPBPB": 9999,
+              "NIGBPHHGPDF": "Right",
+              "radius": "GV_OffsetRadiusLimit",
+              "IFIMDJPLGKB": 9999,
+              "CAFFPAJFKEA": 4,
+              "BAGIHAKPICD": true,
+              "IEFNMIKMCAE": 8
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanModeReverse": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LevelCurveOffsetMoveMixin",
+              "EGELGFLODNB": 3,
+              "BKHKFJEPBPB": 9999,
+              "FNDFMBNOJBP": "Down",
+              "NIGBPHHGPDF": "Left",
+              "radius": "GV_OffsetRadiusLimit",
+              "IFIMDJPLGKB": 9999,
+              "CAFFPAJFKEA": 4,
+              "BAGIHAKPICD": true,
+              "IEFNMIKMCAE": 8
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LightingModeModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudioV2",
+              "muteRemoteAction": true,
+              "pattern": "v6_4_AirFight_CameraMove_End"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "LightingModeNormal",
+                "LightingModeReverse"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_ReverseControlMode_Interrupt",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LightingModeNormal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LevelCurveOffsetMoveMixin",
+              "EGELGFLODNB": 8,
+              "BKHKFJEPBPB": 9999,
+              "OCKMIFLNILO": "Rectangle",
+              "FNDFMBNOJBP": "Front",
+              "NIGBPHHGPDF": "Right",
+              "IFIMDJPLGKB": 9999,
+              "LHMICKNPIJG": 11,
+              "FEECDEGLGEO": 7,
+              "CAFFPAJFKEA": 999,
+              "HNCKOJJDLKC": -6,
+              "BAGIHAKPICD": true,
+              "IEFNMIKMCAE": 5,
+              "LBHBBDONCGP": -11
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LightingModeReverse": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LevelCurveOffsetMoveMixin",
+              "EGELGFLODNB": 8,
+              "BKHKFJEPBPB": 9999,
+              "OCKMIFLNILO": "Rectangle",
+              "FNDFMBNOJBP": "Back",
+              "NIGBPHHGPDF": "Left",
+              "IFIMDJPLGKB": 9999,
+              "LHMICKNPIJG": 11,
+              "FEECDEGLGEO": 7,
+              "CAFFPAJFKEA": 999,
+              "HNCKOJJDLKC": -6,
+              "BAGIHAKPICD": true,
+              "IEFNMIKMCAE": 5,
+              "LBHBBDONCGP": -11
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SpeedUpModifier": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.5,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValueV2",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "GV_CurveMoveSpeedUp_Level"
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_CurveMoveSpeedUp_Level",
+              "value": -1,
+              "maxValue": 0
+            }
+          ],
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "OverrideCurveSpeedMixin",
+              "JKKIFHJPKGJ": 0.5,
+              "AMGFHPIKHDB": 5,
+              "IDPJDEOLCJA": true,
+              "lerpInTime": 0.5
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OnceSetForceCancelRotateBalls": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_ForceCancelRotateBalls",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_ForceCancelRotateBalls",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_LevelOffsetControlMode",
+        "GV_ReverseControlMode_Interrupt",
+        "GV_OffsetRadiusLimit",
+        "SGV_OffsetMoveRadiusLimit"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "OceanModeModifier",
+            "LightingModeModifier",
+            "FlappyBirdModifier"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "GV_LevelOffsetControlMode",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "GV_CurveMoveSpeedUp_Level"
+                }
+              ],
+              "modifierName": "SpeedUpModifier"
+            }
+          ],
+          "NBOEEIHGCPD": true,
+          "globalValueKey": "GV_CurveMoveSpeedUp_Level"
+        }
+      ],
+      "abilityName": "DynamicAbility_WhiteBox_CurveMoveAbility_Avatar",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_OffsetRadiusLimit",
+          "maxValue": 0,
+          "value": 4
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "SyncSGV"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "CurTeamAvatars",
+          "modifierName": "InvincibleModifier"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "InvincibleModifier": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_UseSkill",
+        "GV_RotateBallItem",
+        "GV_BulletLockMode"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "Predicated",
+              "target": "Team",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "minValue": 0,
+                  "key": "GV_UseSkill",
+                  "maxValue": 0,
+                  "value": 0
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "GV_UsingWindCannon"
+                    }
+                  ],
+                  "minValue": 0,
+                  "key": "GV_SkillEnable",
+                  "maxValue": 0,
+                  "value": 0
+                },
+                {
+                  "$type": "CreateGadget",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "GV_UsingWindCannon"
+                    }
+                  ],
+                  "gadgetID": 73120014,
+                  "campID": 5001,
+                  "campTargetType": "SelfCamp"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "GV_UseSkill"
+                }
+              ]
+            }
+          ],
+          "NBOEEIHGCPD": true,
+          "globalValueKey": "GV_UseSkill"
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "Predicated",
+              "target": "Team",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Team",
+                  "minValue": 0,
+                  "key": "GV_RotateBallItem",
+                  "maxValue": 0,
+                  "value": 0
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "AddGlobalValueV2",
+                      "otherTargets": {
+                        "$type": "SelectTargetsByTag",
+                        "topLimit": 1,
+                        "sortType": "Nearest",
+                        "tag": "_RotateController"
+                      },
+                      "minValue": 0,
+                      "key": "_ProlongItemTime",
+                      "value": 1,
+                      "maxValue": 0
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "CreateGadget",
+                      "gadgetID": 73120016,
+                      "campID": 5001,
+                      "campTargetType": "SelfCamp"
+                    },
+                    {
+                      "$type": "ServerLuaCall",
+                      "born": {
+                        "$type": "PPLILBLAJHB",
+                        "value": true
+                      },
+                      "param1": 0,
+                      "param2": 0,
+                      "funcName": "SLC_Banner_RotatingBall",
+                      "param3": 0,
+                      "CallParamList": [
+                        251187013,
+                        251212001,
+                        251193002,
+                        251199001
+                      ],
+                      "luaCallType": "SpecificGroup"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": 1,
+                      "key": "_HasRotateControllerInstance"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "GV_RotateBallItem"
+                }
+              ]
+            }
+          ],
+          "NBOEEIHGCPD": true,
+          "globalValueKey": "GV_RotateBallItem"
+        }
+      ],
+      "abilityName": "DynamicAbility_WhiteBox_STG_SkillManager_Team",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "target": "CurTeamAvatars",
+          "modifierName": "InvincibleModifier"
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_UseSkill",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_RotateBallItem",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_BulletLockMode",
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  }
+]

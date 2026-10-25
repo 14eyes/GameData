@@ -1,0 +1,54 @@
+return {
+    MainID = 374,
+    ActorAlias = "374",
+    SubIDs = {
+        q37408 = 37408,
+        q37407 = 37407,
+        q37401 = 37401,
+        q37402 = 37402,
+        q37403 = 37403,
+        q37404 = 37404,
+        q37405 = 37405,
+        q37406 = 37406
+    },
+    PaimonData = {
+        Paimon = "Paimon",
+        PaimonScript = "Actor/Quest/Q352/Paimon",
+        PaimonID = 1005,
+        bornPos1 = sceneData:GetDummyPoint(1008, "Q374PaimonTemp").pos,
+        bornDir1 = sceneData:GetDummyPoint(1008, "Q374PaimonTemp").rot,
+        bornPos2 = sceneData:GetDummyPoint(1008, "Q374Paimon2Temp").pos,
+        bornDir2 = sceneData:GetDummyPoint(1008, "Q374Paimon2Temp").rot
+    },
+    WendyData = {
+        Wendy = "Wendy",
+        WendyScript = "Actor/Quest/Q301/Wendy301",
+        WendyID = 1001,
+        bornPos1 = sceneData:GetDummyPoint(3, "Q372Venti").pos,
+        bornDir1 = sceneData:GetDummyPoint(3, "Q372Venti").rot,
+        disPos1 = sceneData:GetDummyPoint(3, "Q372VentiDis").pos,
+        disDir1 = sceneData:GetDummyPoint(3, "Q372VentiDis").rot,
+        bornPos2 = sceneData:GetDummyPoint(1008, "Q374WendyTemp").pos,
+        bornDir2 = sceneData:GetDummyPoint(1008, "Q374WendyTemp").rot
+    },
+    MaidData = {
+        Maid = "Maid",
+        MaidScript = "Actor/Quest/Q413/Pastor",
+        MaidID = 1161,
+        bornPos1 = sceneData:GetDummyPoint(1008, "Q374Maid1Temp").pos,
+        bornDir1 = sceneData:GetDummyPoint(1008, "Q374Maid1Temp").rot,
+        bornPos2 = sceneData:GetDummyPoint(1008, "Q37404Maid").pos,
+        bornDir2 = sceneData:GetDummyPoint(1008, "Q37404Maid").rot,
+        missPos = sceneData:GetDummyPoint(1008, "Q374Maid2Miss").pos,
+        missDir = sceneData:GetDummyPoint(1008, "Q374Maid2Miss").rot
+    },
+    GuardData = {
+        Guard = "Guard",
+        GuardScript = "Actor/Npc/TempNPC",
+        GuardID = 1164,
+        bornPos = sceneData:GetDummyPoint(1008, "Q374Guard").pos,
+        bornDir = sceneData:GetDummyPoint(1008, "Q374Guard").rot,
+        transPos = sceneData:GetDummyPoint(1008, "Q375Player").pos,
+        transDir = sceneData:GetDummyPoint(1008, "Q375Player").rot
+    }
+}

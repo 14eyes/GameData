@@ -1,0 +1,295 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_ForlornVessel_EndureDelta": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_EndureDelta": "ForlornVessel_Endure"
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "ForlornVessel_ElementShield"
+            }
+          ],
+          "modifierName": "UNIQUE_ForlornVessel_EndureDelta"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_EndureDelta_Add",
+      "abilitySpecials": {
+        "ForlornVessel_Endure": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_ForlornVessel_EndureDelta"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_EndureDelta_Remove"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_HitThrowHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ClearEndura"
+            },
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "WindZoneType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "BeHitThrow"
+          ],
+          "modifierName": "ForlornVessel_HitThrowHandler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_BeHitThrow"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Monster_ForlornVessel_BeHeal",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "ForlornVessel_Lance_Heal",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Strong_Salute_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 15,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR10"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "ForlornVessel_Salute",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "ForlornVessel_Strong_Salute_Wait"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    4014
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR10"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "ForlornVessel_Salute",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "ForlornVessel_Strong_Salute_Wait"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    4014
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Strong_Salute_Wait": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "ForlornVessel_Salute",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Strong_Salute": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR15"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "ForlornVessel_Strong_Salute_Command"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    4014
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Strong_Salute_Command": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onAdded": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                111
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "Darkwraith_Salute",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            9001
+          ],
+          "modifierName": "ForlornVessel_Strong_Salute_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Salute"
+          ],
+          "modifierName": "ForlornVessel_Strong_Salute"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "facingTargetTypes": [
+            "BuddyTarget"
+          ],
+          "endNormalizedTime": 0.20000000298023224,
+          "steerStateIDs": [
+            "Salute"
+          ],
+          "IBMKLKNGDEA": false
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Salute"
+    }
+  }
+]

@@ -1,0 +1,5077 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KeepFastAiming": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "FastAiming"
+            },
+            {
+              "$type": "AvatarExitFocus",
+              "keepRotation": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "FastAiming"
+            },
+            {
+              "$type": "AvatarEnterFocus",
+              "dragButtonName": "Skill1",
+              "cameraFastFocusMode": true,
+              "assistance": {
+                "$type": "FocusAssistanceGroup",
+                "BFMJIOFDCLF": {
+                  "$type": "FocusAssistance",
+                  "HEADPMGMDJA": true
+                },
+                "KFIOILLKPCF": {
+                  "$type": "FocusAssistance",
+                  "useGyro": true,
+                  "HEADPMGMDJA": true
+                },
+                "IKEDPKIGLON": {
+                  "$type": "FocusAssistance",
+                  "HEADPMGMDJA": true
+                },
+                "IJDKCJGBBII": {
+                  "$type": "FocusAssistance",
+                  "HEADPMGMDJA": true
+                }
+              },
+              "cameraFollowUpper": {
+                "$type": "NFFDDFHHDHG",
+                "y": 0.3700000047683716,
+                "z": -1.600000023841858,
+                "x": 0.7549999952316284
+              },
+              "vcam_fov": 30.0,
+              "IILDDEANKCL": true,
+              "faceToTargetAngleThreshold": 360.0,
+              "cameraFollowLower": {
+                "$type": "NFFDDFHHDHG",
+                "y": 0.17000000178813934,
+                "z": -1.899999976158142,
+                "x": 0.7549999952316284
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetFastAimShooting": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "FastAimShooting"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorBool",
+                  "value": true,
+                  "parameter": "FastAiming"
+                }
+              ],
+              "triggerID": "AimEnd"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "FastAimShooting"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetNeedAimEndStates": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "InStatesNeedAimEnd"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "InStatesNeedAimEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ButtonHoldChargeMixin",
+          "skillID": 10971,
+          "OnReleaseCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ],
+          "OnBeginUncharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 100
+            }
+          ],
+          "secondChargeTime": 999999,
+          "chargeTime": 0.20000000298023224,
+          "OnBeginCharged": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetCameraLockTime",
+                  "lockTime": 0.30000001192092896
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "DoSkill"
+                },
+                {
+                  "$type": "SetAnimatorInt",
+                  "intID": "SkillID",
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "DoSkill"
+                },
+                {
+                  "$type": "SetAnimatorInt",
+                  "intID": "SkillID",
+                  "value": 101
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+                }
+              ]
+            }
+          ],
+          "chargeStateIDs": [
+            "ShootBS",
+            "Shoot01",
+            "Shoot02",
+            "Shoot03",
+            "FastAim",
+            "FastAimShoot"
+          ],
+          "OnReleaseUncharged": [
+            {
+              "$type": "SetCameraLockTime",
+              "lockTime": 0.30000001192092896
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FastAim",
+            "FastAimShoot"
+          ],
+          "modifierName": "KeepFastAiming"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FastAimShoot"
+          ],
+          "modifierName": "SetFastAimShooting"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ShootBS",
+            "FastAim",
+            "FastAimShoot"
+          ],
+          "modifierName": "SetNeedAimEndStates"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_PressShoot"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KeepAiming": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Aiming"
+            },
+            {
+              "$type": "AvatarExitFocus",
+              "keepRotation": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Aiming"
+            },
+            {
+              "$type": "AvatarEnterFocus",
+              "dragButtonName": "Skill1",
+              "cameraFastFocusMode": true,
+              "assistance": {
+                "$type": "FocusAssistanceGroup",
+                "BFMJIOFDCLF": {
+                  "$type": "FocusAssistance",
+                  "HEADPMGMDJA": true
+                },
+                "KFIOILLKPCF": {
+                  "$type": "FocusAssistance",
+                  "useGyro": true,
+                  "HEADPMGMDJA": true
+                },
+                "IKEDPKIGLON": {
+                  "$type": "FocusAssistance",
+                  "HEADPMGMDJA": true
+                },
+                "IJDKCJGBBII": {
+                  "$type": "FocusAssistance",
+                  "HEADPMGMDJA": true
+                }
+              },
+              "cameraFollowUpper": {
+                "$type": "NFFDDFHHDHG",
+                "y": 0.3700000047683716,
+                "z": -1.600000023841858,
+                "x": 0.7549999952316284
+              },
+              "vcam_fov": 30.0,
+              "IILDDEANKCL": true,
+              "faceToTargetAngleThreshold": 360.0,
+              "cameraFollowLower": {
+                "$type": "NFFDDFHHDHG",
+                "y": 0.17000000178813934,
+                "z": -1.899999976158142,
+                "x": 0.7549999952316284
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetAimShooting": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "AimShooting"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "AimShooting"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetNeedAimEndStates": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "InStatesNeedAimEnd"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "InStatesNeedAimEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ButtonHoldChargeMixin",
+          "skillID": 10974,
+          "OnReleaseCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ],
+          "secondChargeTime": 999999,
+          "chargeStateIDs": [
+            "Aim",
+            "AimShoot"
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Aim",
+            "AimShoot"
+          ],
+          "modifierName": "KeepAiming"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "AimShoot"
+          ],
+          "modifierName": "SetAimShooting"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Aim",
+            "AimShoot"
+          ],
+          "modifierName": "SetNeedAimEndStates"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_AimPressShoot"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Sethos_Arrow_FX": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_SpecialAim_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_SpecialAim_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Sethos_NormalAim_ArrowFX",
+                "Sethos_SpecialAim_ArrowFX"
+              ],
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_Sethos_SpecialAim_Mark",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_NormalAim_ArrowFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Bow_Arrow",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_SpecialAim_ArrowFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_SpecialChargeArrow",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Aim",
+            "FastAim"
+          ],
+          "modifierName": "Sethos_Arrow_FX"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_Arrow_FX",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Sethos_SpecialAim_Mark",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShootAimingArrow_Normal_ChargeMark": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.25,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Enchanted_Time_Normal",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_Enchanted_UsedEnergy",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "AddGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_Enchanted_Time_Normal",
+                      "maxValue": "MaxChargeCount_Soft",
+                      "minValue": 0,
+                      "value": "MaxChargeCount_Soft"
+                    },
+                    {
+                      "$type": "AddGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_Enchanted_UsedEnergy",
+                      "maxValue": "ChargeEnergyRequire",
+                      "minValue": 0,
+                      "value": "ChargeEnergyRequire"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_Enchanted_Time_Normal",
+                      "minValue": 0,
+                      "maxValue": "MaxChargeCount_Soft",
+                      "value": [
+                        "FIGHT_PROP_CUR_ELEC_ENERGY",
+                        "MaxChargeCount_Soft",
+                        "MUL",
+                        "ChargeEnergyRequire",
+                        "DIV"
+                      ]
+                    },
+                    {
+                      "$type": "AddGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_Enchanted_UsedEnergy",
+                      "maxValue": "ChargeEnergyRequire",
+                      "minValue": 0,
+                      "value": "FIGHT_PROP_CUR_ELEC_ENERGY"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "PAPHNBCKAGI",
+                      "logic": "GreaterOrEqual",
+                      "value": "ChargeEnergyRequire"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_PermanentSkill_1"
+                }
+              ]
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Charge"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Charge_SFX"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Loop"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_Enchanted_Time_Normal",
+              "maxValue": "MaxChargeCount",
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowAimingEffect_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Enchanted_Time_Normal",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Charge"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_Enchanted_Time_Normal"
+                }
+              ],
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Charge"
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 4,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_Enchanted_Time_Normal"
+                }
+              ],
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Charge_SFX"
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": "MaxChargeCount",
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_Enchanted_Time_Normal"
+                }
+              ],
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Loop"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Aiming_Arrow_Glow_Lightning_Charge": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Glow_Loop_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_Enchanted_Time_Normal",
+              "overrideMapKey": "Enchanted_Time_Temp"
+            },
+            {
+              "$type": "SetOverrideMapValue",
+              "value": [
+                "MaxChargeCount",
+                "Enchanted_Time_Temp",
+                "SUB"
+              ],
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Enchanted_Time_Lack"
+            },
+            {
+              "$type": "SetOverrideMapValue",
+              "value": [
+                "MaxChargeCount",
+                "Enchanted_Time_Lack",
+                "DIV"
+              ],
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "ChargeFX_SpeedUpTimes"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Aiming_Arrow_Glow_Lightning_Charge_SpeedControl"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Aiming_Arrow_Glow_Lightning_Charge_SpeedControl": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PauseEffectMixin",
+              "CAMHOLKDNCN": "ChargeFX_SpeedUpTimes",
+              "FDAHGFHIOLL": [
+                "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Glow_Loop_01"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Aiming_Arrow_Glow_Lightning_Loop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Glow_Loop_Lightning",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Glow_Loop_Lightning_Foot",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAudio",
+              "muteRemoteAction": true,
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_motion_Vfx_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Glow_Loop_Lightning"
+                }
+              }
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetSpecialAim": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "Aiming_FullCharge_Ready"
+              ],
+              "valueSteps": [
+                -0.5,
+                [
+                  "MaxChargeCount",
+                  0.5,
+                  "SUB"
+                ],
+                [
+                  "MaxChargeCount",
+                  0.5,
+                  "ADD"
+                ]
+              ],
+              "globalValueKey": "_Enchanted_Time_Normal",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Aiming_Arrow_Glow_Lightning_Charge_SFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "muteRemoteAction": true,
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_motion_Vfx_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Glow_Loop_01_Once"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Aiming_FullCharge_Ready": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "boolID": "SpecialAim"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": true,
+              "boolID": "SpecialAim"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_SpecialAim_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Aim_ChangeAlpha": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EffectChangeAlphaMixin",
+              "target": "Team",
+              "endDuration": 0.30000001192092896,
+              "startDuration": 0.20000000298023224,
+              "EPJMODHHJFD": true,
+              "syncToRemote": 0,
+              "JCBNNDNGDNN": "GV_EffectChangeAlphaMixin_Team"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Aiming_Arrow_Glow_Lightning_Charge"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Aiming_Arrow_Glow_Lightning_Charge_SFX"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Aiming_Arrow_Glow_Lightning_Loop"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Enchanted_Time_Normal",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "isCheckOnAttach": true,
+          "stateIDs": [
+            "Aim",
+            "FastAim"
+          ],
+          "modifierName": "ShootAimingArrow_Normal_ChargeMark"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "isCheckOnAttach": true,
+          "stateIDs": [
+            "FastAim",
+            "FastAimShoot",
+            "Aim",
+            "AimShoot"
+          ],
+          "modifierName": "ShowAimingEffect_Normal"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "isCheckOnAttach": true,
+          "stateIDs": [
+            "Aim",
+            "FastAim",
+            "AimShoot",
+            "FastAimShoot"
+          ],
+          "modifierName": "Aim_ChangeAlpha"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "isCheckOnAttach": true,
+          "stateIDs": [
+            "Aim",
+            "FastAim",
+            "AimShoot",
+            "FastAimShoot"
+          ],
+          "modifierName": "SetSpecialAim"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ShootAimingArrow_Charge",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Enchanted_Time_Normal",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Enchanted_UsedEnergy",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "MaxChargeCount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 24.0
+        },
+        "MaxChargeCount_Soft": {
+          "$type": "GNPGOLDCAGO",
+          "value": 23.0
+        },
+        "ChargeEnergyRequire": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Enchanted_UsedEnergy": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Enchanted_Time_Temp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Enchanted_Time_Lack": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ChargeFX_SpeedUpTimes": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097008
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Burst",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "WeaponL"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097001
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Small",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "WeaponL"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ShootArrow_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097009
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Burst",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "WeaponL"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097002
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Small",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "WeaponL"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ShootArrow_02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097010
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Burst",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "WeaponL"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097003
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Big",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "WeaponL"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ShootArrow_03"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Sethos_ShootArrow_04_ShootFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Powerstorage_Burst",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ShootSpark_Powerstorage",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097011
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "WeaponL"
+              },
+              "bulletID": 41097004
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Avatar_Sethos_ShootArrow_04_ShootFX",
+          "stateID": "Attack03",
+          "normalizeStart": 0.15700000524520874
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ShootArrow_04"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Sethos_Constellation_6_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onHittingOther": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "ReviveElemEnergy",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "value": "Enchanted_UsedEnergy"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "Avatar_Sethos_Constellation_6_CD"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_Constellation_6"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_PermanentSkill_1"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "ExtraAttack"
+                  ]
+                },
+                {
+                  "$type": "ByAttackType",
+                  "attackType": "Range"
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Caster",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Sethos_Constellation_6_CD"
+                },
+                {
+                  "$type": "ByTargetOverrideMapValue",
+                  "target": "Caster",
+                  "targetValue": 0,
+                  "targetAbilityName": "Avatar_Sethos_ShootArrow_Aiming",
+                  "targetKey": "Enchanted_UsedEnergy"
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_Constellation_6"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_PermanentSkill_1"
+                }
+              ],
+              "modifierName": "Avatar_Sethos_Constellation_6_FX_GrandHandler"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_Constellation_6"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_PermanentSkill_1"
+                }
+              ],
+              "modifierName": "Avatar_Sethos_Constellation_6_FX_GrandHandler"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Sethos_Constellation_6_FX_GrandHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Avatar_Sethos_Constellation_6_FX_Handler",
+                "Blank"
+              ],
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_Sethos_Constellation_6_CD",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Sethos_Constellation_6_FX_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_Constellation_6_FX"
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_Constellation_6_FX"
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_Constellation_6_FX"
+            }
+          ],
+          "elementDurability": 100,
+          "onAvatarIn": [
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_Constellation_6_FX"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Sethos_Constellation_6_FX": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_SpecialCharge_Constellation_6_Mark_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_SpecialCharge_Constellation_6_Mark",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Sethos_Constellation_6_CD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Constellation_6_CD",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_Constellation_6_CD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_Constellation_6_CD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "globalValueKey": "_Enchanted_UsedEnergy",
+          "overrideMapKey": "Enchanted_UsedEnergy"
+        },
+        {
+          "$type": "Predicated",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "successActions": [
+            {
+              "$type": "SetOverrideMapValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": [
+                "Enchanted_UsedEnergy",
+                "ArrowWithElec_EnergyRatio",
+                "MUL"
+              ],
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Enchanted_UsedEnergy"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_Enchanted_UsedEnergy",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": "Enchanted_UsedEnergy"
+            },
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": [
+                0,
+                "Enchanted_UsedEnergy",
+                "SUB"
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_Constellation_2"
+                }
+              ],
+              "key": "_ABILITY_Sethos_Constellation_2_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3.99,
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": [
+                "MaxChargeCount",
+                0.01,
+                "SUB"
+              ],
+              "compareType": "LessAndEqual",
+              "key": "_Enchanted_Time_Normal"
+            },
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "Sethos_PermanentSkill_1"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "MoreThan",
+              "key": "_Enchanted_UsedEnergy"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "successActions": [
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": [
+                0,
+                "Enchanted_UsedEnergy",
+                "SUB"
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_Constellation_2"
+                }
+              ],
+              "key": "_ABILITY_Sethos_Constellation_2_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": [
+                "MaxChargeCount",
+                0.01,
+                "SUB"
+              ],
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            },
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "Sethos_PermanentSkill_1"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "MoreThan",
+              "key": "_Enchanted_UsedEnergy"
+            }
+          ]
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3.99,
+              "compareType": "LessAndEqual",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Onshooting_Unsuccessful",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0.9,
+              "y": 0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3.99,
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": [
+                "MaxChargeCount",
+                0.01,
+                "SUB"
+              ],
+              "compareType": "LessAndEqual",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Onshooting",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0.9,
+              "y": 0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": [
+                "MaxChargeCount",
+                0.01,
+                "SUB"
+              ],
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Onshooting_Lightning",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0.9,
+              "y": 0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3.99,
+              "compareType": "LessAndEqual",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttachPoint",
+              "attachPointName": "FocusAnchor",
+              "attachPointTargetType": "Self"
+            },
+            "attachPointName": "WeaponL"
+          },
+          "flushAbilityPacket": true,
+          "bulletID": 41097005
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3.99,
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": [
+                "MaxChargeCount",
+                0.01,
+                "SUB"
+              ],
+              "compareType": "LessAndEqual",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttachPoint",
+              "attachPointName": "FocusAnchor",
+              "attachPointTargetType": "Self"
+            },
+            "attachPointName": "WeaponL"
+          },
+          "flushAbilityPacket": true,
+          "bulletID": 41097006
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": [
+                "MaxChargeCount",
+                0.01,
+                "SUB"
+              ],
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttachPoint",
+              "attachPointName": "FocusAnchor",
+              "attachPointTargetType": "Self"
+            },
+            "attachPointName": "WeaponL"
+          },
+          "flushAbilityPacket": true,
+          "bulletID": 41097007
+        },
+        {
+          "$type": "ActCameraRadialBlur",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3.99,
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "cameraRadialBlur": {
+            "$type": "ConfigCameraRadialBlur",
+            "blurTime": 0.10000000149011612,
+            "fadeTime": 0.10000000149011612,
+            "power": 0.6000000238418579
+          }
+        },
+        {
+          "$type": "ActCameraShake",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3.99,
+              "compareType": "MoreThan",
+              "key": "_Enchanted_Time_Normal"
+            }
+          ],
+          "cameraShake": {
+            "$type": "ConfigCameraShake",
+            "extension": {
+              "$type": "ConfigCameraShakeExt",
+              "baseOnCamera": true
+            },
+            "shakeTime": 0.11999999731779099,
+            "shakeDistance": 30.0,
+            "shakeRange": 0.20000000298023224
+          }
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ShootArrow_Aiming",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Avatar_Sethos_Constellation_6_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "MaxChargeCount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 24.0
+        },
+        "MaxChargeCount_Soft": {
+          "$type": "GNPGOLDCAGO",
+          "value": 23.0
+        },
+        "Enchanted_UsedEnergy": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ArrowWithElec_EnergyRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Constellation_6_CD": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShootArrowFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Fly_Big",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireHitEffect",
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_Arrow_Hit_Earth",
+            "surfaceEffect": {
+              "Water": "Eff_Arrow_Hit_Water"
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "enBreak": 10.0,
+                "damagePercentage": "DamageWithoutElec",
+                "elementDurability": 100,
+                "enHeadBreak": 30.0,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV2"
+              },
+              "bulletWane": {
+                "$type": "ConfigBulletWane",
+                "FBPHCMKOJEI": 0.10000000149011612,
+                "BNEDKDDPBCJ": 0.10000000149011612,
+                "waneDelay": 0.699999988079071,
+                "KDMBAAIJAMD": 0.05000000074505806,
+                "CIMCLHDDHLF": 0.10000000149011612,
+                "DPDNFLDLIJM": 0.10000000149011612,
+                "hitLevelWaneMin": "Mute",
+                "HNCFMEOECOJ": 0.05000000074505806,
+                "CKFFHFGKJBH": 0.10000000149011612
+              },
+              "hitHeadPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "Eff_Arrow_Hit_Head",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitHaltTime": 0.11999999731779099,
+                "hitImpulseType": "LV5"
+              },
+              "canHitHead": true,
+              "attenuationGroup": "default",
+              "attackTag": "ExtraAttack",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -0.5,
+                  "y": 0
+                }
+              },
+              "checkHitLayerType": "Both",
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 0.1,
+                "z": 1,
+                "y": 0.1
+              }
+            }
+          }
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_Enchanted_WithoutElec",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShootArrowFX"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageWithoutElec": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShootArrowFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Fly_Elec_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Fly_Elec_Particle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireHitEffect",
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Hit",
+            "surfaceEffect": {
+              "Water": "Eff_Arrow_Hit_Water"
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "enBreak": 20.0,
+                "damagePercentage": "DamageWithElec",
+                "elementDurability": 25,
+                "enHeadBreak": 60.0,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "Eff_Avatar_Boy_Bow_Sethos_Arrow_ElecCharge_Hit",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV2"
+              },
+              "bulletWane": {
+                "$type": "ConfigBulletWane",
+                "FBPHCMKOJEI": 0.10000000149011612,
+                "BNEDKDDPBCJ": 0.10000000149011612,
+                "waneDelay": 0.699999988079071,
+                "KDMBAAIJAMD": 0.05000000074505806,
+                "CIMCLHDDHLF": 0.10000000149011612,
+                "DPDNFLDLIJM": 0.10000000149011612,
+                "hitLevelWaneMin": "Mute",
+                "HNCFMEOECOJ": 0.05000000074505806,
+                "CKFFHFGKJBH": 0.10000000149011612
+              },
+              "hitHeadPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "Eff_Arrow_Hit_Head_ElectricMagic",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitHaltTime": 0.11999999731779099,
+                "hitImpulseType": "LV5"
+              },
+              "canHitHead": true,
+              "attenuationGroup": "default",
+              "attackTag": "ExtraAttack",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -0.5,
+                  "y": 0
+                }
+              },
+              "checkHitLayerType": "Both",
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 0.1,
+                "z": 1,
+                "y": 0.1
+              }
+            }
+          }
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_WithElec",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShootArrowFX"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageWithElec": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Sethos_PermanentSkill_2_UseCount": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "OriginOwner",
+              "useLimitRange": true,
+              "key": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count",
+              "maxValue": "PermanentSkill_2_DamageUp_MaxCount",
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Sethos_PermanentSkill_2_DamageUp": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_ELEMENT_MASTERY",
+                "PermanentSkill_2_LightningRatio",
+                "MUL"
+              ],
+              "attackTags": [
+                "ExtraAttack"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Lightning_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Electric",
+                  "attackType": "Range",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Default",
+                  "enBreak": 150.0,
+                  "damagePercentage": "LightningArrowDamage_AttackRatio",
+                  "damageExtra": [
+                    "FIGHT_PROP_ELEMENT_MASTERY",
+                    "LightningArrowDamage_MasteryRatio",
+                    "MUL"
+                  ],
+                  "elementDurability": 50,
+                  "bonusCritical": "Constellation_1_bonusCritical",
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "none",
+                  "hitHaltTimeScale": 0.009999999776482582,
+                  "hitImpulseType": "LV2"
+                },
+                "attenuationGroup": "default",
+                "attackTag": "ExtraAttack",
+                "canBeModifiedBy": "OriginOwner"
+              },
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByUnlockTalentParam",
+                      "talentParam": "Sethos_PermanentSkill_2"
+                    }
+                  ],
+                  "modifierName": "Avatar_Sethos_PermanentSkill_2_UseCount"
+                },
+                {
+                  "$type": "Predicated",
+                  "target": "Caster",
+                  "successActions": [
+                    {
+                      "$type": "AddGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_ABILITY_Sethos_Lightning_PassThrough_Count",
+                      "maxValue": 2,
+                      "minValue": 0,
+                      "value": 1
+                    },
+                    {
+                      "$type": "TriggerAbility",
+                      "target": "OriginOwner",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "target": "Caster",
+                          "value": 2,
+                          "key": "_ABILITY_Sethos_Lightning_PassThrough_Count"
+                        }
+                      ],
+                      "abilityName": "Avatar_Sethos_Constellation_4"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByUnlockTalentParam",
+                      "talentParam": "Sethos_Constellation_4"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_Lightning",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "Sethos_PermanentSkill_2"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "OriginOwner",
+              "value": 1,
+              "compareType": "MoreThanAndEqual",
+              "key": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count"
+            }
+          ],
+          "modifierName": "Avatar_Sethos_PermanentSkill_2_DamageUp"
+        }
+      ],
+      "abilitySpecials": {
+        "LightningArrowDamage_AttackRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "LightningArrowDamage_MasteryRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Constellation_1_bonusCritical": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "PermanentSkill_2_LightningRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "PermanentSkill_2_DamageUp_MaxCount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_ELEMENT_MASTERY",
+                "ElementalBurst_ArrowDamageExtra",
+                "MUL"
+              ],
+              "attackTags": [
+                "ExtraAttack"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Lightning_Burst_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Electric",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Default",
+                  "enBreak": 18.878999710083008,
+                  "damagePercentage": "LightningArrowDamage_Burst_01",
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "none",
+                  "hitHaltTimeScale": 0.009999999776482582,
+                  "hitImpulseType": "LV2"
+                },
+                "attenuationGroup": "default",
+                "attenuationTag": "Lightning_Burst",
+                "attackTag": "ExtraAttack",
+                "canBeModifiedBy": "OriginOwner"
+              },
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ABILITY_Sethos_Lightning_PassThrough_Count",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "TriggerAbility",
+                  "target": "OriginOwner",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Caster",
+                      "value": 2,
+                      "key": "_ABILITY_Sethos_Lightning_PassThrough_Count"
+                    }
+                  ],
+                  "abilityName": "Avatar_Sethos_Constellation_4"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "target": "Caster",
+                  "talentParam": "Sethos_Constellation_4"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_Lightning_Burst_01",
+      "onAdded": [
+        {
+          "$type": "CopyGlobalValue",
+          "srcKey": "_ABILITY_Sethos_ElementalBurst_Enchanted",
+          "dstTarget": "Self",
+          "srcTarget": "OriginOwner",
+          "dstKey": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ],
+          "modifierName": "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra"
+        }
+      ],
+      "abilitySpecials": {
+        "LightningArrowDamage_Burst_01": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ElementalBurst_ArrowDamageExtra": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_ELEMENT_MASTERY",
+                "ElementalBurst_ArrowDamageExtra",
+                "MUL"
+              ],
+              "attackTags": [
+                "ExtraAttack"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Lightning_Burst_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Electric",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Default",
+                  "enBreak": 8.791000366210938,
+                  "damagePercentage": "LightningArrowDamage_Burst_02",
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "none",
+                  "hitHaltTimeScale": 0.009999999776482582,
+                  "hitImpulseType": "LV2"
+                },
+                "attenuationGroup": "default",
+                "attenuationTag": "Lightning_Burst",
+                "attackTag": "ExtraAttack",
+                "canBeModifiedBy": "OriginOwner"
+              },
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ABILITY_Sethos_Lightning_PassThrough_Count",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "TriggerAbility",
+                  "target": "OriginOwner",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Caster",
+                      "value": 2,
+                      "key": "_ABILITY_Sethos_Lightning_PassThrough_Count"
+                    }
+                  ],
+                  "abilityName": "Avatar_Sethos_Constellation_4"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "target": "Caster",
+                  "talentParam": "Sethos_Constellation_4"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_Lightning_Burst_02",
+      "onAdded": [
+        {
+          "$type": "CopyGlobalValue",
+          "srcKey": "_ABILITY_Sethos_ElementalBurst_Enchanted",
+          "dstTarget": "Self",
+          "srcTarget": "OriginOwner",
+          "dstKey": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ],
+          "modifierName": "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra"
+        }
+      ],
+      "abilitySpecials": {
+        "LightningArrowDamage_Burst_02": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ElementalBurst_ArrowDamageExtra": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_ELEMENT_MASTERY",
+                "ElementalBurst_ArrowDamageExtra",
+                "MUL"
+              ],
+              "attackTags": [
+                "ExtraAttack"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Lightning_Burst_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Electric",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Default",
+                  "enBreak": 8.791000366210938,
+                  "damagePercentage": "LightningArrowDamage_Burst_03",
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "none",
+                  "hitHaltTimeScale": 0.009999999776482582,
+                  "hitImpulseType": "LV2"
+                },
+                "attenuationGroup": "default",
+                "attenuationTag": "Lightning_Burst",
+                "attackTag": "ExtraAttack",
+                "canBeModifiedBy": "OriginOwner"
+              },
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ABILITY_Sethos_Lightning_PassThrough_Count",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "TriggerAbility",
+                  "target": "OriginOwner",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Caster",
+                      "value": 2,
+                      "key": "_ABILITY_Sethos_Lightning_PassThrough_Count"
+                    }
+                  ],
+                  "abilityName": "Avatar_Sethos_Constellation_4"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "target": "Caster",
+                  "talentParam": "Sethos_Constellation_4"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_Lightning_Burst_03",
+      "onAdded": [
+        {
+          "$type": "CopyGlobalValue",
+          "srcKey": "_ABILITY_Sethos_ElementalBurst_Enchanted",
+          "dstTarget": "Self",
+          "srcTarget": "OriginOwner",
+          "dstKey": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ],
+          "modifierName": "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra"
+        }
+      ],
+      "abilitySpecials": {
+        "LightningArrowDamage_Burst_03": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ElementalBurst_ArrowDamageExtra": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "FIGHT_PROP_ELEMENT_MASTERY",
+                "ElementalBurst_ArrowDamageExtra",
+                "MUL"
+              ],
+              "attackTags": [
+                "ExtraAttack"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Lightning_Burst_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Electric",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Default",
+                  "enBreak": 25.80900001525879,
+                  "damagePercentage": "LightningArrowDamage_Burst_04",
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "none",
+                  "hitHaltTimeScale": 0.009999999776482582,
+                  "hitImpulseType": "LV2"
+                },
+                "attenuationGroup": "default",
+                "attenuationTag": "Lightning_Burst",
+                "attackTag": "ExtraAttack",
+                "canBeModifiedBy": "OriginOwner"
+              },
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ABILITY_Sethos_Lightning_PassThrough_Count",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "TriggerAbility",
+                  "target": "OriginOwner",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Caster",
+                      "value": 2,
+                      "key": "_ABILITY_Sethos_Lightning_PassThrough_Count"
+                    }
+                  ],
+                  "abilityName": "Avatar_Sethos_Constellation_4"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "target": "Caster",
+                  "talentParam": "Sethos_Constellation_4"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_Lightning_Burst_04",
+      "onAdded": [
+        {
+          "$type": "CopyGlobalValue",
+          "srcKey": "_ABILITY_Sethos_ElementalBurst_Enchanted",
+          "dstTarget": "Self",
+          "srcTarget": "OriginOwner",
+          "dstKey": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted"
+            }
+          ],
+          "modifierName": "Bullet_Sethos_Lightning_Burst_ArrowDamageExtra"
+        }
+      ],
+      "abilitySpecials": {
+        "LightningArrowDamage_Burst_04": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ElementalBurst_ArrowDamageExtra": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_01_DamagePercentage",
+          "animEventNames": [
+            "Arrow_ATK01"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_02_DamagePercentage",
+          "animEventNames": [
+            "Arrow_ATK02"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_03_DamagePercentage",
+          "animEventNames": [
+            "Arrow_ATK03"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_04_DamagePercentage",
+          "animEventNames": [
+            "Arrow_ATK04"
+          ]
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrowDamage",
+      "abilitySpecials": {
+        "NormalAttack_01_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_02_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_03_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_04_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShootArrowFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Fly_Small",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireHitEffect",
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_Arrow_Hit_Earth",
+            "surfaceEffect": {
+              "Water": "Eff_Arrow_Hit_Water"
+            }
+          }
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_LightFX",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShootArrowFX"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShootArrowFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_Arrow_Fly_Big",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireHitEffect",
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_Arrow_Hit_Earth",
+            "surfaceEffect": {
+              "Water": "Eff_Arrow_Hit_Water"
+            }
+          }
+        }
+      ],
+      "abilityName": "Bullet_Sethos_ShootArrow_HeavyFX",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShootArrowFX"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Sethos_ElementalArt_LegFX": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalArt_Leg_Rune_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalArt_Leg_Rune",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_ElementalArt_ElemBall": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "Ball"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Elemental_Art"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ball": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "GenerateElemBall",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "ratio": 1,
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "configID": 2020,
+              "baseEnergy": 6.0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_ElementalArt_ReactionReviveEnergy_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_ElementalArt_ElemReact_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionByElementReactionMixin",
+              "actions": [
+                {
+                  "$type": "AttachModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "Sethos_ElementalArt_ReactionReviveEnergy"
+                }
+              ],
+              "entityTypes": [
+                "Monster"
+              ],
+              "reactionTypes": [
+                "Explode",
+                "Shock",
+                "Superconductor",
+                "StarSuperconductor",
+                "SwirlElectric",
+                "Overdose",
+                "OverdoseElectric",
+                "OvergrowMushroomElectric",
+                "MoonShock"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_ElementalArt_ReactionReviveEnergy": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "SkinOn"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "ElemReact",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalArt"
+            },
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": "ReactionReviveEnergy"
+            },
+            {
+              "$type": "FireEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalArt_ReviveEnergyFX",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_Constellation_2"
+                }
+              ],
+              "key": "_ABILITY_Sethos_Constellation_2_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10972,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalArt",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 50.0,
+                "damagePercentage": "ElementalArtDamage",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.019999999552965164,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Elemental_Art"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "radius": 4.5
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalArt"
+          ],
+          "modifierName": "Sethos_ElementalArt_ReactionReviveEnergy_Handler"
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Sethos_ElementalArt_LegFX",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "ElementalArt"
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "ElementalArt_AS",
+              "normalizeEnd": 0.4099999964237213
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ElementalArt",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Sethos_ElementalArt_ElemBall"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Sethos_ElementalArt_ElemReact_Mark",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "ElementalArtDamage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ReactionReviveEnergy": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElementalBurst": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarSkillStart",
+              "skillID": 10975,
+              "cdRatio": 1,
+              "costStaminaRatio": 1,
+              "GIBAINFKPBO": 1
+            },
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 11002
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Sethos_Constellation_2"
+                }
+              ],
+              "key": "_ABILITY_Sethos_Constellation_2_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalBurst",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalBurst_Trail",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "transDuration": 0.30000001192092896,
+              "type": "Skill",
+              "weatherPattern": "Weather_Sethos_ElementalBurst"
+            }
+          ],
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_Camera_Remover_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AvatarCameraParam",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.0,
+                "forceRadius": 6.0
+              }
+            },
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "EnableHeadControl",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableHeadControl",
+              "LIHMHHKBCPI": false
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "AvatarCameraParam",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.0,
+                "forceRadius": 6.0
+              }
+            },
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_ElementalBurst_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Sethos_ElementalBurst_Duration",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_ElementalBurst_Enchanted",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalBurst_Buff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_ElementalBurst_Hand_Rune",
+              "effectTempleteID": -1
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Sethos_ElementalBurst_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "HideActionSlotMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Sethos_ElementalBurst_Handler"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Sethos_ElementalBurst_Handler"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst"
+          ],
+          "modifierName": "ElementalBurst"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst"
+          ],
+          "modifierName": "ElementalBurst_Camera_Remover_Handler"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_ElementalBurst",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Sethos_ElementalBurst_Enchanted",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "Sethos_ElementalBurst_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "HideWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "TriggerHideWeapon",
+                  "canBeHandledOnRecover": true,
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "partNames": [
+                    "equip01",
+                    "equip02",
+                    "sheathPoint"
+                  ],
+                  "modifyAnotherValue": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "TriggerHideWeapon",
+                  "canBeHandledOnRecover": true,
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "partNames": [
+                    "equip01",
+                    "equip02",
+                    "sheathPoint"
+                  ],
+                  "modifyAnotherValue": true,
+                  "visible": true
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "HideEmotion": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ControlEmotion",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ControlEmotion",
+              "MJCILBIAAJA": false,
+              "PIIDHCFMKEM": false,
+              "LIIHBLNMGAF": false
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalArt",
+            "ElementalArt_AS"
+          ],
+          "modifierName": "HideWeapon"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Shoot01",
+            "Shoot02",
+            "Shoot03",
+            "ElementalArt",
+            "ElementalArt_AS",
+            "ElementalBurst",
+            "ElementalBurst_AS"
+          ],
+          "modifierName": "HideEmotion"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_HideWeaponControl"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Sethos_PermanentSkill_2_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": "PermanentSkill_2_DamageUp_MaxCount"
+            },
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_PermanentSkill_2_FX"
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_PermanentSkill_2_FX"
+            }
+          ],
+          "stacking": "Unique",
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_PermanentSkill_2_FX"
+            }
+          ],
+          "elementDurability": 100,
+          "onAvatarIn": [
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_PermanentSkill_2_FX"
+            }
+          ],
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Sethos_PermanentSkill_2_Buff_Remover_Pre"
+              ],
+              "valueSteps": [
+                0.5,
+                [
+                  "PermanentSkill_2_DamageUp_MaxCount",
+                  0.5,
+                  "SUB"
+                ]
+              ],
+              "globalValueKey": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count",
+              "defaultGlobalValueOnCreate": 0
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "RemoveModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count"
+                    }
+                  ],
+                  "modifierName": "Sethos_PermanentSkill_2_Buff_Remover"
+                }
+              ],
+              "NBOEEIHGCPD": true,
+              "globalValueKey": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Sethos_PermanentSkill_2_FX": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_SpecialCharge_Mark_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Bow_Sethos_SpecialCharge_Mark",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_PermanentSkill_2_Buff_Remover_Pre": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Sethos_PermanentSkill_2_Buff_Remover"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_PermanentSkill_2_Buff_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "PermanentSkill_2_Buff_Duration",
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_PermanentSkill_2_Buff"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Sethos_PermanentSkill_2_CD"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Sethos_PermanentSkill_2_CD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "PermanentSkill_2_CD",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Sethos_PermanentSkill_2_Buff"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Sethos_PermanentSkill_2",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Sethos_PermanentSkill_2_DamageUp_Count",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Avatar_Sethos_PermanentSkill_2_Buff"
+        }
+      ],
+      "abilitySpecials": {
+        "PermanentSkill_2_Buff_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "PermanentSkill_2_CD": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "PermanentSkill_2_DamageUp_MaxCount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Sethos_Constellation_2": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Constellation_2_Duration",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_ElecAddHurtDelta": "Constellation_2_ElecAddHurtDelta"
+          },
+          "stacking": "MultipleRefreshNoRemove",
+          "stackingOption": {
+            "$type": "ConfigModifierStackingOption",
+            "maxModifierNumForMultipleType": "Constellation_2_MaxStacking"
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Sethos_Constellation_2_Trigger"
+                }
+              ],
+              "modifierName": "Avatar_Sethos_Constellation_2"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Sethos_Constellation_2_Trigger"
+                }
+              ],
+              "key": "_ABILITY_Sethos_Constellation_2_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "NBOEEIHGCPD": true,
+          "globalValueKey": "_ABILITY_Sethos_Constellation_2_Trigger"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_Constellation_2",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Sethos_Constellation_2_Trigger",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "Constellation_2_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Constellation_2_MaxStacking": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Constellation_2_ElecAddHurtDelta": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Avatar_Sethos_Constellation_4": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Constellation_4_Duration",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_ElemMasteryDelta": "Constellation_4_ElemMasteryDelta"
+          },
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Sethos_Constellation_4": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "AllPlayerAvatars",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "logic": "LesserOrEqual",
+              "value": 40
+            }
+          ],
+          "modifierName": "UNIQUE_Avatar_Sethos_Constellation_4"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_Constellation_4",
+      "isDynamicAbility": true,
+      "abilitySpecials": {
+        "Constellation_4_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Constellation_4_ElemMasteryDelta": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FallingAnthem_AttachEffect_BS_01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Bow_FallAnthem_BS_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_Material": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ActCameraRadialBlur",
+              "cameraRadialBlur": {
+                "$type": "ConfigCameraRadialBlur",
+                "blurTime": 0.30000001192092896,
+                "fadeTime": 0.15000000596046448,
+                "power": 0.30000001192092896
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Bow_FallAnthem_BS",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_VelocityForce_Initialize": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_LoopDamage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Pierce",
+                    "enBreak": 10.0,
+                    "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_FallingAttack_Altitude"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "value": "FallingAnthem_FallingDamageRatio_Lv0"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "value": "FallingAnthem_FallingDamageRatio_Lv1"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "value": "FallingAnthem_FallingDamageRatio_Lv2"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "value": "FallingAnthem_FallingDamageRatio_Lv3"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "value": "FallingAnthem_FallingDamageRatio_Lv4"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_02"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_FallingAttack_Altitude",
+              "overrideMapKey": "FallingAnthem_FallingDamageRatio"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_03"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_03": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": "FallingAnthem_FallingDamageRatio"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_FallingAnthem_UseCamera",
+                  "forceByCaster": true
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Bow_FallAnthem_Loop_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Inertia": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyInertiaVelocityMixin",
+              "JOHELJNOOBE": false,
+              "useY": false
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Height_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 5
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.20000000298023224,
+                "forceRadius": 4.5
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Landed_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.10000000149011612,
+                "forceRadius": 6.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_ClearVelocityForce": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "InertiaType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "enBreak": 50.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_1_Damage",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "radius": 3,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "enBreak": 100.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_2_Damage",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "radius": 3.5,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Bow_FallAnthem_Strike_01",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Bow_FallAnthem_Strike_02",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AvatarChangeSkillMixin",
+          "OLDBNEGFONF": 5097010,
+          "IJBAHBAGBCN": 5097010
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_Material"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_Loop_Normal"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS_2",
+            "FallingAnthem_Loop",
+            "FallingAnthem_Loop_Low"
+          ],
+          "modifierName": "FallingAnthem_LoopDamage"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_VelocityForce_Initialize"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_Height_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_FallingDamageImmune_01"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "Inertia"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_OverHead_Camera"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_ClearVelocityForce"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_AttachEffect_BS_01"
+        }
+      ],
+      "abilityName": "Avatar_Sethos_FallingAnthem",
+      "abilitySpecials": {
+        "FallingAnthem_Normal_Loop_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_1_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_2_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Altitude_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": 20.0
+        },
+        "FallingAnthem_Altitude_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": 40.0
+        },
+        "FallingAnthem_Altitude_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": 60.0
+        },
+        "FallingAnthem_Altitude_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": 100.0
+        },
+        "FallingAnthem_Altitude_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 200.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.8999999761581421
+        },
+        "FallingAnthem_FallingDamageRatio_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.800000011920929
+        },
+        "FallingAnthem_FallingDamageRatio_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.6000000238418579
+        },
+        "FallingAnthem_FallingDamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Radar_Toggle": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Radar_Collectables_Sumeru",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Radar_Collectables_Sumeru",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Sethos_PermanentSkill_3",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Radar_Toggle"
+        }
+      ]
+    }
+  }
+]

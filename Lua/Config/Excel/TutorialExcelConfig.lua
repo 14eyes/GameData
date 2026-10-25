@@ -1,0 +1,1 @@
+TutorialDetailType = {TUT_DEFAULT = 0, TUT_FULL_SCREEN = 1}

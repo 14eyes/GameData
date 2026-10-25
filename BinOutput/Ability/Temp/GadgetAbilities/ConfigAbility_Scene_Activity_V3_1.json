@@ -1,0 +1,6071 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Trap_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Sifang_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Disable"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_NeedTrigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "entityTypePriority": [
+                  "Monster"
+                ],
+                "campTargetType": "All"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_NeedTrigger",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Is_Hunt_Animal_Activity3.1"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_NeedTrigger"
+                }
+              ],
+              "abilityName": "SceneObj_Level_Activity_Hunting_Trap_01"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_Set_GV": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_BOAR_HUNT_BECAPTURED_FROM_TRAP",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Disable": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR2000"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Action_Set_GV"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Is_Hunt_Animal_Activity3.1"
+                }
+              ]
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Trap_Handler"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Disable"
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "state": 202
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Sifang_03",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasModifier",
+              "modifierName": "Trap_Handler"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Trap_Handler",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_Trap_01",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByHasModifier",
+              "target": "Self",
+              "modifierName": "Trap_Handler"
+            }
+          ],
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "广播捕获，转为不可用"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Level_Activity_Hunting_Trap_01"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_Is_Hunt_Animal_Activity3.1"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "SceneObj_Level_Activity_Hunting_Trap_01",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Action_KillSelf_Predicate_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_Hunt_Trap_Order",
+              "overrideMapKey": "_Hunt_Trap_Order"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Is_Order_Largest",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "entityTypePriority": [
+                  "Gadget"
+                ],
+                "tag": "_Hunt_Trap"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_Is_Order_Largest",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": "_Hunt_Trap_Order",
+                  "compareType": "MoreThan",
+                  "key": "_Hunt_Trap_Order"
+                }
+              ]
+            },
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Is_Order_Largest"
+                }
+              ],
+              "hideEntity": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_Add_Order": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "_Hunt_Trap_Order",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Hunt_Trap_Count",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "entityTypePriority": [
+              "Gadget"
+            ],
+            "tag": "_Hunt_Trap"
+          },
+          "successActions": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "_Hunt_Trap_Count",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 2,
+              "compareType": "MoreThan",
+              "key": "_Hunt_Trap_Count"
+            }
+          ],
+          "modifierName": "Action_KillSelf_Predicate_Handler"
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_Trap_02_Limit_Handler",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Hunt_Trap_Order",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "entityTypePriority": [
+              "Gadget"
+            ],
+            "tag": "_Hunt_Trap"
+          },
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "Action_Add_Order"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "entityTypePriority": [
+              "Gadget"
+            ],
+            "tag": "_Hunt_Trap"
+          },
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "target": "Target",
+              "abilityName": "SceneObj_Level_Activity_Hunting_Trap_02_Limit_Handler"
+            }
+          ]
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "_Hunt_Trap",
+          "isAdd": true
+        }
+      ],
+      "abilitySpecials": {
+        "_Hunt_Trap_Order": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Trap_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_CaptureSkills_09",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_Set_GV": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_BOAR_HUNT_BECAPTURED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_No_Effect"
+            }
+          ],
+          "effectPattern": "Eff_SceneObj_CaptureSkills_04",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_Trap_02",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "successActions": [
+                {
+                  "$type": "DebugLog",
+                  "content": "被愤怒野猪撞到，破坏"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Animal_Boar_Hunt_BreakTrap",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "KillSelf",
+                  "killSelfType": "Disappear",
+                  "hideEntity": true,
+                  "ECGCMJJJFLI": true,
+                  "JFPOJJMMION": true
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "DebugLog",
+                  "content": "设置gv，自杀"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Action_Set_GV"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_SceneObj_CaptureSkills_06",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_No_Effect",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "KillSelf",
+                  "hideEntity": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_IN_ANGRY"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_Is_Hunt_Animal_Activity3.1"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Is_Hunt_Trap",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Trap_Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Action_Revive_Stamina": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "ReviveStamina",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 300
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Available": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "Try attacheffetc"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ShieldPower_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Shield_Up": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 8,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Is_Shield_Up",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Is_Shield_Up",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Activity_Hunting_Shield_PickUp",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "RemoveModifier",
+              "target": "Target",
+              "modifierName": "State_Shield_Up"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "State_Shield_Up"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "Action_Revive_Stamina"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Tower_Ball_Active_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear",
+              "hideEntity": true,
+              "ECGCMJJJFLI": true,
+              "JFPOJJMMION": true
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "State_Available"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Is_In_Smoke_0": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Is_In_Smoke_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "Is_In_Smoke_1 > onAdded"
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR2000"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Action_Set_GV_TUOZHAN"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Is_Hunt_Animal_Activity3.1"
+                }
+              ]
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 2,
+                  "key": "SGV_CUR_STAGE"
+                }
+              ],
+              "modifierName": "State_Smoke_Stage_2"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Smoke_Stage_2": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TemperatureGrowRateMixin",
+              "growRateMultiplier": 0.0010000000474974513,
+              "monsterGV": "_Is_Hunt_Animal_Activity3.1"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_Set_GV_TUOZHAN": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ANIMAL_BOAR_03_JIA_TUOZHAN",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Is_Shield_Up_0": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Is_Shield_Up_1": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 70800233
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ShieldPower_01_Buff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "CreateGadget",
+              "canBeHandledOnRecover": true,
+              "lifeByOwnerV2": true,
+              "gadgetID": 70800233,
+              "campID": 1001,
+              "campTargetType": "Self"
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EliteShieldMixin",
+              "showDamageText": "INFO_ELITE_DEFENCE",
+              "shieldType": "Avatar_Electric",
+              "shieldHPRatio": 999999,
+              "shieldHP": 999999,
+              "shieldAngle": 360
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Scene_Loaded_Checker": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "HIOFFBKEHLF"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_onStageReady",
+              "param3": 0,
+              "luaCallType": "AbilityGroupSourceGroup"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Scene_Loaded_Checker"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Is_Shield_Up_0",
+            "Is_Shield_Up_1"
+          ],
+          "globalValueKey": "Is_Shield_Up",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Is_In_Smoke_0",
+            "Is_In_Smoke_1"
+          ],
+          "globalValueKey": "Is_In_Smoke",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "ModifyCameraMaxDistanceMixin",
+          "ResetToMaxOnStart": true,
+          "LerpInDuration": 1.5,
+          "MaxDistance": 10.0,
+          "lerpOutDuration": 1.5
+        }
+      ],
+      "abilityName": "AvatarAbility_3_1_Activity_Hunting_Statge_1",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "State_Scene_Loaded_Checker"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Tick_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "entityTypePriority": [
+                  "Monster"
+                ],
+                "campTargetType": "All"
+              },
+              "modifierName": "Action_Set_GV"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_ReSet_GV": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "Action_ReSet_GV onAdded"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_ANIMAL_BOAR_03_GO_WEAK",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_Is_Hunt_Animal_Activity3.1"
+                    }
+                  ],
+                  "key": "_BOAR_HUNT_BECAPTURED",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_HUNT_BOSS"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_Set_GV": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "Action_Set_GV onAdded"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_ANIMAL_BOAR_03_GO_WEAK",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_Is_Hunt_Animal_Activity3.1"
+                    }
+                  ],
+                  "key": "_BOAR_HUNT_BECAPTURED",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_HUNT_BOSS"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldExit"
+        },
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "modifierName": "Action_ReSet_GV"
+        },
+        {
+          "$type": "ApplyModifier",
+          "target": "TargetOriginOwner",
+          "modifierName": "Action_ReSet_GV"
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_Shield",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "modifierName": "Action_Set_GV"
+        },
+        {
+          "$type": "ApplyModifier",
+          "target": "TargetOriginOwner",
+          "modifierName": "Action_Set_GV"
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Tick_Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Enable": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true,
+              "enable": true
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Item_Hint_SearchPoint",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Level_Activity_Hunting_Smoke"
+            }
+          ]
+        },
+        "State_Active": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_CoolDown"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Enable"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_ScenObj_SmokeDevice_01_Fog",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "UNIQUE_State_Avatar_In_Smoke"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_CoolDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Enable"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_State_Avatar_In_Smoke": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Is_In_Smoke",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Is_In_Smoke",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Active"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasModifier",
+              "modifierName": "State_Enable"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Level_Activity_Hunting_Smoke"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_Smoke",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "State_Enable"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "SceneObj_Level_Activity_Hunting_Smoke",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Default": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR2H2"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "UNIQUE_State_Avatar_In_Jungle"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_State_Avatar_In_Jungle": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Is_In_Jungle",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Is_In_Jungle",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TemperatureGrowRateMixin",
+              "growRateMultiplier": 0.0,
+              "monsterGV": "_Is_Hunt_Animal_Activity3.1"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Activity_Hunting_Jungle",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "State_Default"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Available": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Disable": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Mesh"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_Branch_01",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AddAISpecialAlertTemperature",
+          "temperature": 15
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "State_Available"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "State_Disable"
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_TreeBranch",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "TriggerAbility",
+          "predicates": [
+            {
+              "$type": "ByHasModifier",
+              "modifierName": "State_Available"
+            }
+          ],
+          "abilityName": "SceneObj_Level_Activity_Hunting_TreeBranch"
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "State_Available"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "SceneObj_Level_Activity_Hunting_TreeBranch",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Enable": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true,
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Level_Activity_Hunting_Decoy"
+            }
+          ]
+        },
+        "State_Active": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_CoolDown"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddAISpecialAlertTemperature",
+              "temperature": 15
+            },
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Enable"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_DecoyDevice_Active",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_DecoyDevice_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_CoolDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Enable"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Active"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasModifier",
+              "modifierName": "State_Enable"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Level_Activity_Hunting_Decoy"
+            }
+          ]
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Gadget_Hunt_Attack"
+                }
+              ],
+              "abilityName": "SceneObj_Level_Activity_Hunting_Decoy"
+            }
+          ],
+          "globalValueKey": "_Gadget_Hunt_Attack"
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_Decoy",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "State_Enable"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "SceneObj_Level_Activity_Hunting_Decoy",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "_Gadget_Hunt_Attack_0": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Gadget_Hunt_Attack_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SceneObj_Level_Activity_Hunting_Trap_01"
+                }
+              ],
+              "abilityName": "SceneObj_Level_Activity_Hunting_Trap_01"
+            },
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SceneObj_Level_Activity_Hunting_Decoy"
+                }
+              ],
+              "abilityName": "SceneObj_Level_Activity_Hunting_Decoy"
+            },
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SceneObj_Level_Activity_Hunting_TreeBranch"
+                }
+              ],
+              "abilityName": "SceneObj_Level_Activity_Hunting_TreeBranch"
+            },
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SceneObj_Level_Activity_Hunting_Smoke"
+                }
+              ],
+              "abilityName": "SceneObj_Level_Activity_Hunting_Smoke"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Reset_Gadget_Hunt_Attack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Reset_Gadget_Hunt_Attack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Gadget_Hunt_Attack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Gadget_Hunt_Attack",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "ServerUpdateGlobalValueMixin",
+          "maxValue": 0,
+          "key": "_Gadget_Hunt_Attack",
+          "minValue": 0
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "_Gadget_Hunt_Attack_0",
+            "_Gadget_Hunt_Attack_1"
+          ],
+          "globalValueKey": "_Gadget_Hunt_Attack",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Hunting_Bullet_Attack_Handler",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Can_Be_Triggered_By_Bullet",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onKill": [
+        {
+          "$type": "DebugLog",
+          "content": "onKill"
+        },
+        {
+          "$type": "KillGadget",
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 70800250
+          }
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Exploration_Detect",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "target": "Team",
+          "key": "_Used_Widget",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Selected",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "canBeHandledOnRecover": true,
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "sortType": "Nearest",
+            "tag": "_Activity_Exploration"
+          },
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "content": "successActions"
+            },
+            {
+              "$type": "SetGlobalValueByTargetDistance",
+              "target": "Other",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "key": "_Activity_Exploration_Distance"
+            },
+            {
+              "$type": "SetGlobalDir",
+              "target": "Other",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "key": "_Activity_Exploration_Dir",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "direction": {
+                  "$type": "ConfigDirectionByLookAtEntity"
+                }
+              },
+              "LINAHBPILJD": false
+            },
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "key": "_Selected",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "CreateGadget",
+          "canBeHandledOnRecover": true,
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 20,
+              "compareType": "MoreThan",
+              "key": "_Activity_Exploration_Distance"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 40,
+              "compareType": "LessAndEqual",
+              "key": "_Activity_Exploration_Distance"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "direction": {
+              "$type": "ConfigDirectionByGlobalValue",
+              "randomAngleHor": 15.0,
+              "directionKey": "_Activity_Exploration_Dir"
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 70800250,
+          "campID": 5001,
+          "campTargetType": "Self"
+        },
+        {
+          "$type": "CreateGadget",
+          "canBeHandledOnRecover": true,
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 40,
+              "compareType": "MoreThan",
+              "key": "_Activity_Exploration_Distance"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 60,
+              "compareType": "LessAndEqual",
+              "key": "_Activity_Exploration_Distance"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "direction": {
+              "$type": "ConfigDirectionByGlobalValue",
+              "randomAngleHor": 30.0,
+              "directionKey": "_Activity_Exploration_Dir"
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 70800250,
+          "campID": 5001,
+          "campTargetType": "Self"
+        },
+        {
+          "$type": "CreateGadget",
+          "canBeHandledOnRecover": true,
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 60,
+              "compareType": "MoreThan",
+              "key": "_Activity_Exploration_Distance"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 80,
+              "compareType": "LessAndEqual",
+              "key": "_Activity_Exploration_Distance"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "direction": {
+              "$type": "ConfigDirectionByGlobalValue",
+              "randomAngleHor": 45.0,
+              "directionKey": "_Activity_Exploration_Dir"
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 70800250,
+          "campID": 5001,
+          "campTargetType": "Self"
+        },
+        {
+          "$type": "CreateGadget",
+          "canBeHandledOnRecover": true,
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 80,
+              "compareType": "MoreThan",
+              "key": "_Activity_Exploration_Distance"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "direction": {
+              "$type": "ConfigDirectionByGlobalValue",
+              "randomAngleHor": 60.0,
+              "directionKey": "_Activity_Exploration_Dir"
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 70800250,
+          "campID": 5001,
+          "campTargetType": "Self"
+        },
+        {
+          "$type": "CreateGadget",
+          "canBeHandledOnRecover": true,
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 20,
+              "compareType": "LessAndEqual",
+              "key": "_Activity_Exploration_Distance"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "direction": {
+              "$type": "ConfigDirectionByGlobalValue",
+              "directionKey": "_Activity_Exploration_Dir"
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 70800250,
+          "campID": 5001,
+          "campTargetType": "Self"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Attach_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Selected2",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "sortType": "Nearest",
+                "tag": "_Activity_Exploration"
+              },
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "target": "Other",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_Selected2"
+                    }
+                  ],
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "setSelfAsEffectPluginTarget": true,
+                  "scale": 1,
+                  "effectPattern": "Eff_SceneObj_Ayesha_Guide_02",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_Selected2"
+                    }
+                  ],
+                  "key": "_Selected2",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "State_Attach_Effect"
+        },
+        {
+          "$type": "DebugLog",
+          "content": "SceneObj_Level_Activity_Exploration_Detect_Child > onKill"
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Exploration_Detect_Child",
+      "onAdded": [
+        {
+          "$type": "DebugLog",
+          "content": "SceneObj_Level_Activity_Exploration_Detect_Child onAdded"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Selected",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "sortType": "Nearest",
+            "tag": "_Activity_Exploration"
+          },
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "content": "successActions"
+            },
+            {
+              "$type": "SetGlobalValueByTargetDistance",
+              "target": "Other",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "key": "_Activity_Exploration_Distance"
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 15,
+                  "compareType": "LessAndEqual",
+                  "key": "_Activity_Exploration_Distance"
+                }
+              ],
+              "state": 201
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "modifierName": "State_Attach_Effect"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_Selected"
+                }
+              ],
+              "key": "_Selected",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_Ayesha_Survey",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "direction": {
+              "$type": "ConfigDirectionByWorld"
+            }
+          },
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "Mesh"
+              ]
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Item_Hint_SearchPoint",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Mesh"
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_RockBoard_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Exploration_Rune",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "ChangeGadgetState",
+          "state": 201
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "SetMat_CountDown"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "SetMat"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "value": 1,
+              "patternName": "_EmissionStrength",
+              "matName": "mat"
+            },
+            {
+              "$type": "EnableGadgetIntee",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_RockBoard_Tablet_01_Active",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "SetMat_CountDown"
+            },
+            {
+              "$type": "EnableGadgetIntee"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Active"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetMat_CountDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.4,
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "SetMat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetMat": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 4,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 0.10000000149011612,
+              "matName": "mat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Exploration_StoneBoard"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_H",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "_Is_Wind",
+          "isAdd": true
+        },
+        {
+          "$type": "CopyGlobalValue",
+          "srcKey": "SGV_Switch_Dir",
+          "dstTarget": "Self",
+          "srcTarget": "OriginOwner",
+          "dstKey": "_Dir"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "_WindType_1": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_V",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "_WindType_1"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_H_02",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "_Is_Wind",
+          "isAdd": true
+        },
+        {
+          "$type": "CopyGlobalValue",
+          "srcKey": "SGV_Switch_Dir",
+          "dstTarget": "Self",
+          "srcTarget": "OriginOwner",
+          "dstKey": "_Dir"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "_WindType_2": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_V_02",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "_WindType_2"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Item_SpecialTreasureBox_Unlock",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Item_SpecialTreasureBox_LockIdle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "_Switch_Moving_0"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "_Switch_Moving_0",
+                "_Switch_Moving_1"
+              ],
+              "globalValueKey": "_Switch_Moving",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "_Switch_UpDown_0",
+                "_Switch_UpDown_1"
+              ],
+              "globalValueKey": "SGV_Switch_UpDown",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "_Switch_Dir_0",
+                "_Switch_Dir_1",
+                "_Switch_Dir_2",
+                "_Switch_Dir_3"
+              ],
+              "globalValueKey": "SGV_Switch_Dir",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5,
+                2.5,
+                3.5
+              ]
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_Switch_Moving",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "globalValueKey": "SGV_Switch_UpDown"
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_Switch_Moving",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "globalValueKey": "SGV_Switch_Dir"
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "RemoveModifier",
+                      "modifierName": "_Switch_OnOff_1"
+                    },
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "_Switch_OnOff_1"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "target": "Self",
+                      "modifierName": "_Switch_OnOff_1"
+                    }
+                  ]
+                }
+              ],
+              "globalValueKey": "SGV_Switch_StrongWind"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_Dir_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_Dir_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 101
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_Dir_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 102
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_Dir_3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 103
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_UpDown_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Up"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_UpDown_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Up"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_OnOff_0": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_OnOff_1": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 70800242
+              }
+            },
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 70800243
+              }
+            },
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 70800244
+              }
+            },
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 70800245
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "CreateGadget",
+                      "CEMJCDOPCGG": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigBornDirectionType",
+                          "angleOffset": {
+                            "$type": "DynamicFloatVector",
+                            "x": 0,
+                            "z": 0,
+                            "y": [
+                              "SGV_Switch_Dir",
+                              90,
+                              "MUL"
+                            ]
+                          }
+                        }
+                      },
+                      "lifeByOwnerV2": true,
+                      "gadgetID": 70800242,
+                      "byServer": true,
+                      "campID": 5001,
+                      "campTargetType": "Self"
+                    },
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "UNIQUE_Eff_Wind_H"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "CreateGadget",
+                      "CEMJCDOPCGG": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigBornDirectionType",
+                          "angleOffset": {
+                            "$type": "DynamicFloatVector",
+                            "x": 0,
+                            "z": 0,
+                            "y": [
+                              "SGV_Switch_Dir",
+                              90,
+                              "MUL"
+                            ]
+                          }
+                        }
+                      },
+                      "lifeByOwnerV2": true,
+                      "gadgetID": 70800244,
+                      "byServer": true,
+                      "campID": 5001,
+                      "campTargetType": "Self"
+                    },
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "UNIQUE_Eff_Wind_H_Strong"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "SGV_Switch_StrongWind"
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "CreateGadget",
+                      "CEMJCDOPCGG": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigBornDirectionType",
+                          "angleOffset": {
+                            "$type": "DynamicFloatVector",
+                            "x": 0,
+                            "z": 0,
+                            "y": [
+                              "SGV_Switch_Dir",
+                              90,
+                              "MUL"
+                            ]
+                          }
+                        }
+                      },
+                      "lifeByOwnerV2": true,
+                      "gadgetID": 70800243,
+                      "byServer": true,
+                      "campID": 5001,
+                      "campTargetType": "Self"
+                    },
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "UNIQUE_Eff_Wind_V"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "CreateGadget",
+                      "CEMJCDOPCGG": true,
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "direction": {
+                          "$type": "ConfigBornDirectionType",
+                          "angleOffset": {
+                            "$type": "DynamicFloatVector",
+                            "x": 0,
+                            "z": 0,
+                            "y": [
+                              "SGV_Switch_Dir",
+                              90,
+                              "MUL"
+                            ]
+                          }
+                        }
+                      },
+                      "lifeByOwnerV2": true,
+                      "gadgetID": 70800245,
+                      "byServer": true,
+                      "campID": 5001,
+                      "campTargetType": "Self"
+                    },
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "UNIQUE_Eff_Wind_V_Strong"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "SGV_Switch_StrongWind"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "SGV_Switch_UpDown"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_Moving_0": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "DebugLog",
+              "content": "_Switch_Moving_0 > onReconnect"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "_Switch_OnOff_1"
+                },
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "_Switch_OnOff_1"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "_Switch_OnOff_1"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "_Switch_OnOff_0",
+                "_Switch_OnOff_1"
+              ],
+              "globalValueKey": "SGV_Switch_OnOff",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "_Switch_Moving_1": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Switch_Moving",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Eff_Wind_V": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Blower_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "parameter": "Blower01",
+              "value": 102,
+              "effectPattern": "Eff_SceneObj_Blower_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Eff_Wind_V_Strong": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Blower_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "parameter": "Blower01",
+              "value": 101,
+              "effectPattern": "Eff_SceneObj_Blower_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Eff_Wind_H": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "direction": {
+                  "$type": "ConfigBornDirectionType",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": [
+                      "SGV_Switch_Dir",
+                      90,
+                      "MUL",
+                      180,
+                      "SUB"
+                    ]
+                  }
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Blower_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Eff_Wind_H_Strong": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "direction": {
+                  "$type": "ConfigBornDirectionType",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": [
+                      "SGV_Switch_Dir",
+                      90,
+                      "MUL",
+                      180,
+                      "SUB"
+                    ]
+                  }
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Blower_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "parameter": "Blower02",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_Blower_02",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "canBeHandledOnRecover": true,
+          "key": "_Switch_Moving",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Interact_Check": {
+          "$type": "ConfigAbilityModifier",
+          "forceSyncToRemote": true,
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "Interact_Check > onAdded"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Button_0"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "HideButton_0"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "HideButton_0"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Button_0"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 201
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_Switch_Moving"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Button_2"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "HideButton_2"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Button_3"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "HideButton_3"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "HideButton_2"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Button_2"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "HideButton_3"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Button_3"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 201
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_Switch_Moving"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "SGV_Switch_UpDown"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "Button_5"
+                    },
+                    {
+                      "$type": "RemoveModifier",
+                      "modifierName": "HideButton_5"
+                    },
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "HideButton_4"
+                    },
+                    {
+                      "$type": "RemoveModifier",
+                      "modifierName": "Button_4"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "Button_4"
+                    },
+                    {
+                      "$type": "RemoveModifier",
+                      "modifierName": "HideButton_4"
+                    },
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "HideButton_5"
+                    },
+                    {
+                      "$type": "RemoveModifier",
+                      "modifierName": "Button_5"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "SGV_Switch_OnOff"
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "HideButton_4"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Button_4"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "HideButton_5"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Button_5"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 201
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_Switch_Moving"
+                }
+              ]
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Button_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Button_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "enable": true,
+              "extraId": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Button_3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "enable": true,
+              "extraId": 3
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Button_4": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "enable": true,
+              "extraId": 4
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Button_5": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "enable": true,
+              "extraId": 5
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HideButton_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HideButton_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "extraId": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HideButton_3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "extraId": 3
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HideButton_4": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "extraId": 4
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HideButton_5": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetExtraButton",
+              "canBeHandledOnRecover": true,
+              "extraId": 5
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Interact_Check"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Interact_Check",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Interact_Check"
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Interact_Check"
+            }
+          ],
+          "globalValueKey": "_Switch_Moving"
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Interact_Check"
+            }
+          ],
+          "globalValueKey": "SGV_Switch_OnOff"
+        },
+        {
+          "$type": "StageReadyMixin",
+          "onStageReady": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Interact_Check"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_Interact_Handler",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "Wind_Creater",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "DebugLog",
+          "content": "ActivityAbility_V3_1_Avatar_WindField_StageReady"
+        },
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "entityTypePriority": [
+              "Gadget"
+            ],
+            "tag": "Wind_Creater"
+          },
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "target": "Other",
+              "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_Interact_Handler"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "StageReadyMixin",
+          "onStageReady": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "entityTypePriority": [
+                  "Gadget"
+                ],
+                "tag": "Wind_Creater"
+              },
+              "successActions": [
+                {
+                  "$type": "TriggerAbility",
+                  "target": "Other",
+                  "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_Interact_Handler"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "ActivityAbility_V3_1_Avatar_WindField_StageReady"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Creater_Switch_On_0",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_Switch_Off"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Creater_Switch_On_1",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_Switch_On"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SGV_Switch_UpDown"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Creater_UpDown_0",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "SGV_Switch_UpDown"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Creater_UpDown_1",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_UpDown"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Creater_Dir_Clockwise",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_Clockwise"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Creater_Dir_AntiClockwise",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_WindField_Creater_AntiClockwise"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Color_Hander": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 101,
+                  "key": "SGV_Color"
+                }
+              ],
+              "intID": "Col",
+              "value": 101
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 102,
+                  "key": "SGV_Color"
+                }
+              ],
+              "intID": "Col",
+              "value": 102
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SGV_Disable_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "canBeHandledOnRecover": true,
+              "enable": true
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "Change",
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 102,
+                  "key": "SGV_Color"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_PowerUpSwitch_R_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 101,
+                  "key": "SGV_Color"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_PowerUpSwitch_G_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SGV_Disable_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "canBeHandledOnRecover": true
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "Change",
+              "value": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 102,
+                  "key": "SGV_Color"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Operator_01",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 101,
+                  "key": "SGV_Color"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Operator_02",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "SGV_Disable_0",
+            "SGV_Disable_1"
+          ],
+          "globalValueKey": "SGV_Disable",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 102,
+                  "key": "SGV_Color"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_PowerUpSwitch_R_Active",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 101,
+                  "key": "SGV_Color"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_PowerUpSwitch_G_Active",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "globalValueKey": "SGV_Disable"
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_Operator_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Color_Hander"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SGV_Active_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "Change",
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_PowerUpSwitch_R_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SGV_Active_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "Change",
+              "value": 201
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_PowerUpSwitch_R_Active",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SGV_Disable_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SGV_Disable_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Operator_02",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "SGV_Disable_0",
+            "SGV_Disable_1"
+          ],
+          "globalValueKey": "SGV_Disable",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "SGV_Active_0",
+            "SGV_Active_1"
+          ],
+          "globalValueKey": "SGV_Active",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Maze_Operator_02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onRemoved": [
+        {
+          "$type": "ShowExtraAbility",
+          "target": "CurTeamAvatars"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "ServerUpdateGlobalValueMixin",
+          "maxValue": 0,
+          "key": "ActivityAbility_Maze_Skill",
+          "minValue": 0
+        },
+        {
+          "$type": "StageReadyMixin",
+          "onStageReady": [
+            {
+              "$type": "ShowExtraAbility",
+              "target": "CurTeamAvatars",
+              "skillID": 20018
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ActivityAbility_Maze_Skill",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "abilityName": "ActivityAbility_Maze_Skill_Button"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 0,
+          "param2": 0,
+          "funcName": "SLC_Trigger_Skill",
+          "param3": 0,
+          "luaCallType": "AbilityGroupSourceGroup"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "StageReadyMixin",
+          "onStageReady": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_CD_Type",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ]
+        },
+        {
+          "$type": "ServerUpdateGlobalValueMixin",
+          "maxValue": 0,
+          "key": "_CD_Type",
+          "minValue": 0
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "SetExtraAbilityState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_CD_Type"
+                }
+              ]
+            },
+            {
+              "$type": "ModifyExtraSkillCD",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_CD_Type"
+                }
+              ],
+              "skillID": 20018,
+              "cdDelta": -15
+            },
+            {
+              "$type": "ModifyExtraSkillCD",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_CD_Type"
+                }
+              ],
+              "skillID": 20018,
+              "cdDelta": -18
+            },
+            {
+              "$type": "ShowReminder",
+              "muteRemoteAction": true,
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_CD_Type"
+                }
+              ],
+              "id": 470240105
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_CD_Type",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "globalValueKey": "_CD_Type"
+        }
+      ],
+      "abilityName": "ActivityAbility_Maze_Skill"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Gadget_Detact": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "entityTypePriority": [
+                  "Gadget"
+                ],
+                "centerBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR1_5H3_5"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "Action_Trigger"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_CAN_BE_PICKED_UP"
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "modifierName": "Start_Check_CountDown"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "SGV_Eff_SceneObj_GlideChampCoin_Hit"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "entityTypePriority": [
+                  "Gadget"
+                ],
+                "centerBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR2_5H3_5"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "Action_FireEffect"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "Action_Trigger"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_CAN_BE_PICKED_UP"
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "modifierName": "Start_Check_CountDown"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SGV_Eff_SceneObj_GlideChampCoin_Hit"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_Trigger": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "canBeHandledOnRecover": true,
+              "key": "_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Action_FireEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "Applier",
+              "effectPattern": "Eff_SceneObj_GetGlideChampCoin",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByTarget"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "CurLocalAvatarMixinV2",
+          "modifierName": "State_Gadget_Detact"
+        }
+      ],
+      "abilityName": "ActivityAbility_V3_1_Team_WindField_Maze_GadgetDetect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Default": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Trigger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SGV_Eff_WindCrystal_Smash"
+                }
+              ],
+              "effectPattern": "Eff_WindCrystal_Smash",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "SGV_Eff_SceneObj_GlideChampCoin_Hit"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_GlideChampCoin_Hit",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "hideEntity": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "State_Default",
+            "State_Trigger"
+          ],
+          "globalValueKey": "_Trigger",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Activity_WindField_Maze_GadgetDetect",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "canBeHandledOnRecover": true,
+          "key": "_CAN_BE_PICKED_UP",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Trigger",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_ScenObj_Area_Common_Property_Prop_WindBuff_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 201
+                }
+              ],
+              "parameter": "Disappear",
+              "effectPattern": "Eff_ScenObj_Area_Common_Property_Prop_WindBuff_01"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Eff"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Eff"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Disable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "parameter": "Disappear",
+              "effectPattern": "Eff_ScenObj_Area_Common_Property_Prop_WindBuff_01"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WindSeed_Set_GV_Avatar": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "WindSeed_Set_GV_Avatar onAdded"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Team",
+              "modifierName": "WindSeed_Set_GV_Team"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WindSeed_Set_GV_Team": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "WindSeed_Set_GV_Team onAdded"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_VintageChallenge_Wind_Seed_Count",
+              "maxValue": 3,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_WindSeed",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_Disable"
+            }
+          ]
+        },
+        {
+          "$type": "DebugLog",
+          "target": "Other",
+          "content": "suc2"
+        },
+        {
+          "$type": "ApplyModifier",
+          "target": "Other",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_Disable"
+            }
+          ],
+          "modifierName": "WindSeed_Set_GV_Avatar"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Disable",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Opening": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Dissolve_CountDown"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ChangeState_CountDown"
+            },
+            {
+              "$type": "FireEffect",
+              "canBeHandledOnRecover": true,
+              "effectPattern": "Eff_SceneObj_WineBarrel_Open",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "GameObj"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "GadgetState",
+              "value": 201
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_0"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee",
+              "canBeHandledOnRecover": true,
+              "enable": true
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Opening"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Dissolve_CountDown"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ChangeState_CountDown"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Dissolve"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "value": 0,
+              "patternName": "_DissolveValue",
+              "matName": "mat"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "modifierName": "State_0"
+                    }
+                  ]
+                }
+              ],
+              "hideEntity": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dissolve_CountDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.3,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Dissolve"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChangeState_CountDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dissolve": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": 1,
+              "patternName": "_DissolveValue",
+              "lerpTime": 1.5,
+              "matName": "mat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Opening"
+            }
+          ]
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Activity_Gift_Chest"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_CheckAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Has_Avatar",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "campTargetType": "All"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_Has_Avatar",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_Avatar_Detect_Time",
+                  "maxValue": 5,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ChangeGadgetState",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 5,
+                      "key": "_Avatar_Detect_Time"
+                    },
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "target": "Self"
+                    }
+                  ],
+                  "state": 201
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_Avatar_Detect_Time",
+                  "maxValue": 5,
+                  "minValue": 0,
+                  "value": -1
+                },
+                {
+                  "$type": "ChangeGadgetState",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "_Avatar_Detect_Time"
+                    },
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "target": "Self",
+                      "gadgetState": 201
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Has_Avatar"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Pf_Property_Prop_DropPlatform_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "State_CheckAvatar"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Detect_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Detect_CoolDown"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Detect_Handler"
+            }
+          ],
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "SGV_Left_Dir",
+              "overrideMapKey": "_Left_Dir"
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "SGV_Right_Dir",
+              "overrideMapKey": "_Right_Dir"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Temp_Dir",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "entityTypePriority": [
+                  "AirflowField"
+                ],
+                "campTargetType": "All"
+              },
+              "successActions": [
+                {
+                  "$type": "DebugLog",
+                  "content": "State_Detect_Handler,successActions"
+                },
+                {
+                  "$type": "Predicated",
+                  "target": "Other",
+                  "successActions": [
+                    {
+                      "$type": "AddGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_Temp_Dir",
+                      "maxValue": 2,
+                      "minValue": 0,
+                      "value": -1
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": "_Left_Dir",
+                      "key": "_Dir"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "target": "Other",
+                  "successActions": [
+                    {
+                      "$type": "AddGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_Temp_Dir",
+                      "maxValue": 2,
+                      "minValue": 0,
+                      "value": 1
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": "_Right_Dir",
+                      "key": "_Dir"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "AirflowField"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_Temp_Dir",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "UNIQUE_State_BeingHit_202"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_Temp_Dir",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "UNIQUE_State_BeingHit_201"
+                }
+              ]
+            },
+            {
+              "$type": "CopyGlobalValue",
+              "srcKey": "_Temp_Dir",
+              "dstKey": "Dir"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "DebugLog",
+              "content": "onBeingHit"
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Wind"
+                    }
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "DebugLog",
+                  "content": "onBeingHit > successActions"
+                },
+                {
+                  "$type": "SetGlobalDir",
+                  "target": "Other",
+                  "key": "_BeingHit_Attacker_Dir",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "onGround": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByLookAtEntity"
+                    }
+                  },
+                  "LINAHBPILJD": false
+                },
+                {
+                  "$type": "Predicated",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "SGV_Left_Dir"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_202"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_201"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_BeingHit_Attacker_Dir_2"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 2,
+                      "key": "SGV_Left_Dir"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_201"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_202"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_BeingHit_Attacker_Dir_2"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "SGV_Left_Dir"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_202"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_201"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_BeingHit_Attacker_Dir_0"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 3,
+                      "key": "SGV_Left_Dir"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_201"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_State_BeingHit_202"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_BeingHit_Attacker_Dir_0"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "State_Detect_CoolDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Detect_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_State_BeingHit_202": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 4,
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_State_BeingHit_201": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 4,
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dir_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dir_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dir_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 202
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Dir_0",
+            "Dir_1",
+            "Dir_2"
+          ],
+          "globalValueKey": "Dir",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5
+          ]
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "SGV_Left_Dir",
+              "overrideMapKey": "_Left_Dir"
+            }
+          ],
+          "globalValueKey": "SGV_Left_Dir"
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "actions": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "SGV_Right_Dir",
+              "overrideMapKey": "_Right_Dir"
+            }
+          ],
+          "globalValueKey": "SGV_Right_Dir"
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Ani_Prop_Tplatform_01",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Dir",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "State_Detect_Handler"
+        },
+        {
+          "$type": "SetGlobalValueToOverrideMap",
+          "globalValueKey": "SGV_Left_Dir",
+          "overrideMapKey": "_Left_Dir"
+        },
+        {
+          "$type": "SetGlobalValueToOverrideMap",
+          "globalValueKey": "SGV_Right_Dir",
+          "overrideMapKey": "_Right_Dir"
+        }
+      ],
+      "abilitySpecials": {
+        "_Left_Dir": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "_Right_Dir": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Add_1": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "Dir",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dim_1": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "Dir",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "ApplyModifier"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Owner",
+              "modifierName": "Dim_1"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "AirflowField"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Ani_Prop_Tplatform_02",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "ApplyModifier"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Owner",
+              "modifierName": "Add_1"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "AirflowField"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Add_1": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "Dir",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dim_1": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "Dir",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "ApplyModifier"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Owner",
+              "modifierName": "Add_1"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "AirflowField"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Ani_Prop_Tplatform_03",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "ApplyModifier"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Owner",
+              "modifierName": "Dim_1"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "AirflowField"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Start_Check_CountDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Is_Used_0": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Stages_Common_BigGlideChampOrb_Diss",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Stages_Common_BigGlideChampOrb_02_Vo",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Is_Used_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Start_Check_CountDown"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "_Is_Used_0",
+            "_Is_Used_1"
+          ],
+          "globalValueKey": "_Trigger",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Ani_Prop_BigGlideChampOrb_01",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Trigger",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "canBeHandledOnRecover": true,
+          "key": "_CAN_BE_PICKED_UP",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "TemperatureGrowRateMixin",
+          "growRateMultiplier": 10.0,
+          "monsterGV": "_Is_Hunt_Animal_Activity3.1"
+        }
+      ],
+      "abilityName": "AvatarAbility_3_1_Activity_Hunting_Statge_1_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Show_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "Eff_Point"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Stages_Common_RisePlatform_02_Vo",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "Eff_Point2"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Stages_Common_RisePlatform_02_Vo_2",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "Mute_Eff",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "Mute_Eff",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mute_Eff_2S": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "Mute_Eff",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "Mute_Eff",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Wind_Detect_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Detect_CoolDown"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Wind_Detect_Handler"
+            }
+          ],
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Temp_State",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "entityTypePriority": [
+                  "AirflowField"
+                ],
+                "campTargetType": "All"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "Temp_State",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 201
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "target": "Self",
+                      "gadgetState": 202
+                    }
+                  ],
+                  "modifierName": "Mute_Eff_2S"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "_WindType_1"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "entityTypePriority": [
+                  "AirflowField"
+                ],
+                "campTargetType": "All"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "Temp_State",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 202
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "_WindType_2"
+                }
+              ]
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 201,
+                  "key": "Temp_State"
+                }
+              ],
+              "state": 201
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 202,
+                  "key": "Temp_State"
+                }
+              ],
+              "state": 202
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "Temp_State"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Detect_CoolDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Wind_Detect_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Show_Eff",
+            "Mute_Eff"
+          ],
+          "globalValueKey": "Mute_Eff",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            2.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Prop_RisePlatform_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Wind_Detect_Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        }
+      ],
+      "abilityName": "SceneObj_Homeworld_Property_Prop_MarkertDeco_02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Brokenplatform02_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Has_Avatar",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "campTargetType": "All"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_Has_Avatar",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "state": 201
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Has_Avatar"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 202
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Brokenplatform02_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_202": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 4,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Brokenplatform02_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_202",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Prop_BrokenPlatform_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornType",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 2.5,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigBornDirectionType",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 180
+                  }
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SpeedPlatform_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "parameter": "State",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_SpeedPlatform_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "State",
+              "value": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_On": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "parameter": "State",
+              "effectPattern": "Eff_SceneObj_SpeedPlatform_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "State",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "State_Off",
+            "State_On"
+          ],
+          "globalValueKey": "SGV_Switch_OnOff",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Prop_SpeedPlatform_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "State_Eff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Level_Activity_Exploration_Detect_Target",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "_Activity_Exploration",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "Operator"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Prop_MovingPlatform_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "_Used_Widget_0": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Used_Widget_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Use_Widget",
+              "param3": 0,
+              "luaCallType": "AbilityGroupSourceGroup"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "_Used_Widget_Reset"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_Used_Widget_Reset": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Used_Widget",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "_Used_Widget_0",
+            "_Used_Widget_1"
+          ],
+          "globalValueKey": "_Used_Widget",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "ActivityAbility_Team_Exploration_Used_Widget_Detect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Moving": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Stages_Common_RisePlatform_02_Vo_B",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Hide_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "State_Hide_Col"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "Col"
+              ]
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": -1,
+              "patternName": "_DissolveVal",
+              "lerpTime": 1.5,
+              "matName": "mat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Hide_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": 1,
+              "patternName": "_DissolveVal",
+              "lerpTime": 1.5,
+              "matName": "mat"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "CountDown_Hide_Col"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CountDown_Hide_Col": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "State_Hide_Col"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Hide_Col": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Col"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "canBeHandledOnRecover": true,
+              "key": "State_Hide",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PlatformMoveMixin",
+              "moveModifiers": [
+                "State_Moving"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "canBeHandledOnRecover": true,
+              "key": "State_Hide",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PlatformMoveMixin",
+              "moveModifiers": [
+                "State_Moving"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_202": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "State_Hide",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "canBeHandledOnRecover": true,
+              "key": "State_Hide",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "State_Hide_0",
+            "State_Hide_1"
+          ],
+          "globalValueKey": "State_Hide",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_0"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_201",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "State_202",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Level_Pf_Property_Prop_MovingPlatform_Dissolve"
+    }
+  }
+]

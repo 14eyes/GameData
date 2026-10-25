@@ -1,0 +1,839 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Interactable": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Seeker_ExplorationPoint_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "ShowMark"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mute": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TeasureHuntMarkShow"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Active": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "BeActive"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "ShowMark"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BeActive": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Shoot"
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "state": 202
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Shoot": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "topLimit": 15,
+                "sortType": "Nearest",
+                "tag": "IS_RESEARCH_POINT"
+              },
+              "successActions": [
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "target": "Target"
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "predicates": [
+                    {
+                      "$type": "ByHasAttackTarget"
+                    }
+                  ],
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 2
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByAttackTarget",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": -45,
+                        "z": 0,
+                        "y": 0
+                      }
+                    }
+                  },
+                  "bulletID": 70290407
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowMark": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TeasureHuntMarkShow",
+              "show": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Interactable"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Mute",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Active",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_Exploration_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "ignoreModifyDamage": true,
+              "ignoreAttackerProperty": true,
+              "strikeType": "Default",
+              "damagePercentage": 0,
+              "elementDurability": 100,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.05000000074505806,
+              "muteHitText": true,
+              "hitImpulseType": "LV7"
+            },
+            "attenuationGroup": "default",
+            "attackTag": "ResearchPointBullet"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_ExplorationBullet_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mute": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "ResearchPointBullet"
+                  ]
+                }
+              ],
+              "state": 201
+            }
+          ]
+        },
+        "Active": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ElementParticle_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "EffectBall": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ElementParticle_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pickup": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Activity_TreasureSeelie_PickElementParticle",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ElementParticle_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Mute"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Active",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_ElementParticle_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 201
+                }
+              ],
+              "modifierName": "Pickup"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAvatarIsHost"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "IS_RESEARCH_POINT",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Pickup": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Activity_TreasureSeelie_PickElementParticle",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ElementParticle_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_ElementParticle_OnGround_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Pickup"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAvatarIsHost"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_ElementParticle_01",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_ElementParticle_Generator_01",
+      "onAdded": [
+        {
+          "$type": "CreateGadget",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 70290552
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Active": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Seeker_EnergyBall_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Inactive": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pickup": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Activity_TreasureSeelie_PickEnergyBall",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Seeker_EnergyBall_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Active"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Inactive",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_EnergyBall_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self"
+                }
+              ],
+              "modifierName": "Pickup"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAvatarIsHost"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Interactable": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Excavate_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornType",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1.2
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SeekerSeelie_03_NoFollow",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "ShowMark"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Interacted": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "ShowMark"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mute": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TeasureHuntMarkShow",
+              "markType": "excavation"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Die": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TeasureHuntMarkShow",
+              "markType": "excavation"
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowMark": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TeasureHuntMarkShow",
+              "markType": "excavation",
+              "show": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Interactable"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Mute",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Interacted",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Die",
+          "gadgetState": 203
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_Excavate_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_SeelieFarAway_01",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_SeekerSeelie_03_Follow",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoinMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_GlideChampCoin_Hit",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCCoin_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_RemovableCoin_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BePicked": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Activity_Parkour_PickCoin",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "CoinMaterial"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "BePicked"
+          ],
+          "globalValueKey": "GV_Picked",
+          "valueSteps": [
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Prop_RemovableCoin_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "CoinMaterial"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_Picked",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "IS_COIN",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_PickRangeBuff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 20,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "Team",
+              "useLimitRange": true,
+              "key": "GV_CoinRangeLevel",
+              "maxValue": 1000,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "Team",
+              "useLimitRange": true,
+              "key": "GV_CoinRangeLevel",
+              "maxValue": 1000,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Interactable": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ExpandAccessCoin_01_Dis",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ExpandAccessCoin_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mute": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 20,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Interactable"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Mute",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Prop_ExpandAccessCoin_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Team",
+              "modifierName": "UNIQUE_PickRangeBuff"
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAvatarIsHost"
+            },
+            {
+              "$type": "ByTargetGadgetState",
+              "target": "Self"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AddEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "EffectPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Challengestarter_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ReMove": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "AddEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ReMove",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_ParkourOperatorXM_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AddEffect"
+        }
+      ]
+    }
+  }
+]

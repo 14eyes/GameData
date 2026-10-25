@@ -1,0 +1,40 @@
+require("Actor/ActorCommon")
+local GadgetActorProxy = require("Actor/Gadget/GadgetActorProxy")
+
+local Q74184Trigger2 = class("Q74184Trigger2", GadgetActorProxy)
+Q74184Trigger2.defaultAlias = "Q74184Trigger2"
+local Q74184ClientConfig = require("Quest/Client/Q74184ClientConfig")
+
+local this
+local subIDs = Q74184ClientConfig.SubIDs
+local npcs = Q74184ClientConfig.Npcs
+
+function Q74184Trigger2:OnPostDataPrepare()
+    print("[MainId: 74184][Trigger: Q74184Trigger2] OnPostDataPrepare")
+    this = self
+end
+
+function Q74184Trigger2:OnPostComponentPrepare()
+    print("[MainId: 74184][Trigger: Q74184Trigger2] OnPostComponentPrepare")
+    this:AddCubeShapeTrigger(433.9946, 378.4688, 95.6813, true, {x = 0.0, y = 0.0, z = 0.0}, self.TriggerIn, self.TriggerOut, nil, self.PreTriggerIn, self.LightUpTriggerIn)
+end
+
+function Q74184Trigger2:TriggerIn()
+    print("[MainId: 74184][Trigger: Q74184Trigger2] TriggerIn")
+    actorUtils.FinishQuestID(false, 7418419)
+    this:DestroySelf()
+end
+
+function Q74184Trigger2:PreTriggerIn()
+    print("[MainId: 74184][Trigger: Q74184Trigger2] PreTriggerIn")
+end
+
+function Q74184Trigger2:LightUpTriggerIn()
+    print("[MainId: 74184][Trigger: Q74184Trigger2] LightUpTriggerIn")
+end
+
+function Q74184Trigger2:TriggerOut()
+    print("[MainId: 74184][Trigger: Q74184Trigger2] TriggerOut")
+end
+
+return Q74184Trigger2

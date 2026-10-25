@@ -1,0 +1,32 @@
+return {
+    MainID = 1022,
+    ActorAlias = "1022",
+    SubIDs = {
+        q102201 = 102201,
+        q102202 = 102202,
+        q102203 = 102203,
+        q102204 = 102204,
+        q102205 = 102205,
+        q102206 = 102206,
+        q102207 = 102207,
+        q102208 = 102208,
+        q102209 = 102209,
+        q102210 = 102210,
+        q102211 = 102211,
+        q102212 = 102212,
+        q102213 = 102213
+    },
+    PaimonData = {Alias = "Paimon", Script = "Actor/Quest/Q352/Paimon", ID = 1005},
+    GongziData = {Alias = "Npc10200", Script = "Actor/Npc/TempNPC", ID = 10200},
+    KeqingData = {Alias = "Npc1016", Script = "Actor/Npc/TempNPC", ID = 1016},
+    NvshiData = {Alias = "Npc1017", Script = "Actor/Npc/TempNPC", ID = 1017},
+    NingguangData = {Alias = "Npc10211", Script = "Actor/Npc/TempNPC", ID = 10211},
+    GanyuData = {Alias = "Npc1015", Script = "Actor/Npc/TempNPC", ID = 1015},
+    LilyData = {Alias = "Npc10273", Script = "Actor/Npc/TempNPC", ID = 10273},
+    YRZData = {Alias = "Npc10272", Script = "Actor/Npc/TempNPC", ID = 10272},
+    ZhongliData = {Alias = "Npc10232", Script = "Actor/Npc/TempNPC", ID = 10232},
+    ReadData = {Alias = "Npc10261", Script = "Actor/Npc/TempNPC", ID = 10261},
+    NarratorData1 = {narratorId = 10252204, pauseLen = 10, resumeLen = 5, tag = "StoryCut"},
+    NarratorData2 = {narratorId = 10252206, pauseLen = 10, resumeLen = 5, tag = "StoryCut"},
+    NarratorData3 = {narratorId = 10252208, pauseLen = 10, resumeLen = 5, tag = "StoryCut"}
+}

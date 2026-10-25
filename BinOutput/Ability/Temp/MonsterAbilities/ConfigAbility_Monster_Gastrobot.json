@@ -1,0 +1,5280 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_NormalFree": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "value": true,
+              "boolID": "FreeTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StandbyHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_CanWeak_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_CanWeak_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_AlertHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_KillSummon_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_FreeTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ],
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ],
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_KillSummon_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Gastrobot_Pose_Normal",
+                "Gastrobot_Pose_StageChange",
+                "Gastrobot_Pose_Enhanced",
+                "Gastrobot_Pose_Weak"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                0.5,
+                1.5,
+                2.5,
+                3.5,
+                4.5
+              ],
+              "globalValueKey": "_ABILITY_Gastrobot_State_",
+              "defaultGlobalValueOnCreate": 1
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Gastrobot_None",
+                "Gastrobot_CountDownEnd",
+                "Gastrobot_ShieldBreakEnd"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5,
+                2.5
+              ],
+              "globalValueKey": "_ABILITY_Gastrobot_ShieldBreak_",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_Pose_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "canBeHandledOnRecover": true,
+              "value": 1,
+              "intID": "StageState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "EnhancedTag"
+            },
+            {
+              "$type": "SetSpecialCamera",
+              "specialCameraName": "default",
+              "enable": true
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "UNIQUE_Gastrobot_Pose_Normal_CountDown"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "compareType": "LessAndEqual",
+                      "key": "_STAGE_CHANGE_TIMES"
+                    }
+                  ],
+                  "modifierName": "UNIQUE_Gastrobot_Pose_Normal_CountDown"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_KillSummon_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Gastrobot_Stage1_HitBoxOn"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_Shield"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_Shield_Abyss"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_CountDown"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_CountDown_Abyss"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_Pose_StageChange": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "canBeHandledOnRecover": true,
+              "value": 2,
+              "intID": "StageState"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_KillSummon_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Normal_CountDown"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_Pose_Enhanced": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetSpecialCamera",
+              "specialCameraName": "Enhanced",
+              "enable": true
+            }
+          ],
+          "thinkInterval": 1,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "EnhancedFirstSkill"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_WeakType_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetPoseInt",
+              "canBeHandledOnRecover": true,
+              "value": 3,
+              "intID": "StageState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "canBeHandledOnRecover": true,
+              "value": true,
+              "boolID": "EnhancedTag"
+            },
+            {
+              "$type": "SetSpecialCamera",
+              "specialCameraName": "Enhanced",
+              "enable": true
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ],
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_CountDown"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ],
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_CountDown_Abyss"
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Gastrobot_Stage1_HitBoxOff"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetEntityScaleMixin",
+              "JHDJEICCLMG": 0.1,
+              "LCDHELKGFJC": 0.05,
+              "scale": 0.9
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 5,
+                "configID": 24100201
+              },
+              "successActions": [
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "SelfAttackActiveTarget",
+                  "targetKey": "_ABILITY_RoboDuck_AttackTarget_"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Gastrobot_NoticeCommandTarget"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 5,
+                "configID": 24100202
+              },
+              "successActions": [
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "SelfAttackActiveTarget",
+                  "targetKey": "_ABILITY_RoboDuck_AttackTarget_"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Gastrobot_NoticeCommandTarget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_Pose_Weak": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "canBeHandledOnRecover": true,
+              "value": 4,
+              "intID": "StageState"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_KillSummon_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ],
+              "modifierName": "Gastrobot_Decrease_ThunderSubHurt"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_Decrease_ThunderSubHurt": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_ElecSubHurtDelta": -0.6
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_None": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "WeakNormal"
+            },
+            {
+              "$type": "ResetAnimatorTrigger",
+              "canBeHandledOnRecover": true,
+              "triggerID": "WeakTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_CountDownEnd": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "Gastrobot_CountDownEnd_Weak"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_Gastrobot_CanWeak_",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_CountDownEnd_Weak": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_Shield"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_Shield_Abyss"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "WeakNormal"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "WeakTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ShieldBreakEnd": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "WeakNormal"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 4
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "WeakTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Gastrobot_Pose_Normal_CountDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 30,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Gastrobot_Pose_Enhanced_CountDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 35,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Caster",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_ShieldBreak_"
+                }
+              ],
+              "key": "_ABILITY_Gastrobot_ShieldBreak_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_Shield"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Gastrobot_Pose_Enhanced_Shield": {
+          "$type": "ConfigAbilityModifier",
+          "forceSyncToRemote": true,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_DenyLockOn"
+            }
+          ],
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": "GastrobotAddHurb",
+            "Actor_FireSubHurtDelta": "GastrobotAddHurb",
+            "Actor_ElecSubHurtDelta": "GastrobotAddHurb",
+            "Actor_WaterSubHurtDelta": "GastrobotAddHurb",
+            "Actor_GrassSubHurtDelta": "GastrobotAddHurb",
+            "Actor_WindSubHurtDelta": "GastrobotAddHurb",
+            "Actor_IceSubHurtDelta": "GastrobotAddHurb",
+            "Actor_RockSubHurtDelta": "GastrobotAddHurb"
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShieldBarMixin",
+              "AMMMDCMOAPF": true,
+              "onShieldBroken": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_ABILITY_Gastrobot_ShieldBreak_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 2
+                },
+                {
+                  "$type": "RemoveUniqueModifier",
+                  "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_CountDown"
+                }
+              ],
+              "OHHNFPFJGEB": true
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Gastrobot_Pose_Enhanced_CountDown_Abyss": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 60,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Caster",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_ShieldBreak_"
+                }
+              ],
+              "key": "_ABILITY_Gastrobot_ShieldBreak_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetOverrideMapValue",
+                  "value": 1.4,
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "overrideMapKey": "GastrobotAddHurbAbyss"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetOverrideMapValue",
+                  "value": 2,
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "overrideMapKey": "GastrobotAddHurbAbyss"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_Shield_Abyss"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Gastrobot_Pose_Enhanced_Shield_Abyss": {
+          "$type": "ConfigAbilityModifier",
+          "forceSyncToRemote": true,
+          "thinkInterval": 1,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValueV2",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Caster",
+                      "value": 2,
+                      "key": "_ABILITY_Gastrobot_ShieldBreak_"
+                    }
+                  ]
+                }
+              ],
+              "minValue": 0,
+              "key": "_STAGE_CHANGE_TIMES",
+              "value": 1,
+              "useLimitRange": true,
+              "maxValue": 2
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_DenyLockOn"
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": "GastrobotAddHurbAbyss",
+            "Actor_FireSubHurtDelta": "GastrobotAddHurbAbyss",
+            "Actor_ElecSubHurtDelta": "GastrobotAddHurbAbyss",
+            "Actor_WaterSubHurtDelta": "GastrobotAddHurbAbyss",
+            "Actor_GrassSubHurtDelta": "GastrobotAddHurbAbyss",
+            "Actor_WindSubHurtDelta": "GastrobotAddHurbAbyss",
+            "Actor_IceSubHurtDelta": "GastrobotAddHurbAbyss",
+            "Actor_RockSubHurtDelta": "GastrobotAddHurbAbyss"
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShieldBarMixin",
+              "AMMMDCMOAPF": true,
+              "onShieldBroken": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_ABILITY_Gastrobot_ShieldBreak_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 2
+                },
+                {
+                  "$type": "RemoveUniqueModifier",
+                  "modifierName": "UNIQUE_Gastrobot_Pose_Enhanced_CountDown_Abyss"
+                },
+                {
+                  "$type": "AddGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_STAGE_CHANGE_TIMES",
+                  "value": 1,
+                  "useLimitRange": true,
+                  "maxValue": 2
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "target": "AllPlayerAvatars",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "value": 60
+                    }
+                  ],
+                  "modifierName": "UNIQUE_Monster_Gastrobot_ShockDamageUp"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Monster_Gastrobot_ShockDamageUp": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "properties": {
+            "Actor_ElemReactElectricDelta": 1.5,
+            "Actor_ElemReactMoonShockDelta": 1.5
+          },
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_NoticeCommandTarget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "CopyGlobalValue",
+              "srcKey": "_ABILITY_RoboDuck_AttackTarget__0",
+              "dstTarget": "Self",
+              "dstKey": "_ABILITY_RoboDuck_AttackTarget__0"
+            },
+            {
+              "$type": "CopyGlobalValue",
+              "srcKey": "_ABILITY_RoboDuck_AttackTarget__1",
+              "dstTarget": "Self",
+              "dstKey": "_ABILITY_RoboDuck_AttackTarget__1"
+            },
+            {
+              "$type": "SetAiCommandThreatTarget",
+              "target": "TempTarget",
+              "DJOOHHCGMDG": {
+                "$type": "GDCEGOKEBID",
+                "GCGFDNHKCIH": "_ABILITY_RoboDuck_AttackTarget_"
+              },
+              "enable": true
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Gastrobot_KillSummon_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2,
+            3
+          ],
+          "modifierName": "Gastrobot_AlertHandler"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Gastrobot_NormalFree"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_Gastrobot_FreeTag_",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Born",
+            "NormalIdle_Enhanced",
+            "NormalMove_Forward_Enhanced",
+            "NormalMove_Back_Enhanced"
+          ],
+          "modifierName": "Gastrobot_StandbyHandler"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_Pose",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Team",
+              "value": 0,
+              "key": "LeyLineChallenge_MonsterLevelHigh"
+            }
+          ],
+          "key": "_ABILITY_Gastrobot_FreeTag_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilitySpecials": {
+        "GastrobotAddHurb": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.699999988079071
+        },
+        "GastrobotAddHurbAbyss": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.399999976158142
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_InitialConfig": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "CEMJCDOPCGG": true,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42410001,
+              "byServer": true
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_Tag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 13002
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "OverrideMassCapMixin",
+              "mass": 100000000.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Gastrobot_InitialConfig",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gastrobot_InitialConfig"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_Gastrobot_SceneGadget_"
+            }
+          ],
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "ignoreModifyDamage": true,
+              "enBreak": 1.0,
+              "damagePercentage": 1,
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "none",
+              "muteHitText": true,
+              "hitImpulseType": "LV0"
+            },
+            "attenuationGroup": "default"
+          },
+          "attacker": "CasterOriginOwner"
+        }
+      ],
+      "abilityName": "Gastrobot_DestroyBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_ExitBattle": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_WeakType_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_ShieldBreak_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42410002
+              }
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Gastrobot_Pose_Normal_CountDown"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Gastrobot_Abyss_"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Gastrobot_ArchonQuest_"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": -1,
+                      "compareType": "NoneOrEqual",
+                      "key": "LeyLineChallenge_MonsterLevelHigh"
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "Gastrobot_ExitBattle_DitherHandler"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ],
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ExitBattle_DitherHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Gastrobot_BossBattleReset",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 2.299999952316284
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2,
+            3
+          ],
+          "modifierName": "Gastrobot_ExitBattle"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_ExitBattle"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.33500000834465027,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalMove_Forward_Normal"
+          ],
+          "startNormalizedTime": 0.25999999046325684,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.7820000052452087,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalMove_Forward_Normal"
+          ],
+          "startNormalizedTime": 0.6029999852180481,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.3499999940395355,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalMove_Back_Normal"
+          ],
+          "startNormalizedTime": 0.23999999463558197,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.8700000047683716,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalMove_Back_Normal"
+          ],
+          "startNormalizedTime": 0.7149999737739563,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.33500000834465027,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Turn"
+          ],
+          "startNormalizedTime": 0.25999999046325684,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.7820000052452087,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Turn"
+          ],
+          "startNormalizedTime": 0.6029999852180481,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 25.0,
+          "ONBKNHMBGON": true,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalIdle_Enhanced"
+          ],
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "endNormalizedTime": 0.23000000417232513,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk1"
+          ],
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.5649999976158142,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk1"
+          ],
+          "startNormalizedTime": 0.5210000276565552,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.12999999523162842,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk2"
+          ],
+          "startNormalizedTime": 0.09000000357627869,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 150.0,
+          "endNormalizedTime": 0.5099999904632568,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk2"
+          ],
+          "startNormalizedTime": 0.3100000023841858,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "endNormalizedTime": 0.20999999344348907,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk3"
+          ],
+          "startNormalizedTime": 0.09000000357627869,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.9200000166893005,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk3"
+          ],
+          "startNormalizedTime": 0.8500000238418579,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.8840000033378601,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "RushAtk_BS"
+          ],
+          "startNormalizedTime": 0.14499999582767487,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "ONBKNHMBGON": true,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "RushAtk_Loop"
+          ],
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.8199999928474426,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "RushAtk_AS"
+          ],
+          "startNormalizedTime": 0.640999972820282,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.15000000596046448,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "JumpAtk"
+          ],
+          "startNormalizedTime": 0.05999999865889549,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 270.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "JumpAtk"
+          ],
+          "startNormalizedTime": 0.1850000023841858,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.6240000128746033,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "JumpAtk"
+          ],
+          "startNormalizedTime": 0.5400000214576721,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.2720000147819519,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "ChaoticFist_BS"
+          ],
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 150.0,
+          "endNormalizedTime": 0.8600000143051147,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "CircleAtk"
+          ],
+          "startNormalizedTime": 0.7099999785423279,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 480.0,
+          "endNormalizedTime": 0.18000000715255737,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "WheelbarrowAtk_BS"
+          ],
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.15000000596046448,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "StageChange_Jump"
+          ],
+          "startNormalizedTime": 0.05999999865889549,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 270.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "StageChange_Jump"
+          ],
+          "startNormalizedTime": 0.1850000023841858,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.6240000128746033,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "StageChange_Jump"
+          ],
+          "startNormalizedTime": 0.5400000214576721,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "endNormalizedTime": 0.1940000057220459,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "StageChange"
+          ],
+          "startNormalizedTime": 0.0729999989271164,
+          "NJLGIMNGPFN": 0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "StageChange"
+          ],
+          "startNormalizedTime": 0.953000009059906,
+          "NJLGIMNGPFN": 0
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_Die_Enhanced": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SwitchRagdollMixin",
+              "index": 1
+            },
+            {
+              "$type": "DiePatternSwitchMixin",
+              "NGGGFNDCCPM": true,
+              "hasAnimatorDie": true,
+              "NHKKKCFDJGB": true,
+              "dieForceDisappearTime": 2.0,
+              "GJNCACJIMFH": true,
+              "DGOAOCDKKGA": true,
+              "BGAPBIAJAKN": true,
+              "MIIDKADGGIC": true,
+              "dieDisappearEffect": "Eff_Death_Common",
+              "dieShaderData": "MonsterDie",
+              "dieEndTime": 1.1799999475479126
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            401
+          ],
+          "modifierName": "Gastrobot_Die_Enhanced"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_Die"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Gastrobot_EffectTrail": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_Decal_RatTrail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Gastrobot_EffectTrail"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_EffectTrail_On"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Gastrobot_EffectTrail"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_EffectTrail_Off"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "EnableHitBoxByName",
+          "hitBoxNames": [
+            "HitBox_WeaponR1",
+            "HitBox_WeaponR2",
+            "HitBox_WeaponL"
+          ],
+          "setEnable": true
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_Stage1_HitBoxOn"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "EnableHitBoxByName",
+          "hitBoxNames": [
+            "HitBox_WeaponR1",
+            "HitBox_WeaponR2",
+            "HitBox_WeaponL"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_Stage1_HitBoxOff"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_NeverCombat": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAIHitFeeling",
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ResetAIThreatBroadcastRange",
+              "canBeHandledOnRecover": true,
+              "range": 0
+            },
+            {
+              "$type": "SetAIHitFeeling"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_DenyLockOn"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_Invincible"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_MuteTaunt"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_IsGhostToEnemy"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "RigidBodyFreezeMixin"
+            },
+            {
+              "$type": "VelocityForceMixin",
+              "excludeForces": [
+                "WindZoneType"
+              ]
+            },
+            {
+              "$type": "RejectAttackMixinV2",
+              "attackTags": [
+                "Qin_VortexSmash",
+                "Sucrose_WindBlackHole",
+                "Faruzan_WindBlackHole"
+              ]
+            },
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider_BeforeBattle",
+                    "PushCollider_Extra_BeforeBattle",
+                    "PushCollider_Occluder_BeforeBattle"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider",
+                    "PushCollider_Extra",
+                    "PushCollider_Occluder"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider_BeforeBattle",
+                    "PushCollider_Extra_BeforeBattle",
+                    "PushCollider_Occluder_BeforeBattle"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider",
+                    "PushCollider_Extra",
+                    "PushCollider_Occluder"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_MuteTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "MuteTaunt",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_IsGhostToEnemy": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_CanCombat": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42410002
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Gastrobot_NeverCombat"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_FreeTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "CreateGadget",
+              "FGNHCAEHEJK": true,
+              "CEMJCDOPCGG": true,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "DestroyBulletPoint"
+              },
+              "gadgetID": 42410002,
+              "byServer": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Gastrobot_CanCombat"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "SGV_Gastrobot_MonsterBattle"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_Carousel",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "GOBNKFIFGFJ",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_ArchonQuest_"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": -1,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            }
+          ],
+          "modifierName": "Gastrobot_NeverCombat"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_StageChange_Jump_RushMoveHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "FixedRushMoveType"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42410004
+              },
+              "animatorStateIDs": [
+                "StageChange_Jump"
+              ],
+              "toPos": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "timeRange": 0.83
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Jump_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_ABILITY_Gastrobot_JumpAtk_Pos_",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Gastrobot_JumpAtk_Damage",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "positionKey": "_ABILITY_Gastrobot_JumpAtk_Pos_"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 5000.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "canBeDefenceHalt": true,
+                    "muteHitText": true,
+                    "hitImpulseType": "LV0"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "alongGround": true,
+                    "onGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -0.5
+                    },
+                    "positionKey": "_ABILITY_Gastrobot_JumpAtk_Pos_"
+                  },
+                  "radius": 6.8,
+                  "height": 3.5
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Jump_Damage": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 100.0,
+                    "damagePercentage": 0.8,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.23999999463558197,
+                    "shakeRange": 0.47999998927116394
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Heavy",
+                      "hitImpulseX": 900,
+                      "hitImpulseY": 200
+                    },
+                    "hitImpulseType": "LV4"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "alongGround": true,
+                    "onGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -0.5
+                    },
+                    "positionKey": "_ABILITY_Gastrobot_JumpAtk_Pos_"
+                  },
+                  "radius": 6.8,
+                  "height": 3.5
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Jump_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosKill_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosDamage_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosEffect_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosKill_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosDamage_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosEffect_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "otherTargets": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42410001
+          },
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 5,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 42410004
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Jump_RushMoveHandler",
+          "normalizeEnd": 0.3540000021457672,
+          "stateID": "StageChange_Jump",
+          "normalizeStart": 0.1940000057220459
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Jump_Effect",
+          "stateID": "StageChange_Jump",
+          "normalizeStart": 0.33799999952316284
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Jump_Damage",
+          "stateID": "StageChange_Jump",
+          "normalizeStart": 0.3720000088214874
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "StageChange_Jump"
+          ],
+          "modifierName": "Gastrobot_StageChange_Jump_Handler"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_Jump"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_StageChange_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 3
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ],
+              "boolID": "AbyssAlertTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_CallLuaTask": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "CallLuaTask",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Gastrobot_ArchonQuest_"
+                }
+              ],
+              "targetAlias": "6010",
+              "valueString": "OnSkillIneffa"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Summon1": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100201,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100202,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Summon2": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100201,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100202,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Summon3": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100201,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100202,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Summon4": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100201,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100202,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_StageChange_Summon5": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100201,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Summon",
+                  "CKEDDBOLAJE": true,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "alongGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "RoboDuckSummon"
+                  },
+                  "summonTag": 24100201,
+                  "monsterID": 24100202,
+                  "CEMJCDOPCGG": true,
+                  "AKMNMNKJHFP": true,
+                  "DDBLGCFCHPO": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "StageChange"
+          ],
+          "modifierName": "Gastrobot_StageChange_Handler"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_CallLuaTask",
+          "stateID": "StageChange",
+          "normalizeStart": 0.800000011920929
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Summon1",
+          "normalizeEnd": 0.6850000023841858,
+          "stateID": "StageChange"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Summon2",
+          "normalizeEnd": 0.6949999928474426,
+          "stateID": "StageChange"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Summon3",
+          "normalizeEnd": 0.7049999833106995,
+          "stateID": "StageChange"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Summon4",
+          "normalizeEnd": 0.7149999737739563,
+          "stateID": "StageChange"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_StageChange_Summon5",
+          "normalizeEnd": 0.7250000238418579,
+          "stateID": "StageChange"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root1"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root1"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect1"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root2"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root2"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect2"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root3"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root3"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect3"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root4"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root4"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect4"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root5"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root5"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect5"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root6"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root6"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect6"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root7"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root7"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect7"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Gastrobot_StageChange_Atk",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "Effect_Root8"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Gastrobot_StageChange",
+              "attenuationTag": "Gastrobot_StageChange"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Effect_Root8"
+              },
+              "radius": 2.75
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_StageChange_AttackEffect8"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_Weak_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "DoWatcherSystemAction",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": -1,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ],
+              "inThreatListOnly": true,
+              "watcherId": 82298
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_Weak_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1,
+                      "key": "_ABILITY_Gastrobot_WeakType_"
+                    }
+                  ],
+                  "modifierName": "Gastrobot_Weak_SubHurt"
+                },
+                {
+                  "$type": "SetAnimatorInt",
+                  "canBeHandledOnRecover": true,
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Gastrobot_WeakType_"
+                    }
+                  ],
+                  "intID": "WeakType",
+                  "value": 0
+                },
+                {
+                  "$type": "SetAnimatorInt",
+                  "canBeHandledOnRecover": true,
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1,
+                      "key": "_ABILITY_Gastrobot_WeakType_"
+                    }
+                  ],
+                  "intID": "WeakType",
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "Gastrobot_Weak_SubHurt"
+                },
+                {
+                  "$type": "SetAnimatorInt",
+                  "canBeHandledOnRecover": true,
+                  "intID": "WeakType",
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "LeyLineChallenge_MonsterLevelHigh"
+                }
+              ]
+            },
+            {
+              "$type": "CallLuaTask",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Gastrobot_ArchonQuest_"
+                }
+              ],
+              "targetAlias": "6010",
+              "valueString": "OnSkillAnno"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_ShieldBreak_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                0,
+                0,
+                2
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_Weak_Normal_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_ShieldBreak_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_Weak_SubHurt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_Weak_Electric",
+              "effectTempleteID": -1
+            }
+          ],
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": "WeakSubdHurt",
+            "Actor_FireSubHurtDelta": "WeakSubdHurt",
+            "Actor_ElecSubHurtDelta": "WeakSubdHurt",
+            "Actor_WaterSubHurtDelta": "WeakSubdHurt",
+            "Actor_GrassSubHurtDelta": "WeakSubdHurt",
+            "Actor_WindSubHurtDelta": "WeakSubdHurt",
+            "Actor_IceSubHurtDelta": "WeakSubdHurt",
+            "Actor_RockSubHurtDelta": "WeakSubdHurt"
+          },
+          "elementDurability": 100,
+          "state": "DefenseDown",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Weak_BS",
+            "Weak_Loop"
+          ],
+          "modifierName": "Gastrobot_Weak_Handler"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Weak_Normal_BS",
+            "Weak_Normal_AS"
+          ],
+          "modifierName": "Gastrobot_Weak_Normal_Handler"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_Weak",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Gastrobot_WeakType_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "WeakSubdHurt": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.6000000238418579
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_SummonCtrl": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_Enhanced_DoSkill_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Gastrobot_Enhanced_DoSkill_"
+                }
+              ],
+              "key": "_ABILITY_Gastrobot_Enhanced_DoSkill_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 3,
+                "sortType": "Random",
+                "configID": 24100201
+              },
+              "successActions": [
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "SelfAttackActiveTarget",
+                  "targetKey": "_ABILITY_RoboDuck_AttackTarget_"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Gastrobot_SummonCtrl_Notice"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 3,
+                "sortType": "Random",
+                "configID": 24100202
+              },
+              "successActions": [
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "SelfAttackActiveTarget",
+                  "targetKey": "_ABILITY_RoboDuck_AttackTarget_"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Gastrobot_SummonCtrl_Notice"
+                }
+              ]
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "EnhancedFirstSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_SummonCtrl_Notice": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "CopyGlobalValue",
+              "srcKey": "_ABILITY_RoboDuck_AttackTarget__0",
+              "dstTarget": "Self",
+              "dstKey": "_ABILITY_RoboDuck_AttackTarget__0"
+            },
+            {
+              "$type": "CopyGlobalValue",
+              "srcKey": "_ABILITY_RoboDuck_AttackTarget__1",
+              "dstTarget": "Self",
+              "dstKey": "_ABILITY_RoboDuck_AttackTarget__1"
+            },
+            {
+              "$type": "SetAiCommandThreatTarget",
+              "target": "TempTarget",
+              "DJOOHHCGMDG": {
+                "$type": "GDCEGOKEBID",
+                "GCGFDNHKCIH": "_ABILITY_RoboDuck_AttackTarget_"
+              },
+              "enable": true
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_RoboDuck_Shoot_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChaoticFist_BS",
+            "ChaoticFist_Loop1",
+            "ChaoticFist_Loop2",
+            "ChaoticFist_Loop3",
+            "ChaoticFist_AS",
+            "WheelbarrowAtk_BS",
+            "WheelbarrowAtk_Loop",
+            "WheelbarrowAtk_AS"
+          ],
+          "modifierName": "Gastrobot_SummonCtrl"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_SummonCtrl"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_RushAtk_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_RushAtk_Bullet_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_RushAtk_Bullet_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ResetAnimatorTrigger",
+              "triggerID": "RushAtkEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_RushAtk_Loop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_RushAtk_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RushAtk_BS",
+            "RushAtk_Loop"
+          ],
+          "modifierName": "Gastrobot_RushAtk_Handler"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RushAtk_Loop"
+          ],
+          "modifierName": "Gastrobot_RushAtk_Loop"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_RushAtk",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Gastrobot_RushAtk_Bullet_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Gastrobot_RushAtk_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_RushAtk_Weapon",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "RootNode"
+          },
+          "bulletID": 42410003,
+          "trackTarget": "Self",
+          "lifeByOwnerV2": true
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Gastrobot_RushAtk_Effect"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_RushAtk_Effect_On"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Gastrobot_RushAtk_Effect"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_RushAtk_Effect_Off"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_RushAtk_FollowBullet_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42410003
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "Owner",
+              "triggerID": "RushAtkEnd"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Vehicle",
+                "Partner"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Gastrobot_RushAtk_FollowBullet_Kill"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_ABILITY_Gastrobot_RushAtk_Bullet_",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Gastrobot_RushAtk_FollowBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_JumpAtk_RushMoveHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "FixedRushMoveType"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42410004
+              },
+              "animatorStateIDs": [
+                "JumpAtk"
+              ],
+              "toPos": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "timeRange": 0.83
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_JumpAtk_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_ABILITY_Gastrobot_JumpAtk_Pos_",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Gastrobot_JumpAtk_Damage",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "positionKey": "_ABILITY_Gastrobot_JumpAtk_Pos_"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 5000.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "canBeDefenceHalt": true,
+                    "muteHitText": true,
+                    "hitImpulseType": "LV0"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "alongGround": true,
+                    "onGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -0.5
+                    },
+                    "positionKey": "_ABILITY_Gastrobot_JumpAtk_Pos_"
+                  },
+                  "radius": 6.8,
+                  "height": 3.5
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_JumpAtk_Damage": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 100.0,
+                    "damagePercentage": 0.8,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.23999999463558197,
+                    "shakeRange": 0.47999998927116394
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Heavy",
+                      "hitImpulseX": 900,
+                      "hitImpulseY": 200
+                    },
+                    "hitImpulseType": "LV4"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "alongGround": true,
+                    "onGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -0.5
+                    },
+                    "positionKey": "_ABILITY_Gastrobot_JumpAtk_Pos_"
+                  },
+                  "radius": 6.8,
+                  "height": 3.5
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_JumpAtk_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosKill_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosDamage_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosEffect_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosKill_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosDamage_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_JumpAtk_TargetPosEffect_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "target": "SelfAttackActiveTarget",
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "linearMin": 0,
+            "linearOffset": -1.5,
+            "linearMax": 20
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 42410004
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_JumpAtk_RushMoveHandler",
+          "normalizeEnd": 0.3540000021457672,
+          "stateID": "JumpAtk",
+          "normalizeStart": 0.1940000057220459
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_JumpAtk_Effect",
+          "stateID": "JumpAtk",
+          "normalizeStart": 0.33799999952316284
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_JumpAtk_Damage",
+          "stateID": "JumpAtk",
+          "normalizeStart": 0.3720000088214874
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "JumpAtk"
+          ],
+          "modifierName": "Gastrobot_JumpAtk_Handler"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_JumpAtk"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_JumpAtk_TargetPos_AlertEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Gastrobot_JumpAtk_Warning",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_JumpAtk_TargetPos_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42410004
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Gastrobot_JumpAtk_TargetPos_Kill"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_ABILITY_Gastrobot_JumpAtk_TargetPosKill_",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Gastrobot_JumpAtk_TargetPos",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gastrobot_JumpAtk_TargetPos_AlertEffect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_ChaoticFist_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_ChaoticFist_Loop_B_R",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_ChaoticFist_Loop_B_L",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_ChaoticFist_Loop_A_L",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_ChaoticFist_Loop_Ground",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_ChaoticFist_Loop_A_R",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_ChaoticFist_Loop_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ChaoticFist_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Gastrobot_ChaoticFist_Effect"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Gastrobot_EffectTrail_Off"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ResetAnimatorTrigger",
+              "canBeHandledOnRecover": true,
+              "triggerID": "ChaoticFistEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ChaoticFist_Rush": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "FixedAvatarRushMove",
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 40,
+                  "y": 0
+                }
+              },
+              "KHMCJCMPGFH": {
+                "$type": "OIPNIEPEOLA",
+                "speed": 13.300000190734863
+              },
+              "timeRange": 3,
+              "animatorStateIDs": [
+                "ChaoticFist_Loop1",
+                "ChaoticFist_Loop2",
+                "ChaoticFist_Loop3"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "configID": 42410001
+                  },
+                  "successActions": [
+                    {
+                      "$type": "Predicated",
+                      "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 42410001
+                      },
+                      "successActions": [
+                        {
+                          "$type": "SetAnimatorTrigger",
+                          "target": "Caster",
+                          "canBeHandledOnRecover": true,
+                          "MPTriggerOnRemote": true,
+                          "triggerID": "ChaoticFistEnd"
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "value": 95
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": 17
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "configID": 42410001
+                  },
+                  "successActions": [
+                    {
+                      "$type": "Predicated",
+                      "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 42410001
+                      },
+                      "successActions": [
+                        {
+                          "$type": "SetAnimatorTrigger",
+                          "target": "Caster",
+                          "canBeHandledOnRecover": true,
+                          "MPTriggerOnRemote": true,
+                          "triggerID": "ChaoticFistEnd"
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "value": 90
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": 20
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ChaoticFist_AlertAdd": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Gastrobot_ChaoticFist_AlertEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ChaoticFist_AlertEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Alert",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ChaoticFist_AlertRemove": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "End",
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Alert"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ChaoticFist_EffectHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Gastrobot_ChaoticFist_AlertEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_ChaoticFist_Damage": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 25.0,
+                    "damagePercentage": 0.4,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Heavy",
+                      "hitImpulseX": 800,
+                      "hitImpulseY": 100
+                    },
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "Gastrobot_ChaoticFist",
+                  "attenuationTag": "Gastrobot_ChaoticFist"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0.44,
+                      "z": -0.45,
+                      "y": 3.31
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByDefault",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      },
+                      "useCorrectDir": true
+                    },
+                    "attachPointName": "Entity_Root"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 9.65,
+                    "z": 7.31,
+                    "y": 6.57
+                  }
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 25.0,
+                    "damagePercentage": 0.4,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Heavy",
+                      "hitImpulseX": 800,
+                      "hitImpulseY": 100
+                    },
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "Gastrobot_ChaoticFist",
+                  "attenuationTag": "Gastrobot_ChaoticFist"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0.44,
+                      "z": -0.45,
+                      "y": 3.31
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByDefault",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      },
+                      "useCorrectDir": true
+                    },
+                    "attachPointName": "Entity_Root"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 9.65,
+                    "z": 7.31,
+                    "y": 6.57
+                  }
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ThinkIntervalMixin",
+              "onThinkInterval": [
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "elementType": "Electric",
+                        "attackType": "Melee",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Blunt",
+                        "enBreak": 25.0,
+                        "damagePercentage": 0.4,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "default",
+                        "hitHaltTimeScale": 0.05000000074505806,
+                        "overrideHitImpulse": {
+                          "$type": "ConfigHitImpulse",
+                          "hitLevel": "Heavy",
+                          "hitImpulseX": 800,
+                          "hitImpulseY": 100
+                        },
+                        "hitImpulseType": "LV3"
+                      },
+                      "attenuationGroup": "Gastrobot_ChaoticFist",
+                      "attenuationTag": "Gastrobot_ChaoticFist"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "x": 0.44,
+                          "z": -0.45,
+                          "y": 3.31
+                        },
+                        "direction": {
+                          "$type": "ConfigDirectionByDefault",
+                          "angleOffsetCorrect": {
+                            "$type": "DynamicFloatVector",
+                            "x": 0,
+                            "z": 0,
+                            "y": 0
+                          },
+                          "useCorrectDir": true
+                        },
+                        "attachPointName": "Entity_Root"
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 9.65,
+                        "z": 7.31,
+                        "y": 6.57
+                      }
+                    }
+                  }
+                }
+              ],
+              "thinkInterval": 0.4
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gastrobot_ChaoticFist_Effect"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChaoticFist_BS",
+            "ChaoticFist_Loop1",
+            "ChaoticFist_Loop2",
+            "ChaoticFist_Loop3"
+          ],
+          "modifierName": "Gastrobot_ChaoticFist_Handler"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChaoticFist_Loop1",
+            "ChaoticFist_Loop2",
+            "ChaoticFist_Loop3"
+          ],
+          "modifierName": "Gastrobot_ChaoticFist_Rush"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_ChaoticFist_AlertAdd",
+          "stateID": "ChaoticFist_BS",
+          "normalizeStart": 0.3499999940395355
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChaoticFist_BS",
+            "ChaoticFist_Loop1",
+            "ChaoticFist_Loop2",
+            "ChaoticFist_Loop3"
+          ],
+          "modifierName": "Gastrobot_ChaoticFist_AlertRemove"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChaoticFist_Loop1",
+            "ChaoticFist_Loop2",
+            "ChaoticFist_Loop3"
+          ],
+          "modifierName": "Gastrobot_ChaoticFist_Damage"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChaoticFist_BS",
+            "ChaoticFist_Loop1",
+            "ChaoticFist_Loop2",
+            "ChaoticFist_Loop3",
+            "ChaoticFist_AS"
+          ],
+          "modifierName": "Gastrobot_ChaoticFist_EffectHandler"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_ChaoticFist"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_WheelbarrowAtk_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "End",
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Alert"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_WheelbarrowAtk_Bullet_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Gastrobot_WheelbarrowAtk_Effect"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Gastrobot_EffectTrail_Off"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_WheelbarrowAtk_Bullet_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ResetAnimatorTrigger",
+              "triggerID": "WheelbarrowAtkEnd"
+            },
+            {
+              "$type": "ResetAnimatorTrigger",
+              "canBeHandledOnRecover": true,
+              "triggerID": "WheelbarrowAtkEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_WheelbarrowAtk_FollowBullet": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Entity_Root"
+              },
+              "bulletID": 42410005,
+              "trackTarget": "Self",
+              "lifeByOwnerV2": true
+            }
+          ],
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "WheelbarrowAtkEnd"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "configID": 42410001
+                  },
+                  "successActions": [
+                    {
+                      "$type": "Predicated",
+                      "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 42410001
+                      },
+                      "successActions": [
+                        {
+                          "$type": "SetAnimatorTrigger",
+                          "target": "Caster",
+                          "canBeHandledOnRecover": true,
+                          "MPTriggerOnRemote": true,
+                          "triggerID": "WheelbarrowAtkEnd"
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "value": 75
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": 16
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "configID": 42410001
+                  },
+                  "successActions": [
+                    {
+                      "$type": "Predicated",
+                      "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 42410001
+                      },
+                      "successActions": [
+                        {
+                          "$type": "SetAnimatorTrigger",
+                          "target": "Caster",
+                          "canBeHandledOnRecover": true,
+                          "MPTriggerOnRemote": true,
+                          "triggerID": "WheelbarrowAtkEnd"
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "value": 90
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": 18
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_Gastrobot_Abyss_"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_WheelbarrowAtk_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Loop_A_L",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Loop_A_R",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Loop_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Loop_Ground",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Loop_B_L",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Loop_B_R",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Loop_Smoke",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ThinkIntervalMixin",
+              "onThinkInterval": [
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "elementType": "Electric",
+                        "attackType": "Melee",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Blunt",
+                        "enBreak": 10.0,
+                        "damagePercentage": 0.3,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "default",
+                        "hitHaltTimeScale": 0.05000000074505806,
+                        "hitImpulseType": "LV2"
+                      },
+                      "attenuationGroup": "Gastrobot_WheelbarrowAtk",
+                      "attenuationTag": "Gastrobot_WheelbarrowAtk"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "x": 0,
+                          "z": -3.63,
+                          "y": 7.72
+                        },
+                        "direction": {
+                          "$type": "ConfigDirectionByDefault",
+                          "angleOffsetCorrect": {
+                            "$type": "DynamicFloatVector",
+                            "x": 37.79,
+                            "z": -0.497,
+                            "y": 0.026
+                          },
+                          "useCorrectDir": true
+                        },
+                        "attachPointName": "Entity_Root"
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 15.12,
+                        "z": 14.64,
+                        "y": 5.2
+                      }
+                    }
+                  }
+                }
+              ],
+              "thinkInterval": 0.2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_WheelbarrowAtk_AlertAdd": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Gastrobot_WheelbarrowAtk_AlertEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_WheelbarrowAtk_AlertEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Gastrobot_WheelbarrowAtk_Alert",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_WheelbarrowAtk_EffectHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Gastrobot_WheelbarrowAtk_AlertEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gastrobot_WheelbarrowAtk_Effect"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "WheelbarrowAtk_BS",
+            "WheelbarrowAtk_Loop"
+          ],
+          "modifierName": "Gastrobot_WheelbarrowAtk_Handler"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "WheelbarrowAtk_Loop"
+          ],
+          "modifierName": "Gastrobot_WheelbarrowAtk_FollowBullet"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Gastrobot_WheelbarrowAtk_AlertAdd",
+          "stateID": "WheelbarrowAtk_BS",
+          "normalizeStart": 0.20999999344348907
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "WheelbarrowAtk_BS",
+            "WheelbarrowAtk_Loop",
+            "WheelbarrowAtk_AS"
+          ],
+          "modifierName": "Gastrobot_WheelbarrowAtk_EffectHandler"
+        }
+      ],
+      "abilityName": "Monster_Gastrobot_WheelbarrowAtk",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Gastrobot_WheelbarrowAtk_Bullet_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_WheelbarrowAtk_FollowBullet_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42410005
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Kill_Summon_Gadget": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70000000
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "Kill_Summon_Gadget"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "MoreThan",
+              "key": "_COMMON_GADGET_ISSUMMON"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Gastrobot_WheelbarrowAtk_FollowBullet_Kill"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_ABILITY_Gastrobot_WheelbarrowAtk_Bullet_",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Gastrobot_WheelbarrowAtk_FollowBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_Abyss": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_Abyss_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_FreeTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_State_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "AbyssAlertTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Gastrobot_Abyss",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gastrobot_Abyss"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_ArchonQuest": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_ArchonQuest_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_FreeTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "UseSkillEliteSet",
+              "skillEliteSetID": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Gastrobot_ArchonQuest",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gastrobot_ArchonQuest"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gastrobot_SquadAI_Formation_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_Formation_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "Blank",
+                "Gastrobot_SquadAI_Formation_Enhanced",
+                "Blank"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                0.5,
+                1.5,
+                2.5,
+                3.5,
+                4.5
+              ],
+              "globalValueKey": "_ABILITY_Gastrobot_State_",
+              "defaultGlobalValueOnCreate": 1
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Gastrobot_SquadAI_Formation_1",
+                "Gastrobot_SquadAI_Formation_2"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                0.5,
+                1.5,
+                2.5
+              ],
+              "globalValueKey": "_ABILITY_Gastrobot_Formation_",
+              "defaultGlobalValueOnCreate": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_SquadAI_Formation_Enhanced": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_Formation_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Gastrobot_Enhanced_DoSkill_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "Gastrobot_SquadAI_Formation_ChangeFormation",
+                "Blank"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5,
+                2.5
+              ],
+              "globalValueKey": "_ABILITY_Gastrobot_Enhanced_DoSkill_",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_SquadAI_Formation_ChangeFormation": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Randomed",
+              "chance": 0.8,
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "_ABILITY_Gastrobot_Formation_",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 2
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "_ABILITY_Gastrobot_Formation_",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 1
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1,
+                      "key": "_ABILITY_Gastrobot_Formation_"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Gastrobot_SquadAI_Formation_ChangeFormation"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_SquadAI_Formation_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetSquadManagerFormationID",
+              "HINDNELJPAP": 24100101
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Gastrobot_SquadAI_Formation_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetSquadManagerFormationID",
+              "HINDNELJPAP": 24100102
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Gastrobot_SquadAI_Base",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Gastrobot_SquadAI_Formation_Handler"
+        }
+      ]
+    }
+  }
+]

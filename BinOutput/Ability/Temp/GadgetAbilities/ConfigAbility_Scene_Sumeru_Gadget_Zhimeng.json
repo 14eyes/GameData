@@ -1,0 +1,2131 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "PollutionState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "effectPattern": "Eff_SceneObj_POI_Xm_JRZB_FinalCore_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PurifyState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_POI_Xm_JRZB_FinalCore_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Flash": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "duration": 2.5,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Flash",
+              "effectPattern": "Eff_SceneObj_POI_Xm_JRZB_FinalCore_01"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "PollutionState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "PurifyState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Flash",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_FinalCore_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Standby": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fire": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Stage",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_POI_Xm_JRZB_Finalcore_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootingCD": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": [
+            "SkillCD",
+            2,
+            "DIV"
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "_MaranaMissle_CD",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0.5
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowBall": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IntervalShooting": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "FireRate",
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Area_Common_Property_Prop_FinalCore_01_Lanuch"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Area_Common_Property_Prop_FinalCore_01_Lanuch"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FireBullet": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByLCTrigger",
+                    "topLimit": 1,
+                    "sortType": "Random",
+                    "campTargetType": "Enemy"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "predicates": [
+                    {
+                      "$type": "ByHasAttackTarget"
+                    }
+                  ],
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "EffectPoint"
+                  },
+                  "bulletID": 70290493
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "predicates": [
+                    {
+                      "$type": "ByHasAttackTarget"
+                    }
+                  ],
+                  "key": "_MaranaMissle_CD",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MaranaMissle_CD"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "EntityCount"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FireBullet"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMutexMixin",
+          "gadgetStates": [
+            0,
+            201
+          ],
+          "modifierNames": [
+            [
+              "Standby"
+            ],
+            [
+              "Fire"
+            ]
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "ShootingCD",
+            "IntervalShooting"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.8,
+            1.5
+          ],
+          "globalValueKey": "_MaranaMissle_CD",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "ShowBall"
+          ],
+          "valueSteps": [
+            0,
+            10
+          ],
+          "globalValueKey": "_MaranaMissle_CD",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "FieldEntityCountChangeMixin",
+          "onFieldExit": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "EntityCount",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "onFieldEnter": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "EntityCount",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "campTargetType": "AllExceptSelf",
+          "MOICJEBDAMB": 0,
+          "simpleCountMaxValue": 0
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_FinalCore_01_Lanuch",
+      "abilitySpecials": {
+        "SkillCD": {
+          "$type": "GNPGOLDCAGO",
+          "value": 10.0
+        },
+        "FireRate": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "MaranaMissle_BulletEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaMissle_Bullet_Size4",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitWatcher": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DeathZone_ExtraDamage"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathZone_ExtraDamage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "DeathZoneGV_ExtraAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_MaranaMissle_Bullet_Size4_Hit",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "ignoreAttackerProperty": true,
+                "strikeType": "Pierce",
+                "enBreak": 50.0,
+                "trueDamage": true,
+                "damageExtra": [
+                  "ElementLevelCo",
+                  "DamageRatio",
+                  "MUL"
+                ],
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV5"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 4
+            }
+          },
+          "entityTypes": [
+            "Avatar"
+          ]
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "MaranaMissle_BulletEffect"
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_FinalCore_01_Bullet",
+      "onAdded": [
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "ElementLevelCo",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HitWatcher"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "MaranaMissle_BulletEffect"
+        }
+      ],
+      "abilitySpecials": {
+        "ElementLevelCo": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EnableGather": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Item_Hint_Small",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "EnableGather",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_Elixir_Material_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Key01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_Elixir_Seal_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Key02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 202,
+              "effectPattern": "Eff_SceneObj_Elixir_Seal_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Key03": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.8,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 204
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 203,
+              "effectPattern": "Eff_SceneObj_Elixir_Seal_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 204,
+              "effectPattern": "Eff_SceneObj_Elixir_Seal_01",
+              "type": "Int"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Collider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Key01",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Key02",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Key03",
+          "gadgetState": 203
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Disappear",
+          "gadgetState": 204
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_Elixir_Seal_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Key01": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.6,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_01_Small",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Small",
+              "type": "Int",
+              "attachPoint": "Point1"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_01_Small",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Small",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "AirWall"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Key01",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Disappear",
+          "gadgetState": 901
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_Smallsealdoor_01_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "AttachPoint"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_01_Small",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point1"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Small",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point1",
+          "attachPoint": "Point1",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Small"
+        },
+        {
+          "$type": "KillSelf",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 901
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffectControler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key01",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Disappear",
+              "gadgetState": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Key01": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.6,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+              "type": "Int",
+              "attachPoint": "Point1"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "AirWall"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_Giantsealdoor_01_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "AttachPoint"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_01",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point1"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point1",
+          "attachPoint": "Point1",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02"
+        },
+        {
+          "$type": "KillSelf",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 901
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "EffectControler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffectControler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key01",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key02",
+              "gadgetState": 202
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Disappear",
+              "gadgetState": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Key01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+              "type": "Int",
+              "attachPoint": "Point1"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Key02": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.6,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+              "type": "Int",
+              "attachPoint": "Point2"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+              "type": "Int",
+              "attachPoint": "Point2"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "AirWall"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_Giantsealdoor_02_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "AttachPoint"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_01",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point1"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point1",
+          "attachPoint": "Point1",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02"
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point2"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point2",
+          "attachPoint": "Point2",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02"
+        },
+        {
+          "$type": "KillSelf",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 901
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "EffectControler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffectControler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key01",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key02",
+              "gadgetState": 202
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Disappear",
+              "gadgetState": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Key01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point1"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Key02": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.6,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point2"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_01_Big",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point2"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "AirWall"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_Giantsealdoor_03_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "AttachPoint"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_01_Big",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point1"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point1",
+          "attachPoint": "Point1",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big"
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point2"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point2",
+          "attachPoint": "Point2",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big"
+        },
+        {
+          "$type": "KillSelf",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 901
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "EffectControler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffectControler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key01",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key02",
+              "gadgetState": 202
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Key03",
+              "gadgetState": 203
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Disappear",
+              "gadgetState": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Key01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point1"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Key02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point2"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Key03": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.6,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point2"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point3"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 901
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 1,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_01_Big",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point1"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point2"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 2,
+              "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+              "type": "Int",
+              "attachPoint": "Point3"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "AirWall"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_Giantsealdoor_04_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "AttachPoint"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_01_Big",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point1"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point1",
+          "attachPoint": "Point1",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big"
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point2"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point2",
+          "attachPoint": "Point2",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big"
+        },
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Point3"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big",
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "Point3",
+          "attachPoint": "Point3",
+          "effectPattern": "Eff_ScenObj_Giantsealdoor_02_Big"
+        },
+        {
+          "$type": "KillSelf",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 901
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "EffectControler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SeparateState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "value": 2,
+              "patternName": "_EmissionStrength",
+              "matName": "Mat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Activity_Lannaluo_Type_01"
+                  ]
+                }
+              ],
+              "state": 1
+            }
+          ]
+        },
+        "RepairedState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_AncientTablets_Active_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "Mat"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "BreathLight",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "BreathLight"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BreathLight": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetMaterialParamFloatByTransform",
+                  "canBeHandledOnRecover": true,
+                  "useCurve": true,
+                  "value": 0,
+                  "patternName": "_EmissionStrength",
+                  "lerpTime": 1.0,
+                  "matName": "Mat"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "BreathLight",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetMaterialParamFloatByTransform",
+                  "canBeHandledOnRecover": true,
+                  "useCurve": true,
+                  "value": 2,
+                  "patternName": "_EmissionStrength",
+                  "lerpTime": 1.0,
+                  "matName": "Mat"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "BreathLight",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "BreathLight"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": 2,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "Mat"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AncientTablets_Active_01_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "SeparateState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "RepairedState",
+          "gadgetState": 1
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ActiveState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 1
+                }
+              ],
+              "state": 201
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_AncientTablets_01_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 11002
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DownState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "value": 2,
+              "patternName": "_EmissionStrength",
+              "matName": "Mat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Activity_Lannaluo_Type_03"
+                  ]
+                }
+              ],
+              "state": 1
+            }
+          ]
+        },
+        "UpState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_AncientTablets_Active_01",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "Mat"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "BreathLight",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "BreathLight"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BreathLight": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetMaterialParamFloatByTransform",
+                  "canBeHandledOnRecover": true,
+                  "useCurve": true,
+                  "value": 0,
+                  "patternName": "_EmissionStrength",
+                  "lerpTime": 1.0,
+                  "matName": "Mat"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "BreathLight",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetMaterialParamFloatByTransform",
+                  "canBeHandledOnRecover": true,
+                  "useCurve": true,
+                  "value": 2,
+                  "patternName": "_EmissionStrength",
+                  "lerpTime": 1.0,
+                  "matName": "Mat"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "BreathLight",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "BreathLight"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": 2,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "Mat"
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AncientTablets_Active_01_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WaterEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_AncientTablets_02_UpFWater",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DownState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "UpState",
+          "gadgetState": 1
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ActiveState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "UP"
+          ],
+          "modifierName": "WaterEffect"
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 1
+                }
+              ],
+              "state": 201
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_AncientTablets_02_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 11002
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "IdleState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "gadgetState",
+              "effectPattern": "Eff_SceneObj_Elem_Grass",
+              "type": "Int"
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "hiboxRepair"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "hitboxCore"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWidgetMusicGameMixin",
+              "musicId": 12,
+              "onSuccess": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "state": 100
+                }
+              ],
+              "range": 8.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Activity_Lannaluo_Type_01"
+                  ]
+                }
+              ],
+              "state": 100
+            }
+          ]
+        },
+        "RepairingState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.2,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_BrokeGrassTablet_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "hiboxRepair"
+              ]
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "hitboxCore"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RepairedState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "RootNode"
+              ]
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "hiboxRepair"
+              ]
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "hitboxCore"
+              ]
+            },
+            {
+              "$type": "KillSelf",
+              "hideEntity": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "IdleState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "RepairingState",
+          "gadgetState": 100
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "RepairedState",
+          "gadgetState": 1
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_BrokeGrassTablet_01_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 11002
+        },
+        {
+          "$type": "EnableSceneTransformByName",
+          "predicates": [
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState"
+                },
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 100
+                }
+              ]
+            }
+          ],
+          "setEnable": true,
+          "transformNames": [
+            "RootNode"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "IdleState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Activity_Lannaluo_Type_02"
+                  ]
+                }
+              ],
+              "state": 201
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Stone_RelicRock_Disappear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "MPTriggerOnRemote": true,
+              "triggerID": "Disappear"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeColliderTagMixin",
+              "transName": "Collider",
+              "tag": "Airwall"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "IdleState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DestoryState",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Stone_RelicRock_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "IdleState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Activity_Lannaluo_Type_02"
+                  ]
+                }
+              ],
+              "state": 201
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Stone_RelicRock_Disappear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "MPTriggerOnRemote": true,
+              "triggerID": "Disappear"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeColliderTagMixin",
+              "transName": "Collider",
+              "tag": "Airwall"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "IdleState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DestoryState",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Stone_RelicRock_02_Ability"
+    }
+  }
+]

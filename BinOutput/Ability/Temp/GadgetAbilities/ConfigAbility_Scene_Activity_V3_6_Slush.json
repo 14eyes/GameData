@@ -1,0 +1,1740 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BeHitState": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "value": 0,
+              "patternName": "_DissolveVal",
+              "matName": "Dissolve"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "Attack"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Sorush_Hitman_Bomb_Attack"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_Bouncing_Ball_Shooter_Fire",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "RootNode"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0.5
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttachPoint",
+              "attachPointName": "ShootPoint",
+              "attachPointTargetType": "Self"
+            },
+            "attachPointName": "ShootPoint"
+          },
+          "bulletID": 70290966
+        },
+        {
+          "$type": "ServerLuaTriggerEvent",
+          "param1": 0,
+          "param2": 0,
+          "param3": 0,
+          "sourceName": "SorushHitmanTri",
+          "luaCallType": "FromGroup"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanShooterFlower_01_Ability",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BeHitState"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 101
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SpiningBall_Trail": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Bouncing_Ball_Slusha_Move",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletTriggerCD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "CanTriggerBullet",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "CanTriggerBullet",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "failActions": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "OnAction"
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "CanTriggerBullet"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_Bouncing_Ball_Slusha_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByBackToHitBoxCenter"
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "BulletTriggerCD"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "CanTriggerBullet"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 9999999.0,
+                    "damageExtra": 0,
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.36000001430511475,
+                    "shakeRange": 0.36000001430511475
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV6"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "attackTag": "SorushtrialAttackNoFire"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "ignoreMassive": true,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.5
+                    }
+                  },
+                  "radius": 4
+                }
+              }
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasTag",
+              "tag": "SlushaHitmanBrambleWall"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanShooterFlower_01_Bullet_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "SpiningBall_Trail"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "CanTriggerBullet",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BombBoxLoop": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 30,
+          "elementType": "Wood",
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_WoodenObject_BurnOut",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.75
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "BombBoxLoop",
+            "DestoryState"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "Destory_Enable"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanWoodenBox_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Destory_Enable",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 102
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BombBoxLoop": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 30,
+          "elementType": "Wood",
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_WoodenObject_BurnOut",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.75
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "BombBoxLoop",
+            "DestoryState"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "Destory_Enable"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanWoodenBarrel_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Destory_Enable",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 103
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Fire_Off": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 30,
+          "elementType": "Wood",
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "SorushtrialAttackWithFire",
+                    "Sorush_Hitman_Bomb_Attack"
+                  ]
+                }
+              ],
+              "key": "BeHitByFire",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "NoticeMonster": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_ACTION_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_EMOJI_VALUE_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fire_On": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_FireBasin_Smoke",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "attachPoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "BeHitByFire",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Fire_Camp_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 25,
+          "elementType": "Fire",
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR15"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "NoticeMonster"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Fire_Off",
+            "Fire_On"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "BeHitByFire"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanBonfire_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "BeHitByFire",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 104
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Fire_Off": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "SorushtrialAttackWithFire",
+                    "Sorush_Hitman_Bomb_Attack"
+                  ]
+                }
+              ],
+              "key": "BeHitByFire",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "NoticeMonster": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_ACTION_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_EMOJI_VALUE_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fire_On": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_FireBasin_Smoke",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "attachPoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "BeHitByFire",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Cooking_01_Fire",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "z": 0
+                },
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Cooking_01_Smoke",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 25,
+          "elementType": "Fire",
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR15"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "NoticeMonster"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Fire_Off",
+            "Fire_On"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "BeHitByFire",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanCookingPot_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 105
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "BeHitByFire",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NoBorken": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 50,
+          "elementType": "Water",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "BeHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "SteamBangWet": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 8,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_ACTION_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_EMOJI_VALUE_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "elementDurability": 30,
+          "elementType": "Water",
+          "AIHNJLDFEGJ": 0
+        },
+        "Broken": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "duration": 25,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "RootNode"
+              ]
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Amber_Water_Mist",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Amber_Water_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.3
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Equip"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "SteamBangWet"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "MonsterEquip"
+                  ]
+                }
+              ],
+              "modifierName": "SteamBangWet"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "NoBorken",
+            "Broken"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "BeHit",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanAmberWater_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 106
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Fire_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "BeHitByFire",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "elementDurability": 30,
+          "elementType": "Wood",
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "SorushtrialAttackWithFire",
+                    "Sorush_Hitman_Bomb_Attack"
+                  ]
+                }
+              ],
+              "key": "BeHitByFire",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "BurnOut": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_WoodenObject_BurnOut",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AttachPoint1"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_WoodenObject_BurnOut",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AttachPoint2"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fire_On": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_WoodenObject_BurnOut",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AttachPoint1"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_WoodenObject_BurnOut",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AttachPoint2"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Element_Burning",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Fire_On",
+            "BurnOut"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "BeHitByFire"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanBrambleWall_01_Ability",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Fire_Off"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 107
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "SlushaHitmanBrambleWall",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BombBoxLoop": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 1,
+          "elementType": "Fire",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Collider"
+              ]
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_BombBarrel_01_Explode",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireAISoundEvent"
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 9999999.0,
+                    "damageExtra": 0,
+                    "elementDurability": 50,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.36000001430511475,
+                    "shakeRange": 0.36000001430511475
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV6"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "attackTag": "SorushtrialAttackWithFire"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "ignoreMassive": true,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.5
+                    }
+                  },
+                  "radius": 6
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "hideEntity": true,
+              "duration": 1.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "DestoryState"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "Destory_Enable"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanBombBarrel_01_Ability",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BombBoxLoop"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 108
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BombBoxLoop": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 1,
+          "elementType": "Electric",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Collider"
+              ]
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Property_Ani_Prop_XMBombbarrel_02_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireAISoundEvent"
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 9999999.0,
+                    "damageExtra": 0,
+                    "elementDurability": 50,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.36000001430511475,
+                    "shakeRange": 0.36000001430511475
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV6"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "attackTag": "SorushtrialAttackNoFire"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "ignoreMassive": true,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.5
+                    }
+                  },
+                  "radius": 6
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "hideEntity": true,
+              "duration": 1.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "DestoryState"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "Destory_Enable"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanThunerBarrel_01_Ability",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BombBoxLoop"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 109
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "PumpkinBomb": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "BeHitFire"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "PumpkinBomb_Explode"
+            }
+          ],
+          "elementDurability": 100,
+          "elementType": "Wood",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "PumpkinBomb_Explode": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_BombPlant_Explode",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1.4
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireAISoundEvent"
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 9999999.0,
+                    "damageExtra": 0,
+                    "elementDurability": 50,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.36000001430511475,
+                    "shakeRange": 0.36000001430511475
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV5"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "attackTag": "SorushtrialAttackWithFire"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "ignoreMassive": true,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.8
+                    }
+                  },
+                  "radius": 4
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "hideEntity": true,
+              "duration": 1.0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_BombPlant_Ignite",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanPumpkinBomb_01_Ability",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "PumpkinBomb"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 110
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BombBoxLoop": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 1,
+          "elementType": "Electric",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "NoticeMonster": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_ACTION_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACTIVITY_SORUSHTRIAL_EMOJI_VALUE_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 3
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR15"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "NoticeMonster"
+                }
+              ]
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "SorushHitmanTri",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ElectricRock_01_Destroy",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireAISoundEvent"
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "DestoryState"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "Destory_Enable"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanOreElectricRock_01_Ability",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BombBoxLoop"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACTIVITY_SORUSHTRIAL_TEACH_VALUE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 111
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BombBoxLoop": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 30,
+          "elementType": "Wood",
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_QQTotem_Destroy",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "BombBoxLoop",
+            "DestoryState"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "Destory_Enable"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanTotem_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Destory_Enable",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BombBoxLoop": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 30,
+          "elementType": "Wood",
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Destory_Enable",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        "DestoryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Build_Hili_House_10_Destory",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "BombBoxLoop",
+            "DestoryState"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "Destory_Enable"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_SlushaHitmanRoadBlock_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Destory_Enable",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  }
+]

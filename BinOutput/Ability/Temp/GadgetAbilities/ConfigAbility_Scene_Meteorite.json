@@ -1,0 +1,4313 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AddDebuff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "DebuffTimer"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DebuffTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_BombBarrel_01_Explode",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf"
+              },
+              "gadgetID": 70900360,
+              "campID": 5001
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Element_Crystal_Ice_Shield",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Environment_Collision_MeteoriteDebuffController",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AddDebuff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Timmer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DebuffDuration",
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Eff_Barrier": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Debuff_01_Imprison",
+              "effectTempleteID": -1
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Debuff_01_ImprisonBroken",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 150,
+          "modifierMixins": [
+            {
+              "$type": "ShieldBarMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "AddElementDurability",
+              "value": -10,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 150,
+              "modifierName": "Eff_Barrier"
+            },
+            {
+              "$type": "SetGlobalDir",
+              "key": "_AVATAR_HIT_DIR",
+              "born": {
+                "$type": "ConfigBornByHitPoint",
+                "direction": {
+                  "$type": "ConfigDirectionByBackToHitBoxCenter"
+                }
+              },
+              "LINAHBPILJD": false
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Debuff_01_ImprisonHit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByHitPoint",
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByBackToHitBoxCenter"
+                }
+              },
+              "effectTempleteID": -1
+            }
+          ]
+        },
+        "DeBuffController": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR6"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "AttackDebuff"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AttackDebuff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DebuffDuration",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_AttackRatio": -0.8
+          },
+          "elementDurability": 100,
+          "state": "SpeedDown",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Environment_Collision_MeteoriteSeal",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Eff_Barrier"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "DeBuffController"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Timmer"
+        }
+      ],
+      "abilitySpecials": {
+        "DebuffDuration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 20.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Mode1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "Blend",
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "attachPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Mode2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "Blend",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GearDefault": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "Blend",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "GearDefault"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Mode1",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Mode2",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Aster_BigAster",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "IS_BIG_ASTER",
+          "maxValue": 1,
+          "minValue": 1,
+          "value": 1
+        }
+      ],
+      "abilitySpecials": {
+        "curteamscore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AddScore_To_CurAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "Team",
+              "useLimitRange": true,
+              "key": "AVATAR_ASTER_SCORE",
+              "maxValue": 100,
+              "minValue": 0,
+              "value": 10
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "Enemy",
+            "shapeName": "CircleR5"
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "AddScore_To_CurAvatar"
+        }
+      ],
+      "abilityName": "MonsterAffix_Aster_Score"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SetAbilityEnableT": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityEnable",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetAbilityEnableF": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityEnable"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "modifierName": "SetAbilityEnableF"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Enemy",
+            "shapeName": "CircleR5"
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "SetAbilityEnableF"
+        }
+      ],
+      "abilityName": "SceneObj_Aster_UpLoader",
+      "onFieldEnter": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "modifierName": "SetAbilityEnableT"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SetAbilityEnableT": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityEnable",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetAbilityEnableF": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityEnable"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "modifierName": "SetAbilityEnableF"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Enemy",
+            "shapeName": "CircleR2"
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "SetAbilityEnableF"
+        }
+      ],
+      "abilityName": "SceneObj_Aster_UpLoader_Small",
+      "onFieldEnter": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "modifierName": "SetAbilityEnableT"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Dummy_Ready": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AddGlobalValueToTarget",
+              "srcTarget": "Team",
+              "dstTarget": "Self",
+              "dstKey": "DUMMY_ASTER_SCORE",
+              "srcKey": "AVATAR_ASTER_SCORE"
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "ASTER_CUR",
+              "overrideMapKey": "curteamscore"
+            },
+            {
+              "$type": "AddElementDurability",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": [
+                0,
+                "dummyscore",
+                "SUB"
+              ],
+              "useLimitRange": true,
+              "minValue": 1,
+              "elementType": "Wind",
+              "maxValue": 101,
+              "modifierName": "Dummy_Ready"
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "damagePercentageRatio": 0,
+                  "damageExtra": 1,
+                  "elementDurability": 100,
+                  "arkheGrade": 0
+                },
+                "attenuationGroup": "default"
+              }
+            }
+          ],
+          "elementDurability": 101,
+          "modifierMixins": [
+            {
+              "$type": "ShieldBarMixin",
+              "revert": true
+            }
+          ],
+          "elementType": "Wind",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Aster_ScoreDummy",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Dummy_Ready"
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "IS_SCOREDUMMY",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "DUMMY_ASTER_SCORE",
+          "maxValue": 100,
+          "minValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "dummyscore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Init": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_SkillButtonController": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ShowExtraAbility"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ShowExtraAbility",
+              "skillID": 20003
+            },
+            {
+              "$type": "SetExtraAbilityEnable"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_TuntController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "SetTaunt"
+              ],
+              "valueSteps": [
+                0,
+                99.5,
+                100.5
+              ],
+              "globalValueKey": "AVATAR_ASTER_SCORE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_Taunt"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Taunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR25"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 50.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayerNotify": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "clear_energy",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "target": "Team",
+                  "useLimitRange": true,
+                  "key": "AVATAR_ASTER_SCORE",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_DamageUp_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 2,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ChannelBlock_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 3,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ScoreMult_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 4,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_DebuffTimer_Team"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 5,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_UperScoreMult_Arua"
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_DebuffTimer_Team": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyModifierWithSharedDurabilityMixin",
+              "modifierName": "DebuffTimer"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DebuffTimer": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf"
+              },
+              "gadgetID": 70900360,
+              "byServer": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Debuff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_DamageUp_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 120,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_DamageUp_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_DamageUp_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageUp": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_AttackRatio": 0.8
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "buffID": 10001,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ChannelBlock_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ChannelBlock_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ChannelBlock": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.5,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 1,
+              "minValue": 1,
+              "value": 1
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 10
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ChannelBlock_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 120,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ScoreMult": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Circle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_UperScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 120,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_UperScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_UperScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_AvatarStateController": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Avatar_State"
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": "MaxScore",
+              "useLimitRange": true,
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_State": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Channel_Loop",
+                "Channel_AS",
+                "Channel_BS"
+              ],
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AvatarInChannel": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "SetExtraAbilityState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "state": "Interrupt"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityState",
+              "target": "Caster"
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "modifierName": "LineEff_FindAster"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Active",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "FireEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_AsterLarge_RecevieFinish",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaCall",
+              "target": "Team",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "UpdateAsterProgress",
+              "param3": 0,
+              "luaCallType": "CurScenePlay"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "CurLocalAvatar",
+              "successActions": [
+                {
+                  "$type": "CopyGlobalValue",
+                  "srcKey": "AVATAR_ASTER_SCORE",
+                  "dstTarget": "Caster",
+                  "srcTarget": "Team",
+                  "dstKey": "AVATAR_ASTER_SCORE"
+                },
+                {
+                  "$type": "SetGlobalValueToOverrideMap",
+                  "target": "Caster",
+                  "globalValueKey": "AVATAR_ASTER_SCORE",
+                  "overrideMapKey": "CurScore"
+                },
+                {
+                  "$type": "ServerLuaCall",
+                  "target": "Team",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "UpdateAsterInterrupt",
+                  "param3": 0,
+                  "luaCallType": "CurScenePlay"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Team",
+                  "key": "AVATAR_ASTER_SCORE",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": [
+                    0.7,
+                    "CurScore",
+                    "MUL"
+                  ]
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "target": "CurLocalAvatar",
+                  "triggerID": "EndChannelTrigger"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "target": "CurLocalAvatar",
+                  "modifierName": "AvatarInChannel"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "CHANNEL_BLOCK"
+                }
+              ]
+            }
+          ]
+        },
+        "LineEff_FindAster": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "target": "Applier",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "EffPoint",
+                "attachPointTargetType": "Self"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Recevie",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "target": "CurLocalAvatar",
+          "triggerID": "StartChannelTrigger"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "AvatarInChannel"
+        }
+      ],
+      "abilityName": "SceneObj_Aster_PlayEntity_Esay",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "Init"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_AvatarStateController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_PlayerNotify"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_TuntController"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "AVATAR_ASTER_SCORE",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "MaxScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 200.0
+        },
+        "SubScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.30000001192092896
+        },
+        "CurScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Init": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_SkillButtonController": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ShowExtraAbility"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ShowExtraAbility",
+              "skillID": 20004
+            },
+            {
+              "$type": "SetExtraAbilityEnable"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_TuntController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "SetTaunt"
+              ],
+              "valueSteps": [
+                0,
+                99.5,
+                100.5
+              ],
+              "globalValueKey": "AVATAR_ASTER_SCORE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_Taunt"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Taunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR25"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 50.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayerNotify": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "clear_energy",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "target": "Team",
+                  "useLimitRange": true,
+                  "key": "AVATAR_ASTER_SCORE",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_DamageUp_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 2,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ChannelBlock_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 3,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ScoreMult_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 4,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_DebuffTimer_Team"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 5,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_UperScoreMult_Arua"
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_DebuffTimer_Team": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyModifierWithSharedDurabilityMixin",
+              "modifierName": "DebuffTimer"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DebuffTimer": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf"
+              },
+              "gadgetID": 70900360,
+              "byServer": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Debuff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_DamageUp_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_DamageUp_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_DamageUp_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageUp": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_AttackRatio": 0.8
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "buffID": 10001,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ChannelBlock_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ChannelBlock_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ChannelBlock": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.5,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 1,
+              "minValue": 1,
+              "value": 1
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 10
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ChannelBlock_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ScoreMult": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Circle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_UperScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 30,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_UperScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_UperScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_AvatarStateController": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Avatar_State"
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": "MaxScore",
+              "useLimitRange": true,
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_State": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Channel_Loop",
+                "Channel_AS",
+                "Channel_BS"
+              ],
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AvatarInChannel": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "SetExtraAbilityState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "state": "Interrupt"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityState",
+              "target": "Caster"
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "modifierName": "LineEff_FindAster"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Active",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "FireEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_AsterLarge_RecevieFinish",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaCall",
+              "target": "Team",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "UpdateAsterProgress",
+              "param3": 0,
+              "luaCallType": "CurScenePlay"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "CurLocalAvatar",
+              "successActions": [
+                {
+                  "$type": "CopyGlobalValue",
+                  "srcKey": "AVATAR_ASTER_SCORE",
+                  "dstTarget": "Caster",
+                  "srcTarget": "Team",
+                  "dstKey": "AVATAR_ASTER_SCORE"
+                },
+                {
+                  "$type": "SetGlobalValueToOverrideMap",
+                  "target": "Caster",
+                  "globalValueKey": "AVATAR_ASTER_SCORE",
+                  "overrideMapKey": "CurScore"
+                },
+                {
+                  "$type": "ServerLuaCall",
+                  "target": "Team",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "UpdateAsterInterrupt",
+                  "param3": 0,
+                  "luaCallType": "CurScenePlay"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Team",
+                  "key": "AVATAR_ASTER_SCORE",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": [
+                    0.5,
+                    "CurScore",
+                    "MUL"
+                  ]
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "target": "CurLocalAvatar",
+                  "triggerID": "EndChannelTrigger"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "target": "CurLocalAvatar",
+                  "modifierName": "AvatarInChannel"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "CHANNEL_BLOCK"
+                }
+              ]
+            }
+          ]
+        },
+        "LineEff_FindAster": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "target": "Applier",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "EffPoint",
+                "attachPointTargetType": "Self"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Recevie",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "target": "CurLocalAvatar",
+          "triggerID": "StartChannelTrigger"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "AvatarInChannel"
+        }
+      ],
+      "abilityName": "SceneObj_Aster_PlayEntity_Normal",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "Init"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_AvatarStateController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_PlayerNotify"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_TuntController"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "AVATAR_ASTER_SCORE",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "MaxScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 200.0
+        },
+        "SubScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.5
+        },
+        "CurScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Init": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_SkillButtonController": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ShowExtraAbility"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ShowExtraAbility",
+              "skillID": 20005
+            },
+            {
+              "$type": "SetExtraAbilityEnable"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_TuntController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "SetTaunt"
+              ],
+              "valueSteps": [
+                0,
+                99.5,
+                100.5
+              ],
+              "globalValueKey": "AVATAR_ASTER_SCORE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_Taunt"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Taunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR25"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 50.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayerNotify": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "clear_energy",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "target": "Team",
+                  "useLimitRange": true,
+                  "key": "AVATAR_ASTER_SCORE",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_DamageUp_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 2,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ChannelBlock_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 3,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ScoreMult_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 4,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_DebuffTimer_Team"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 5,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_UperScoreMult_Arua"
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_DebuffTimer_Team": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyModifierWithSharedDurabilityMixin",
+              "modifierName": "DebuffTimer"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DebuffTimer": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf"
+              },
+              "gadgetID": 70900360,
+              "byServer": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Debuff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_DamageUp_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_DamageUp_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_DamageUp_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageUp": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_AttackRatio": 0.8
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "buffID": 10001,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ChannelBlock_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ChannelBlock_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ChannelBlock": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.5,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 1,
+              "minValue": 1,
+              "value": 1
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 10
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ChannelBlock_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ScoreMult": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Circle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_UperScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 30,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_UperScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_UperScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_AvatarStateController": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Avatar_State"
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": "MaxScore",
+              "useLimitRange": true,
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_State": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Channel_Loop",
+                "Channel_AS",
+                "Channel_BS"
+              ],
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AvatarInChannel": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "SetExtraAbilityState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "state": "Interrupt"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityState",
+              "target": "Caster"
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "modifierName": "LineEff_FindAster"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Active",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "FireEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_AsterLarge_RecevieFinish",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaCall",
+              "target": "Team",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "UpdateAsterProgress",
+              "param3": 0,
+              "luaCallType": "CurScenePlay"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "CurLocalAvatar",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Team",
+                  "key": "AVATAR_ASTER_SCORE",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                },
+                {
+                  "$type": "ServerLuaCall",
+                  "target": "Team",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "UpdateAsterInterrupt",
+                  "param3": 0,
+                  "luaCallType": "CurScenePlay"
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "target": "CurLocalAvatar",
+                  "triggerID": "EndChannelTrigger"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "target": "CurLocalAvatar",
+                  "modifierName": "AvatarInChannel"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "CHANNEL_BLOCK"
+                }
+              ]
+            }
+          ]
+        },
+        "LineEff_FindAster": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "target": "Applier",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "EffPoint",
+                "attachPointTargetType": "Self"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Recevie",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "target": "CurLocalAvatar",
+          "triggerID": "StartChannelTrigger"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "AvatarInChannel"
+        }
+      ],
+      "abilityName": "SceneObj_Aster_PlayEntity_Hard",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "Init"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_AvatarStateController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_PlayerNotify"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_TuntController"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "AVATAR_ASTER_SCORE",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "MaxScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 300.0
+        },
+        "SubScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "CurScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Init": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_SkillButtonController": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ShowExtraAbility"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ShowExtraAbility",
+              "skillID": 20006
+            },
+            {
+              "$type": "SetExtraAbilityEnable"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_TuntController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Blank",
+                "SetTaunt"
+              ],
+              "valueSteps": [
+                0,
+                99.5,
+                100.5
+              ],
+              "globalValueKey": "AVATAR_ASTER_SCORE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_Taunt"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Taunt": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR25"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 50.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayerNotify": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "clear_energy",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "target": "Team",
+                  "useLimitRange": true,
+                  "key": "AVATAR_ASTER_SCORE",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 1,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_DamageUp_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 2,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ChannelBlock_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 3,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_ScoreMult_Arua"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 4,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_DebuffTimer_Team"
+                }
+              ]
+            },
+            {
+              "$type": "PlayerUidNotifyMixin",
+              "logic": "Equal",
+              "opParam": "random_buff_aster",
+              "opType": 5,
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "UNIQUE_Team_UperScoreMult_Arua"
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_DebuffTimer_Team": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyModifierWithSharedDurabilityMixin",
+              "modifierName": "DebuffTimer"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DebuffTimer": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf"
+              },
+              "gadgetID": 70900360,
+              "byServer": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Debuff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_DamageUp_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_DamageUp_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "DamageUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_DamageUp_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageUp": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_AttackRatio": 0.8
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "buffID": 10001,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ChannelBlock_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ChannelBlock_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ChannelBlock"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ChannelBlock": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.5,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_MQ1002_XueyueBuff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "CHANNEL_BLOCK",
+              "maxValue": 1,
+              "minValue": 1,
+              "value": 1
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 10
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ChannelBlock_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_ScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "duration": 30,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_ScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "target": "CurLocalAvatar",
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Wave",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "ScoreMult"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ScoreMult": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_PROGRESS_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_ScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_02_Circle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Team_UperScoreMult_Arua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 30,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "ASTER_ENERGY_RATIO",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Team_UperScoreMult_Arua_Eff"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Team_UperScoreMult_Arua_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Aster_Buff_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_AvatarStateController": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixin",
+              "modifierName": "Avatar_State"
+            },
+            {
+              "$type": "ServerUpdateGlobalValueMixin",
+              "maxValue": "MaxScore",
+              "useLimitRange": true,
+              "key": "AVATAR_ASTER_SCORE",
+              "minValue": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_State": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Channel_Loop",
+                "Channel_AS",
+                "Channel_BS"
+              ],
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AvatarInChannel": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "SetExtraAbilityState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "CurLocalAvatar",
+                  "value": 0,
+                  "key": "CHARGE_SUCCESS"
+                }
+              ],
+              "state": "Interrupt"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetExtraAbilityState",
+              "target": "Caster"
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "modifierName": "LineEff_FindAster"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Active",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "CurLocalAvatar",
+              "key": "CHARGE_SUCCESS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "FireEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "centerBasedOn": "CurLocalAvatar",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BIG_ASTER"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_AsterLarge_RecevieFinish",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ServerLuaCall",
+              "target": "Team",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "UpdateAsterProgress",
+              "param3": 0,
+              "luaCallType": "CurScenePlay"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "CurLocalAvatar",
+              "triggerID": "EndChannelTrigger"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "AvatarInChannel"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "CurLocalAvatar",
+              "successActions": [
+                {
+                  "$type": "CopyGlobalValue",
+                  "srcKey": "AVATAR_ASTER_SCORE",
+                  "dstTarget": "Caster",
+                  "srcTarget": "Team",
+                  "dstKey": "AVATAR_ASTER_SCORE"
+                },
+                {
+                  "$type": "SetGlobalValueToOverrideMap",
+                  "target": "Caster",
+                  "globalValueKey": "AVATAR_ASTER_SCORE",
+                  "overrideMapKey": "CurScore"
+                },
+                {
+                  "$type": "ServerLuaCall",
+                  "target": "Team",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "UpdateAsterInterrupt",
+                  "param3": 0,
+                  "luaCallType": "CurScenePlay"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Team",
+                  "key": "AVATAR_ASTER_SCORE",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": [
+                    0.7,
+                    "CurScore",
+                    "MUL"
+                  ]
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "target": "CurLocalAvatar",
+                  "triggerID": "EndChannelTrigger"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "target": "CurLocalAvatar",
+                  "modifierName": "AvatarInChannel"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "CHANNEL_BLOCK"
+                }
+              ]
+            }
+          ]
+        },
+        "LineEff_FindAster": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "target": "Applier",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "EffPoint",
+                "attachPointTargetType": "Self"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AsterLarge_Recevie",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "target": "CurLocalAvatar",
+          "triggerID": "StartChannelTrigger"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "AvatarInChannel"
+        }
+      ],
+      "abilityName": "SceneObj_Aster_PlayEntity_Single",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_SkillButtonController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "Init"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_AvatarStateController"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_PlayerNotify"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "modifierName": "UNIQUE_TuntController"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "AVATAR_ASTER_SCORE",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "MaxScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 400.0
+        },
+        "SubScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.30000001192092896
+        },
+        "CurScore": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  }
+]

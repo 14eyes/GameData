@@ -1,0 +1,4552 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_Coin_Display",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_UGC_TriathlonCoin_01",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_Windcircle_Effect",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_WindField_Horizontal_UGC",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoinMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_CoinDead",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_GlideChampCoin_Hit",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGC_TriathlonCoin_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AddCoin": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_GetGlideChampCoin",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CallGroupDie": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_CoinDie",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_UGC_Coin_Run",
+      "onFieldEnter": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "key": "GV_UGC_CoinDead"
+            }
+          ],
+          "modifierName": "CallGroupDie"
+        },
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "key": "GV_UGC_CoinDead"
+            }
+          ],
+          "modifierName": "AddCoin"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "CoinMaterial"
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "CoinMaterial"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_UGC_CoinDead",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CanAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NotAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CanAttackV2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "UnitDurationMixin",
+          "steps": [
+            4,
+            2,
+            2
+          ],
+          "modifierName": [
+            "CanAttack",
+            "NotAttack",
+            "CanAttackV2"
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_Spike_Attack",
+      "onFieldEnter": [
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "GV_CanAttack"
+            }
+          ],
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 100.0,
+              "damagePercentage": 0,
+              "elementDurability": 100,
+              "ignoreLevelDiff": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV4"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_CanAttack",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SpikeCallWatcher": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "UGC_HitCall"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_HitCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitBySpike",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_UGC_CreateBase_01",
+      "onAdded": [
+        {
+          "$type": "CreateGadget",
+          "lifeByOwnerIsAlive": true,
+          "propOwnerIs": "Caster",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "gadgetID": 70350338,
+          "byServer": true
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "SpikeCallWatcher"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SpikeCallWatcher": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "UGC_HitCall"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_HitCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitBySpike",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_UGC_CreateBase_02",
+      "onAdded": [
+        {
+          "$type": "CreateGadget",
+          "lifeByOwnerIsAlive": true,
+          "propOwnerIs": "Caster",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "gadgetID": 70350339,
+          "byServer": true
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "SpikeCallWatcher"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 100.0,
+              "damagePercentage": 0,
+              "elementDurability": 100,
+              "ignoreLevelDiff": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV4"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Prop_UGCSpike_Attack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "HitAway": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.8,
+          "onAttackLanded": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "UGC_HitCall"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "AllExceptSelf",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 500.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 0,
+                    "elementRank": 1.5,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Heavy",
+                      "hitImpulseX": 800,
+                      "hitImpulseY": 600
+                    },
+                    "muteHitText": true,
+                    "hitImpulseType": "LV7"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -1,
+                      "y": 0.6
+                    },
+                    "attachPointName": "RootNode",
+                    "attachPointTargetType": "Self"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 4.4,
+                    "z": 1.4,
+                    "y": 1
+                  }
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_HitCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitBySpike",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Common_Property_Prop_UGCSpikeBlock_02",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HitAway"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_StaminaBall_Display",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "RootNode"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_BoatRaceCrate_02_Float",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoolDown": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Actived": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_BoatRaceCrate_02_Smash",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RecoverManager"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_BoatRaceCrate_02_Float",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR1.5H3"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "RecoverEnergy"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_CanRecoverEnergy",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RecoverManager": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanRecoverEnergy",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RecoverEnergy": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "ReviveStamina",
+              "value": 50
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "CoolDown",
+            "Actived"
+          ],
+          "globalValueKey": "GV_CanRecoverEnergy",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_StaminaBall_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_CanRecoverEnergy",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_SpeedBall_Display",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "RootNode"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_PropGoldShoes_01",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoolDown": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Actived": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_PropGoldShoes_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RecoverManager"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_PropGoldShoes_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR1.5H3"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "UGC_SpeedUp_Attacher"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_CanSpeedUp",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_SpeedUp_Attacher": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "UGCSpeedUp"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "UGCSpeedUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UGCSpeedUp": {
+          "$type": "ConfigAbilityModifier",
+          "isLimitedProperties": true,
+          "properties": {
+            "Animator_MoveSpeedRatio": 0.3
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RecoverManager": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanSpeedUp",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "CoolDown",
+            "Actived"
+          ],
+          "globalValueKey": "GV_CanSpeedUp",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_SpeedBall_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_CanSpeedUp",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_JumpBall_Display",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "muteRemoteAction": true,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "RootNode"
+          },
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_UGCjumpbuff_Idle",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoolDown": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Actived": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_PropGoldShoes_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RecoverManager"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCjumpbuff_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR1.5H3"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "TargetTeam",
+                  "modifierName": "UGC_RocketJumpBallBuff"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_CanRocketJump",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RecoverManager": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanRocketJump",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_RocketJumpBallBuff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "Team",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "GV_UGC_AvatarCanRocketJump",
+              "maxValue": 999,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "Team",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "GV_UGC_AvatarCanRocketJump",
+              "maxValue": 999,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_JumpUp_01_Buff",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "CoolDown",
+            "Actived"
+          ],
+          "globalValueKey": "GV_CanRocketJump",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_JumpBall_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_CanRocketJump",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GS_Idle": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCstartpoint_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "Airwalls"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GS_Started": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_UGCstartpoint_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Airwalls"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GS_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCstartpoint_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Airwalls"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "GS_Idle"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "GS_Started",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "GS_Normal",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_UGC_StartPoint"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_CallArrive": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 1,
+              "param2": 0,
+              "funcName": "SLC_UGC_ArriveDest",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCgoal_Active",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_UGC_EndPoint",
+      "onFieldEnter": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_CallArrive"
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_UGCgoal_Idle",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Appear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "Dissolve",
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "EnableBlock"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dissolve": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "Dissolve",
+              "value": 201
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Block"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "EnableBlock": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "Block"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "UnitDurationMixin",
+          "steps": [
+            4,
+            3
+          ],
+          "modifierName": [
+            "Appear",
+            "Dissolve"
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Ani_Prop_UGCVanishPlatform_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Appear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Brokenplatform01_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "setEnable": true,
+              "transformNames": [
+                "Block"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Dissolve": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "transformNames": [
+                "Block"
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Brokenplatform02_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 202
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Brokenplatform01_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Recover": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 4,
+          "onRemoved": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Appear"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Dissolve",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Recover",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Ani_Prop_UGCVanishPlatform_02",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GS_UGC_Vanish",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ImmuneFall": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": -1
+          },
+          "elementDurability": 100,
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Dynamic_UGCDungeon_Ray",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ImmuneFall"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FireManager": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR15H10"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_PlayerNums",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_BarrageStart",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_BarrageStart",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "GV_PlayerNums"
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_PlayerNums",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GearStop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GearStart": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 4,
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 201
+            },
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "Randomed",
+                      "failActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350388
+                        }
+                      ],
+                      "chance": 0.5,
+                      "successActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350387
+                        }
+                      ]
+                    }
+                  ],
+                  "chance": 0.33,
+                  "successActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RootNode"
+                      },
+                      "bulletID": 70350386
+                    }
+                  ]
+                }
+              ],
+              "chance": 0.25,
+              "successActions": [
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "RootNode"
+                  },
+                  "bulletID": 70350385
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "Randomed",
+                      "failActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350388
+                        }
+                      ],
+                      "chance": 0.5,
+                      "successActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350387
+                        }
+                      ]
+                    }
+                  ],
+                  "chance": 0.33,
+                  "successActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RootNode"
+                      },
+                      "bulletID": 70350386
+                    }
+                  ]
+                }
+              ],
+              "chance": 0.25,
+              "successActions": [
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "RootNode"
+                  },
+                  "bulletID": 70350385
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "GearStop",
+            "GearStart"
+          ],
+          "globalValueKey": "GV_BarrageStart",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_UGCBarrageCreator_01",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_BarrageStart",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_PlayerNums",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FireManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Barrage_UGCBullet_01_Ring",
+              "effectTempleteID": 102
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Electric",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_Grow_Ele",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Barrage_UGCBullet_01_Ring",
+              "effectTempleteID": 104
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Ice",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_Grow_Ice",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Barrage_UGCBullet_01_Ring",
+              "effectTempleteID": 103
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Fire",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_Grow_Fire",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Barrage_UGCBullet_01_Ring",
+              "effectTempleteID": 101
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Water",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_Grow_Water",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FireManager": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR15H10"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_PlayerNums",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_BarrageStart",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_BarrageStart",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "GV_PlayerNums"
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_PlayerNums",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GearStop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GearStart": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 4,
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 201
+            },
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "Randomed",
+                      "failActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350367
+                        }
+                      ],
+                      "chance": 0.5,
+                      "successActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350366
+                        }
+                      ]
+                    }
+                  ],
+                  "chance": 0.33,
+                  "successActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RootNode"
+                      },
+                      "bulletID": 70350365
+                    }
+                  ]
+                }
+              ],
+              "chance": 0.25,
+              "successActions": [
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "RootNode"
+                  },
+                  "bulletID": 70350364
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "Randomed",
+                      "failActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350367
+                        }
+                      ],
+                      "chance": 0.5,
+                      "successActions": [
+                        {
+                          "$type": "TriggerBullet",
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "attachPointName": "RootNode"
+                          },
+                          "bulletID": 70350366
+                        }
+                      ]
+                    }
+                  ],
+                  "chance": 0.33,
+                  "successActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RootNode"
+                      },
+                      "bulletID": 70350365
+                    }
+                  ]
+                }
+              ],
+              "chance": 0.25,
+              "successActions": [
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "RootNode"
+                  },
+                  "bulletID": 70350364
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "GearStop",
+            "GearStart"
+          ],
+          "globalValueKey": "GV_BarrageStart",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_UGCBarrageCreatorSquare_01",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_BarrageStart",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_PlayerNums",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FireManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCBulletCreator_Square",
+              "effectTempleteID": 102
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Electric",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_GrowSquare_Ele",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCBulletCreator_Square",
+              "effectTempleteID": 104
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Ice",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_GrowSquare_Ice",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCBulletCreator_Square",
+              "effectTempleteID": 103
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Fire",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_GrowSquare_Fire",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "KillRockGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitByBulletServerlua": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCBulletCreator_Square",
+              "effectTempleteID": 101
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "modifierName": "HitByBulletServerlua"
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "elementType": "Water",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 50.0,
+              "damagePercentage": 0,
+              "damageExtra": 500,
+              "elementDurability": 25,
+              "overrideByWeapon": true,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitHaltTimeScale": 0.009999999776482582,
+              "muteHitText": true,
+              "hitImpulseType": "LV1"
+            },
+            "attenuationGroup": "default"
+          }
+        }
+      ],
+      "abilityName": "SceneObj_UGC_HorizontalBullet_GrowSquare_Water",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GS_None": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 12,
+              "useCurve": true,
+              "value": 0.7,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "ChangeUGCRayTag"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GS_Fire": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_UGCCube_in"
+                }
+              }
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 11,
+              "useCurve": true,
+              "value": 3,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ChangeUGCRayTag",
+              "rayTag": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "UGC_Cube_CanAttack"
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 100.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "muteHitText": true,
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -2.5,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByDefault",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "attachPointName": "AttackPoint"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 5,
+                    "y": 1
+                  }
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeNormal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "UnitDurationMixin",
+          "steps": [
+            3,
+            3
+          ],
+          "modifierName": [
+            "GS_None",
+            "GS_Fire"
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "UGC_CubeNormal",
+            "UGC_CubeAttack"
+          ],
+          "globalValueKey": "UGC_Triggered",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_Cube_Fire_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Cube_CanAttack",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Triggered",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GS_None": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 12,
+              "useCurve": true,
+              "value": 0.8,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "ChangeUGCRayTag"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GS_Water": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_UGCCube_in"
+                }
+              }
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 11,
+              "useCurve": true,
+              "value": 4,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "ChangeUGCRayTag",
+              "rayTag": 2
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "UGC_Cube_CanAttack"
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Water",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 100.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "muteHitText": true,
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -2.5,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByDefault",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "attachPointName": "AttackPoint"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 5,
+                    "y": 1
+                  }
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeNormal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "UnitDurationMixin",
+          "steps": [
+            3,
+            3
+          ],
+          "modifierName": [
+            "GS_None",
+            "GS_Water"
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "UGC_CubeNormal",
+            "UGC_CubeAttack"
+          ],
+          "globalValueKey": "UGC_Triggered",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_Cube_Water_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Cube_CanAttack",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Triggered",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GS_None": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 12,
+              "useCurve": true,
+              "value": 0.7,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "ChangeUGCRayTag"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GS_Ice": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 3
+            },
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_UGCCube_in"
+                }
+              }
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 11,
+              "useCurve": true,
+              "value": 3,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "ChangeUGCRayTag",
+              "rayTag": 3
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "UGC_Cube_CanAttack"
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Ice",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 100.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "muteHitText": true,
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -2.5,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByDefault",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "attachPointName": "AttackPoint"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 5,
+                    "y": 1
+                  }
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeNormal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "UnitDurationMixin",
+          "steps": [
+            3,
+            3
+          ],
+          "modifierName": [
+            "GS_None",
+            "GS_Ice"
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "UGC_CubeNormal",
+            "UGC_CubeAttack"
+          ],
+          "globalValueKey": "UGC_Triggered",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_Cube_Ice_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Cube_CanAttack",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Triggered",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GS_None": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 12,
+              "useCurve": true,
+              "value": 1.5,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "ChangeUGCRayTag"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GS_Elec": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_UGC_GearState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 4
+            },
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_UGCCube_in"
+                }
+              }
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 11,
+              "useCurve": true,
+              "value": 4,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "EmissionStrength"
+            },
+            {
+              "$type": "ChangeUGCRayTag",
+              "rayTag": 4
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UGC_Cube_CanAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "UGC_Cube_CanAttack"
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 100.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "muteHitText": true,
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -2.5,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByDefault",
+                      "angleOffset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "attachPointName": "AttackPoint"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 5,
+                    "y": 1
+                  }
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_CubeNormal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "UnitDurationMixin",
+          "steps": [
+            3,
+            3
+          ],
+          "modifierName": [
+            "GS_None",
+            "GS_Elec"
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "UGC_CubeNormal",
+            "UGC_CubeAttack"
+          ],
+          "globalValueKey": "UGC_Triggered",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_Cube_Elec_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Cube_CanAttack",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "UGC_Triggered",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_SpeedPlatform_Display",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_UGCspeedplatform",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_SpeedPlatform_Run",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_UGCspeedplatform",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_JumpPlatform_Run",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_Stages_Level_Common_Jumpplatform_01",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Electric_Fairy_GV": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 20.5,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "Team",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "GV_UGC_Electric_Fairy",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "Team",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "GV_UGC_Electric_Fairy",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "DebugLog",
+              "content": "### Interact!"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Other",
+              "modifierName": "Electric_Fairy_GV"
+            },
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 201
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_ThunderSeedCreate_Interact"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CannotInteract": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ElecEmitCherryTree_01_Default",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "MeshOne"
+              ]
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "MeshTwo"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Destory": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ElecEmitCherryTree_01_Destroy",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "MeshTwo"
+              ]
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "MeshOne"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "EnableInteract": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ElecEmitCherryTree_01_Recover",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ElecEmitCherryTree_01_Completed",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "MeshOne"
+              ]
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "MeshTwo"
+              ]
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "LEVEL1"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DisableInteract": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ElecEmitCherryTree_01_PowerUp",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "MeshOne"
+              ]
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "MeshTwo"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LEVEL1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ThunderSeed_Tree_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "EnableInteract"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DisableInteract",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "CannotInteract",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Destory",
+          "gadgetState": 203
+        }
+      ],
+      "abilityName": "SceneObj_UGC_ThunderSeedCreate_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Waiting": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 202
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PhaseDefault": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ThunderCoil_Default",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_IS_ELECTRIC_CORE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ChangeTag",
+              "tag": "_IS_ELECTRIC_CORE",
+              "isAdd": true
+            },
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PhaseEnd": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ThunderCoil_End",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PhaseRecover": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ThunderCoil_Recover",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LightCoreMove": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Charging",
+                "Charged"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_IS_ELECTRIC_CORE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Charging": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Charged": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_ThunderCoil_Disappear",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "PhaseDefault"
+          ],
+          "modifierName": "PhaseDefault"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "PhaseEnd"
+          ],
+          "modifierName": "PhaseEnd"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "PhaseRecover"
+          ],
+          "modifierName": "PhaseRecover"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Waiting",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_UGC_LightCore",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_IS_ELECTRIC_CORE",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "_IS_ELECTRIC_CORE",
+          "isAdd": true
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "LightCoreMove"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_ThunderCoil_Born",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_UGC_Bubble_Display",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_SceneObj_UGCWater_Bubble",
+          "effectTempleteID": -1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BubbleMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanBlist",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_TowerWater_03_Bubble_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "BubbleRecover"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCWater_Bubble",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CanBlist",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BubbleRecover": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "BubbleMaterial"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blister": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "BlisterStruggle"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "BubbleWaterAttach"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitByBullet",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "RemoveModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "SGV_UGCDungeon_CanAttachModifier"
+                }
+              ],
+              "modifierName": "Blister"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "BubbleWaterAttach": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 4,
+          "elementDurability": 25,
+          "elementType": "Water",
+          "AIHNJLDFEGJ": 0
+        },
+        "BlisterStruggle": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_TowerWater_03_Bubble_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCWater_Bubble",
+              "effectTempleteID": -1
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -2
+          },
+          "elementDurability": 100,
+          "state": "Struggle",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_UGC_Bubble_Run",
+      "onFieldEnter": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "GV_CanBlist"
+            }
+          ],
+          "modifierName": "Blister"
+        },
+        {
+          "$type": "RemoveModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "GV_CanBlist"
+            }
+          ],
+          "modifierName": "BubbleMaterial"
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BubbleMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShootFirst": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 201
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_ScenObj_ThunderArrow_01_Shoot",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ShootPoint"
+              },
+              "bulletID": 70350384
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootSecond": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 201
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_ScenObj_ThunderArrow_01_Shoot",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ShootPoint"
+              },
+              "bulletID": 70350384
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "UnitDurationMixin",
+          "steps": [
+            3,
+            3
+          ],
+          "modifierName": [
+            "ShootFirst",
+            "ShootSecond"
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_ThunderArrow_Run"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_ScenObj_ThunderArrow_01_Hit",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetSystemValueToOverrideMap",
+              "OAEJNDBEDPO": -1,
+              "key": "LevelEntity_AvatarDot_SystemValue",
+              "type": "ElementLevelCo"
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Electric",
+                  "damagePercentageRatio": 0,
+                  "ignoreModifyDamage": true,
+                  "ignoreAttackerProperty": true,
+                  "strikeType": "Default",
+                  "enBreak": 0.0,
+                  "trueDamage": true,
+                  "damagePercentage": 0,
+                  "damageExtra": [
+                    "LevelEntity_AvatarDot_SystemValue",
+                    "DamagePercentage",
+                    "MUL"
+                  ],
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "hitHaltTimeScale": 0.05000000074505806,
+                  "muteHitText": true,
+                  "hitImpulseType": "LV1"
+                },
+                "attenuationGroup": "default"
+              }
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_ThunderArrowBullet",
+      "onAdded": [
+        {
+          "$type": "AttachEffect",
+          "scale": 1,
+          "effectPattern": "Eff_ScenObj_ThunderArrow_01_Arrow",
+          "effectTempleteID": -1
+        }
+      ],
+      "abilitySpecials": {
+        "LevelEntity_AvatarDot_SystemValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.7999999523162842
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FireManager": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "entityTypePriority": [
+                  "Avatar"
+                ],
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR15H10"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_PlayerNums",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_BarrageStart",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "GV_BarrageStart",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "GV_PlayerNums"
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_PlayerNums",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GearStop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GearStart": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "ExecuteGadgetLua",
+              "param1": 201
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_UGCflamethrower",
+              "effectTempleteID": -1
+            }
+          ],
+          "onAttackLanded": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "UGC_FlameHitCall"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 100.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 30,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Heavy",
+                      "hitImpulseX": 800,
+                      "hitImpulseY": 600
+                    },
+                    "muteHitText": true,
+                    "hitImpulseType": "LV7"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -8,
+                      "y": 0
+                    },
+                    "attachPointName": "FirePoint01"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0.5,
+                    "z": 16,
+                    "y": 0.5
+                  },
+                  "muteHitBehindScene": true
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UGC_FlameHitCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_HitBySpike",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "GearStop",
+            "GearStart"
+          ],
+          "globalValueKey": "GV_BarrageStart",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_UGC_Flamethrower_Run",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_BarrageStart",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_PlayerNums",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FireManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UGC_Synchronizer": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ServerLuaCall",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_UGC_Synchronizer",
+              "param3": 0,
+              "luaCallType": "CurChallengeGroup"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_UGC_Synchronizer",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UGC_Synchronizer"
+        }
+      ]
+    }
+  }
+]

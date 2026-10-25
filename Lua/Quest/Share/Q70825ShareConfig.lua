@@ -1,0 +1,45 @@
+main_id = 70825
+local tbl = {}
+local n = 7082502
+local v = 7082503
+local n2 = 7082504
+local n3 = 7082505
+local n4 = 7082506
+local n5 = 7082507
+local n6 = 7082508
+tbl[1] = 7082501
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+tbl[5] = n3
+tbl[6] = n4
+tbl[7] = n5
+tbl[8] = n6
+sub_ids = tbl
+local tbl2 = {CLIENT = {}}
+local server = {}
+local qUEST_EXEC_REFRESH_GROUP_SUITE = {}
+local tbl3 = {}
+local str = "133003913,1"
+tbl3[1] = "3"
+tbl3[2] = str
+qUEST_EXEC_REFRESH_GROUP_SUITE[1] = tbl3
+server.QUEST_EXEC_REFRESH_GROUP_SUITE = qUEST_EXEC_REFRESH_GROUP_SUITE
+local qUEST_EXEC_REFRESH_GROUP_SUITE2 = {}
+local tbl4 = {}
+local str2 = "133001912,1"
+tbl4[1] = "3"
+tbl4[2] = str2
+qUEST_EXEC_REFRESH_GROUP_SUITE2[1] = tbl4
+server.QUEST_EXEC_REFRESH_GROUP_SUITE = qUEST_EXEC_REFRESH_GROUP_SUITE2
+local qUEST_EXEC_REFRESH_GROUP_SUITE3 = {}
+local tbl5 = {}
+local str3 = "133001913,1"
+tbl5[1] = "3"
+tbl5[2] = str3
+qUEST_EXEC_REFRESH_GROUP_SUITE3[1] = tbl5
+server.QUEST_EXEC_REFRESH_GROUP_SUITE = qUEST_EXEC_REFRESH_GROUP_SUITE3
+tbl2.SERVER = server
+finish_action = tbl2
+fail_action = {CLIENT = {}, SERVER = {}}
+cancel_action = {CLIENT = {}, SERVER = {}}

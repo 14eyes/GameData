@@ -1,0 +1,564 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Lance_HitShield_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "modifierName": "UNIQUE_ForlornVessel_Lance_HitShield_Succ"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasShieldV2",
+                  "type": "All"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Monster_ForlornVessel_Attack",
+                    "Monster_ForlornVessel_Lance_ChargeAtk"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ForlornVessel_Lance_HitShield_Succ": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "LoseHP",
+              "target": "Caster",
+              "amountByTargetCurrentHPRatio": 0.15,
+              "enableLockHP": true,
+              "amount": 0,
+              "OIIGPGHDHHG": false,
+              "BHBDBILLNBG": true
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR5H5"
+              },
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_ForlornVessel_Strong_Lance_HealCircle",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "alongGround": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 3,
+                      "compareType": "LessAndEqual",
+                      "key": "ForlornVessel_Lance_Heal"
+                    }
+                  ],
+                  "modifierName": "ForlornVessel_Lance_Hot"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHasFeatureTag",
+                      "featureTagIDs": [
+                        4014
+                      ]
+                    },
+                    {
+                      "$type": "ByHasFeatureTag",
+                      "featureTagIDs": [
+                        4013
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Lance_Hot": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "duration": 10.2,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "ForlornVessel_Lance_Heal",
+              "maxValue": 4,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "ForlornVessel_Lance_Heal",
+              "maxValue": 4,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Multiple",
+          "stackingOption": {
+            "$type": "ConfigModifierStackingOption",
+            "maxModifierNumForMultipleType": "ForlornVessel_Heal_Layer"
+          },
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "HealHP",
+              "amountByTargetMaxHPRatio": "ForlornVessel_Heal"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Lance_HealTick",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_HitShield",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ForlornVessel_Lance_HitShield_Detect"
+        }
+      ],
+      "abilitySpecials": {
+        "ForlornVessel_Heal_Layer": {
+          "$type": "GNPGOLDCAGO",
+          "value": 4.0
+        },
+        "ForlornVessel_Heal": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.009999999776482582
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExitBattle": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ForlornVessel_Warbanner_ElementShield_ShieldHandler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0
+          ],
+          "modifierName": "ExitBattle"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_ExitBattle"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.07000000029802322,
+          "steerStateIDs": [
+            "NormalAtk01"
+          ],
+          "startNormalizedTime": 0.03999999910593033
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.3199999928474426,
+          "steerStateIDs": [
+            "NormalAtk01"
+          ],
+          "startNormalizedTime": 0.28999999165534973
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.15000000596046448,
+          "steerStateIDs": [
+            "NormalAtk02"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.25999999046325684,
+          "steerStateIDs": [
+            "ChargeAtk_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.5199999809265137,
+          "steerStateIDs": [
+            "ChargeAtk_BS"
+          ],
+          "startNormalizedTime": 0.4099999964237213
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "steerStateIDs": [
+            "ChargeAtk_Loop"
+          ]
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Strong_Lance_EndureDelta": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_ForlornVessel_EndureDelta_Remove"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_ForlornVessel_EndureDelta_Add"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "ForlornVessel_Strong_Lance_EndureDelta",
+          "normalizeEnd": 0.4000000059604645,
+          "stateID": "NormalAtk01"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "ForlornVessel_Strong_Lance_EndureDelta",
+          "normalizeEnd": 0.3499999940395355,
+          "stateID": "NormalAtk02"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChargeAtk_BS"
+          ],
+          "modifierName": "ForlornVessel_Strong_Lance_EndureDelta"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_EndureDelta"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Strong_Lance_NormalAtk_WeaponHanler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetWeaponAttachPointRealName",
+              "realName": "WeaponR",
+              "partName": "equip01"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetWeaponAttachPointRealName",
+              "realName": "WeaponL",
+              "partName": "equip01"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "ForlornVessel_Strong_Lance_NormalAtk_WeaponHanler",
+          "normalizeEnd": 0.6800000071525574,
+          "stateID": "NormalAtk01",
+          "normalizeStart": 0.10999999940395355
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_WeaponHanler"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Lance_ChargeAtk_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Lance_ChargeAtk_Route",
+              "effectTempleteID": -1
+            }
+          ],
+          "onAttackLanded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "useEventSource": true,
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Monster_ForlornVessel_Lance_ChargeAtk"
+                  ]
+                }
+              ],
+              "triggerID": "ChargeAtkEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttackHittingSceneMixin",
+              "onHittingScene": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "ChargeAtkEnd"
+                }
+              ],
+              "animEventIDs": [
+                "ChargeAtk_Route"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Lance_ChargeAtk_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Lance_ChargeAtk_Hand",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChargeAtk_Loop"
+          ],
+          "modifierName": "Lance_ChargeAtk_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChargeAtk_BS",
+            "ChargeAtk_Loop"
+          ],
+          "modifierName": "Lance_ChargeAtk_Effect"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_ChargeAtk"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Strong_Lance_AlertHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Leisure"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Patrol"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Worship"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0,
+            1
+          ],
+          "modifierName": "ForlornVessel_Strong_Lance_AlertHandler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_Alert"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "WeaponElementFreezeHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "equip02"
+                ]
+              },
+              "modifierName": "WeaponElementFreeze"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponElementPetrifactionHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "equip02"
+                ]
+              },
+              "modifierName": "WeaponElementPetrifaction"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponElementFreeze": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "ElementFreeze",
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponElementPetrifaction": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "ElementPetrifaction",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAbilityStateMixin",
+          "modifierName": "WeaponElementFreezeHandler",
+          "abilityStates": [
+            "ElementFreeze"
+          ]
+        },
+        {
+          "$type": "AttachToAbilityStateMixin",
+          "modifierName": "WeaponElementPetrifactionHandler",
+          "abilityStates": [
+            "ElementPetrifaction"
+          ]
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Lance_WeaponSpecialElementState"
+    }
+  }
+]

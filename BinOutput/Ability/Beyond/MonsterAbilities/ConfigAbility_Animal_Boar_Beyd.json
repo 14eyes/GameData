@@ -1,0 +1,209 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 250.0,
+          "endNormalizedTime": 0.5299999713897705,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "RushAtk_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 300.0,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Boar_Beyd_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_Boar_RushAtk_DamageCount": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_BOAR_RUSH_HIT"
+                    }
+                  ],
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "attackType": "Melee",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Blunt",
+                      "damagePercentage": 1,
+                      "elementDurability": 100,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "hitImpulseType": "LV0"
+                    },
+                    "attenuationGroup": "default"
+                  },
+                  "born": {
+                    "$type": "ConfigBornByHitPoint"
+                  }
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_Animal_Boar_Beyd_RushAtk_Num"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Animal_Boar_Beyd_RushAtk_Num": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_BOAR_RUSH_HIT",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_BOAR_RUSH_HIT",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 1000.0,
+                "damagePercentage": 0,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "canBeDefenceHalt": true,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.5
+                }
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 1.5,
+                "z": 2,
+                "y": 1.5
+              }
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RushAtk",
+            "RushAtk_Hunt"
+          ],
+          "modifierName": "Animal_Boar_RushAtk_DamageCount"
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "exitActions": [
+            {
+              "$type": "SetPoseInt",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_Is_Hunt_Animal_Activity3.1"
+                }
+              ],
+              "value": 1,
+              "intID": "FleeState"
+            }
+          ],
+          "stateIDs": [
+            "RushAtk"
+          ]
+        },
+        {
+          "$type": "AttackHittingSceneMixin",
+          "onHittingScene": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "CrashTrigger"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Boar_Beyd_RushAtk"
+    }
+  }
+]

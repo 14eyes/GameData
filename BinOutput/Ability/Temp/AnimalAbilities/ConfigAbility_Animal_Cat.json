@@ -1,0 +1,447 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseInt",
+          "value": 1,
+          "intID": "ActionState"
+        }
+      ],
+      "abilityName": "Animal_Cat_SitDown"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseInt",
+          "value": 2,
+          "intID": "ActionState"
+        }
+      ],
+      "abilityName": "Animal_Cat_Prone"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseInt",
+          "intID": "ActionState"
+        }
+      ],
+      "abilityName": "Animal_Cat_StandUp"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            1
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                102,
+                103
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            101
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                112,
+                113
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            2,
+            12
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                201,
+                202,
+                203
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            201
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                211,
+                212,
+                213
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            3,
+            13
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                301,
+                302
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            301
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                311,
+                312
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Cat_AIStateInitial",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_Invincible"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "DenyLockOn"
+        },
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 11001
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BeHitCount": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetAnimatorFloat",
+              "useRandomValue": true,
+              "floatID": "DodgeWeight",
+              "FODOKEONKCH": 0,
+              "randomValueMax": 1
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "BeHitTrigger"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "FleeState"
+                },
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "FleeState"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Monster",
+                    "Gadget",
+                    "Bullet",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "SetPoseInt",
+              "intID": "ActionState"
+            }
+          ]
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 3.0
+            },
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear",
+              "duration": 2.0,
+              "KBKCMPMOKGM": true,
+              "ELJJHIPAFKC": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FleeCountDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 30,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "FleeState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "FleeState"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            1,
+            2,
+            3,
+            101,
+            201,
+            202,
+            301,
+            302,
+            12,
+            13
+          ],
+          "modifierName": "BeHitCount"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Disappear"
+          ],
+          "modifierName": "Disappear"
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            5,
+            501
+          ],
+          "enterActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "FleeCountDown"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Cat_BeHit"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CautiousRunSpeedModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "MoveSpeedRatio",
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "MoveSpeedRatio",
+              "value": 1.5
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "FleeState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "FleeState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "DisappearCautious"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear_Cautious": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 5.0
+            },
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear",
+              "duration": 1.0,
+              "KBKCMPMOKGM": true,
+              "ELJJHIPAFKC": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            402
+          ],
+          "modifierName": "CautiousRunSpeedModifier"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Disappear_Cautious"
+          ],
+          "modifierName": "Disappear_Cautious"
+        }
+      ],
+      "abilityName": "Animal_Cat_CautiousRunning"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseBool",
+          "value": true,
+          "boolID": "Surround"
+        }
+      ],
+      "abilityName": "Animal_Cat_TurnToSurround"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseBool",
+          "boolID": "Surround"
+        }
+      ],
+      "abilityName": "Animal_Cat_OutOfSurround"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CatFeedPointRegister": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "OKMLKDDLBEN",
+              "pointType": "CatFeedPoint"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "JHHANKBLJEC",
+              "pointType": "CatFeedPoint"
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "OKMLKDDLBEN",
+              "pointType": "CatFeedPoint"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "HungryAction",
+            "HungryAfterAction"
+          ],
+          "modifierName": "CatFeedPointRegister"
+        }
+      ],
+      "abilityName": "Animal_Cat_CatFeedPointRegister"
+    }
+  }
+]

@@ -1,0 +1,1044 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Pose_None": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "EscapeTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Escape": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "EscapeTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Warbanner_Distance_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR5"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "ForlornVessel_Warbanner_Distance_GVHandler"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Warbanner_Distance_GVHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5.2,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_FORLORNVESSEL_WARBANNER_POSE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_FORLORNVESSEL_WARBANNER_POSE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Pose_None",
+            "Pose_Escape"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_FORLORNVESSEL_WARBANNER_POSE_TAG_",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_Pose",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ForlornVessel_Warbanner_Distance_Detect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Warbanner_HitShield_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "modifierName": "UNIQUE_ForlornVessel_Warbanner_HitShield_Succ"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasShieldV2",
+                  "type": "All"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Monster_ForlornVessel_Attack",
+                    "Monster_ForlornVessel_Lance_ChargeAtk"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ForlornVessel_Warbanner_HitShield_Succ": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "LoseHP",
+              "target": "Caster",
+              "amountByTargetCurrentHPRatio": 0.15,
+              "enableLockHP": true,
+              "amount": 0,
+              "OIIGPGHDHHG": false,
+              "BHBDBILLNBG": true
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR20H10"
+              },
+              "successActions": [
+                {
+                  "$type": "RemoveUniqueModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_ForlornVessel_Warbanner_ElementShield_ShieldHandler"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "target": "Target",
+                  "modifierName": "ForlornVessel_Warbanner_ElementShield_Regist"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_ForlornVessel_Warbanner_ElementShield_ShieldHandler"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "ForlornVessel_Warbanner_ElementShield_Effect"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "ForlornVessel_Warbanner_ElementShield_Regist"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHasFeatureTag",
+                      "featureTagIDs": [
+                        4014
+                      ]
+                    },
+                    {
+                      "$type": "ByHasFeatureTag",
+                      "featureTagIDs": [
+                        4013
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ForlornVessel_Warbanner_ElementShield_ShieldHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "ForlornVessel_ElementShield",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "ForlornVessel_ElementShield",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0.001
+          },
+          "stacking": "Unique",
+          "elementDurability": 150,
+          "modifierMixins": [
+            {
+              "$type": "ElementShieldMixin",
+              "ICHIGPDKIHG": true,
+              "shieldHPRatio": 1,
+              "shieldAngle": 360,
+              "useMutiPlayerFixData": true,
+              "elementType": "Fire",
+              "damageRatio": 0.2
+            }
+          ],
+          "elementType": "Fire",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Warbanner_ElementShield_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "FireShieldTag"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "FireShieldTag"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner_ElementShield_Sound",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Warbanner_ElementShield_Regist": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "RemoveModifierByAbilityStateResistanceID",
+              "resistanceListID": 13002
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_HitShield",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ForlornVessel_Warbanner_HitShield_Detect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 270.0,
+          "endNormalizedTime": 0.10000000149011612,
+          "steerStateIDs": [
+            "NormalAtk"
+          ],
+          "startNormalizedTime": 0.05999999865889549
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 270.0,
+          "endNormalizedTime": 0.28999999165534973,
+          "steerStateIDs": [
+            "NormalAtk"
+          ],
+          "startNormalizedTime": 0.25
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.09000000357627869,
+          "steerStateIDs": [
+            "FireBullet_BS"
+          ],
+          "startNormalizedTime": 0.07000000029802322
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 720.0,
+          "endNormalizedTime": 0.20000000298023224,
+          "steerStateIDs": [
+            "FireBullet_BS"
+          ],
+          "startNormalizedTime": 0.12999999523162842
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Strong_Warbanner_EndureDelta": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_ForlornVessel_EndureDelta_Remove"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_ForlornVessel_EndureDelta_Add"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "ForlornVessel_Strong_Warbanner_EndureDelta",
+          "normalizeEnd": 0.3499999940395355,
+          "stateID": "NormalAtk"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "ForlornVessel_Strong_Warbanner_EndureDelta",
+          "stateID": "FireBullet_BS"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_EndureDelta"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0.1,
+              "z": 0.82,
+              "y": 1.6
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 45.0
+            }
+          },
+          "bulletID": 42207001
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_FireBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FireBullet_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner_FireBullet_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner_FireBullet_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Fire",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 100.0,
+                "damagePercentage": 1,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Monster_ForlornVessel_Attack",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1.5
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner_FireBullet_AS",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByCollisionPoint"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "ForlornVessel_Strong_Warbanner_FireBullet",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FireBullet_Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_ForlornVessel_Warbanner_NormalAtk_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "parameter": "NormalAtkTag",
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "type": "Bool"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "modifierName": "UNIQUE_ForlornVessel_Warbanner_BladeEffect"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "parameter": "NormalAtkTag",
+              "value": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "type": "Bool"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "modifierName": "UNIQUE_ForlornVessel_Warbanner_BladeEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Strong_Warbanner_NormalAtk_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ForlornVessel_Warbanner_NormalAtk_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ForlornVessel_Warbanner_BladeEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner_Blade",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_ForlornVessel_Warbanner_NormalAtk_Handler"
+        },
+        {
+          "$type": "TriggerAbility",
+          "otherTargets": {
+            "$type": "SelectTargetsByEquipParts",
+            "equipPartNames": [
+              "equip02"
+            ]
+          },
+          "abilityName": "MonEquip_ForlornVessel_Warbanner_01"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "NormalAtk"
+          ],
+          "modifierName": "ForlornVessel_Strong_Warbanner_NormalAtk_Handler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_NormalAtk_Spread"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_ForlornVessel_Warbanner_NormalAtk_Handler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_NormalAtk_Disappear"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_ForlornVessel_Warbanner_FireBullet_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "parameter": "FireBulletTag",
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "type": "Bool"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "parameter": "FireBulletTag",
+              "value": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "type": "Bool"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Strong_Warbanner_FireBullet_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ForlornVessel_Warbanner_FireBullet_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_ForlornVessel_Warbanner_FireBullet_Handler"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FireBullet"
+          ],
+          "modifierName": "ForlornVessel_Strong_Warbanner_FireBullet_Handler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_FireBullet_Spread"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_ForlornVessel_Warbanner_FireBullet_Handler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_FireBullet_Disappear"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Warbanner_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "SendEffectTrigger",
+          "parameter": "DieTrigger",
+          "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner"
+        },
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_ForlornVessel_Warbanner_BladeEffect"
+        }
+      ],
+      "abilityName": "MonEquip_ForlornVessel_Warbanner_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ForlornVessel_Warbanner_Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Strong_Lance_NormalAtk_WeaponHanler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetWeaponAttachPointRealName",
+              "realName": "WeaponL",
+              "partName": "equip02"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetWeaponAttachPointRealName",
+              "realName": "WeaponR",
+              "partName": "equip02"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "ForlornVessel_Strong_Lance_NormalAtk_WeaponHanler",
+          "normalizeEnd": 0.800000011920929,
+          "stateID": "NormalAtk",
+          "normalizeStart": 0.30000001192092896
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_WeaponHanler"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExitBattle": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_FORLORNVESSEL_WARBANNER_POSE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "parameter": "NormalAtkTag",
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "type": "Bool"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ForlornVessel_Warbanner_ElementShield_ShieldHandler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0
+          ],
+          "modifierName": "ExitBattle"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_ExitBattle"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ForlornVessel_Strong_Warbanner_AlertHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Leisure"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Patrol"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0,
+            1
+          ],
+          "modifierName": "ForlornVessel_Strong_Warbanner_AlertHandler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_Alert"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_ForlornVessel_Warbanner_RaiseFlag_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "parameter": "NormalAtkTag",
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "type": "Bool"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip02"
+                ]
+              },
+              "parameter": "NormalAtkTag",
+              "value": 1,
+              "effectPattern": "Eff_Monster_ForlornVessel_Strong_Warbanner",
+              "type": "Bool"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForlornVessel_Strong_Warbanner_RaiseFlag_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ForlornVessel_Warbanner_RaiseFlag_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_ForlornVessel_Warbanner_RaiseFlag_Handler"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RaiseFlag"
+          ],
+          "modifierName": "ForlornVessel_Strong_Warbanner_RaiseFlag_Handler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_RaiseFlag_Spread"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_ForlornVessel_Warbanner_RaiseFlag_Handler"
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_RaiseFlag_Disappear"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "WeaponElementFreezeHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "equip02"
+                ]
+              },
+              "modifierName": "WeaponElementFreeze"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponElementPetrifactionHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "equip02"
+                ]
+              },
+              "modifierName": "WeaponElementPetrifaction"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponElementFreeze": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "ElementFreeze",
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponElementPetrifaction": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "ElementPetrifaction",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAbilityStateMixin",
+          "modifierName": "WeaponElementFreezeHandler",
+          "abilityStates": [
+            "ElementFreeze"
+          ]
+        },
+        {
+          "$type": "AttachToAbilityStateMixin",
+          "modifierName": "WeaponElementPetrifactionHandler",
+          "abilityStates": [
+            "ElementPetrifaction"
+          ]
+        }
+      ],
+      "abilityName": "Monster_ForlornVessel_Strong_Warbanner_WeaponSpecialElementState"
+    }
+  }
+]

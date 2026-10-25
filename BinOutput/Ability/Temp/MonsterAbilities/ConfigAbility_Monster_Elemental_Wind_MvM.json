@@ -1,0 +1,205 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Shock_BS": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Elemental_Wind_Shock_BS",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Elemental_Wind_Shock_BS_OnGround",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Elemental_Wind_Shock_Alert",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "WindZoneMixin",
+              "targetType": "Enemy",
+              "innerRadius": 0.5,
+              "strength": 3.75,
+              "attenuation": 1,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true
+              },
+              "shapeName": "CircleR10",
+              "predicates": [
+                {
+                  "$type": "ByTargetWeight",
+                  "logic": "LesserOrEqual",
+                  "weight": 100
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Shock_Fall": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": 12,
+            "Entity_MassRatio": 100
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Shock_BS"
+          ],
+          "modifierName": "Shock_BS"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Shock_Fall"
+          ],
+          "modifierName": "Shock_Fall"
+        }
+      ],
+      "abilityName": "Elemental_Wind_Shock_BS_MvM"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Shock_Drop": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "SkillDrop"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "SkillDrop"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Elemental_Wind_Shock_Wave",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "onGround": true
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Wind",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 100.0,
+                "damagePercentage": 1,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeTime": 0.11999999731779099,
+                "shakeDistance": 35.0,
+                "shakeRange": 0.1599999964237213
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV5"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "radius": 5,
+              "height": 5.0
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Shock_Fall",
+            "Shock_AS",
+            "Shock_Up"
+          ],
+          "modifierName": "Shock_Drop"
+        }
+      ],
+      "abilityName": "Elemental_Wind_Shock_AS_MvM"
+    }
+  }
+]

@@ -1,0 +1,2 @@
+TextShowPlace = {TEXT_SHOW_NONE = 0}
+TextParamType = {TEXT_PARAM_NONE = 0, TEXT_PARAM_AVATAR_NAME = 1}

@@ -1,0 +1,1945 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SetPoseFalse": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "LookAround"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Stretch"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "AlertCrush"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "AlertCrushLoop"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "NoFreeSkill"
+            },
+            {
+              "$type": "HideUIBillBoard"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2
+          ],
+          "modifierName": "SetPoseFalse"
+        }
+      ],
+      "abilityName": "Animal_Goat_StateChange"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Random_MoveSpeedRatio": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetRandomOverrideMapValue",
+              "valueRangeMin": 2.0,
+              "overrideMapKey": "RandomTimes",
+              "valueRangeMax": 4.0
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "LoopTimes",
+              "value": "RandomTimes"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Personality_103_BS"
+          ],
+          "modifierName": "Random_MoveSpeedRatio"
+        }
+      ],
+      "abilityName": "Animal_Goat_Random",
+      "abilitySpecials": {
+        "RandomTimes": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DisappearTimer": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 3.0
+            },
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Disappear"
+            },
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear",
+              "duration": 1.5,
+              "KBKCMPMOKGM": true,
+              "ELJJHIPAFKC": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "DisappearTimer"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Disappear"
+          ],
+          "modifierName": "DisappearTimer"
+        }
+      ],
+      "abilityName": "Animal_Goat_Disappear"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FleeMode_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "FleeMode"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "FleeMode"
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "FleeMode"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "GreaterOrEqual",
+                  "value": 5
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "target": "TargetOriginOwner",
+              "successActions": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "FleeMode"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "GreaterOrEqual",
+                  "value": 5
+                }
+              ]
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "HitFlag"
+            }
+          ]
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            1,
+            2
+          ],
+          "modifierName": "FleeMode_Monitor"
+        }
+      ],
+      "abilityName": "Animal_Goat_FleeMode"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AlertCrush_TargetMonitor": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "FleeMode"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "target": "SelfAttackTarget",
+                  "logic": "LesserOrEqual",
+                  "value": 6
+                }
+              ],
+              "triggerID": "AlertCrush"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 1000.0,
+                "damagePercentage": 1,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "canBeDefenceHalt": true,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.5
+                }
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 1.5,
+                "z": 2.5,
+                "y": 2
+              }
+            }
+          }
+        },
+        {
+          "$type": "SetPoseBool",
+          "value": true,
+          "boolID": "FleeMode"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.6169999837875366,
+          "attackDistance": 1.5,
+          "steerStateIDs": [
+            "CrushAtk"
+          ],
+          "startNormalizedTime": 0.07999999821186066
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.550000011920929,
+          "attackDistance": 1.5,
+          "steerStateIDs": [
+            "AlertCrush_BS"
+          ],
+          "startNormalizedTime": 0.23999999463558197
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "AlertCrush_Loop"
+          ],
+          "modifierName": "AlertCrush_TargetMonitor"
+        }
+      ],
+      "abilityName": "Animal_Goat_CrushAtk"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_Goat_BanJumpAwayTag": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_Goat_02_BanJumpAway",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Animal_Goat_BanJumpAway",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Animal_Goat_BanJumpAwayTag"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_Goat_FieldInitialize": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Trigger_JumpAway"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                2.5,
+                3.5
+              ],
+              "globalValueKey": "Animal_Goat_JumpAwayCount",
+              "NBOEEIHGCPD": true,
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "PredicatedBySelectTarget",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "predicates": [
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "FODKMMKKJFM",
+                          "IFKACJEBAKF": [
+                            "Turn_L",
+                            "Turn_R",
+                            "Turn_L2",
+                            "Turn_R2",
+                            "Turn_L3",
+                            "Turn_R3",
+                            "Jump",
+                            "FlatJump",
+                            "JumpHigh",
+                            "JumpHigh_AS",
+                            "JumpLow",
+                            "JumpLow_AS"
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "useLimitRange": true,
+                  "key": "Animal_Goat_JumpAwayCount",
+                  "maxValue": 3,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "LAPMNDNLBLI": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "Animal_Goat_JumpAwayCount",
+                  "maxValue": 3,
+                  "minValue": 0,
+                  "value": -1
+                }
+              ],
+              "IPGCOPKAFFH": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "shapeName": "CircleR3H6"
+              },
+              "IFOPPFFBAEH": "Target"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Trigger_JumpAway": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByAnimatorFloat",
+                      "parameter": "PoseID",
+                      "value": 900
+                    },
+                    {
+                      "$type": "ByAnimatorFloat",
+                      "logic": "Equal",
+                      "parameter": "PoseID",
+                      "value": 1
+                    },
+                    {
+                      "$type": "ByAnimatorFloat",
+                      "logic": "Equal",
+                      "parameter": "PoseID",
+                      "value": 101
+                    }
+                  ]
+                }
+              ],
+              "abilityName": "Animal_Goat_JumpAway"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Reset_JumpAwayCount"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Reset_JumpAwayCount": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "Animal_Goat_JumpAwayCount",
+              "minValue": 0,
+              "maxValue": 3,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StartJump_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "NearestXZ",
+                "configID": 42601112
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "Other",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "topLimit": 1,
+                    "sortType": "NearestXZ",
+                    "configID": 42601112
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Gadget"
+                      ]
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "SetAnimatorInt",
+                      "intID": "SkillID",
+                      "value": 201
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetAnimatorInt",
+                      "intID": "SkillID",
+                      "value": 202
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetForwardAndSelfPosition",
+                      "value": 0,
+                      "JKIKJGDONNJ": false
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorInt",
+                  "intID": "SkillID",
+                  "value": 200
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetForwardAndSelfPosition",
+                  "logic": "Lesser",
+                  "value": 90
+                }
+              ]
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Jump_RushMove": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": -1.0,
+              "animatorStateIDs": [
+                "Jump"
+              ],
+              "toPos": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "Animal_Goat_Jump_EndPoint1"
+              },
+              "timeRange": 0.67
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "Other",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "entityTypePriority": [
+              "Avatar"
+            ],
+            "sortType": "NearestXZ",
+            "sizeRatio": 1,
+            "campTargetType": "Enemy",
+            "shapeName": "CircleR10H3"
+          },
+          "LINAHBPILJD": false,
+          "key": "Animal_Goat_Jump_EndPoint1",
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true,
+            "linearMin": 0,
+            "linearOffset": -9,
+            "linearMax": 50
+          }
+        },
+        {
+          "$type": "CreateGadget",
+          "born": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "Animal_Goat_Jump_EndPoint1"
+          },
+          "gadgetID": 42601112
+        },
+        {
+          "$type": "SetAnimatorFloat",
+          "floatID": "JumpSpeedRatio",
+          "value": 1
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "GV_Goat_02_BanJumpAway"
+            }
+          ],
+          "modifierName": "StartJump_Delay"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Jump_RushMove",
+          "normalizeEnd": 0.6499999761581421,
+          "stateID": "Jump",
+          "normalizeStart": 0.3100000023841858
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Turn"
+          ],
+          "startNormalizedTime": 0.20000000298023224,
+          "globalPosKey": "Animal_Goat_Jump_EndPoint1"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.2800000011920929,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Jump"
+          ],
+          "startNormalizedTime": 0.10000000149011612,
+          "globalPosKey": "Animal_Goat_Jump_EndPoint1"
+        }
+      ],
+      "abilityName": "Animal_Goat_JumpAway",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "GV_Goat_02_BanJumpAway"
+            }
+          ],
+          "modifierName": "Animal_Goat_FieldInitialize"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "PrepareFixedJump_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": [
+            0.7,
+            "Animal_Goat_FixedJump_WaitTime",
+            "ADD"
+          ],
+          "onRemoved": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "Animal_Goat_FixedJump_EndPoint1",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "Animal_Goat_FixedJump_EndPoint2"
+              }
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "Animal_Goat_FixedJump_EndPoint1"
+              },
+              "gadgetID": 42601112
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "StartFixedJump_Delay"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                101,
+                111,
+                121
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PrepareFixedJump_NoDelayForTheFirstTime": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "Animal_Goat_FixedJump_FirstTime",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalPos",
+              "key": "Animal_Goat_FixedJump_EndPoint1",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "Animal_Goat_FixedJump_EndPoint2"
+              }
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "Animal_Goat_FixedJump_EndPoint1"
+              },
+              "gadgetID": 42601112
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "StartFixedJump_Delay"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StartFixedJump_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueByTargetDistance",
+              "target": "Other",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "NearestXZ",
+                "configID": 42601112
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget"
+                  ]
+                }
+              ],
+              "key": "Animal_Goat_FixedJump_Distance1"
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "JumpSpeedRatio",
+              "value": [
+                11.18,
+                "Animal_Goat_FixedJump_Distance1",
+                "DIV"
+              ]
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 30,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "Animal_Goat_FixedJump_Distance1"
+                }
+              ],
+              "floatID": "JumpSpeedRatio",
+              "value": [
+                11.18,
+                1.5,
+                "MUL",
+                "Animal_Goat_FixedJump_Distance1",
+                "DIV"
+              ]
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 9.32,
+                  "compareType": "LessAndEqual",
+                  "key": "Animal_Goat_FixedJump_Distance1"
+                }
+              ],
+              "floatID": "JumpSpeedRatio",
+              "value": 1.2
+            },
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "NearestXZ",
+                "configID": 42601112
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "Other",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "topLimit": 1,
+                    "sortType": "NearestXZ",
+                    "configID": 42601112
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Gadget"
+                      ]
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "SetAnimatorInt",
+                      "intID": "SkillID",
+                      "value": 205
+                    },
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "triggerID": "DoSkill"
+                    },
+                    {
+                      "$type": "DoMonsterFixedJump",
+                      "targetPos": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "positionKey": "Animal_Goat_FixedJump_EndPoint1"
+                      },
+                      "FBLKFPNJHNA": true
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetAnimatorInt",
+                      "intID": "SkillID",
+                      "value": 206
+                    },
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "triggerID": "DoSkill"
+                    },
+                    {
+                      "$type": "DoMonsterFixedJump",
+                      "targetPos": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "positionKey": "Animal_Goat_FixedJump_EndPoint1"
+                      },
+                      "FBLKFPNJHNA": true
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetForwardAndSelfPosition",
+                      "value": 0,
+                      "JKIKJGDONNJ": false
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "DoMonsterFixedJump",
+                  "EPJJJAMKNAJ": [
+                    {
+                      "$type": "AGHLPAHDDPC",
+                      "paramName": "SkillID",
+                      "paramValue": 203,
+                      "PBPDBNKLHIN": true
+                    },
+                    {
+                      "$type": "AGHLPAHDDPC",
+                      "paramName": "SkillID",
+                      "paramValue": 204
+                    },
+                    {
+                      "$type": "AGHLPAHDDPC",
+                      "paramName": "DoSkill",
+                      "FBPDKCAIJPF": true,
+                      "PBPDBNKLHIN": true
+                    },
+                    {
+                      "$type": "AGHLPAHDDPC",
+                      "paramName": "DoSkill",
+                      "FBPDKCAIJPF": true
+                    }
+                  ],
+                  "targetPos": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "Animal_Goat_FixedJump_EndPoint1"
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetForwardAndSelfPosition",
+                  "logic": "Lesser",
+                  "value": 90
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Glowing": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Glowing"
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Glowing"
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "Other",
+          "LINAHBPILJD": false,
+          "key": "Animal_Goat_FixedJump_EndPoint2",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true
+          }
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "Animal_Goat_FixedJump_FirstTime"
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "parameter": "PoseID",
+                  "value": 900
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 1
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 101
+                }
+              ]
+            }
+          ],
+          "modifierName": "PrepareFixedJump_Delay"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "Animal_Goat_FixedJump_FirstTime"
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "parameter": "PoseID",
+                  "value": 900
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 1
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 101
+                }
+              ]
+            }
+          ],
+          "modifierName": "PrepareFixedJump_NoDelayForTheFirstTime"
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "Animal_Goat_FixedJump_WaitTime",
+        "Animal_Goat_FixedJump_Distance1"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Turn2"
+          ],
+          "startNormalizedTime": 0.20000000298023224,
+          "globalPosKey": "Animal_Goat_FixedJump_EndPoint1"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.20000000298023224,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "JumpHigh",
+            "JumpLow"
+          ],
+          "globalPosKey": "Animal_Goat_FixedJump_EndPoint1"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Jump",
+            "JumpHigh",
+            "JumpLow"
+          ],
+          "modifierName": "Glowing"
+        }
+      ],
+      "abilityName": "Animal_Goat_FixedJump",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Animal_Goat_FixedJump_WaitTime",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StartFlatJump_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueByTargetDistance",
+              "target": "Other",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "NearestXZ",
+                "configID": 42601112
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget"
+                  ]
+                }
+              ],
+              "key": "Animal_Goat_FlatJump_Distance1"
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "JumpSpeedRatio",
+              "value": [
+                7,
+                "Animal_Goat_FlatJump_Distance1",
+                "DIV"
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "NearestXZ",
+                "configID": 42601112
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "Other",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "topLimit": 1,
+                    "sortType": "NearestXZ",
+                    "configID": 42601112
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Gadget"
+                      ]
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "SetAnimatorInt",
+                      "intID": "SkillID",
+                      "value": 207
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetAnimatorInt",
+                      "intID": "SkillID",
+                      "value": 208
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetForwardAndSelfPosition",
+                      "value": 0,
+                      "JKIKJGDONNJ": false
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorInt",
+                  "intID": "SkillID",
+                  "value": 209
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetForwardAndSelfPosition",
+                  "logic": "Lesser",
+                  "value": 90
+                }
+              ]
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FlatJump_RushMove": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": -1.0,
+              "animatorStateIDs": [
+                "FlatJump"
+              ],
+              "toPos": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "Animal_Goat_FlatJump_EndPoint1"
+              },
+              "timeRange": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "Other",
+          "LINAHBPILJD": false,
+          "key": "Animal_Goat_FlatJump_EndPoint1",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true
+          }
+        },
+        {
+          "$type": "CreateGadget",
+          "born": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "Animal_Goat_FlatJump_EndPoint1"
+          },
+          "gadgetID": 42601112
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "parameter": "PoseID",
+                  "value": 900
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 1
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 101
+                }
+              ]
+            }
+          ],
+          "modifierName": "StartFlatJump_Delay"
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "Animal_Goat_FlatJump_Distance1"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "FlatJump_RushMove",
+          "normalizeEnd": 0.7200000286102295,
+          "stateID": "FlatJump",
+          "normalizeStart": 0.2800000011920929
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Turn3"
+          ],
+          "startNormalizedTime": 0.20000000298023224,
+          "globalPosKey": "Animal_Goat_FlatJump_EndPoint1"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.2800000011920929,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "FlatJump"
+          ],
+          "startNormalizedTime": 0.10000000149011612,
+          "globalPosKey": "Animal_Goat_FlatJump_EndPoint1"
+        }
+      ],
+      "abilityName": "Animal_Goat_FlatJump"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "KillServerGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "Goat_02_ForMagnetCanyon"
+            }
+          ],
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42802016
+          }
+        },
+        {
+          "$type": "KillServerGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "Goat_02_ForMagnetCanyon"
+            }
+          ],
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42802017
+          }
+        },
+        {
+          "$type": "KillServerGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "Goat_02_ForMagnetCanyon"
+            }
+          ],
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42802018
+          }
+        },
+        {
+          "$type": "KillServerGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "Goat_02_ForMagnetCanyon"
+            }
+          ],
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42802019
+          }
+        },
+        {
+          "$type": "CreateGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "Animal_Goat_02_Type"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true
+          },
+          "gadgetID": 42802016,
+          "byServer": true,
+          "campID": 9001,
+          "campTargetType": "AllExceptSelf"
+        },
+        {
+          "$type": "CreateGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 2,
+              "key": "Animal_Goat_02_Type"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true
+          },
+          "gadgetID": 42802017,
+          "byServer": true,
+          "campID": 9001,
+          "campTargetType": "AllExceptSelf"
+        },
+        {
+          "$type": "CreateGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 3,
+              "key": "Animal_Goat_02_Type"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true
+          },
+          "gadgetID": 42802018,
+          "byServer": true,
+          "campID": 9001,
+          "campTargetType": "AllExceptSelf"
+        },
+        {
+          "$type": "CreateGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 4,
+              "key": "Animal_Goat_02_Type"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "alongGround": true,
+            "onGround": true,
+            "useRotation": true
+          },
+          "gadgetID": 42802019,
+          "byServer": true,
+          "campID": 9001,
+          "campTargetType": "AllExceptSelf"
+        }
+      ],
+      "abilityName": "Animal_Goat_CreateMagnetArea"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_Goat_ForMagnetCanyon": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Goat_02_ForMagnetCanyon",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "MonsterAffix_Animal_Goat_ForMagnetCanyon",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Animal_Goat_ForMagnetCanyon"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Animal_Goat_02_Tag01",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "Animal_Goat_02_Type",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetAnimatorBool",
+          "value": true,
+          "boolID": "NPole"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Animal_Goat_02_Tag02",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "Animal_Goat_02_Type",
+          "maxValue": 0,
+          "value": 2
+        },
+        {
+          "$type": "SetAnimatorBool",
+          "value": true,
+          "boolID": "SPole"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Animal_Goat_02_Tag03",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "Animal_Goat_02_Type",
+          "maxValue": 0,
+          "value": 3
+        },
+        {
+          "$type": "SetAnimatorBool",
+          "value": true,
+          "boolID": "NPole_Strong"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Animal_Goat_02_Tag04",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "Animal_Goat_02_Type",
+          "maxValue": 0,
+          "value": 4
+        },
+        {
+          "$type": "SetAnimatorBool",
+          "value": true,
+          "boolID": "SPole_Strong"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SetGV_Jump": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Activity_V6_0_Photography",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Activity_V6_0_Photography",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Jump",
+            "FlatJump",
+            "JumpHigh",
+            "JumpHigh_AS",
+            "JumpLow",
+            "JumpLow_AS"
+          ],
+          "modifierName": "SetGV_Jump"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Personality_104_Threat"
+          ],
+          "modifierName": "SetGV_Jump"
+        }
+      ],
+      "abilityName": "Animal_Goat_Activity_V6_0_Photography"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_Goat_ForMagnetCanyon": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Goat_02_ForMagnetCanyon",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Goat_ForMagnetCanyon_EnergyArrived": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CustomOuterGlowEffectMixin",
+              "DIEIIBJKNFA": true,
+              "MEIBMNEBEDA": 2.0,
+              "color": {
+                "$type": "ColorVector",
+                "g": 0.23499999940395355,
+                "a": 1.0,
+                "b": 0.8230000138282776
+              },
+              "DCALNKJNIDK": 5.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MonsterAffix_EnergyMonster_Goat_ForMagnetCanyon_MonsterNotActive": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAIHitFeeling",
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ResetAIThreatBroadcastRange",
+              "canBeHandledOnRecover": true,
+              "range": 0
+            },
+            {
+              "$type": "SetAIHitFeeling"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_DenyLockOn"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_Invincible"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_MuteTaunt"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_IsGhostToEnemy"
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox",
+                "HitBox_Head"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "VelocityForceMixin",
+              "excludeForces": [
+                "WindZoneType"
+              ]
+            },
+            {
+              "$type": "RejectAttackMixinV2",
+              "attackTags": [
+                "Qin_VortexSmash",
+                "Sucrose_WindBlackHole",
+                "Faruzan_WindBlackHole"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_MuteTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "MuteTaunt",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_IsGhostToEnemy": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Goat_ForMagnetCanyon_EnergyArrived"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "SGV_MagnetCanyon_EnergyArrived"
+        }
+      ],
+      "abilityName": "Animal_Goat_OuterGlow_ForMagnetCanyon",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "MonsterAffix_EnergyMonster_Goat_ForMagnetCanyon_MonsterNotActive"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Animal_Goat_ForMagnetCanyon"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_ActivityShortVideo_V6_5_GVInitial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "CheckEnableMove"
+            }
+          ],
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckEnableMove": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ThinkIntervalMixin",
+              "onThinkInterval": [
+                {
+                  "$type": "Predicated",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Team",
+                      "value": "SGV_MoveIndex",
+                      "key": "GV_ShortVideo_MissionIndex"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "_ActivityShortVideo_EnableMove",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 1
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "_ActivityShortVideo_EnableMove",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 0
+                    }
+                  ]
+                }
+              ],
+              "thinkInterval": 0.1
+            },
+            {
+              "$type": "VelocityForceMixin",
+              "excludeForces": [
+                "RetreatAirType",
+                "WindZoneType",
+                "RetreatType"
+              ]
+            },
+            {
+              "$type": "RejectAttackMixinV2",
+              "attackTags": [
+                "Qin_VortexSmash",
+                "Sucrose_WindBlackHole",
+                "Faruzan_WindBlackHole"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_MoveIndex"
+      ],
+      "abilityName": "Animal_ActivityShortVideo_V6_5_Initial",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Animal_ActivityShortVideo_V6_5_GVInitial"
+        }
+      ]
+    }
+  }
+]

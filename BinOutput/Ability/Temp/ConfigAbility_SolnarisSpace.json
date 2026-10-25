@@ -1,0 +1,1996 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "NormalState"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "ActiveState",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "BlockState",
+              "gadgetState": 202
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "ReadyState",
+              "gadgetState": 203
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "NormalState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Erosion",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Erode",
+              "type": "Int"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Cleanse",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableGadgetIntee",
+              "enable": true
+            },
+            {
+              "$type": "ChangeGadgetUIInteractHint",
+              "canBeHandledOnRecover": true,
+              "hintTextMapId": "UI_EnergyCaster_Intee_01",
+              "iconName": "UI_Icon_Intee_Mechanism"
+            },
+            {
+              "$type": "EnablePartControl",
+              "partRootNames": [
+                "ShootControl"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ReadyState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Erosion",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Erode",
+              "type": "Int"
+            },
+            {
+              "$type": "EnableGadgetIntee",
+              "enable": true
+            },
+            {
+              "$type": "ChangeGadgetUIInteractHint",
+              "canBeHandledOnRecover": true,
+              "hintTextMapId": "UI_TEMPLE03_QTE_TITLE",
+              "iconName": "UI_Icon_Intee_PickUp"
+            },
+            {
+              "$type": "EnablePartControl",
+              "enable": true,
+              "partRootNames": [
+                "ShootControl"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 2
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AttackPattern"
+              ],
+              "globalValueKey": "GV_ATTACK_PATTERN",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_ATTACK_TARGET_SELECTED",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -7.33413,
+                  "z": 22.87468,
+                  "y": 0.09120178
+                },
+                "shapeName": "CircleR20H40C"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_ATTACK_TARGET_SELECTED",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_ATTACK_PATTERN",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_ATTACK_PATTERN",
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "GV_ATTACK_TARGET_SELECTED"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AttackPattern": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnablePartControl",
+              "enable": true,
+              "partRootNames": [
+                "ShootControl"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "RaycastSelectTargetMixin",
+              "CJFKFJLHMAK": "GV_TargetNum",
+              "CLCHEHLPFCM": [
+                {
+                  "$type": "LEJEMKKPPAB"
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "compareType": "XYZ",
+                  "value": 180
+                }
+              ],
+              "PPFOJDHFKAA": "ShootControl",
+              "EDACJDEKJDJ": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "GV_CDTIMER"
+                }
+              ],
+              "OFEFKHGLIDK": [
+                {
+                  "$type": "SetPartControlTarget",
+                  "target": "Target",
+                  "partRootNames": [
+                    "ShootControl"
+                  ]
+                },
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "target": "Target"
+                },
+                {
+                  "$type": "AttachModifier",
+                  "target": "Target",
+                  "modifierName": "Aim_Eff"
+                },
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "AbyssBulletDelay"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "SetCD"
+                }
+              ],
+              "KOMHLAABLIP": true,
+              "CGAMMHDOFOF": "AllTeams"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetIntee"
+            },
+            {
+              "$type": "EnablePartControl",
+              "enable": true,
+              "partRootNames": [
+                "ShootControl"
+              ]
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Erosion",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Erode",
+              "type": "Int"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DefenseBulletDelay"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Activtion",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetPartControlTarget",
+              "otherTargets": {
+                "$type": "FODOKCBNJJH",
+                "FJBNBOOHNBG": 1
+              },
+              "partRootNames": [
+                "ShootControl"
+              ]
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "FODOKCBNJJH",
+                "FJBNBOOHNBG": 1
+              },
+              "modifierName": "DestroyPollutionEff"
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "FODOKCBNJJH",
+                "FJBNBOOHNBG": 0
+              },
+              "modifierName": "EnsurePollutionDie"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "BlockState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Erosion",
+              "value": 2,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Erode",
+              "type": "Int"
+            },
+            {
+              "$type": "EnableGadgetIntee"
+            },
+            {
+              "$type": "EnablePartControl",
+              "enable": true,
+              "partRootNames": [
+                "ShootControl"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "EnsurePollutionDie": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Target",
+              "key": "POLLUTION_OK",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShooterEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl",
+                "attachPointTargetType": "Self"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging",
+              "type": "Int"
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl",
+                "attachPointTargetType": "Self"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging02",
+              "type": "Int"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Erode",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetCD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CDTIMER",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "GV_CDTIMER",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AbyssBulletDelay": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging02",
+              "type": "Int"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging02",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging02",
+              "type": "Int"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DefenseBulletDelay": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.8,
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging",
+              "type": "Int"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Charge",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Charging",
+              "type": "Int"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Aim_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "duration": 3.2,
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "target": "Applier",
+              "parameter": "Die",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Line01"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "target": "Applier",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl"
+              },
+              "setSelfAsEffectPluginTarget": true,
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Line01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "target": "Applier",
+              "parameter": "Birth",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Line01"
+            },
+            {
+              "$type": "AttachEffect",
+              "target": "Team",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_UI_Aiming",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl",
+                "attachPointTargetType": "Caster"
+              },
+              "bulletID": 73093003,
+              "trackTarget": "Team",
+              "ownerIs": "Caster"
+            },
+            {
+              "$type": "FireEffect",
+              "target": "Caster",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Attack02",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl",
+                "attachPointTargetType": "Caster"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DestroyPollutionEff": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.8,
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "target": "Applier",
+              "parameter": "Die",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Line"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "target": "Applier",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl",
+                "attachPointTargetType": "Applier"
+              },
+              "setSelfAsEffectPluginTarget": true,
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Line",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "target": "Applier",
+              "parameter": "Birth",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Line"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl",
+                "attachPointTargetType": "Caster"
+              },
+              "bulletID": 73093005,
+              "trackTarget": "Self",
+              "ownerIs": "Caster"
+            },
+            {
+              "$type": "FireEffect",
+              "target": "Applier",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Attack",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootControl",
+                "attachPointTargetType": "Applier"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "target": "Applier",
+              "parameter": "Die",
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Line"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "BOEADPKMKGC": "WhiteList",
+              "fromStates": [
+                0
+              ],
+              "state": 201
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "BOEADPKMKGC": "WhiteList",
+              "fromStates": [
+                202,
+                203
+              ]
+            },
+            {
+              "$type": "DebugLog",
+              "content": "Widget Triggered"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_SolnarisSpace_DefenseTower",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShooterEff"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "bulletEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Bullet02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Hit02",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByCollisionPoint"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ServerLuaCall",
+              "target": "TargetTeam",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_TeleportPlayer",
+              "param3": 0,
+              "luaCallType": "OwnerFromGroup"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            },
+            {
+              "$type": "LEJEMKKPPAB"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_SolnarisSpace_DefenseTower_Bullet",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "bulletEff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Hit02",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerSetVisible"
+        }
+      ],
+      "abilityName": "SceneObj_SolnarisSpace_DefenseTower_Bullet_Over"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "bulletEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Target",
+              "key": "POLLUTION_OK",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "POLLUTION_OK"
+            }
+          ]
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Hit",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_SolnarisSpace_DefenseTower_Purify_Bullet",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "bulletEff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_SolnarisSpace_DefenseTower_01_Hit",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerSetVisible"
+        }
+      ],
+      "abilityName": "SceneObj_SolnarisSpace_DefenseTower_Purify_Bullet_Over"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "SetupEff01"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "SetupEff01",
+              "gadgetState": 202
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "SetupEff02",
+              "gadgetState": 203
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "SetupEff03",
+              "gadgetState": 204
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "CopyGlobalValue",
+                  "srcKey": "SGV_POLLUTION_OK",
+                  "dstKey": "POLLUTION_OK"
+                }
+              ],
+              "globalValueKey": "SGV_POLLUTION_OK"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SetupEff01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssClear_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetupEff02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssClear_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetupEff03": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssClear_03",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "KillSelf": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 202
+                }
+              ],
+              "parameter": "State",
+              "value": 200,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssClear_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 203
+                }
+              ],
+              "parameter": "State",
+              "value": 200,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssClear_02",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 204
+                }
+              ],
+              "parameter": "State",
+              "value": 200,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssClear_03",
+              "type": "Int"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73093002
+              ],
+              "duration": 5.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitCheck": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "DebugLog",
+              "content": "Pollution Hit"
+            }
+          ]
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "KillSelf"
+          ],
+          "globalValueKey": "POLLUTION_OK",
+          "valueSteps": [
+            -1.5,
+            -0.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_SolnarisSpace_Pollution",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "compareType": "NoneOrEqual",
+              "key": "POLLUTION_OK"
+            }
+          ],
+          "key": "POLLUTION_OK",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "HitCheck"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AvatarTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_CanTriggerAvatar",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTriggerAll"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_CanTriggerAvatar",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_LANDED",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyOrRefreshSameApplierModifier",
+                  "modifierName": "InDamageEffect"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "GV_CanTriggerAvatar"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LevelFinishListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AvatarTrigger"
+              ],
+              "globalValueKey": "IS_LEVEL_COMPLETED",
+              "valueSteps": [
+                -1.5,
+                -0.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "JumpCheck": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ApplyOrRefreshSameApplierModifier",
+                  "target": "Caster",
+                  "modifierName": "InDamageEffect"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "FODKMMKKJFM",
+                  "target": "CurLocalAvatar",
+                  "IFKACJEBAKF": [
+                    "Jump",
+                    "JumpForRun",
+                    "JumpForWalk",
+                    "JumpForSprint"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Caster",
+                  "value": 1,
+                  "key": "GV_LANDED"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "WhenInAir": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Caster",
+              "minValue": 0,
+              "key": "GV_CanTriggerAvatar",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTriggerAll"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Caster",
+                  "minValue": 0,
+                  "key": "GV_CanTriggerAvatar",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "failActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "target": "Caster",
+                  "minValue": 0,
+                  "key": "GV_LANDED",
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Caster",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "GV_CanTriggerAvatar"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AirAttach": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "Caster",
+              "modifierName": "WhenInAir"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AvatarListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToAnimatorStateIDMixin",
+              "stateIDs": [
+                "Jump",
+                "JumpForRun",
+                "JumpForWalk",
+                "JumpForSprint"
+              ],
+              "modifierName": "AirAttach"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "InDamageEffect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "duration": 1.2,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "JumpCheck"
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerPostProcessEffectMixin",
+              "duration": 0.0,
+              "isStageEffect": true,
+              "PKDEDKLIHKD": true,
+              "postEffectAssetName": "PostEffect_InLevelAbyssReminder_ScreenEffect"
+            },
+            {
+              "$type": "TriggerAudioMixin",
+              "OBCCPKDLNJO": "Team",
+              "onRemoved": [
+                "v6_1_SolnarisSpace_Pool_Efx_Off",
+                "v6_1_SolnarisSpace_Pool_Music_LP_Off"
+              ],
+              "onAdded": [
+                "v6_1_SolnarisSpace_Pool_Efx_On",
+                "v6_1_SolnarisSpace_Pool_Music_LP_On"
+              ]
+            },
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "AvatarListener"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "LoseHP",
+              "target": "CurLocalAvatar",
+              "amountByTargetMaxHPRatio": 0.1,
+              "amount": 0,
+              "OHAFGEOCEEA": "Normal"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "LakeClearStage1"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "LakeClearStage2",
+              "gadgetState": 200
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "LakeClearStage3",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "LakeClearStage4",
+              "gadgetState": 202
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SetupLake": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssMoon_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LakeClearStage1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssMoon_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "IS_LEVEL_COMPLETED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LakeClearStage2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 200,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssMoon_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "IS_LEVEL_COMPLETED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LakeClearStage3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssMoon_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "IS_LEVEL_COMPLETED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LakeClearStage4": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 202,
+              "effectPattern": "Eff_SceneObj_Stages_SolnarisSpace_AbyssMoon_01",
+              "type": "Int"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "IS_LEVEL_COMPLETED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_SolnarisSpace_Lake",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "Test Lake"
+            },
+            {
+              "$type": "ApplyOrRefreshSameApplierModifier",
+              "modifierName": "InDamageEffect"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_LANDED",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": -1,
+              "key": "IS_LEVEL_COMPLETED"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "SetupLake"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "IS_LEVEL_COMPLETED"
+            }
+          ],
+          "minValue": 0,
+          "key": "IS_LEVEL_COMPLETED",
+          "maxValue": 0,
+          "value": -1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LevelFinishListener"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "ExposedToAttack"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "UnexposedToAttack",
+              "gadgetState": 203
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SpiderWebNode_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UnexposedToAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onKill": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DelayKill"
+            }
+          ],
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "LoseHP",
+              "amountByTargetMaxHPRatio": 0.4,
+              "amount": 0,
+              "OHAFGEOCEEA": "Normal"
+            }
+          ]
+        },
+        "ExposedToAttack": {
+          "$type": "ConfigAbilityModifier",
+          "onKill": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DelayKill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "LoseHP",
+              "amountByTargetMaxHPRatio": 0.4,
+              "amount": 0,
+              "OHAFGEOCEEA": "Normal"
+            }
+          ]
+        },
+        "DelayKill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ]
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Eff"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SpiderWebNode_01_Dis",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1,
+              "MGFPCLPKIMI": 2.0
+            },
+            {
+              "$type": "BillboardV2Mixin",
+              "LPGEPABJEHG": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_SolnarisSpace_SpiderwebNode",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Eff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Eff"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "DelayKill",
+              "gadgetState": 300
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DelayKill": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3.4,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73093007
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_SolnarisSpace_SpiderwebNode_NotShine",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Eff"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "DelayKill",
+              "gadgetState": 300
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DelayKill": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3.4,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73093008,
+                73093011
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "target": "Self",
+                  "configIdArray": [
+                    73093011
+                  ]
+                }
+              ],
+              "scale": 1.3,
+              "effectPattern": "Eff_SceneObj_Spiderweb_01_Dis",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "target": "Self",
+                  "configIdArray": [
+                    73093008
+                  ]
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Spiderweb_01_Dis",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1,
+              "MGFPCLPKIMI": 0.3330000042915344
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_SolnarisSpace_Spiderweb",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Eff"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "DoKill",
+              "gadgetState": 300
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SpiderWebNode_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DoKill": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3.4,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73093009
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableColliderByName",
+              "transformNames": [
+                "Col"
+              ]
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SpiderWebNode_02_Dis",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_SolnarisSpace_SpiderwebNode_Central",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Eff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_SolnarisSpace_Pollution_Target"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_SolnarisSpace_AirWall"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LightSetting": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByWorld"
+              },
+              "isPlatformDependent": true,
+              "scale": 1,
+              "effectPattern": "Eff_Level_SolnarisSpace_Light_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StateListener": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "LightOff",
+              "gadgetState": 201
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LightOff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "canBeHandledOnRecover": true,
+              "parameter": "Trigger",
+              "effectPattern": "Eff_Level_SolnarisSpace_Light_01",
+              "isPlatformDependent": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_SolnarisSpace_Light_Source",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LightSetting"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateListener"
+        }
+      ]
+    }
+  }
+]

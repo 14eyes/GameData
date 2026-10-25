@@ -1,0 +1,1262 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CreateBomb_Turn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SteerAttackMixin",
+              "angularSpeed": 360.0,
+              "endNormalizedTime": 0.5,
+              "steerStateIDs": [
+                "CreateBomb"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Attach_CreateBomb_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "CreateBombOver"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Hili_Fire_CreateBomb_Water",
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "BySceneSurfaceType",
+                  "filters": [
+                    "Water"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Hili_Ice_CreateBomb_Ice",
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "BySceneSurfaceType",
+                  "filters": [
+                    "Ice"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "failActions": [
+                {
+                  "$type": "AttachEffect",
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Hili_Ice_CreateBomb_Ice",
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "BySceneSurfaceType",
+                  "filters": [
+                    "Ice",
+                    "Water"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "CreateBomb"
+          ],
+          "modifierName": "Attach_CreateBomb_Effect"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            104
+          ],
+          "modifierName": "CreateBomb_Turn"
+        }
+      ],
+      "abilityName": "Monster_Hili_Ice_CreateBomb_Effect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_Hili_Ice_CreateBombModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerCreateGadgetToEquipPart",
+              "equipPart": "equip03",
+              "gadgetID": 42101019
+            },
+            {
+              "$type": "SetPoseInt",
+              "value": 1,
+              "intID": "equip03"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_HILI_ICE_BOMB_HOLDTIME",
+              "maxValue": 4,
+              "randomInRange": true,
+              "minValue": 2,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_HILI_ICE_BOMB_HOLDTIME",
+              "overrideMapKey": "RandomHoldTime"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_Monster_Hili_Ice_HoldBomb"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Hili_Electric_EliteTag_"
+                }
+              ],
+              "modifierName": "Hili_Ice_Elite_CrazyBomber"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Monster_Hili_Ice_HoldBomb": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "RandomHoldTime",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "BombThrowTrigger"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_HILI_ICE_BOMB_HOLDTIME",
+              "maxValue": 4,
+              "minValue": 0,
+              "value": -5
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Hili_Ice_Bomb_IceFog",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SLIMETHROWED_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Hili_Ice_Elite_CrazyBomber": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "EliteTrigger"
+            },
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                2003
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Hili_Electric_EliteTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "EliteTrigger"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Hili_Electric_EliteTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "UNIQUE_Monster_Hili_Ice_HoldBomb"
+        },
+        {
+          "$type": "ResetAnimatorTrigger",
+          "triggerID": "BombThrowTrigger"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Monster_Hili_Ice_CreateBombModifier",
+          "stateID": "CreateBomb_AS"
+        }
+      ],
+      "abilityName": "Monster_Hili_Ice_CreateBomb",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Hili_Electric_EliteTag_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "RandomHoldTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SlimeThrow_AddElement": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 9,
+          "elementDurability": 30,
+          "elementType": "Ice",
+          "MGNAPCNBGEB": false,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Hili_Ice_SlimeThrow_AddElement",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "SlimeThrow_AddElement"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SlimeThrow_LifeOverAnimator": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6.4,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DieTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SlimeThrow_LifeOverExplode": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 8,
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Hili_Ice_SlimeThrow_Explode"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Hili_Ice_SlimeThrow_LifeOver",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "SlimeThrow_LifeOverAnimator"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "SlimeThrow_LifeOverExplode"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_Hili_Ice_BombOnHand": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Monster_Hili_Ice_HoldBomb"
+            },
+            {
+              "$type": "TriggerDropEquipParts",
+              "equipParts": [
+                "equip03"
+              ]
+            },
+            {
+              "$type": "SetPoseInt",
+              "intID": "equip03"
+            },
+            {
+              "$type": "ResetAnimatorTrigger",
+              "triggerID": "BombThrowTrigger"
+            },
+            {
+              "$type": "DoWatcherSystemAction",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_SLIMETHROWED_"
+                }
+              ],
+              "inThreatListOnly": true,
+              "watcherId": 82066
+            },
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "value": true,
+              "boolID": "ThrowOver"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "CreateBomb",
+            "CreateBombState_AS",
+            "ThrowBomb",
+            "NormalIdle",
+            "NormalMove",
+            "Turn"
+          ],
+          "modifierName": "Monster_Hili_Ice_BombOnHand"
+        }
+      ],
+      "abilityName": "Monster_Hili_Ice_BombDrop"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_Hili_Ice_BombThrowDuring": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "value": true,
+              "boolID": "ThrowOver"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "ThrowOver"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_Hili_Ice_BeginBomb": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "ThrowOver"
+            },
+            {
+              "$type": "SetPoseInt",
+              "value": 1,
+              "intID": "equip03"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerThrowEquipPart",
+          "equipPart": "equip03",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 50.0,
+              "maxAngleType": "Horizontal"
+            }
+          }
+        },
+        {
+          "$type": "SetPoseInt",
+          "intID": "equip03"
+        },
+        {
+          "$type": "TriggerAbility",
+          "otherTargets": {
+            "$type": "SelectTargetsByChildren",
+            "topLimit": 1,
+            "configID": 42101019
+          },
+          "abilityName": "Monster_Hili_SlimeThrow_OpenTrigger"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SLIMETHROWED_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 150.0,
+          "endNormalizedTime": 0.4000000059604645,
+          "attackDistance": 2.0,
+          "steerStateIDs": [
+            "ThrowBomb"
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ThrowBomb"
+          ],
+          "modifierName": "Monster_Hili_Ice_BombThrowDuring"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "CreateBomb"
+          ],
+          "modifierName": "Monster_Hili_Ice_BeginBomb"
+        }
+      ],
+      "abilityName": "Monster_Hili_Ice_BombThrow"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Monster_Hili_Ice_SlimeThrow_Trial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Hili_Ice_Bomb_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "EnableBulletCollisionPluginTrigger",
+          "setEnable": true
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_Monster_Hili_Ice_SlimeThrow_Trial"
+        }
+      ],
+      "abilityName": "Monster_Hili_SlimeThrow_OpenTrigger",
+      "onAdded": [
+        {
+          "$type": "EnableBulletCollisionPluginTrigger"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Monster_Hili_Ice_SlimeThrow_Trial"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Hili_Ice_SlimeThrow_Explode",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "onGround": true
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 101.0,
+                "damagePercentage": 1,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeTime": 0.15000000596046448,
+                "shakeRange": 2.0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV5"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "born": {
+                "$type": "ConfigBornByTarget"
+              },
+              "radius": 1.5
+            }
+          }
+        },
+        {
+          "$type": "KillSelf",
+          "duration": 0.30000001192092896,
+          "KBKCMPMOKGM": true,
+          "ELJJHIPAFKC": true
+        },
+        {
+          "$type": "TriggerSetVisible"
+        }
+      ],
+      "abilityName": "Monster_Hili_Ice_SlimeThrow_Explode"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShowAimingEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "WeaponR"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Hili_Ice_CrossBow_Aim_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0.2,
+              "z": 0.1,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 60.0,
+              "randomAngleHor": 0.30000001192092896,
+              "randomAngleVer": 0.5
+            },
+            "attachPointName": "WeaponR"
+          },
+          "bulletID": 42101010
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0.2,
+              "z": 0.1,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 60.0,
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 0
+              },
+              "speedForPredictive": 30.0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "bulletID": 42101010
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0.2,
+              "z": 0.1,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 60.0,
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 5
+              },
+              "speedForPredictive": 30.0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "bulletID": 42101010
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0.2,
+              "z": 0.1,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 60.0,
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 10
+              },
+              "speedForPredictive": 30.0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "bulletID": 42101010
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0.2,
+              "z": 0.1,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 60.0,
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": -5
+              },
+              "speedForPredictive": 30.0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "bulletID": 42101010
+        },
+        {
+          "$type": "TriggerBullet",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0.2,
+              "z": 0.1,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget",
+              "maxAngle": 60.0,
+              "angleOffset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": -10
+              },
+              "speedForPredictive": 30.0
+            },
+            "attachPointName": "WeaponR"
+          },
+          "bulletID": 42101010
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Hili_Ice_CrossBow_Arrow_AS",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "attackDistance": 3.75,
+          "steerStateIDs": [
+            "Aim_BS",
+            "Aim"
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Aim"
+          ],
+          "modifierName": "ShowAimingEffect"
+        }
+      ],
+      "abilityName": "Hili_Ice_ShootArrow_WithRandom"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FireEffectModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Hili_Ice_CrossBow_Arrow_Particle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Hili_Ice_CrossBow_Arrow_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 50,
+          "elementType": "Ice",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByHasElement",
+              "element": "Ice"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Owner",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "enBreak": 50.0,
+                "damagePercentage": 1,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeTime": 0.09000000357627869,
+                "shakeRange": 0.05999999865889549
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "checkHitLayerType": "Both",
+              "radius": 0.75
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByHasElement",
+              "element": "Ice"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Owner",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "enBreak": 50.0,
+                "damagePercentage": 0.7,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeTime": 0.09000000357627869,
+                "shakeRange": 0.05999999865889549
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "checkHitLayerType": "Both",
+              "radius": 0.75
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Ice"
+                }
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Owner",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "damagePercentage": 1,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV1"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -0.5,
+                  "y": 0
+                }
+              },
+              "checkHitLayerType": "Both",
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 0.1,
+                "z": 1,
+                "y": 0.1
+              }
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Ice"
+                }
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Owner",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Pierce",
+                "damagePercentage": 0.7,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV1"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -0.5,
+                  "y": 0
+                }
+              },
+              "checkHitLayerType": "Both",
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 0.1,
+                "z": 1,
+                "y": 0.1
+              }
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByHasElement",
+              "element": "Ice"
+            }
+          ],
+          "effectPattern": "Eff_Monster_Hili_Ice_CrossBow_ArrowHit",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByCollisionPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0.35,
+              "y": 0
+            }
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireHitEffect",
+          "predicates": [
+            {
+              "$type": "ByHasElement",
+              "element": "Ice"
+            }
+          ],
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_Monster_Hili_Ice_CrossBow_ArrowHit",
+            "surfaceEffect": {
+              "Water": "Eff_Arrow_Hit_Water"
+            }
+          }
+        },
+        {
+          "$type": "FireHitEffect",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Ice"
+                }
+              ]
+            }
+          ],
+          "hitEntity": "Eff_Arrow_Hit_Monster",
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_Arrow_Hit_Earth",
+            "surfaceEffect": {
+              "Water": "Eff_Arrow_Hit_Water"
+            }
+          }
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "FireEffectModifier"
+        }
+      ],
+      "abilityName": "Hili_Ice_Arrow_Damage",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "FireEffectModifier"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_MonsterEliteAffix_DefaultState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "UseSkillEliteSet",
+              "skillEliteSetID": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_MonsterEliteAffix_EliteState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "UseSkillEliteSet",
+              "skillEliteSetID": 2
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Hili_Ice_EliteSet",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "modifierName": "UNIQUE_MonsterEliteAffix_DefaultState"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ELITEAFFIX_ATTACK_ENHANCE"
+            }
+          ],
+          "modifierName": "UNIQUE_MonsterEliteAffix_EliteState"
+        }
+      ]
+    }
+  }
+]

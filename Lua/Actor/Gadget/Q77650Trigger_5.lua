@@ -1,0 +1,46 @@
+require("Actor/ActorCommon")
+local GadgetActorProxy = require("Actor/Gadget/GadgetActorProxy")
+
+local Q77650Trigger_5 = class("Q77650Trigger_5", GadgetActorProxy)
+Q77650Trigger_5.defaultAlias = "Q77650Trigger_5"
+local Q77650ClientConfig = require("Quest/Client/Q77650ClientConfig")
+
+local this
+local subIDs = Q77650ClientConfig.SubIDs
+local datas = Q77650ClientConfig.Datas
+local npcs = Q77650ClientConfig.Npcs
+local points = Q77650ClientConfig.Points
+
+function Q77650Trigger_5:OnPostDataPrepare()
+    print("Q77650Trigger_5 - OnPostDataPrepare")
+    this = self
+end
+
+function Q77650Trigger_5:OnPostComponentPrepare()
+    print("Q77650Trigger_5 - OnPostComponentPrepare")
+    this:AddComponentTrigger(20, DistType.EULER, {x = 0, y = 0, z = 0}, self.TriggerIn, self.TriggerOut, nil, self.PreTriggerIn, self.LightUpTriggerIn, 77650)
+end
+
+function Q77650Trigger_5:TriggerIn()
+    print("Q77650Trigger_5 - TriggerIn")
+    actorMgr:GetActor("77650"):ShowBlackScreenWithDialogText(0.5, 1, 0.5, function(arg1)
+        actorMgr:GetActor("77650"):CreateQuestNpcById(7765021, npcs.Npc17287.id, 0, false, 0)
+        actorMgr:GetActor("77650"):RequestInteraction(npcs.Npc17287.alias, "", true)
+    end, nil, nil, 0, false, true)
+
+    this:DestroySelf()
+end
+
+function Q77650Trigger_5:PreTriggerIn()
+    print("Q77650Trigger_5 - PreTriggerIn")
+end
+
+function Q77650Trigger_5:LightUpTriggerIn()
+    print("Q77650Trigger_5 - LightUpTriggerIn")
+end
+
+function Q77650Trigger_5:TriggerOut()
+    print("Q77650Trigger_5 - TriggerOut")
+end
+
+return Q77650Trigger_5

@@ -1,0 +1,2000 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurTeamAvatars",
+              "modifierName": "V57_Quest_KeepAvatarBattle"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "V57_Quest_KeepAvatarBattle": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "KeepAvatarBattleStateMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Hidden_Threat_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceBuffDebuffs": [
+                "ElementFreeze",
+                "ElementPetrifaction"
+              ]
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_AbyssTorch_Exp",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "NormalState"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Active",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Stop",
+              "gadgetState": 202
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "NormalState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "AbyssEffect"
+            },
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "SetAIHitFeeling"
+            },
+            {
+              "$type": "ResetAIThreatBroadcastRange",
+              "range": 0
+            },
+            {
+              "$type": "EnableAIStealthy",
+              "canBeHandledOnRecover": true,
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "Active": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "Predicated",
+              "failActions": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "state": 202
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "FrequencyShieldBar"
+                }
+              ]
+            }
+          ],
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_Absorbed_Energy",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "AbyssEffect"
+            },
+            {
+              "$type": "HideUIBillBoard"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FrequencyShieldBar"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AbyssTorch_Shield",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAIHitFeeling",
+              "enable": true
+            },
+            {
+              "$type": "ResetAIThreatBroadcastRange",
+              "range": 30
+            },
+            {
+              "$type": "EnableAIStealthy",
+              "canBeHandledOnRecover": true
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "state": "LockHP",
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR10H8"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                },
+                {
+                  "$type": "PAPHNBCKAGI",
+                  "value": "SGV_AbsorbAvatarEnergy"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "FireUIEffect",
+                  "effectPattern": "Eff_UI_Debuff_BurnBlue_DecreaseEnergy_More",
+                  "effectSlot": "ElementBurst"
+                },
+                {
+                  "$type": "ReviveElemEnergy",
+                  "target": "Target",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "value": [
+                    0,
+                    "SGV_AbsorbAvatarEnergy",
+                    "SUB"
+                  ]
+                },
+                {
+                  "$type": "AddFrequencyShieldCount",
+                  "value": 0
+                },
+                {
+                  "$type": "AddGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_Absorbed_Energy",
+                  "value": "SGV_AbsorbAvatarEnergy",
+                  "maxValue": 0
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "ChangeGadgetState",
+                      "target": "Caster",
+                      "state": 202
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": "SGV_MAX_AbsorbAvatarEnergy",
+                      "compareType": "MoreThan",
+                      "key": "GV_Absorbed_Energy"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NyxAttack",
+                    "SupportSkill_LaodaiSPAtk"
+                  ]
+                },
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Fire"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Wind"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Water"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Ice"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Electric"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Grass"
+                    },
+                    {
+                      "$type": "ByHitElement",
+                      "element": "Rock"
+                    },
+                    {
+                      "$type": "ByAttackTags",
+                      "attackTags": [
+                        "SupportSkill_LaodaiSPAtk"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                }
+              ],
+              "effectPattern": "Eff_Monster_TheAbyss_FrequencyShield_NyxHit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByHitPoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddFrequencyShieldCount",
+                  "value": -99999
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "SupportSkill_LaodaiSPAtk"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Stop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "AbyssEffect"
+            },
+            {
+              "$type": "HideUIBillBoard"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AbyssEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AbyssTorch_Light",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Taunting"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Taunting": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR50H50C"
+              },
+              "careValue": 3.0
+            },
+            {
+              "$type": "DebugLog",
+              "content": "深渊虫洞_嘲讽版本 嘲讽周围CircleR100H80"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FrequencyShieldBar": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "FrequencyShieldBarMixin",
+              "DNBPEBDAAEL": 1,
+              "maxValue": "SGV_AbyssShieldValue",
+              "useMutiPlayerFixData": true,
+              "JGDBCAHIKHJ": [
+                {
+                  "$type": "EIHDJPJLCHF",
+                  "OBNBLOBMNLD": 3,
+                  "attackTag": "NyxAttack"
+                }
+              ],
+              "onShieldBroken": [
+                {
+                  "$type": "ReviveElemEnergy",
+                  "target": "CurLocalAvatar",
+                  "value": 1000
+                },
+                {
+                  "$type": "ModifyAvatarSkillCD",
+                  "target": "CurLocalAvatar",
+                  "skillSlot": [
+                    5
+                  ],
+                  "cdRatio": -1
+                },
+                {
+                  "$type": "ChangeGadgetState",
+                  "target": "Caster",
+                  "state": 202
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_SceneObj_AbyssTorch_ShieldGone",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "KEAKICENFDB": -1,
+              "NDPMJBNPJLJ": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_AbyssShieldValue",
+        "SGV_AbsorbAvatarEnergy",
+        "SGV_MAX_AbsorbAvatarEnergy"
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_AbyssTorch_01",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_WQ_AbyssTorch",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ModelEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SkirkPreBossGiantNeedle_01_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "_DitherFadeOut"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ModelEff"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PhaseOne": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SkirkPreBossGiantNeedle_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PhaseTwo": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ActCameraShake",
+              "target": "AllPlayerAvatars",
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "baseOnCamera": true,
+                  "baseCycle": 0.20000000298023224
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 3.0,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 1.0
+              }
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Delay_Hide"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Delay_Hide": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Collider"
+              ]
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ModelEff"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "_DitherFadeOut": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityDitherMixinV2",
+              "cutOutTime": 0.5,
+              "cutInTime": 0.5
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "PhaseOne"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "PhaseTwo",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_SkirkPreBossGiantNeedle_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ModelEff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Damage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.85,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 300.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV6"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    }
+                  },
+                  "radius": 3.5,
+                  "height": 3.0
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_SkirkPreBossGiantNeedle_01_02",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Damage"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler_01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetBulletTrackTarget",
+              "target": "Team"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Crack_Eff",
+                "Shoot_Eff"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "GV_Shoot",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Crack_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SkirkPreBossNeedle_01_Change",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Shoot_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_SkirkPreBossNeedle_01_Shoot",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_SkirkPreBossNeedle_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler_01"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "HitHandler"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "NormalState"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "ActiveState",
+              "gadgetState": 201
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "HitHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "GV_Hit"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "NeedleCount",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Sceneobj_SkirkTrainCrystal_02",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "attachPointName": "Model"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "target": "TargetOwner",
+                      "entityTypes": [
+                        "Avatar",
+                        "Vehicle"
+                      ]
+                    },
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Vehicle"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_Hit",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ]
+        },
+        "NormalState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            },
+            {
+              "$type": "SetBulletTrackTarget",
+              "target": "Team"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ShootDelay"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Killself_Delay"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeControlledBulletMoveTypeMixin",
+              "BKDINFEHECB": {
+                "$type": "LKLPMAPMBJC",
+                "traceOnYAxis": true
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Killself_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootDelay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "SGV_AimTime",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Shoot"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "Team",
+              "modifierName": "Aim_Eff"
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ShootDelay"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Aim_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "JBIJJOJPICN": true,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_SkirkPreBossNeedle_Aim_Count",
+              "value": -1,
+              "maxValue": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "target": "Applier",
+              "muteRemoteAction": true,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AimEff"
+              },
+              "setSelfAsEffectPluginTarget": true,
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SkirkPreBossNeedle_01_Line",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_SkirkPreBossNeedle_Aim_Count",
+              "value": 1,
+              "maxValue": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Aim_UIEff_Counter_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Aim_UIEff_Counter_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "JBIJJOJPICN": true,
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_SkirkPreBossNeedle_Aim_Count",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Aim_UIEff"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                0.5,
+                100
+              ],
+              "globalValueKey": "GV_SkirkPreBossNeedle_Aim_Count",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Aim_UIEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SkirkPreBossNeedle_01_UI_Aiming",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Shoot": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "SpeedDelay"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeControlledBulletMoveTypeMixin",
+              "BKDINFEHECB": {
+                "$type": "ENLOJMBIBEI"
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SpeedDelay": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "SGV_ShootDelay",
+          "duration": [
+            "SGV_ShootDelay",
+            1,
+            "ADD"
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ShootSpeed"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootSpeed": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_Shoot",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SkirkPreBossNeedle_01_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "BulletMoveParamOverrideMixin",
+              "JKHIHFMENHC": "SGV_Acceleration",
+              "CIFADBDOAFI": "SGV_Speed",
+              "PLGIPDCMDLG": [
+                "speed",
+                "acceleration"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 9999.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV6"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByCollisionPoint",
+                    "useRotation": true
+                  },
+                  "radius": 2
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_SkirkPreBossNeedle_01_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_Killed",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Model"
+              ]
+            },
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "GV_Killed"
+            }
+          ]
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "SGV_AimTime",
+        "SGV_ShootDelay",
+        "SGV_Speed",
+        "SGV_Acceleration"
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_SkirkPreBossNeedle_02",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_Hit",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_Shoot",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Warning"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Warning": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "ownedByLevel": true,
+              "effectPattern": "Eff_Quest_SkirkTrainAlertCircle_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 9999.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV6"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 3.5
+                }
+              }
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Delay_Kill"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_SkirkTrainAlertCircle_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "properties": {
+            "Actor_TimeScaleRatio": [
+              1,
+              "SGV_Time",
+              "DIV"
+            ]
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Delay_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_Time"
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_SkirkTrainAlertCircle_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Quest_V57_SkillCDMinus_CD": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "OnAvatarUseSkillMixin",
+              "useSkillStart": true,
+              "onTriggerSkill": [
+                {
+                  "$type": "ModifyAvatarSkillCD",
+                  "skillSlot": [
+                    2
+                  ],
+                  "cdRatio": -0.8
+                }
+              ],
+              "clearSkillIdDelay": 1.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "DynamicAbility_Quest_V57_MinusECD",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Quest_V57_SkillCDMinus_CD"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasFeatureTag",
+              "target": "Self",
+              "featureTagIDs": [
+                1011
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Quest_V57_Limbo": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "DynamicAbility_Quest_V57_Avatar_Limbo",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Quest_V57_Limbo"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Quest_V57_StarNail_Screen_Eff_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 5,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToUIMixin",
+              "modifierName": "Quest_V57_StarNail_Screen_Eff",
+              "LLFLDOGPGLC": true,
+              "uiContextName": "InLevelMainPage"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "failActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Quest_V57_StarNail_Screen_Eff"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "LEJEMKKPPAB"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Quest_V57_StarNail_Screen_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "CameraScreenEffect",
+              "canBeHandledOnRecover": true,
+              "muteRemoteAction": true,
+              "DGBMDJJBNIG": true,
+              "effectName": "Eff_Quest_StarNail_04_Screen"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "CameraScreenEffect",
+                  "canBeHandledOnRecover": true,
+                  "muteRemoteAction": true,
+                  "DGBMDJJBNIG": true,
+                  "enable": true,
+                  "effectName": "Eff_Quest_StarNail_04_Screen"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "LEJEMKKPPAB"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "DynamicAbility_Quest_V57_StarNail_Screen_Eff",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Quest_V57_StarNail_Screen_Eff_Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_BlueEmo_Appear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Bone_Root"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Bone_Root"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_BlueEmo_Talk",
+              "effectTempleteID": -1
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_BlueEmo_Die",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Bone_Root"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                201,
+                202,
+                901,
+                902,
+                903
+              ],
+              "modifierNames": [
+                [
+                  "Idle"
+                ],
+                [
+                  "Move"
+                ],
+                [
+                  "Skill"
+                ],
+                [
+                  "Talk01"
+                ],
+                [
+                  "Talk02"
+                ],
+                [
+                  "Talk03"
+                ]
+              ]
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "TalkFlash"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "GV_TalkFlash",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Idle": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Move": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Talk01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Talk01"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Talk02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Talk02"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Talk03": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Talk03"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "TalkFlash": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Flash"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Flash"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Skill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Bone_Root"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_BlueEmo_Quest2",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_BlueEmo_01",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": -1,
+              "compareType": "NoneOrEqual",
+              "key": "GV_TalkFlash"
+            }
+          ],
+          "minValue": 0,
+          "key": "GV_TalkFlash",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -0.5,
+                  "y": 0.3
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "y": 90
+                  }
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Quest_StarNail_01_Portal",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "renderNames": [
+                "Property_Ani_Prop_StarNail_01"
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Delay_ShowModel"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Delay_ShowModel": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.1,
+          "duration": 1.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "setEnable": true,
+              "renderNames": [
+                "Property_Ani_Prop_StarNail_01"
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "IdleEff"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "IdleEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Quest_StarNail_02_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -0.5,
+                  "y": 0.35
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "y": 90
+                  }
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Quest_StarNail_01_Born",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_StarNail_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityDitherMixinV2",
+              "cutOutTime": 0.33000001311302185,
+              "cutInTime": 0.30000001192092896,
+              "DJHDHLKIJHO": 0.0,
+              "ditherValue": 1.0,
+              "forceUpdateAtStart": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ]
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_SkirkTrainCrystal_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BillboardHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ShowBillboard"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowBillboard": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "BillboardV2Mixin",
+              "FMEEEHPMHDB": {
+                "$type": "CBPGECPPMLE",
+                "IBKFOAEFCHJ": {
+                  "$type": "KKGNKMFPILB",
+                  "prefabName": "QuestSpBubble",
+                  "CFPDEJPJHJC": "TestTextEffectFadeIn",
+                  "IDKHNHKHMED": "TestTextEffectFadeOut",
+                  "GABIIJAJKGO": true
+                },
+                "OKLHEEKHNEJ": {
+                  "$type": "CLLCFMHEHHA",
+                  "tasks": [
+                    {
+                      "$type": "DGIBDOKOLLE",
+                      "actions": [
+                        {
+                          "$type": "KNDHBPOOCOL",
+                          "show": true
+                        }
+                      ],
+                      "conditions": [
+                        {
+                          "$type": "ONDPIHBCCBK",
+                          "state": 201
+                        }
+                      ],
+                      "CKJFCOKFLCM": true
+                    },
+                    {
+                      "$type": "DGIBDOKOLLE",
+                      "actions": [
+                        {
+                          "$type": "KNDHBPOOCOL"
+                        }
+                      ],
+                      "conditions": [
+                        {
+                          "$type": "ONDPIHBCCBK",
+                          "state": 202
+                        }
+                      ],
+                      "CKJFCOKFLCM": true
+                    }
+                  ]
+                },
+                "INJHBCKFHJP": {
+                  "$type": "ILCDFJKHKGA",
+                  "attachPointName": "BillboardAttach",
+                  "showDistance": 50.0,
+                  "worldOffset": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.20000000298023224
+                  },
+                  "NHLHMACLEIC": true,
+                  "FCNBOCKFDBG": false
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Empty"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "BillboardHandler",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_V57_3DText_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "campBasedOn": "CurLocalAvatar",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20H10"
+              },
+              "careValue": 3.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_GeoDoorSeal_02",
+              "scale": 0.73,
+              "effectTempleteID": -1
+            }
+          ]
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_GeoDoorSeal_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 0,
+              "patternName": "_Alpha",
+              "matName": "Model"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 1,
+              "patternName": "_Alpha",
+              "lerpTime": 1.0,
+              "matName": "Model"
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_SkirkPreBossPlatform_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TileComplexMixin",
+              "shape": {
+                "$type": "SphereTileShapeInfo",
+                "radius": 0.20000000298023224
+              },
+              "attachPointName": "attachPoint",
+              "attackID": "TileAttack_FireSource"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Dungeon_Property_Ani_Prop_V57_AlchemyFire_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Handler"
+        }
+      ]
+    }
+  }
+]

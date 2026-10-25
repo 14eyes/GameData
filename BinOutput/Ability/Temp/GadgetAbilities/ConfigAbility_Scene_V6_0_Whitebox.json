@@ -1,0 +1,656 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "InfluentTarget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_Magnet_ReceiveInfluence",
+                  "maxValue": 0,
+                  "value": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_Magnet_ReceiveInfluence",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "GV_Magnet_ReceiveInfluence"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "InfluenceModifier": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CheckSubTagScanEntityMixin",
+              "AKFANJPEJNN": [
+                {
+                  "$type": "DebugLog",
+                  "content": "CheckScanEntityMixin|MagnetLand > onExitArea"
+                },
+                {
+                  "$type": "RemoveUniqueModifier",
+                  "target": "Team",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "UNIQUE_Magnet_ApplyInfluence_ExtraTeamAbility"
+                }
+              ],
+              "activateSkillKey": "AVATAR_MagnetSkill_01",
+              "onEnterHookArea": [
+                {
+                  "$type": "DebugLog",
+                  "content": "CheckScanEntityMixin|MagnetLand > onEnterArea"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "UNIQUE_Magnet_ApplyInfluence_ExtraTeamAbility"
+                }
+              ],
+              "tag": "Activity_TD_Test_4_8",
+              "MBDANNCNLFN": "MagneticInfluence"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Magnet_ApplyInfluence_ExtraTeamAbility": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ActivitySkillMixin",
+              "priority": "Auto",
+              "PEONHILPDLC": 20112
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "DebugLog",
+          "content": "AvatarSkill_Magnet_ApplyInfluence > onAbilityStart"
+        },
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "IKKPJCBJHAP",
+            "topLimit": 1,
+            "tag": "Activity_TD_Test_4_8",
+            "MBDANNCNLFN": "MagneticInfluence"
+          },
+          "modifierName": "InfluentTarget"
+        },
+        {
+          "$type": "ActivitySkillShareCDStart",
+          "skillID": 20112
+        }
+      ],
+      "abilityName": "AvatarSkill_Magnet_ApplyInfluence",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "InfluenceModifier"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "MagnetGadget_InfluenceManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "CalculatePole"
+                }
+              ],
+              "globalValueKey": "GV_Magnet_ReceiveInfluence"
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "CalculatePole"
+                }
+              ],
+              "globalValueKey": "GV_Magnet_CurrentState"
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+              "modifierNameSteps": [
+                "DiffPole",
+                "DefaultPole",
+                "SamePole"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -1.5,
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "GV_Magnet_InfluenceRes"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CalculatePole": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_Magnet_InfluenceRes",
+              "maxValue": 0,
+              "value": [
+                "GV_Magnet_ReceiveInfluence",
+                "GV_Magnet_CurrentState",
+                "MUL"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SamePole": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Drag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DiffPole": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Drag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DefaultPole": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PosPole": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_Magnet_CurrentState",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "NegPole": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_Magnet_CurrentState",
+              "maxValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_Magnet_ReceiveInfluence",
+        "GV_Magnet_CurrentState"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "PosPole"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "NegPole",
+          "gadgetState": 201
+        },
+        {
+          "$type": "SubTagScanEntityMixin",
+          "tag": "Activity_TD_Test_4_8",
+          "MBDANNCNLFN": "MagneticInfluence"
+        }
+      ],
+      "abilityName": "SceneObj_Property_Ani_Prop_MagnetStone_NS",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_Magnet_ReceiveInfluence",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_Magnet_InfluenceRes",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "MagnetGadget_InfluenceManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DragonSummon_OrderController": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DragonSummon_KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DragonSummon_CreateHandler"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DragonSummon_CreateHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "Owner",
+              "successActions": [
+                {
+                  "$type": "SetCollisionPointToGlobalPos",
+                  "target": "Caster",
+                  "LANEADNAMOA": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.9
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByEntity",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 20,
+                        "z": 0,
+                        "y": 127
+                      },
+                      "useCorrectDir": true
+                    }
+                  },
+                  "raycastLength": 1.5,
+                  "key": "_ABILITY_DragonSummon_01_CreatePos"
+                },
+                {
+                  "$type": "SetGlobalDir",
+                  "target": "Caster",
+                  "key": "_ABILITY_DragonSummon_01_CreateDir",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByEntity",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 53
+                      },
+                      "useCorrectDir": true
+                    }
+                  }
+                },
+                {
+                  "$type": "SetCollisionPointToGlobalPos",
+                  "target": "Caster",
+                  "LANEADNAMOA": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.9
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByEntity",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": -18,
+                        "z": 0,
+                        "y": -29
+                      },
+                      "useCorrectDir": true
+                    }
+                  },
+                  "raycastLength": 1.5,
+                  "key": "_ABILITY_DragonSummon_02_CreatePos"
+                },
+                {
+                  "$type": "SetGlobalDir",
+                  "target": "Caster",
+                  "key": "_ABILITY_DragonSummon_02_CreateDir",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByEntity",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": -33
+                      },
+                      "useCorrectDir": true
+                    }
+                  }
+                },
+                {
+                  "$type": "SetCollisionPointToGlobalPos",
+                  "target": "Caster",
+                  "LANEADNAMOA": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.9
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByEntity",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 33,
+                        "z": 0,
+                        "y": -123
+                      },
+                      "useCorrectDir": true
+                    }
+                  },
+                  "raycastLength": 1.5,
+                  "key": "_ABILITY_DragonSummon_03_CreatePos"
+                },
+                {
+                  "$type": "SetGlobalDir",
+                  "target": "Caster",
+                  "key": "_ABILITY_DragonSummon_03_CreateDir",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByEntity",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": -31
+                      },
+                      "useCorrectDir": true
+                    }
+                  }
+                },
+                {
+                  "$type": "CreateGadget",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ABILITY_DragonSummon_01_CreatePos",
+                    "directionKey": "_ABILITY_DragonSummon_01_CreateDir"
+                  },
+                  "lifeByOwnerV2": true,
+                  "gadgetID": 73014005,
+                  "campID": 1001,
+                  "campTargetType": "Enemy"
+                },
+                {
+                  "$type": "CreateGadget",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ABILITY_DragonSummon_02_CreatePos",
+                    "directionKey": "_ABILITY_DragonSummon_02_CreateDir"
+                  },
+                  "lifeByOwnerV2": true,
+                  "gadgetID": 73014005,
+                  "campID": 1001,
+                  "bornSlotIndex": 1,
+                  "campTargetType": "Enemy"
+                },
+                {
+                  "$type": "CreateGadget",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ABILITY_DragonSummon_03_CreatePos",
+                    "directionKey": "_ABILITY_DragonSummon_03_CreateDir"
+                  },
+                  "lifeByOwnerV2": true,
+                  "gadgetID": 73014005,
+                  "campID": 1001,
+                  "bornSlotIndex": 2,
+                  "campTargetType": "Enemy"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DragonSummon_KillSelf": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 73014005
+              },
+              "modifierName": "DragonSummon_KillSelfHandler"
+            },
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByHasChildGadget",
+                  "checkEntityAlive": true,
+                  "configIdArray": [
+                    73014005
+                  ],
+                  "compareType": "NoneOrEqual"
+                }
+              ],
+              "configIdArray": [
+                73014004
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByHasChildGadget",
+                  "checkEntityAlive": true,
+                  "configIdArray": [
+                    73014005
+                  ],
+                  "compareType": "NoneOrEqual"
+                }
+              ],
+              "configIdArray": [
+                73014004
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DragonSummon_KillSelfHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73014005
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DragonSummon_SetTargetHandler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "DragonSummon_OrderController_CheckAvatarTarget"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DragonSummon_OrderController_CheckAvatarTarget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "SelfAttackTarget",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "GatherObject"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ]
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Property_Ani_Prop_DragonSummon_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "DragonSummon_OrderController"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "DragonSummon_SetTargetHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Property_Ani_Prop_DragonSummon_02"
+    }
+  }
+]

@@ -1,0 +1,39 @@
+require("Actor/ActorCommon")
+local NpcConfigCommon = require("Actor/Npc/Config/NpcConfigCommon")
+
+local generalPattern = NpcConfigCommon.GeneralPattern
+local dailyCondition = NpcConfigCommon.DailyCondition
+local questState = NpcConfigCommon.QuestState
+local actionPointType = NpcConfigCommon.ActionPointType
+local compareOperation = NpcConfigCommon.CompareOperation
+local focusToPlayerType = NpcConfigCommon.FocusToPlayerType
+local reactEnableType = NpcConfigCommon.ReactEnableType
+local reactEventType = NpcConfigCommon.ReactEventType
+local actorMoveType = NpcConfigCommon.ActorMoveType
+
+return {
+    Data = {
+        NpcId = "3064",
+        Alias = "Npc3064",
+        DailyScheduleData = {
+            {
+                condition = {daily = dailyCondition.AllDay, sceneId = 3, priority = 0},
+                actionPoints = {
+                    {
+                        dummypoint = {pos = {x = -3350.899, y = 297.4788, z = -4558.721}, rot = {x = 0, y = 53.41326, z = 0}},
+                        action = generalPattern.Stand
+                    }
+                }
+            }
+        },
+        TitleData = {
+            titleDatas = {
+                {
+                    titleStr = "NPC_TITLE_3064",
+                    priority = 0,
+                    condList = {{condition = {daily = dailyCondition.AllDay}, priority = 0, isShow = true}}
+                }
+            }
+        }
+    }
+}

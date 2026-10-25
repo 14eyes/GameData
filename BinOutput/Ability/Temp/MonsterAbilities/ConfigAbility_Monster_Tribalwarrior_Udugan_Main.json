@@ -1,0 +1,936 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Weapon_Show": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "setEnable": true,
+              "renderNames": [
+                "MonEquip_Tribalwarrior_Udugan_Brush_Model"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Weapon_Hide": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Udugan_Weapon_Disappear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Brush"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "renderNames": [
+                "MonEquip_Tribalwarrior_Udugan_Brush_Model"
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Udugan_Weapon_Disappear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Brush"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_WEAPON_SHOW"
+            }
+          ],
+          "key": "_WEAPON_SHOW",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Weapon_Hide",
+            "Weapon_Show"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_WEAPON_SHOW",
+          "defaultGlobalValueOnCreate": 1
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_WEAPON_SHOW",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stateIDs": [
+            "Alert",
+            "Melee",
+            "Melee_MoveF"
+          ]
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_WEAPON_SHOW"
+                }
+              ],
+              "key": "_WEAPON_SHOW",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stateIDs": [
+            "Standby"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Udugan_WeaponVisibility"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "failActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Udugan_Disappear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UDUGAN_STATE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ONE_FRAME_PROTECTION"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Udugan_HitH_Disappear"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BasicSettings": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "resistanceBuffDebuffs": [
+                "ElementFreeze",
+                "Struggle",
+                "ElementPetrifaction"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0.01
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Stage_Common": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_SHADOW_ALIVE_COUNTS"
+                }
+              ],
+              "key": "UDUGAN_STATE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "onChangeAuthority": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_SHADOW_ALIVE_COUNTS"
+                }
+              ],
+              "key": "UDUGAN_STATE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "value": 1,
+              "intID": "Stage"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Stage_Protection": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "PredicatedBySelectTarget",
+              "LAPMNDNLBLI": [
+                {
+                  "$type": "PredicatedBySelectTarget",
+                  "LAPMNDNLBLI": [
+                    {
+                      "$type": "DoBlinkByGlobalPos",
+                      "positionKey": "_CENTER_POS"
+                    },
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "triggerID": "StunTrigger"
+                    },
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_Tribalwarrior_Udugan_Blink",
+                      "scale": 1,
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "ServerMonsterLog",
+                      "paramList": [
+                        2
+                      ]
+                    },
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "UDUGAN_STATE",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 1
+                    }
+                  ],
+                  "IPGCOPKAFFH": {
+                    "$type": "SelectTargetsByChildren",
+                    "configID": 42552103
+                  },
+                  "IFOPPFFBAEH": "Target"
+                }
+              ],
+              "IPGCOPKAFFH": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 25520102
+              },
+              "IFOPPFFBAEH": "Target"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Stage_Shadow": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "StartDither"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Stage_Protection"
+            },
+            {
+              "$type": "SetPoseInt",
+              "value": 2,
+              "intID": "Stage"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Disappear_DenyLockOn"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Disappear_IsGhostToEnemy"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ATTACK_RESET_TIMER",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox",
+                    "HeadBox",
+                    "ProtectHitbox"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                },
+                {
+                  "$type": "HideUIBillBoard",
+                  "hide": true
+                },
+                {
+                  "$type": "EnableAIStealthy",
+                  "enable": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox",
+                    "HeadBox",
+                    "ProtectHitbox"
+                  ],
+                  "setEnable": true
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                },
+                {
+                  "$type": "HideUIBillBoard"
+                },
+                {
+                  "$type": "EnableAIStealthy"
+                }
+              ]
+            }
+          ],
+          "state": "Invincible",
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "_ATTACK_RESET_TIMER",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Monster_Tribalwarrior_Udugan_ResetShadowAttackCD",
+                  "ADPHDOOEDEI": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 8,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ATTACK_RESET_TIMER"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "StartDither": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.12,
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 0.11999999731779099,
+              "CJKPCCEKEGA": 0.20000000298023224
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifierToParent",
+              "modifierName": "VisibleManager"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "StartDither"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "VisibleManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "StartDither",
+              "reverse": true,
+              "duration": 0.05999999865889549
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityInVisibleMixin",
+              "AAHPKGHIPPG": true,
+              "reason": "SelfAbility"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Stage_Break": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "value": 3,
+              "intID": "Stage"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear_IsGhostToEnemy": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Stage1": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Stage2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ULTIMATE_NEVER_CAST"
+                }
+              ],
+              "skillIDs": [
+                801,
+                811
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Occluder_Reset": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "Occluder"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ultimate_Cooldown_Process": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAISkillCDAvailableNow",
+                  "skillIDs": [
+                    801,
+                    811
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ReTriggerAISkillInitialCD",
+                  "skillIDs": [
+                    801,
+                    811
+                  ],
+                  "forceReinit": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "UDUGAN_ABYSS_MARK"
+                }
+              ]
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "Occluder"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Prop_Stun_State": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 14,
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": "sub_hurt_delta",
+            "Actor_FireSubHurtDelta": "sub_hurt_delta",
+            "Actor_ElecSubHurtDelta": "sub_hurt_delta",
+            "Actor_WaterSubHurtDelta": "sub_hurt_delta",
+            "Actor_GrassSubHurtDelta": "sub_hurt_delta",
+            "Actor_WindSubHurtDelta": "sub_hurt_delta",
+            "Actor_IceSubHurtDelta": "sub_hurt_delta",
+            "Actor_RockSubHurtDelta": "sub_hurt_delta"
+          },
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "EndStun"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CloseCollider": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                },
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "ProtectHitbox"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                },
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "ProtectHitbox"
+                  ],
+                  "setEnable": true
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ClearState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "MPTriggerOnRemote": true,
+              "triggerID": "EndReturnToBorn"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ULTIMATE_NEVER_CAST",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "UDUGAN_STATE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SHADOW_ALIVE_COUNTS",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ACHIEVEMENT_SHADOW_TOTAL_KILLED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "StartReturnToBorn"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ULTIMATE_NEVER_CAST",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SHADOW_ALIVE_COUNTS",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 4
+        },
+        {
+          "$type": "TriggerAbility",
+          "otherTargets": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42552103
+          },
+          "abilityName": "Monster_Tribalwarrior_Udugan_SummonCircle_SummonShadow",
+          "ADPHDOOEDEI": true
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Tribalwarrior_Udugan_Ultimate_Disappear",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "UDUGAN_STATE",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 2
+        },
+        {
+          "$type": "ServerMonsterLog",
+          "paramList": [
+            1
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Stage_Common",
+            "Stage_Shadow",
+            "Stage_Break"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5,
+            2.5,
+            3.5
+          ],
+          "globalValueKey": "UDUGAN_STATE",
+          "defaultGlobalValueOnCreate": 1
+        },
+        {
+          "$type": "AttachModifierToHPPercentMixin",
+          "valueSteps": [
+            0.7
+          ],
+          "modifierNameSteps": [
+            "HP_Stage1",
+            "HP_Stage2"
+          ]
+        },
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2,
+            3
+          ],
+          "modifierName": "Ultimate_Cooldown_Process"
+        },
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0,
+            1
+          ],
+          "modifierName": "Occluder_Reset"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Stun_BS",
+            "Stun_loop"
+          ],
+          "modifierName": "Prop_Stun_State"
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "CloseCollider",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Strike",
+              "normalizeStart": 0.1679999977350235,
+              "normalizeEnd": 0.3440000116825104
+            }
+          ]
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            901,
+            902,
+            903
+          ],
+          "modifierName": "ClearState"
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Udugan_StageController",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BasicSettings"
+        },
+        {
+          "$type": "SetGlobalPos",
+          "key": "_CENTER_POS",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true
+          }
+        },
+        {
+          "$type": "SetSkillAnchor",
+          "born": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "_CENTER_POS"
+          }
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_ULTIMATE_NEVER_CAST",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ACHIEVEMENT_SHADOW_TOTAL_KILLED",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ONE_FRAME_PROTECTION",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "sub_hurt_delta": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.4000000059604645
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "stateIDs": [
+            "StandbyFree01",
+            "StandbyFree02",
+            "StandbyFree03"
+          ],
+          "exitActions": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "End",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Udugan_StandbyFree01_01"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Udugan_FreePose"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ATTACK_RESET_TIMER",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Udugan_ResetAttackTimer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Monster_Tribalwarrior_Udugan_AbyssMark",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "UDUGAN_ABYSS_MARK",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetPoseBool",
+          "value": true,
+          "boolID": "InAbyss"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAudio",
+          "operation": {
+            "$type": "ConfigAudioEventOp",
+            "operation": {
+              "$type": "ConfigWwiseString",
+              "text": "Play_vo_monster_tribalwarrior_udugan_hitSpecial_olorun_01"
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Udugan_OlorunEasterEgg"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAudio",
+          "operation": {
+            "$type": "ConfigAudioEventOp",
+            "operation": {
+              "$type": "ConfigWwiseString",
+              "text": "Play_vo_monster_tribalwarrior_udugan_hitSpecial_citlali_01"
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Udugan_CitlaliEasterEgg"
+    }
+  }
+]

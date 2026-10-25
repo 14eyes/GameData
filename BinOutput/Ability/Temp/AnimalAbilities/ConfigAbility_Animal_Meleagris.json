@@ -1,0 +1,295 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.5,
+          "steerStateIDs": [
+            "Alert"
+          ],
+          "startNormalizedTime": 0.12999999523162842
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 10.0,
+          "IJMBPGKKOJD": 180.0,
+          "endNormalizedTime": 999.0,
+          "steerStateIDs": [
+            "Alert_Move"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "IJMBPGKKOJD": 180.0,
+          "endNormalizedTime": 0.3499999940395355,
+          "steerStateIDs": [
+            "Alert_Run"
+          ],
+          "startNormalizedTime": 0.2199999988079071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 150.0,
+          "IJMBPGKKOJD": 180.0,
+          "endNormalizedTime": 0.5,
+          "steerStateIDs": [
+            "Alert2"
+          ],
+          "startNormalizedTime": 0.12999999523162842
+        }
+      ],
+      "abilityName": "Monster_Meleagris_None_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AlertMoveEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Meleagris_Turn",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "GadgetShowEnd": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 5
+                }
+              ],
+              "value": true,
+              "boolID": "FleeNow"
+            },
+            {
+              "$type": "SetPoseInt",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 5
+                }
+              ],
+              "value": 1,
+              "intID": "FleeNow"
+            },
+            {
+              "$type": "SetPoseBool",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 5
+                }
+              ],
+              "boolID": "GadgetShow"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "PoseID",
+                  "value": 5
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Meleagris_Dizzy",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DistanceChecker": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.015,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "TargetNear"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "TargetNear"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 2
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Alert_Loop",
+            "Alert_Loop2",
+            "Alert_Move"
+          ],
+          "modifierName": "DistanceChecker"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "GadgetShowEnd",
+          "normalizeEnd": 0.5799999833106995,
+          "stateID": "Born",
+          "normalizeStart": 0.2800000011920929
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Alert_Move"
+          ],
+          "modifierName": "AlertMoveEffect"
+        }
+      ],
+      "abilityName": "Monster_Meleagris_None_Alert"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "OnBeingHit_Reset": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ResetAnimatorTrigger",
+              "canBeHandledOnRecover": true,
+              "triggerID": "OnBeingHit"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OnBeingHit_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "MPTriggerOnRemote": true,
+              "triggerID": "OnBeingHit"
+            }
+          ]
+        },
+        "FleeMode_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "value": 1,
+              "intID": "FleeNow"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DisappearTimer": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Disappear"
+            },
+            {
+              "$type": "SetCanDieImmediately",
+              "dieImmediately": true
+            },
+            {
+              "$type": "StartDither",
+              "duration": 3.0
+            },
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear",
+              "duration": 1.5,
+              "KBKCMPMOKGM": true,
+              "ELJJHIPAFKC": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Alert"
+          ],
+          "modifierName": "OnBeingHit_Reset"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Alert_Loop",
+            "Alert_Loop2",
+            "Alert_Move"
+          ],
+          "modifierName": "OnBeingHit_Monitor"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Alert_Run",
+            "Alert2"
+          ],
+          "modifierName": "FleeMode_Monitor"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Disappear"
+          ],
+          "modifierName": "DisappearTimer"
+        }
+      ],
+      "abilityName": "Monster_Meleagris_None_Flee"
+    }
+  }
+]

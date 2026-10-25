@@ -1,0 +1,6038 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Capra_02_Free": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "VelocityForceMixin",
+              "excludeForces": [
+                "WindZoneType",
+                "RetreatAirType"
+              ]
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR40H40HC"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ANIMAL_Capra_02_DoWalkForFreeRushAtk",
+                  "maxValue": 1,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ANIMAL_Capra_02_DoWalkForFreeRushAtk",
+                  "maxValue": 1,
+                  "minValue": 0,
+                  "value": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "BySelfForwardAndTargetPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 90
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "GreaterOrEqual",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByAny",
+                      "predicates": [
+                        {
+                          "$type": "ByAttackTags",
+                          "target": "Other",
+                          "attackTags": [
+                            "Animal_Penguin_03_FreeBulletDamage"
+                          ]
+                        },
+                        {
+                          "$type": "ByAttackTags",
+                          "target": "Other",
+                          "attackTags": [
+                            "Animal_Penguin_03_FreeDropAtk"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "EnableVisionFreePose"
+            }
+          ]
+        },
+        "EnableVisionFreePose": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "JustBeHitNotByBuddle"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetPoseBool",
+                  "boolID": "JustBeHitNotByBuddle"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_CheckAtkTag": {
+          "$type": "ConfigAbilityModifier",
+          "onKill": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR100H80"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ],
+              "modifierName": "Capra_02_Die"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "GetFightProperty",
+                  "globalValueKey": "_ANIMAL_Capra_02_CurHP",
+                  "fightProp": "FIGHT_PROP_CUR_HP"
+                },
+                {
+                  "$type": "SetGlobalValueToOverrideMap",
+                  "globalValueKey": "_ANIMAL_Capra_02_CurHP",
+                  "overrideMapKey": "_ANIMAL_Capra_02_CurHP"
+                },
+                {
+                  "$type": "GetFightProperty",
+                  "globalValueKey": "_ANIMAL_Capra_02_MaxHP",
+                  "fightProp": "FIGHT_PROP_MAX_HP"
+                },
+                {
+                  "$type": "SetGlobalValueToOverrideMap",
+                  "globalValueKey": "_ANIMAL_Capra_02_MaxHP",
+                  "overrideMapKey": "_ANIMAL_Capra_02_MaxHP"
+                },
+                {
+                  "$type": "DamageByAttackValue",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "damagePercentageRatio": 0,
+                      "ignoreModifyDamage": true,
+                      "ignoreAttackerProperty": true,
+                      "strikeType": "Blunt",
+                      "enBreak": 0.0,
+                      "trueDamage": true,
+                      "damageExtra": [
+                        "_ANIMAL_Capra_02_CurHP",
+                        0.08,
+                        "MUL",
+                        "_ANIMAL_Capra_02_MaxHP",
+                        0.04,
+                        "MUL",
+                        "ADD"
+                      ],
+                      "elementDurability": 0,
+                      "OEGPBCHMCOE": 0,
+                      "ELIEOGNBGKG": 1,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "Eff_Animal_Capra_02_HitH",
+                      "hitImpulseType": "LV1"
+                    },
+                    "attenuationGroup": "default",
+                    "attackTag": "Animal_Capra_02_HitHeavyByRotateDamage"
+                  }
+                },
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ANIMAL_Capra_02_HitByRotateAtkTimes",
+                  "maxValue": 1,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "HitHeavy"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Animal_Penguin_03_RotateAtk"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "TargetOriginOwner",
+                  "successActions": [
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "triggerID": "FreeHitR"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "triggerID": "FreeHitL"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": 0,
+                      "JKIKJGDONNJ": false
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Animal_Penguin_03_FreeBulletDamage"
+                  ]
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "target": "Self",
+                      "modifierName": "Capra_02_Initial"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Capra_02_DelayOneSecond": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "FGNHCAEHEJK": true,
+              "CEMJCDOPCGG": true,
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "positionKey": "_ANIMAL_Capra_02_CenterPosition"
+              },
+              "gadgetID": 42802308,
+              "byServer": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_Initial": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetAiCommandThreatTarget",
+              "target": "SelfAttackActiveTarget"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "CreateGadget",
+                  "FGNHCAEHEJK": true,
+                  "CEMJCDOPCGG": true,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "onGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "positionKey": "_ANIMAL_Capra_02_CenterPosition"
+                  },
+                  "gadgetID": 42802304,
+                  "byServer": true
+                },
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ANIMAL_Capra_02_CentreGadgetCount",
+                  "maxValue": 1,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_Capra_02_CentreGadgetCount"
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_NotInitialRound",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_InitialRound",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_5SecondsPassedTimes_Initial",
+              "minValue": 0,
+              "maxValue": 7,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_5SecondsPassedTimes",
+              "minValue": 0,
+              "maxValue": 6,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_EnterSuperByHPLow",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_HitByRotateAtkTimes",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_CurrentRushTimes",
+              "minValue": 0,
+              "maxValue": 6,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_RushHitPenguinTimes",
+              "minValue": 0,
+              "maxValue": 2,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_RushHitDefendTimes",
+              "minValue": 0,
+              "maxValue": 2,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_PenguinResetHitByRushGV",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_SuperRushState",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_PenguinInDefendState",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_PenguinDie",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_IsHitHeavySuperRush",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_Angry",
+              "minValue": 0,
+              "maxValue": 1,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "target": "Team",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "AlertJump_LF"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "Target",
+                  "successActions": [
+                    {
+                      "$type": "SetAnimatorTrigger",
+                      "triggerID": "AlertJump_L"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "Predicated",
+                      "target": "Target",
+                      "successActions": [
+                        {
+                          "$type": "SetAnimatorTrigger",
+                          "triggerID": "AlertJump_LB"
+                        }
+                      ],
+                      "failActions": [
+                        {
+                          "$type": "Predicated",
+                          "target": "Target",
+                          "successActions": [
+                            {
+                              "$type": "SetAnimatorTrigger",
+                              "triggerID": "AlertJump_RF"
+                            }
+                          ],
+                          "failActions": [
+                            {
+                              "$type": "Predicated",
+                              "target": "Target",
+                              "successActions": [
+                                {
+                                  "$type": "SetAnimatorTrigger",
+                                  "triggerID": "AlertJump_R"
+                                }
+                              ],
+                              "failActions": [
+                                {
+                                  "$type": "SetAnimatorTrigger",
+                                  "triggerID": "AlertJump_RB"
+                                }
+                              ],
+                              "targetPredicates": [
+                                {
+                                  "$type": "BySelfForwardAndTargetPosition",
+                                  "value": 90,
+                                  "JKIKJGDONNJ": false
+                                },
+                                {
+                                  "$type": "BySelfForwardAndTargetPosition",
+                                  "logic": "LesserOrEqual",
+                                  "value": 135,
+                                  "JKIKJGDONNJ": false
+                                }
+                              ]
+                            }
+                          ],
+                          "targetPredicates": [
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "value": 0,
+                              "JKIKJGDONNJ": false
+                            },
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "logic": "LesserOrEqual",
+                              "value": 90,
+                              "JKIKJGDONNJ": false
+                            }
+                          ]
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "logic": "Lesser",
+                          "value": -135,
+                          "JKIKJGDONNJ": false
+                        },
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "logic": "GreaterOrEqual",
+                          "value": -180,
+                          "JKIKJGDONNJ": false
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "logic": "Lesser",
+                      "value": -90,
+                      "JKIKJGDONNJ": false
+                    },
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": -135,
+                      "JKIKJGDONNJ": false
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "BySelfForwardAndTargetPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 0,
+                  "JKIKJGDONNJ": false
+                },
+                {
+                  "$type": "BySelfForwardAndTargetPosition",
+                  "logic": "GreaterOrEqual",
+                  "value": -90,
+                  "JKIKJGDONNJ": false
+                }
+              ]
+            },
+            {
+              "$type": "KillServerGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802308
+              }
+            },
+            {
+              "$type": "SetAiCommandThreatTarget",
+              "target": "SelfAttackActiveTarget"
+            },
+            {
+              "$type": "SetCommandPos",
+              "key": "_ANIMAL_Capra_02_ResetTargetPosition"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_Die": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "RefreshUICombatBarLayout"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Penguin_03_CapraDie",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0,
+            1
+          ],
+          "modifierName": "Capra_02_Free"
+        },
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2
+          ],
+          "modifierName": "Capra_02_Initial"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_Initial",
+      "onAdded": [
+        {
+          "$type": "SetGlobalPos",
+          "key": "_ANIMAL_Capra_02_CenterPosition",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          }
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "Is_Capra_02",
+          "isAdd": true
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Capra_02_CheckAtkTag"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "useLimitRange": true,
+          "key": "_ANIMAL_Capra_02_IsRushing",
+          "minValue": 0,
+          "maxValue": 1,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Capra_02_DelayOneSecond"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "useLimitRange": true,
+          "key": "_ANIMAL_Capra_02_DoWalkForFreeRushAtk",
+          "minValue": 0,
+          "maxValue": 1,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "useLimitRange": true,
+          "key": "_ANIMAL_Capra_02_NotFreeRushJustNow",
+          "minValue": 0,
+          "maxValue": 1,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "useLimitRange": true,
+          "key": "_ANIMAL_Capra_02_ResetFreeRushCDTimes",
+          "minValue": 0,
+          "maxValue": 1,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Capra_02_JumpBackRushMove": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 4.0,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "JumpBack02"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -4,
+                  "y": 0
+                }
+              },
+              "timeRange": 0.383
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_MuteHitHeavy": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 8,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "MuteHitHeavy"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "HitHeavy"
+                },
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "MuteHitHeavy"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "BanRushMove": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "VelocityForceMixin",
+              "excludeForces": [
+                "RushMoveType",
+                "FixedRushMoveType",
+                "RetreatAirType"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Animal_Capra_02_HitHDust",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornType",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 2.6,
+              "y": -0.1
+            }
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_IsHitHeavySuperRush",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "HitHeavyRush"
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                411
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Capra_02_MuteHitHeavy"
+            }
+          ],
+          "stateIDs": [
+            "HitHeavy"
+          ]
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                411
+              ]
+            }
+          ],
+          "stateIDs": [
+            "JumpBack01"
+          ]
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "JumpBack02"
+          ],
+          "modifierName": "UNIQUE_Capra_02_JumpBackRushMove"
+        },
+        {
+          "$type": "AttachToAbilityStateMixin",
+          "modifierName": "BanRushMove",
+          "abilityStates": [
+            "ElementPetrifaction",
+            "ElementFreeze"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_BeHitManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ResetMonitor": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "thinkInterval": 0.25,
+          "duration": 8,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_Capra_02_IsHitHeavySuperRush"
+                }
+              ],
+              "modifierName": "ResetPositionFinished"
+            },
+            {
+              "$type": "SetCommandPos",
+              "key": "_ANIMAL_Capra_02_ResetTargetPosition"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetCommandPos",
+              "enable": true,
+              "key": "_ANIMAL_Capra_02_ResetTargetPosition"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "HPANBNKJCMI",
+                  "target": "Self",
+                  "logic": "LesserOrEqual",
+                  "value": 5,
+                  "positionKey": "_ANIMAL_Capra_02_ResetTargetPosition"
+                }
+              ],
+              "modifierName": "ResetPositionFinished"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ResetPositionFinished": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ResetMonitor"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "CapraPositionReady"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetAISkillCDAvailableNow",
+                      "skillIDs": [
+                        861
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "Predicated",
+                      "successActions": [
+                        {
+                          "$type": "SetAISkillCDAvailableNow",
+                          "skillIDs": [
+                            863
+                          ]
+                        }
+                      ],
+                      "failActions": [
+                        {
+                          "$type": "Predicated",
+                          "successActions": [
+                            {
+                              "$type": "SetAISkillCDAvailableNow",
+                              "skillIDs": [
+                                865
+                              ]
+                            }
+                          ],
+                          "failActions": [
+                            {
+                              "$type": "Predicated",
+                              "successActions": [
+                                {
+                                  "$type": "SetAISkillCDAvailableNow",
+                                  "skillIDs": [
+                                    862
+                                  ]
+                                }
+                              ],
+                              "failActions": [
+                                {
+                                  "$type": "Predicated",
+                                  "successActions": [
+                                    {
+                                      "$type": "SetAISkillCDAvailableNow",
+                                      "skillIDs": [
+                                        864
+                                      ]
+                                    }
+                                  ],
+                                  "failActions": [
+                                    {
+                                      "$type": "SetAISkillCDAvailableNow",
+                                      "skillIDs": [
+                                        866
+                                      ]
+                                    }
+                                  ],
+                                  "targetPredicates": [
+                                    {
+                                      "$type": "BySelfForwardAndTargetPosition",
+                                      "target": "SelfAttackActiveTarget",
+                                      "value": 90,
+                                      "JKIKJGDONNJ": false
+                                    },
+                                    {
+                                      "$type": "BySelfForwardAndTargetPosition",
+                                      "target": "SelfAttackActiveTarget",
+                                      "logic": "LesserOrEqual",
+                                      "value": 135,
+                                      "JKIKJGDONNJ": false
+                                    }
+                                  ]
+                                }
+                              ],
+                              "targetPredicates": [
+                                {
+                                  "$type": "BySelfForwardAndTargetPosition",
+                                  "target": "SelfAttackActiveTarget",
+                                  "value": 15,
+                                  "JKIKJGDONNJ": false
+                                },
+                                {
+                                  "$type": "BySelfForwardAndTargetPosition",
+                                  "target": "SelfAttackActiveTarget",
+                                  "logic": "LesserOrEqual",
+                                  "value": 90,
+                                  "JKIKJGDONNJ": false
+                                }
+                              ]
+                            }
+                          ],
+                          "targetPredicates": [
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "target": "SelfAttackActiveTarget",
+                              "logic": "Lesser",
+                              "value": -135,
+                              "JKIKJGDONNJ": false
+                            },
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "target": "SelfAttackActiveTarget",
+                              "logic": "GreaterOrEqual",
+                              "value": -180,
+                              "JKIKJGDONNJ": false
+                            }
+                          ]
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "target": "SelfAttackActiveTarget",
+                          "logic": "Lesser",
+                          "value": -90,
+                          "JKIKJGDONNJ": false
+                        },
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "target": "SelfAttackActiveTarget",
+                          "logic": "GreaterOrEqual",
+                          "value": -135,
+                          "JKIKJGDONNJ": false
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "target": "SelfAttackActiveTarget",
+                      "logic": "Lesser",
+                      "value": -15,
+                      "JKIKJGDONNJ": false
+                    },
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "target": "SelfAttackActiveTarget",
+                      "logic": "GreaterOrEqual",
+                      "value": -90,
+                      "JKIKJGDONNJ": false
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "BySelfForwardAndTargetPosition",
+                  "target": "SelfAttackActiveTarget",
+                  "logic": "LesserOrEqual",
+                  "value": 15
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "InformPenguinCapraStartRush": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CapraRushState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BasicPose": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_CapraSuperRushStateTimer_Initial"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_CapraSuperRushStateTimer"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "CapraSuperRushState"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "HitHeavyRush"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Animal_Capra_02_Weak"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SpecialStandbyAlertHandler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalPos",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802304
+              },
+              "LINAHBPILJD": false,
+              "key": "_ANIMAL_Capra_02_ResetTargetPosition",
+              "born": {
+                "$type": "ConfigBornByTargetLinearPoint",
+                "useRotation": true,
+                "linearMin": 0,
+                "linearOffset": -18,
+                "linearMax": 50
+              }
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "CapraPositionReady"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "Predicated",
+                      "successActions": [
+                        {
+                          "$type": "SetAISkillCDAvailableNow",
+                          "skillIDs": [
+                            861
+                          ]
+                        }
+                      ],
+                      "failActions": [
+                        {
+                          "$type": "Predicated",
+                          "successActions": [
+                            {
+                              "$type": "SetAISkillCDAvailableNow",
+                              "skillIDs": [
+                                863
+                              ]
+                            }
+                          ],
+                          "failActions": [
+                            {
+                              "$type": "Predicated",
+                              "successActions": [
+                                {
+                                  "$type": "SetAISkillCDAvailableNow",
+                                  "skillIDs": [
+                                    865
+                                  ]
+                                }
+                              ],
+                              "failActions": [
+                                {
+                                  "$type": "Predicated",
+                                  "successActions": [
+                                    {
+                                      "$type": "SetAISkillCDAvailableNow",
+                                      "skillIDs": [
+                                        862
+                                      ]
+                                    }
+                                  ],
+                                  "failActions": [
+                                    {
+                                      "$type": "Predicated",
+                                      "successActions": [
+                                        {
+                                          "$type": "SetAISkillCDAvailableNow",
+                                          "skillIDs": [
+                                            864
+                                          ]
+                                        }
+                                      ],
+                                      "failActions": [
+                                        {
+                                          "$type": "SetAISkillCDAvailableNow",
+                                          "skillIDs": [
+                                            866
+                                          ]
+                                        }
+                                      ],
+                                      "targetPredicates": [
+                                        {
+                                          "$type": "BySelfForwardAndTargetPosition",
+                                          "target": "SelfAttackActiveTarget",
+                                          "value": 90,
+                                          "JKIKJGDONNJ": false
+                                        },
+                                        {
+                                          "$type": "BySelfForwardAndTargetPosition",
+                                          "target": "SelfAttackActiveTarget",
+                                          "logic": "LesserOrEqual",
+                                          "value": 135,
+                                          "JKIKJGDONNJ": false
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "targetPredicates": [
+                                    {
+                                      "$type": "BySelfForwardAndTargetPosition",
+                                      "target": "SelfAttackActiveTarget",
+                                      "value": 15,
+                                      "JKIKJGDONNJ": false
+                                    },
+                                    {
+                                      "$type": "BySelfForwardAndTargetPosition",
+                                      "target": "SelfAttackActiveTarget",
+                                      "logic": "LesserOrEqual",
+                                      "value": 90,
+                                      "JKIKJGDONNJ": false
+                                    }
+                                  ]
+                                }
+                              ],
+                              "targetPredicates": [
+                                {
+                                  "$type": "BySelfForwardAndTargetPosition",
+                                  "target": "SelfAttackActiveTarget",
+                                  "logic": "Lesser",
+                                  "value": -135,
+                                  "JKIKJGDONNJ": false
+                                },
+                                {
+                                  "$type": "BySelfForwardAndTargetPosition",
+                                  "target": "SelfAttackActiveTarget",
+                                  "logic": "GreaterOrEqual",
+                                  "value": -180,
+                                  "JKIKJGDONNJ": false
+                                }
+                              ]
+                            }
+                          ],
+                          "targetPredicates": [
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "target": "SelfAttackActiveTarget",
+                              "logic": "Lesser",
+                              "value": -90,
+                              "JKIKJGDONNJ": false
+                            },
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "target": "SelfAttackActiveTarget",
+                              "logic": "GreaterOrEqual",
+                              "value": -135,
+                              "JKIKJGDONNJ": false
+                            }
+                          ]
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "target": "SelfAttackActiveTarget",
+                          "logic": "Lesser",
+                          "value": -15,
+                          "JKIKJGDONNJ": false
+                        },
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "target": "SelfAttackActiveTarget",
+                          "logic": "GreaterOrEqual",
+                          "value": -90,
+                          "JKIKJGDONNJ": false
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "target": "SelfAttackActiveTarget",
+                      "logic": "LesserOrEqual",
+                      "value": 15
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "PredicatedBySelectTarget",
+                  "successActions": [
+                    {
+                      "$type": "SetAISkillCDAvailableNow",
+                      "skillIDs": [
+                        811
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "Predicated",
+                      "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "sortType": "Reversed",
+                        "configID": 42802304
+                      },
+                      "successActions": [
+                        {
+                          "$type": "SetAISkillCDAvailableNow",
+                          "skillIDs": [
+                            813
+                          ]
+                        }
+                      ],
+                      "failActions": [
+                        {
+                          "$type": "Predicated",
+                          "otherTargets": {
+                            "$type": "SelectTargetsByChildren",
+                            "sortType": "Reversed",
+                            "configID": 42802304
+                          },
+                          "successActions": [
+                            {
+                              "$type": "SetAISkillCDAvailableNow",
+                              "skillIDs": [
+                                815
+                              ]
+                            }
+                          ],
+                          "failActions": [
+                            {
+                              "$type": "Predicated",
+                              "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "sortType": "Reversed",
+                                "configID": 42802304
+                              },
+                              "successActions": [
+                                {
+                                  "$type": "SetAISkillCDAvailableNow",
+                                  "skillIDs": [
+                                    812
+                                  ]
+                                }
+                              ],
+                              "failActions": [
+                                {
+                                  "$type": "Predicated",
+                                  "otherTargets": {
+                                    "$type": "SelectTargetsByChildren",
+                                    "sortType": "Reversed",
+                                    "configID": 42802304
+                                  },
+                                  "successActions": [
+                                    {
+                                      "$type": "SetAISkillCDAvailableNow",
+                                      "skillIDs": [
+                                        814
+                                      ]
+                                    }
+                                  ],
+                                  "failActions": [
+                                    {
+                                      "$type": "Predicated",
+                                      "otherTargets": {
+                                        "$type": "SelectTargetsByChildren",
+                                        "sortType": "Reversed",
+                                        "configID": 42802304
+                                      },
+                                      "successActions": [
+                                        {
+                                          "$type": "ApplyModifier",
+                                          "predicates": [
+                                            {
+                                              "$type": "ByTargetGlobalValue",
+                                              "target": "Self",
+                                              "value": 0,
+                                              "compareType": "NoneOrEqual",
+                                              "key": "_ANIMAL_Capra_02_IsHitHeavySuperRush"
+                                            }
+                                          ],
+                                          "modifierName": "ResetMonitor"
+                                        }
+                                      ],
+                                      "failActions": [
+                                        {
+                                          "$type": "SetAISkillCDAvailableNow",
+                                          "skillIDs": [
+                                            816
+                                          ]
+                                        }
+                                      ],
+                                      "targetPredicates": [
+                                        {
+                                          "$type": "BySelfForwardAndTargetPosition",
+                                          "logic": "Equal",
+                                          "value": 0,
+                                          "JKIKJGDONNJ": false
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "targetPredicates": [
+                                    {
+                                      "$type": "BySelfForwardAndTargetPosition",
+                                      "value": 45,
+                                      "JKIKJGDONNJ": false
+                                    },
+                                    {
+                                      "$type": "BySelfForwardAndTargetPosition",
+                                      "logic": "LesserOrEqual",
+                                      "value": 90,
+                                      "JKIKJGDONNJ": false
+                                    }
+                                  ]
+                                }
+                              ],
+                              "targetPredicates": [
+                                {
+                                  "$type": "BySelfForwardAndTargetPosition",
+                                  "value": 90,
+                                  "JKIKJGDONNJ": false
+                                }
+                              ]
+                            }
+                          ],
+                          "targetPredicates": [
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "logic": "Lesser",
+                              "value": 0,
+                              "JKIKJGDONNJ": false
+                            },
+                            {
+                              "$type": "BySelfForwardAndTargetPosition",
+                              "logic": "GreaterOrEqual",
+                              "value": -45,
+                              "JKIKJGDONNJ": false
+                            }
+                          ]
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "logic": "Lesser",
+                          "value": -45,
+                          "JKIKJGDONNJ": false
+                        },
+                        {
+                          "$type": "BySelfForwardAndTargetPosition",
+                          "logic": "GreaterOrEqual",
+                          "value": -90,
+                          "JKIKJGDONNJ": false
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "logic": "Lesser",
+                      "value": -90,
+                      "JKIKJGDONNJ": false
+                    }
+                  ],
+                  "LAPMNDNLBLI": [
+                    {
+                      "$type": "SetAISkillCDAvailableNow",
+                      "skillIDs": [
+                        816
+                      ]
+                    }
+                  ],
+                  "IPGCOPKAFFH": {
+                    "$type": "SelectTargetsByChildren",
+                    "sortType": "Reversed",
+                    "configID": 42802304
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "HPANBNKJCMI",
+                  "target": "Self",
+                  "logic": "LesserOrEqual",
+                  "value": 5,
+                  "positionKey": "_ANIMAL_Capra_02_ResetTargetPosition"
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR100H80"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ],
+              "modifierName": "InformPenguinCapraStartRush"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "EndSpecialStandby"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ResetPose": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 8,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "CapraPositionReady"
+            },
+            {
+              "$type": "SetCommandPos",
+              "key": "_ANIMAL_Capra_02_ResetTargetPosition"
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                411
+              ]
+            },
+            {
+              "$type": "EnableHeadControl",
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                821
+              ]
+            },
+            {
+              "$type": "EnableHeadControl"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CapraPositionReady"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR100H80"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ],
+              "modifierName": "InformPenguinCapraStartRush"
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                411
+              ]
+            },
+            {
+              "$type": "EnableHeadControl",
+              "enable": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SuperRushPose": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ReconnectRushHandler"
+            }
+          ],
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_RushHitPenguinTimes",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": -2
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_IsHitHeavySuperRush",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                811,
+                812,
+                813,
+                814,
+                815,
+                816,
+                861,
+                862,
+                863,
+                864,
+                865,
+                866,
+                821
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ResetMonitor"
+            },
+            {
+              "$type": "SetCommandPos",
+              "key": "_ANIMAL_Capra_02_ResetTargetPosition"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Capra_02_CancelPointTargetForSafety"
+            },
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                811,
+                812,
+                813,
+                814,
+                815,
+                816,
+                861,
+                862,
+                863,
+                864,
+                865,
+                866,
+                821
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_CancelPointTargetForSafety": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.25,
+          "duration": 3,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetCommandPos",
+              "key": "_ANIMAL_Capra_02_ResetTargetPosition"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_SpecialTurn02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CapraPositionReady"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_SpecialTurn01": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_Capra_02_IsHitHeavySuperRush"
+                }
+              ],
+              "modifierName": "ResetMonitor"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ReconnectRushHandler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "ReconnectRush"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetPoseBool",
+                  "boolID": "ReconnectRush"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            101,
+            102
+          ],
+          "modifierName": "BasicPose"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "SpecialStandbyAlert"
+          ],
+          "modifierName": "SpecialStandbyAlertHandler"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            202
+          ],
+          "modifierName": "ResetPose"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            201
+          ],
+          "modifierName": "SuperRushPose"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "SpecialTurn01_LRFront",
+            "SpecialTurn01_LR",
+            "SpecialTurn01_LRBack"
+          ],
+          "modifierName": "Capra_02_SpecialTurn01"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "SpecialTurn02_LRFront",
+            "SpecialTurn02_LR",
+            "SpecialTurn02_LRBack"
+          ],
+          "modifierName": "Capra_02_SpecialTurn02"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_PoseManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "EnablePartControl",
+          "partRootNames": [
+            "SteerTeamPoint"
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "EnablePartControl",
+              "enable": true,
+              "partRootNames": [
+                "SteerTeamPoint"
+              ]
+            }
+          ],
+          "stateIDs": [
+            "RushAtk_Prepare_BS",
+            "SuperRushAtk_Prepare_BS"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_PartControl_SteerTeamPoint"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StartTurnCD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 7.5,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "TurnInCD"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "TurnInCD"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "JustNormalTurn": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.25,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "JustNormalTurn"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "JustNormalTurn"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackActiveTarget",
+          "LINAHBPILJD": false,
+          "key": "_ANIMAL_Capra_02_TargetPosition",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByStateIDMixin",
+          "exitActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "StartTurnCD"
+            }
+          ],
+          "stateIDs": [
+            "AlertJump_LR",
+            "AlertJump_LRFront",
+            "AlertJump_LRBack",
+            "NormalTurn_LR",
+            "NormalRushAtkTurn_LR",
+            "SuperRushAtkTurn_LR",
+            "SuperRushAtkTurn_LR_End",
+            "NormalTurn_LRFront",
+            "NormalRushAtkTurn_LRFront",
+            "SuperRushAtkTurn_LRFront",
+            "SuperRushAtkTurn_LRFront_End",
+            "NormalTurn_LRBack",
+            "NormalRushAtkTurn_LRBack",
+            "SuperRushAtkTurn_LRBack",
+            "SuperRushAtkTurn_LRBack_End",
+            "HitHeavy_JumpBack",
+            "SpecialTurn01_LRFront",
+            "SpecialTurn01_LR",
+            "SpecialTurn01_LRBack",
+            "SpecialTurn02_LRFront",
+            "SpecialTurn02_LR",
+            "SpecialTurn02_LRBack"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "exitActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "JustNormalTurn"
+            }
+          ],
+          "stateIDs": [
+            "NormalTurn_LR",
+            "NormalTurn_LRFront",
+            "NormalTurn_LRBack"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_SetPosition"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CheckDistanceForRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackActiveTarget",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "MinorSteerForRushPrepare"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "SelfAttackActiveTarget",
+                  "successActions": [
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "MidSteerForRushPrepare"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "MajorSteerForRushPrepare"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": 9
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "GreaterOrEqual",
+                  "value": 18
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckDistanceForSuperRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackActiveTarget",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "MinorSteerForSuperRushPrepare"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "SelfAttackActiveTarget",
+                  "successActions": [
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "MidSteerForSuperRushPrepare"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "MajorSteerForSuperRushPrepare"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "GreaterOrEqual",
+                      "value": 9
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "GreaterOrEqual",
+                  "value": 18
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "MinorSteerForRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SteerAttackMixin",
+              "angularSpeed": 640.0,
+              "endNormalizedTime": 0.2549999952316284,
+              "AAPNADMFCNO": true,
+              "steerStateIDs": [
+                "RushAtk_Prepare_Ready"
+              ],
+              "startNormalizedTime": 0.07500000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MidSteerForRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SteerAttackMixin",
+              "angularSpeed": 1500.0,
+              "endNormalizedTime": 0.2549999952316284,
+              "AAPNADMFCNO": true,
+              "steerStateIDs": [
+                "RushAtk_Prepare_Ready"
+              ],
+              "startNormalizedTime": 0.07500000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MajorSteerForRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SteerAttackMixin",
+              "angularSpeed": 3600.0,
+              "endNormalizedTime": 0.2549999952316284,
+              "AAPNADMFCNO": true,
+              "steerStateIDs": [
+                "RushAtk_Prepare_Ready"
+              ],
+              "startNormalizedTime": 0.07500000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MinorSteerForSuperRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SteerAttackMixin",
+              "angularSpeed": 640.0,
+              "endNormalizedTime": 0.2549999952316284,
+              "AAPNADMFCNO": true,
+              "steerStateIDs": [
+                "SuperRushAtk_Prepare_Ready"
+              ],
+              "startNormalizedTime": 0.07500000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MidSteerForSuperRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SteerAttackMixin",
+              "angularSpeed": 1500.0,
+              "endNormalizedTime": 0.2549999952316284,
+              "AAPNADMFCNO": true,
+              "steerStateIDs": [
+                "SuperRushAtk_Prepare_Ready"
+              ],
+              "startNormalizedTime": 0.07500000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MajorSteerForSuperRushPrepare": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SteerAttackMixin",
+              "angularSpeed": 3600.0,
+              "endNormalizedTime": 0.2549999952316284,
+              "AAPNADMFCNO": true,
+              "steerStateIDs": [
+                "SuperRushAtk_Prepare_Ready"
+              ],
+              "startNormalizedTime": 0.07500000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Alliance",
+            "shapeName": "CircleR100H80"
+          },
+          "predicatesForeach": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ],
+          "LINAHBPILJD": false,
+          "key": "_ANIMAL_Capra_02_PenguinPosition",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "AlertJump_LRFront"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "AlertJump_LR"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "AlertJump_LRBack"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "facingTargetTypes": [
+            "BuddyTarget"
+          ],
+          "endNormalizedTime": 99.0,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "WalkForFreeRushAtk"
+          ]
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalTurn_LRFront"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalRushAtkTurn_LRFront"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtkTurn_LRFront"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtkTurn_LRFront_End"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SpecialTurn01_LRFront"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_ResetTargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SpecialTurn02_LRFront"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalTurn_LR"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalRushAtkTurn_LR"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtkTurn_LR"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtkTurn_LR_End"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SpecialTurn01_LR"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_ResetTargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SpecialTurn02_LR"
+          ],
+          "startNormalizedTime": 0.1889999955892563,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalTurn_LRBack"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalRushAtkTurn_LRBack"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtkTurn_LRBack"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtkTurn_LRBack_End"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SpecialTurn01_LRBack"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_ResetTargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SpecialTurn02_LRBack"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_TargetPosition"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 480.0,
+          "endNormalizedTime": 0.4880000054836273,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "FreeHitByPenguinTurn_LRBack"
+          ],
+          "startNormalizedTime": 0.11900000274181366,
+          "globalPosKey": "_ANIMAL_Capra_02_PenguinPosition"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.5550000071525574,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "CrushAtk"
+          ],
+          "startNormalizedTime": 0.07999999821186066
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.07999999821186066,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk"
+          ],
+          "startNormalizedTime": 0.019999999552965164
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.5419999957084656,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAtk"
+          ],
+          "startNormalizedTime": 0.4580000042915344
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 99.0,
+          "AAPNADMFCNO": true,
+          "attackDistance": 4.5,
+          "steerStateIDs": [
+            "PreMoveForTrampleAtk"
+          ],
+          "startNormalizedTime": 0.10000000149011612,
+          "attackTrigger": "RunForTrampleReady"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "facingTargetTypes": [
+            "BuddyTarget"
+          ],
+          "endNormalizedTime": 0.1379999965429306,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "FreeRushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 0.02199999988079071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.1379999965429306,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "RushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 0.02199999988079071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.1379999965429306,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 0.02199999988079071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "facingTargetTypes": [
+            "BuddyTarget"
+          ],
+          "endNormalizedTime": 1.1380000114440918,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "FreeRushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 1.0219999551773071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 1.1380000114440918,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "RushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 1.0219999551773071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 1.1380000114440918,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 1.0219999551773071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "facingTargetTypes": [
+            "BuddyTarget"
+          ],
+          "endNormalizedTime": 2.138000011444092,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "FreeRushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 2.0220000743865967
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 2.138000011444092,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "RushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 2.0220000743865967
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 2.138000011444092,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SuperRushAtk_Prepare_Loop"
+          ],
+          "startNormalizedTime": 2.0220000743865967
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 1500.0,
+          "facingTargetTypes": [
+            "BuddyTarget"
+          ],
+          "endNormalizedTime": 0.2549999952316284,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "FreeRushAtk_Prepare_Ready"
+          ],
+          "startNormalizedTime": 0.07500000298023224
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RushAtk_Prepare_Ready"
+          ],
+          "modifierName": "CheckDistanceForRushPrepare"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "SuperRushAtk_Prepare_Ready"
+          ],
+          "modifierName": "CheckDistanceForSuperRushPrepare"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "WalkForFreeRushAtkDistanceCheck": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "FreeWalkReady"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "FreeWalkReady"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR100H80"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "FreeWalkReady"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "BySelfForwardAndTargetPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 30
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 10
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MuteAlertTurn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "MuteAlertTurn"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "MuteAlertTurn"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_MuteFreeRush": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 9.5,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_NotFreeRushJustNow",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_NotFreeRushJustNow",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "WalkForFreeRushAtk"
+          ],
+          "modifierName": "WalkForFreeRushAtkDistanceCheck"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FreeRushAtk_Prepare_Ready",
+            "FreeRushAtk_Loop",
+            "FreeRushAtk_AS",
+            "FreeHitByPenguinTurn_LRBack"
+          ],
+          "modifierName": "MuteAlertTurn"
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "exitActions": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                131
+              ]
+            }
+          ],
+          "stateIDs": [
+            "WalkForFreeRushAtk"
+          ]
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Capra_02_MuteFreeRush"
+            }
+          ],
+          "stateIDs": [
+            "FreeRushAtk_AS"
+          ],
+          "exitActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                141
+              ],
+              "forceReinit": true
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                101
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_Personality"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 200.0,
+                "damagePercentage": 0.65,
+                "elementDurability": 0,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0.968,
+                  "y": 1
+                }
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 2.25,
+                "z": 2.5,
+                "y": 2.25
+              }
+            }
+          }
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Alliance",
+            "NLNIBNNOOCK": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true,
+              "offset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 3,
+                "y": 1
+              }
+            },
+            "shapeName": "RectForCapraCrushAtk"
+          },
+          "predicatesForeach": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ],
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "strikeType": "Blunt",
+              "enBreak": 1.0,
+              "damagePercentage": 0.65,
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitImpulseType": "LV4"
+            },
+            "attenuationGroup": "default"
+          },
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 1.4
+            },
+            "linearMin": 0,
+            "linearOffset": -0.25,
+            "linearMax": 50
+          }
+        }
+      ],
+      "abilityName": "Animal_Capra_02_CrushAtk"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 75.0,
+                "damagePercentage": 0.45,
+                "elementDurability": 0,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -0.3,
+                  "y": 1
+                }
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 3,
+                "z": 3.2,
+                "y": 2.8
+              }
+            }
+          }
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Alliance",
+            "NLNIBNNOOCK": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true,
+              "offset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 1,
+                "y": 0.8
+              }
+            },
+            "shapeName": "RectW5L5H4"
+          },
+          "predicatesForeach": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ],
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "strikeType": "Blunt",
+              "enBreak": 1.0,
+              "damagePercentage": 0.45,
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitImpulseType": "LV3"
+            },
+            "attenuationGroup": "default"
+          },
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 1.4
+            },
+            "linearMin": 0,
+            "linearOffset": -0.25,
+            "linearMax": 50
+          }
+        }
+      ],
+      "abilityName": "Animal_Capra_02_NormalAtk01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 200.0,
+                "damagePercentage": 0.75,
+                "elementDurability": 0,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0.45,
+                  "y": 1
+                }
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 2,
+                "z": 3.4,
+                "y": 2.7
+              }
+            }
+          }
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Alliance",
+            "NLNIBNNOOCK": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true,
+              "offset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 2.1,
+                "y": 0.5
+              }
+            },
+            "shapeName": "RectW4_5L4_5H3"
+          },
+          "predicatesForeach": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ],
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "strikeType": "Blunt",
+              "enBreak": 1.0,
+              "damagePercentage": 0.75,
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "default",
+              "hitImpulseType": "LV4"
+            },
+            "attenuationGroup": "default"
+          },
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 1.4
+            },
+            "linearMin": 0,
+            "linearOffset": -0.25,
+            "linearMax": 50
+          }
+        }
+      ],
+      "abilityName": "Animal_Capra_02_NormalAtk02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_TrampleWarningEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Capra_02_TrampleAtk_Warning",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_TrampleWarningEff_Fast": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Capra_02_TrampleAtk_Warning_Fast",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 200.0,
+                "damagePercentage": 1,
+                "elementDurability": 0,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "z": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "HitVector",
+                "shakeRange": 0.05999999865889549
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1.25,
+                  "y": -1
+                }
+              },
+              "radius": 3.68,
+              "height": 2.799999952316284
+            }
+          }
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Alliance",
+            "NLNIBNNOOCK": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true,
+              "offset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 1.25,
+                "y": 1
+              }
+            },
+            "shapeName": "CircleR4_5H5"
+          },
+          "predicatesForeach": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ],
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "ignoreModifyDamage": true,
+              "strikeType": "Blunt",
+              "enBreak": 20000.0,
+              "damagePercentage": 0,
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "none",
+              "overrideHitImpulse": {
+                "$type": "ConfigHitImpulse",
+                "hitLevel": "Heavy",
+                "hitImpulseX": 4500,
+                "hitImpulseY": 0
+              },
+              "muteHitText": true,
+              "hitImpulseType": "LV4"
+            },
+            "attenuationGroup": "default",
+            "attackTag": "Animal_Capra_02_TrampleAtk",
+            "canBeModifiedBy": "OriginOwner"
+          },
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0.75
+            },
+            "linearMin": 0,
+            "linearOffset": -0.25,
+            "linearMax": 50
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "UNIQUE_TrampleWarningEff",
+          "stateID": "TrampleAtk",
+          "normalizeStart": 0.0020000000949949026
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "UNIQUE_TrampleWarningEff",
+          "stateID": "Angry_TrampleAtk01",
+          "normalizeStart": 0.0020000000949949026
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "UNIQUE_TrampleWarningEff_Fast",
+          "stateID": "Angry_TrampleAtk02",
+          "normalizeStart": 0.0020000000949949026
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "UNIQUE_TrampleWarningEff",
+          "stateID": "Angry_TrampleAtk03",
+          "normalizeStart": 0.0020000000949949026
+        }
+      ],
+      "abilityName": "Animal_Capra_02_TrampleAtk"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Capra_02_AttachAngryEff": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_Angry",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachEffect",
+              "scale": 5,
+              "effectPattern": "Eff_EmojiBubble_Emoji_Angry",
+              "effectTempleteID": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 200.0,
+                "damagePercentage": 0.9,
+                "elementDurability": 0,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "z": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "HitVector",
+                "shakeRange": 0.05999999865889549
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1.25,
+                  "y": -1
+                }
+              },
+              "radius": 3.68,
+              "height": 2.799999952316284
+            }
+          }
+        },
+        {
+          "$type": "DamageByAttackValue",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "Alliance",
+            "NLNIBNNOOCK": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true,
+              "offset": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 1.25,
+                "y": 1
+              }
+            },
+            "shapeName": "CircleR4_5H5"
+          },
+          "predicatesForeach": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ],
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "ignoreModifyDamage": true,
+              "strikeType": "Blunt",
+              "enBreak": 20000.0,
+              "damagePercentage": 0,
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "none",
+              "overrideHitImpulse": {
+                "$type": "ConfigHitImpulse",
+                "hitLevel": "Heavy",
+                "hitImpulseX": 4500,
+                "hitImpulseY": 0
+              },
+              "muteHitText": true,
+              "hitImpulseType": "LV4"
+            },
+            "attenuationGroup": "default",
+            "attackTag": "Animal_Capra_02_TrampleAtk",
+            "canBeModifiedBy": "OriginOwner"
+          },
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0.75
+            },
+            "linearMin": 0,
+            "linearOffset": -0.25,
+            "linearMax": 50
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Angry"
+          ],
+          "modifierName": "Capra_02_AttachAngryEff"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_TrampleAtk_Triple"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "WalkSpeedManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToPoseIDMixin",
+              "poseIDs": [
+                1
+              ],
+              "modifierName": "WalkSpeedManager_Free"
+            },
+            {
+              "$type": "AttachToPoseIDMixin",
+              "poseIDs": [
+                101
+              ],
+              "modifierName": "WalkSpeedManager_Normal"
+            },
+            {
+              "$type": "AttachToPoseIDMixin",
+              "poseIDs": [
+                102
+              ],
+              "modifierName": "WalkSpeedManager_Angry"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "WalkSpeedManager_Free": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": 0
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WalkSpeedManager_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": 0.15
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WalkSpeedManager_Angry": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": 0.15
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RunSpeedManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToPoseIDMixin",
+              "poseIDs": [
+                101
+              ],
+              "modifierName": "RunSpeedManager_Normal"
+            },
+            {
+              "$type": "AttachToPoseIDMixin",
+              "poseIDs": [
+                102
+              ],
+              "modifierName": "RunSpeedManager_Angry"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RunSpeedManager_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": -0.05
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RunSpeedManager_Angry": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": 0
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Walk"
+          ],
+          "modifierName": "WalkSpeedManager"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Run"
+          ],
+          "modifierName": "RunSpeedManager"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_AnimationSpeedManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StartNormalRushMove": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RushAtk_NormalDistance"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StartFreeRushMove": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RushAtk_FreeDistance"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RushAtk_NormalDistance": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 19.200000762939453,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "RushAtk_Loop"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 30,
+                  "y": 0
+                }
+              },
+              "timeRange": 1.2
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "ReachTarget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RushAtk_FreeDistance": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 16.0,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "FreeRushAtk_Loop"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 30,
+                  "y": 0
+                }
+              },
+              "timeRange": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "ReachTarget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RushAtk_Prepare_Ready"
+          ],
+          "modifierName": "StartNormalRushMove"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FreeRushAtk_Prepare_Ready"
+          ],
+          "modifierName": "StartFreeRushMove"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_NormalRush"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StartSuperRushMove": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RushAtk_Super"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RushAtk_Super": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 28.799999237060547,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "SuperRushAtk_First_Loop",
+                "SuperRushAtk_Loop",
+                "SuperRushAtk_Last_Loop"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 30,
+                  "y": 0
+                }
+              },
+              "timeRange": 1.2
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "ReachTargetForSafety"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "SuperRushAtk_Prepare_Ready"
+          ],
+          "modifierName": "StartSuperRushMove"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_NotInitialRound",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_InitialRound",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_5SecondsPassedTimes_Initial",
+              "maxValue": 7,
+              "minValue": 0,
+              "value": -7
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_5SecondsPassedTimes",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": -6
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_CurrentRushTimes",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": -6
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_RushHitPenguinTimes",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": -2
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_IsHitHeavySuperRush",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_HitByRotateAtkTimes",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_PenguinResetHitByRushGV",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "stateIDs": [
+            "SuperRushAtk_First_Prepare_BS"
+          ]
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_CurrentRushTimes",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stateIDs": [
+            "SuperRushAtk_First_AS",
+            "SuperRushAtk_AS",
+            "SuperRushAtk_Last_AS"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_PenguinResetHitByRushGV",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stateIDs": [
+            "SuperRushAtkTurn_LRFront_End",
+            "SuperRushAtkTurn_LR_End",
+            "SuperRushAtkTurn_LRBack_End"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_SuperRush"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FreeRushLoopEffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802305
+              }
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "EndureEndTrigger",
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk"
+            },
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802303
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk_PrepareRushAtk_Burst",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "bulletID": 42802303,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "bulletID": 42802305,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RushLoopEffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802301
+              }
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "EndureEndTrigger",
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk"
+            },
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802303
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk_PrepareRushAtk_Burst",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "bulletID": 42802303,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "bulletID": 42802301,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SuperRushLoopEffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802306
+              }
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "EndureEndTrigger",
+              "effectPattern": "Eff_Animal_Capra_02_SuperRushAtk"
+            },
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802303
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk_PrepareRushAtk_Burst",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "bulletID": 42802303,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Capra_02_SuperRushAtk",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "bulletID": 42802306,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_AttachRushBullet": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802302
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "bulletID": 42802302,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "FreeRushLoopEffManager",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreeRushAtk_Prepare_Ready",
+              "normalizeStart": 0.8180000185966492
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreeRushAtk_Loop",
+              "normalizeEnd": 99.0
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "RushLoopEffManager",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "RushAtk_Prepare_Ready",
+              "normalizeStart": 0.8180000185966492
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "RushAtk_Loop",
+              "normalizeEnd": 99.0
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "SuperRushLoopEffManager",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "SuperRushAtk_First_Prepare_Ready",
+              "normalizeStart": 0.8180000185966492
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "SuperRushAtk_Prepare_Ready",
+              "normalizeStart": 0.8180000185966492
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "SuperRushAtk_Last_Prepare_Ready",
+              "normalizeStart": 0.8180000185966492
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "SuperRushAtk_First_Loop",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "SuperRushAtk_Loop",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "SuperRushAtk_Last_Loop",
+              "normalizeEnd": 99.0
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FreeRushAtk_Loop",
+            "RushAtk_Loop",
+            "SuperRushAtk_Loop"
+          ],
+          "modifierName": "Capra_02_AttachRushBullet"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_AttachBulletToRushAtk"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Capra_02_HPLow": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ANIMAL_Capra_02_5SecondsPassedTimes_Initial",
+                  "maxValue": 7,
+                  "minValue": 0,
+                  "value": 7
+                },
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "_ANIMAL_Capra_02_EnterSuperByHPLow",
+                  "maxValue": 1,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_ANIMAL_Capra_02_NotInitialRound"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_ANIMAL_Capra_02_EnterSuperByHPLow"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_PrepareEnterSuperRush_Initial": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CapraSuperRushState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_PrepareEnterSuperRush": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CapraSuperRushState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RushHitPenguinTwice": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "CanExtraRush"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "CanExtraRush"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RushFourTimes": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "BasicRushOver"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "BasicRushOver"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "IsSuperRush": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "CapraSuperRushState"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "HitHeavyRush"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CapraSuperRushState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_PrepareAngry": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "AngryState"
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                666
+              ]
+            },
+            {
+              "$type": "RefreshUICombatBarLayout"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_AngryState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAISkillGCD",
+              "canBeHandledOnRecover": true,
+              "value": 1.0
+            }
+          ],
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": -0.5,
+            "Actor_FireSubHurtDelta": -0.5,
+            "Actor_ElecSubHurtDelta": -0.5,
+            "Actor_WaterSubHurtDelta": -0.5,
+            "Actor_GrassSubHurtDelta": -0.5,
+            "Actor_WindSubHurtDelta": -0.5,
+            "Actor_IceSubHurtDelta": -0.5,
+            "Actor_RockSubHurtDelta": -0.5,
+            "Actor_AttackRatio": 2
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "AIHNJLDFEGJ": 0
+        },
+        "PenguinInDefendState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_PenguinInDefendState",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "PenguinNotInDefendState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_PenguinInDefendState",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CapraGroup_HitDefendEnough_SLC": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_LocalLegendTag_"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_CapraGroup_Watcher2",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "RushHitPenguinTwice"
+          ],
+          "valueSteps": [
+            -0.5,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_RushHitPenguinTimes",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "RushFourTimes"
+          ],
+          "valueSteps": [
+            -0.5,
+            4.5,
+            6.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_CurrentRushTimes",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "IsSuperRush"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_SuperRushState",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Capra_02_PrepareAngry"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_PenguinDie",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Capra_02_AngryState"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_Angry",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Capra_02_PrepareEnterSuperRush_Initial"
+          ],
+          "valueSteps": [
+            -0.5,
+            6.5,
+            7.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_5SecondsPassedTimes_Initial",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "Capra_02_PrepareEnterSuperRush"
+          ],
+          "valueSteps": [
+            -0.5,
+            5.5,
+            6.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_5SecondsPassedTimes",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "CapraGroup_HitDefendEnough_SLC"
+          ],
+          "valueSteps": [
+            -0.5,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_RushHitDefendTimes",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToHPPercentMixinV2",
+          "valueSteps": [
+            0.6
+          ],
+          "modifierNameSteps": [
+            "Blank",
+            "Capra_02_HPLow"
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "PenguinNotInDefendState",
+            "PenguinInDefendState"
+          ],
+          "globalValueKey": "_ANIMAL_Penguin_03_DefendState",
+          "targetRegisterType": "RegisterAlways",
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "tag": "Is_Penguin_03"
+          },
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "ENKHDBLLJMJ": true
+        }
+      ],
+      "abilityName": "Animal_Capra_02_GVActionManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Capra_02_TrackBulletManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillGadgetV2",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "sortType": "Reversed",
+                "configID": 42802307
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "SteerTeamPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42802307,
+              "FGNHCAEHEJK": true,
+              "trackTarget": "Self"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_RushTargetManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAiCommandThreatTarget",
+              "target": "SelfAttackActiveTarget"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAiCommandThreatTarget",
+              "target": "SelfAttackActiveTarget",
+              "enable": true
+            },
+            {
+              "$type": "SetPartControlTarget",
+              "target": "SelfAttackActiveTarget",
+              "partRootNames": [
+                "SteerTeamPoint"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RushAtk_Prepare_Loop",
+            "SuperRushAtk_Prepare_Loop",
+            "RushAtk_Prepare_Ready",
+            "SuperRushAtk_Prepare_Ready",
+            "RushAtk_Loop",
+            "SuperRushAtk_Loop"
+          ],
+          "modifierName": "Capra_02_TrackBulletManager"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "RushAtk_Prepare_BS",
+            "SuperRushAtk_Prepare_BS",
+            "RushAtk_Prepare_Loop",
+            "SuperRushAtk_Prepare_Loop",
+            "RushAtk_Prepare_Ready",
+            "SuperRushAtk_Prepare_Ready",
+            "RushAtk_Loop",
+            "SuperRushAtk_Loop"
+          ],
+          "modifierName": "Capra_02_RushTargetManager"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Animal_Capra_02_RushAtkDust_AS",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "stateIDs": [
+            "FreeRushAtk_AS",
+            "RushAtk_AS",
+            "SuperRushAtk_First_AS",
+            "SuperRushAtk_AS",
+            "SuperRushAtk_Last_AS"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_RushAtkEffectManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NormalResistFreeze": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 14002,
+              "durationRatio": 0.8999999761581421
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Unstoppable": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceBuffDebuffs": [
+                "ElementPetrifaction",
+                "ElementFreeze"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_ResistanceGVManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_IsRushing",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_IsRushing",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_SuperRushStateGVManager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "PILGMDBIPOL": false,
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_SuperRushState",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_RushHitPenguinTimes",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": -2
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_SuperRushState",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "NormalResistFreeze",
+            "Unstoppable"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ANIMAL_Capra_02_IsRushing",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FreeRushAtk_Prepare_BS",
+            "RushAtk_Prepare_BS",
+            "SuperRushAtk_Prepare_BS",
+            "FreeRushAtk_Prepare_Loop",
+            "RushAtk_Prepare_Loop",
+            "SuperRushAtk_Prepare_Loop",
+            "FreeRushAtk_Prepare_Ready",
+            "RushAtk_Prepare_Ready",
+            "SuperRushAtk_Prepare_Ready",
+            "FreeRushAtk_Loop",
+            "RushAtk_Loop",
+            "SuperRushAtk_Loop",
+            "FreeRushAtk_AS",
+            "RushAtk_AS",
+            "SuperRushAtk_AS",
+            "NormalRushAtkTurn_LRFront",
+            "NormalRushAtkTurn_LR",
+            "NormalRushAtkTurn_LRBack",
+            "SuperRushAtkTurn_LRFront",
+            "SuperRushAtkTurn_LR",
+            "SuperRushAtkTurn_LRBack",
+            "SuperRushAtkTurn_LRFront_End",
+            "SuperRushAtkTurn_LR_End",
+            "SuperRushAtkTurn_LRBack_End"
+          ],
+          "modifierName": "Capra_02_ResistanceGVManager"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "SuperRushAtk_Prepare_BS",
+            "SuperRushAtk_Prepare_Loop",
+            "SuperRushAtk_Prepare_Ready",
+            "SuperRushAtk_Loop",
+            "SuperRushAtk_AS",
+            "SuperRushAtkTurn_LRFront",
+            "SuperRushAtkTurn_LR",
+            "SuperRushAtkTurn_LRBack",
+            "SuperRushAtkTurn_LRFront_End",
+            "SuperRushAtkTurn_LR_End",
+            "SuperRushAtkTurn_LRBack_End"
+          ],
+          "modifierName": "Capra_02_SuperRushStateGVManager"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_ResistanceManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Capra_02_WeakState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "WeakState"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_CapraSuperRushStateTimer"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_5SecondsPassedTimes",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": -6
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_CapraSuperRushStateTimer"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "GetFightProperty",
+              "globalValueKey": "_ANIMAL_Capra_02_MaxHP",
+              "fightProp": "FIGHT_PROP_MAX_HP"
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ANIMAL_Capra_02_MaxHP",
+              "overrideMapKey": "_ANIMAL_Capra_02_MaxHP"
+            },
+            {
+              "$type": "GetFightProperty",
+              "globalValueKey": "_ANIMAL_Capra_02_CurHP",
+              "fightProp": "FIGHT_PROP_CUR_HP"
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ANIMAL_Capra_02_CurHP",
+              "overrideMapKey": "_ANIMAL_Capra_02_CurHP"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ANIMAL_Capra_02_WillDieForCrash",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": [
+                "_ANIMAL_Capra_02_MaxHP",
+                0.2,
+                "MUL",
+                "_ANIMAL_Capra_02_CurHP",
+                "SUB"
+              ]
+            },
+            {
+              "$type": "ServerLuaCall",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ANIMAL_Capra_02_WillDieForCrash"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_LocalLegendTag_"
+                }
+              ],
+              "param1": 1,
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_CapraGroup_Watcher3_1",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Capra_02_CancleWatcher3"
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "damagePercentageRatio": 0,
+                  "ignoreModifyDamage": true,
+                  "ignoreAttackerProperty": true,
+                  "strikeType": "Blunt",
+                  "enBreak": 0.0,
+                  "trueDamage": true,
+                  "damageExtra": [
+                    "_ANIMAL_Capra_02_MaxHP",
+                    0.2,
+                    "MUL"
+                  ],
+                  "elementDurability": 0,
+                  "OEGPBCHMCOE": 0,
+                  "ELIEOGNBGKG": 1,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "none",
+                  "hitImpulseType": "LV1"
+                },
+                "attenuationGroup": "default",
+                "attackTag": "Animal_Capra_02_WeakByRushDamage"
+              }
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "WeakState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_CancleWatcher3": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ServerLuaCall",
+              "PILGMDBIPOL": false,
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_LocalLegendTag_"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_CapraGroup_Watcher3_1",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CapraSuperRushStateTimer_Initial": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_5SecondsPassedTimes_Initial",
+              "maxValue": 7,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CapraSuperRushStateTimer": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_5SecondsPassedTimes",
+              "maxValue": 6,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Capra_02_WeakState": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": -0.5,
+            "Actor_FireSubHurtDelta": -0.5,
+            "Actor_ElecSubHurtDelta": -0.5,
+            "Actor_WaterSubHurtDelta": -0.5,
+            "Actor_GrassSubHurtDelta": -0.5,
+            "Actor_WindSubHurtDelta": -0.5,
+            "Actor_IceSubHurtDelta": -0.5,
+            "Actor_RockSubHurtDelta": -0.5
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Capra_02_WeakEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1.25,
+              "effectPattern": "Eff_Monster_Mimik_Ice_Down_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_CapraSuperRushStateTimer_Initial"
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_CapraSuperRushStateTimer"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "key": "_ANIMAL_Capra_02_NotInitialRound"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Weak",
+            "Weak_Loop"
+          ],
+          "modifierName": "Capra_02_WeakState"
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "UNIQUE_Capra_02_WeakState",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Weak_BS"
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Weak_Loop",
+              "normalizeEnd": 99.0
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Capra_02_WeakEff",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Weak_BS",
+              "normalizeStart": 0.6880000233650208
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Weak_Loop",
+              "normalizeEnd": 99.0
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "RemoveUniqueModifier",
+                      "modifierName": "UNIQUE_CapraSuperRushStateTimer_Initial"
+                    },
+                    {
+                      "$type": "SetGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_ANIMAL_Capra_02_5SecondsPassedTimes_Initial",
+                      "minValue": 0,
+                      "maxValue": 7,
+                      "value": 5
+                    },
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "CapraSuperRushState"
+                    },
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_CapraSuperRushStateTimer_Initial"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 5,
+                      "compareType": "MoreThanAndEqual",
+                      "key": "_ANIMAL_Capra_02_5SecondsPassedTimes_Initial"
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "RemoveUniqueModifier",
+                      "modifierName": "UNIQUE_CapraSuperRushStateTimer"
+                    },
+                    {
+                      "$type": "SetGlobalValue",
+                      "useLimitRange": true,
+                      "key": "_ANIMAL_Capra_02_5SecondsPassedTimes",
+                      "minValue": 0,
+                      "maxValue": 6,
+                      "value": 4
+                    },
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "CapraSuperRushState"
+                    },
+                    {
+                      "$type": "ApplyModifier",
+                      "modifierName": "UNIQUE_CapraSuperRushStateTimer"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 4,
+                      "compareType": "MoreThanAndEqual",
+                      "key": "_ANIMAL_Capra_02_5SecondsPassedTimes"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_ANIMAL_Capra_02_NotInitialRound"
+                }
+              ]
+            }
+          ],
+          "stateIDs": [
+            "TrampleAtk"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_Weak",
+      "abilitySpecials": {
+        "_ANIMAL_Capra_02_CurHP": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "_ANIMAL_Capra_02_MaxHP": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 10000.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Air",
+                      "hitImpulseX": 0,
+                      "hitImpulseY": 1150
+                    },
+                    "hitImpulseType": "LV7"
+                  },
+                  "attenuationGroup": "Animal_Boar_03_RushAttack",
+                  "attenuationTag": "Animal_Boar_03_RushAttack",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Blunt",
+                      "bonusCriticalHurt": 0,
+                      "enBreak": 20000.0,
+                      "damagePercentage": 1,
+                      "elementDurability": 0,
+                      "bonusCritical": 1,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "overrideHitImpulse": {
+                        "$type": "ConfigHitImpulse",
+                        "hitLevel": "Air",
+                        "hitImpulseX": 0,
+                        "hitImpulseY": 2300
+                      },
+                      "hitImpulseType": "LV7"
+                    },
+                    "attenuationGroup": "default",
+                    "attackTag": "Animal_Capra_02_RushAtk",
+                    "canBeModifiedBy": "OriginOwner"
+                  },
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Partner",
+                "Gadget",
+                "Vehicle"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_RushAtkBulletDamage"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 10000.0,
+                    "damagePercentage": 0.75,
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Air",
+                      "hitImpulseX": 0,
+                      "hitImpulseY": 1000
+                    },
+                    "hitImpulseType": "LV7"
+                  },
+                  "attenuationGroup": "Animal_Boar_03_RushAttack",
+                  "attenuationTag": "Animal_Boar_03_RushAttack",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Blunt",
+                      "enBreak": 20000.0,
+                      "damagePercentage": 0,
+                      "elementDurability": 0,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "overrideHitImpulse": {
+                        "$type": "ConfigHitImpulse",
+                        "hitLevel": "Air",
+                        "hitImpulseX": 0,
+                        "hitImpulseY": 2000
+                      },
+                      "hitImpulseType": "LV7"
+                    },
+                    "attenuationGroup": "default",
+                    "attackTag": "Animal_Capra_02_FreeRushAtk",
+                    "canBeModifiedBy": "OriginOwner"
+                  },
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Partner",
+                "Gadget",
+                "Vehicle"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_FreeRushAtkBulletDamage"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DefendBroken": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "BrokenTrigger",
+              "effectPattern": "Eff_Animal_Penguin_03_Defend"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "PenguinWeakTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OwnerStartWeak": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_RushHitDefendTimes",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "WeakTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AddRushHitTimes": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_RushHitPenguinTimes",
+              "maxValue": 2,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 10000.0,
+                    "damagePercentage": 3,
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Air",
+                      "hitImpulseX": 0,
+                      "hitImpulseY": 1150
+                    },
+                    "hitImpulseType": "LV7"
+                  },
+                  "attenuationGroup": "Animal_Boar_03_RushAttack",
+                  "attenuationTag": "Animal_Boar_03_RushAttack",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "target": "Target",
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "target": "Target",
+                      "modifierName": "DefendBroken"
+                    },
+                    {
+                      "$type": "ApplyModifier",
+                      "target": "Owner",
+                      "modifierName": "OwnerStartWeak"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "DamageByAttackValue",
+                      "target": "Target",
+                      "attackInfo": {
+                        "$type": "ConfigAttackInfo",
+                        "attackProperty": {
+                          "$type": "ConfigAttackProperty",
+                          "damagePercentageRatio": 0,
+                          "strikeType": "Blunt",
+                          "bonusCriticalHurt": 0,
+                          "enBreak": 20000.0,
+                          "damagePercentage": 3,
+                          "elementDurability": 0,
+                          "bonusCritical": 1,
+                          "arkheGrade": 0
+                        },
+                        "hitPattern": {
+                          "$type": "ConfigHitPattern",
+                          "onHitEffectName": "default",
+                          "overrideHitImpulse": {
+                            "$type": "ConfigHitImpulse",
+                            "hitLevel": "Air",
+                            "hitImpulseX": 0,
+                            "hitImpulseY": 2300
+                          },
+                          "hitImpulseType": "LV7"
+                        },
+                        "attenuationGroup": "default",
+                        "attackTag": "Animal_Capra_02_RushAtk",
+                        "canBeModifiedBy": "OriginOwner"
+                      },
+                      "born": {
+                        "$type": "EEIECHOPFGM",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "x": 0,
+                          "z": 0,
+                          "y": 0
+                        }
+                      }
+                    },
+                    {
+                      "$type": "ApplyModifier",
+                      "target": "Owner",
+                      "modifierName": "AddRushHitTimes"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Owner",
+                      "value": 1,
+                      "key": "_ANIMAL_Capra_02_PenguinInDefendState"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Is_Penguin_03"
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Partner",
+                "Gadget",
+                "Vehicle"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_SuperRushAtkBulletDamage"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "Owner",
+              "triggerID": "ReachTargetForSafety"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Level"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_RushAtkBulletHitScene"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Kill_Summon_Gadget": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70000000
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "MoreThan",
+              "key": "_COMMON_GADGET_ISSUMMON"
+            }
+          ],
+          "modifierName": "Kill_Summon_Gadget"
+        }
+      ],
+      "abilityName": "Animal_Capra_02_RushAtkBulletKillSummon"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AttachEff_Capra_02_RushAtk_Warning01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk_Warning01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "PenguinInPath",
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk_Warning01",
+              "type": "Bool"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Capra_02_FollowPartControlGadget",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "PenguinInPath",
+              "value": 1,
+              "effectPattern": "Eff_Animal_Capra_02_RushAtk_Warning01",
+              "type": "Bool"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Is_Penguin_03"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AttachEff_Capra_02_RushAtk_Warning01"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Capra_02_HandleResetFreeRushCDTimes": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ANIMAL_Capra_02_ResetFreeRushCDTimes",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Animal_Capra_02_FreeRushAtk_ReleaseConditionCheck",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "target": "Owner",
+              "skillIDs": [
+                141
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Owner",
+              "modifierName": "Capra_02_HandleResetFreeRushCDTimes"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Vehicle"
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Owner",
+              "value": 0,
+              "key": "_ANIMAL_Capra_02_ResetFreeRushCDTimes"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BattleState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "GroupExitBattle_SLC"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "RefreshUICombatBarLayout"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "GroupExitBattle_SLC": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_CapraGroup_ResetBattle",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 2.299999952316284
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2
+          ],
+          "modifierName": "BattleState"
+        }
+      ],
+      "abilityName": "Animal_CapraGroup_SLCManager",
+      "isDynamicAbility": true
+    }
+  }
+]

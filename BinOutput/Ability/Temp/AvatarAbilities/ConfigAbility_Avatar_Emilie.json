@@ -1,0 +1,5725 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExtraAttack_StaminaCost": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarSkillStart",
+              "skillID": 10002,
+              "cdRatio": 1,
+              "costStaminaRatio": "ExtraAttack_Pole_Stamina_Cost",
+              "GIBAINFKPBO": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ButtonHoldChargeMixin",
+          "skillID": 10991,
+          "OnReleaseCharged": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ],
+          "OnBeginUncharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "predicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByAnimatorInt",
+                      "logic": "Equal",
+                      "value": 0,
+                      "parameter": "ComboCount"
+                    },
+                    {
+                      "$type": "ByAnimatorInt",
+                      "logic": "Equal",
+                      "value": 4,
+                      "parameter": "ComboCount"
+                    }
+                  ]
+                }
+              ],
+              "intID": "SkillID",
+              "value": 99
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            }
+          ],
+          "secondChargeTime": 0.2,
+          "chargeTime": 0.11999999731779099,
+          "OnBeginCharged": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "IsCharging"
+            }
+          ],
+          "OnBeginSecondCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByLocalAvatarStamina",
+                  "logic": "GreaterOrEqual",
+                  "stamina": [
+                    "ExtraAttack_Pole_Stamina_Cost",
+                    "Flexible_Stamina",
+                    "ADD"
+                  ]
+                }
+              ],
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "predicates": [
+                {
+                  "$type": "ByLocalAvatarStamina",
+                  "logic": "GreaterOrEqual",
+                  "stamina": [
+                    "ExtraAttack_Pole_Stamina_Cost",
+                    "Flexible_Stamina",
+                    "ADD"
+                  ]
+                }
+              ],
+              "intID": "SkillID",
+              "value": 6
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            }
+          ],
+          "chargeStateIDs": [
+            "Attack01",
+            "Attack02",
+            "Attack03",
+            "Run"
+          ],
+          "OnReleaseUncharged": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ExtraAttack"
+          ],
+          "modifierName": "ExtraAttack_StaminaCost"
+        }
+      ],
+      "abilityName": "Avatar_Emilie_ExtraAttack",
+      "abilitySpecials": {
+        "ExtraAttack_Pole_Stamina_Cost": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Flexible_Stamina": {
+          "$type": "GNPGOLDCAGO",
+          "value": -2.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Emilie_GenerateElemBall": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "Ball"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Elemental_Art"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "FPMIODIOOMN",
+                  "logic": "Equal"
+                },
+                {
+                  "$type": "ByHitEnBreak",
+                  "logic": "Lesser",
+                  "enBreak": 50
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Ball": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "CD",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "GenerateElemBall",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "otherTargets": {
+                    "$type": "SelectTargetsByChildren",
+                    "topLimit": 1,
+                    "configID": 41099031
+                  },
+                  "ratio": 1,
+                  "JIBBGCFIDIM": {
+                    "$type": "ConfigBornByTarget"
+                  },
+                  "configID": 2019,
+                  "baseEnergy": 3.0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "GenerateElemBall",
+                  "target": "CurLocalAvatar",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "ratio": 1,
+                  "JIBBGCFIDIM": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 1,
+                      "y": 0
+                    }
+                  },
+                  "configID": 2019,
+                  "baseEnergy": 3.0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasChildGadget",
+                  "checkEntityAlive": true,
+                  "configIdArray": [
+                    41099031
+                  ],
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual"
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "timeScale": "Level",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Emilie_DropBall",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Emilie_GenerateElemBall"
+        }
+      ],
+      "abilitySpecials": {
+        "CD": {
+          "$type": "GNPGOLDCAGO",
+          "value": 2.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Emilie_ArkheGrade_CD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Arkhe_CD",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Emilie_ArkheGrade_CD",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_ArkheGrade_Attack_CD",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Emilie_ArkheGrade_CD",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_ArkheGrade_Attack_CD",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "successActions": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "positionKey": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+              },
+              "gadgetID": 41099011,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Emilie_ArkheGrade_CD"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_Emilie_ArkheGrade_CD"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Emilie_ArkheGrade",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Emilie_ArkheGrade_CD",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "Arkhe_CD": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LifeTime": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.66,
+          "onRemoved": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 20.0,
+                    "damagePercentage": "Arkhe_Damage",
+                    "elementDurability": 0,
+                    "arkheGrade": 1
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "Elemental_Art",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    },
+                    "positionKey": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+                  },
+                  "radius": 4.5,
+                  "height": 3.0
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_Ousia",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SkillObj_Emilie_ElementalArt_Ousia_Gadget",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "LifeTime"
+        }
+      ],
+      "abilitySpecials": {
+        "Arkhe_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElementalArt_Action": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetCollisionPointToGlobalPos",
+              "LANEADNAMOA": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "y": 0.9
+                }
+              },
+              "raycastLength": 2.5999999046325684,
+              "key": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+            },
+            {
+              "$type": "SetGlobalPos",
+              "key": "_ABILITY_Emilie_ElementalArt_GadgetPos",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "positionKey": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+              }
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "useRotation": true,
+                "positionKey": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_AttackPre",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 41099031
+              },
+              "predicates": [
+                {
+                  "$type": "ByHasChildGadget",
+                  "configIdArray": [
+                    41099031
+                  ],
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual"
+                }
+              ],
+              "abilityName": "SkillObj_Emilie_ArtGadget_Collect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Delay_Create": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "duration": 0.15,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Attack",
+              "scale": 1,
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "positionKey": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "KillGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByHasChildGadget",
+                  "configIdArray": [
+                    41099031
+                  ],
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual"
+                }
+              ],
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 41099031
+              }
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ABILITY_Emilie_CanCreateGadget"
+                }
+              ],
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "positionKey": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 41099031,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "TriggerAbility",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "abilityName": "Avatar_Emilie_ArkheGrade"
+            },
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Delay_Create"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Delay_Attack": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.4,
+          "duration": 0.6,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 100.0,
+                    "damagePercentage": "Art_Damage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "Elemental_Art",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "onGround": true,
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    },
+                    "positionKey": "_ABILITY_Emilie_ElementalArt_GadgetPos"
+                  },
+                  "radius": 4.5,
+                  "height": 3.0
+                }
+              }
+            },
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Delay_Attack"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10992,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Delay_Create"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Delay_Create"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Delay_Attack"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Delay_Attack"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "ElementalArt_Action",
+          "stateID": "ElementalArt",
+          "normalizeStart": 0.0010000000474974513
+        }
+      ],
+      "abilityName": "Avatar_Emilie_ElementalArt",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Emilie_CanCreateGadget",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilitySpecials": {
+        "Art_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Emilie_PermanentSkill_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "OriginOwner",
+              "key": "_Test_PermanetAttack_Time",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "Extra_Fx_0",
+                "Extra_Fx_2",
+                "Extra_Fx_4"
+              ],
+              "globalValueKey": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+              "valueSteps": [
+                0,
+                [
+                  "Level1",
+                  0.5,
+                  "ADD"
+                ],
+                [
+                  "Level1",
+                  2.5,
+                  "ADD"
+                ],
+                [
+                  "Level1",
+                  100,
+                  "ADD"
+                ]
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LifeTime": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Dura",
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                41099031
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Lamp_Fx_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Flower",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Lamp_Fx_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Flower",
+              "value": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Lamp_Fx_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Flower",
+              "value": 2,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Lamp_Fx_3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Flower",
+              "value": 3,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Lamp_Fx_4": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Flower",
+              "value": 4,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Extra_Fx_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Ring",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Extra_Fx_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Ring",
+              "value": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Emilie_LV2_LV1_Timer"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Extra_Fx_4": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Ring",
+              "value": 2,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Emilie_LV2_LV1_Timer"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DropLaser_Eff"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Gadget_Attack_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ClearLockTarget",
+              "HPLFKKCIAKE": false
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "topLimit": 1,
+                    "entityTypePriority": [
+                      "Monster",
+                      "Gadget",
+                      "Gear"
+                    ],
+                    "sortType": "Nearest",
+                    "sizeRatio": 1,
+                    "campTargetType": "Enemy",
+                    "shapeName": "CircleR12_5H14"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Gadget",
+                        "Gear",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ANIMAL_ENTITY_TYPE"
+                    }
+                  ],
+                  "turnToTargetImmediately": true
+                },
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "otherTargets": {
+                    "$type": "MLGOPFEPNML",
+                    "FJDIDOIAKBF": "CurLocalAvatar",
+                    "LPAMECLOCLF": "SelfAttackActiveTarget"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Gadget",
+                        "Gear",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ANIMAL_ENTITY_TYPE"
+                    },
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "value": 12.5
+                    },
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "compareType": "Y",
+                      "value": 7
+                    }
+                  ],
+                  "turnToTargetImmediately": true
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "topLimit": 1,
+                    "entityTypePriority": [
+                      "Monster",
+                      "Gadget",
+                      "Gear"
+                    ],
+                    "sortType": "Nearest",
+                    "sizeRatio": 1,
+                    "campTargetType": "Enemy",
+                    "shapeName": "CircleR16_5HC14"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Gadget",
+                        "Gear",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ANIMAL_ENTITY_TYPE"
+                    }
+                  ],
+                  "turnToTargetImmediately": true
+                },
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "otherTargets": {
+                    "$type": "MLGOPFEPNML",
+                    "FJDIDOIAKBF": "CurLocalAvatar",
+                    "LPAMECLOCLF": "SelfAttackActiveTarget"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Gadget",
+                        "Gear",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ANIMAL_ENTITY_TYPE"
+                    },
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "value": 16.5
+                    },
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "compareType": "Y",
+                      "value": 7
+                    }
+                  ],
+                  "turnToTargetImmediately": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": [
+                    "Level1",
+                    1,
+                    "SUB"
+                  ],
+                  "compareType": "LessAndEqual",
+                  "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache"
+                }
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ShootEff",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "y": 1.4
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "predicates": [
+                        {
+                          "$type": "ByHasAttackTarget"
+                        }
+                      ],
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "z": 0.6,
+                          "y": 1.8
+                        },
+                        "direction": {
+                          "$type": "ConfigDirectionByAttackTarget",
+                          "scatter": {
+                            "$type": "DirectionTarDistanceScatter",
+                            "maxDistance": 10.0,
+                            "maxScatterAngle": -95.0,
+                            "randomRote": 5.0,
+                            "centerRote": -15.0
+                          }
+                        }
+                      },
+                      "bulletID": 41099033,
+                      "propOwnerIs": "OriginOwner",
+                      "ownerIs": "OriginOwner"
+                    }
+                  ],
+                  "chance": 0.5,
+                  "successActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "predicates": [
+                        {
+                          "$type": "ByHasAttackTarget"
+                        }
+                      ],
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "z": 0.6,
+                          "y": 1.8
+                        },
+                        "direction": {
+                          "$type": "ConfigDirectionByAttackTarget",
+                          "scatter": {
+                            "$type": "DirectionTarDistanceScatter",
+                            "maxDistance": 10.0,
+                            "maxScatterAngle": -95.0,
+                            "randomRote": 5.0,
+                            "centerRote": 15.0
+                          }
+                        }
+                      },
+                      "bulletID": 41099033,
+                      "propOwnerIs": "OriginOwner",
+                      "ownerIs": "OriginOwner"
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "predicates": [
+                        {
+                          "$type": "ByHasAttackTarget"
+                        }
+                      ],
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "z": 0.6,
+                          "y": 1.8
+                        },
+                        "direction": {
+                          "$type": "ConfigDirectionByAttackTarget",
+                          "scatter": {
+                            "$type": "DirectionTarDistanceScatter",
+                            "maxDistance": 10.0,
+                            "maxScatterAngle": -95.0,
+                            "randomRote": 5.0,
+                            "centerRote": -15.0
+                          }
+                        }
+                      },
+                      "bulletID": 41099034,
+                      "propOwnerIs": "OriginOwner",
+                      "ownerIs": "OriginOwner"
+                    }
+                  ],
+                  "chance": 0.5,
+                  "successActions": [
+                    {
+                      "$type": "TriggerBullet",
+                      "predicates": [
+                        {
+                          "$type": "ByHasAttackTarget"
+                        }
+                      ],
+                      "born": {
+                        "$type": "ConfigBornBySelf",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "z": 0.6,
+                          "y": 1.8
+                        },
+                        "direction": {
+                          "$type": "ConfigDirectionByAttackTarget",
+                          "scatter": {
+                            "$type": "DirectionTarDistanceScatter",
+                            "maxDistance": 10.0,
+                            "maxScatterAngle": -95.0,
+                            "randomRote": 5.0,
+                            "centerRote": 15.0
+                          }
+                        }
+                      },
+                      "bulletID": 41099034,
+                      "propOwnerIs": "OriginOwner",
+                      "ownerIs": "OriginOwner"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Delay_Shoot"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": [
+                    "Level1",
+                    1,
+                    "SUB"
+                  ],
+                  "compareType": "LessAndEqual",
+                  "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Change_Fx_Origin": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Level",
+              "value": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Change_Fx_Fire": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Level",
+              "value": 2,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Emilie_LV2_LV1_Timer"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Delay_Shoot": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Monster",
+                  "Gadget",
+                  "Gear"
+                ],
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR16_5HC14"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget",
+                    "Gear",
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ],
+              "turnToTargetImmediately": true
+            },
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "MLGOPFEPNML",
+                "FJDIDOIAKBF": "CurLocalAvatar",
+                "LPAMECLOCLF": "SelfAttackActiveTarget"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget",
+                    "Gear",
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 16.5
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "compareType": "Y",
+                  "value": 7
+                }
+              ],
+              "turnToTargetImmediately": true
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ShootEff",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "y": 1.4
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "PILGMDBIPOL": false,
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "z": 0.6,
+                  "y": 1.8
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "scatter": {
+                    "$type": "DirectionTarDistanceScatter",
+                    "maxDistance": 10.0,
+                    "maxScatterAngle": -95.0,
+                    "randomRote": 5.0
+                  }
+                }
+              },
+              "bulletID": 41099034,
+              "propOwnerIs": "OriginOwner",
+              "ownerIs": "OriginOwner"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DropLaser_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.6,
+          "duration": 0.6,
+          "onRemoved": [
+            {
+              "$type": "TriggerAttackEvent",
+              "target": "OriginOwner",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "damagePercentage": "Damage4",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "Emilie_PermanentSkill_1",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "massiveAttackRatio": 0.6000000238418579,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    },
+                    "KBOBCHGAMFB": "Caster",
+                    "positionKey": "_ABILITY_Emilie_CountAttack_Pos"
+                  },
+                  "radius": 3,
+                  "height": 4.5
+                }
+              }
+            },
+            {
+              "$type": "AddGlobalValue",
+              "target": "OriginOwner",
+              "key": "_Test_PermanetAttack_Time",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "ChargeAttack",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": "Level1"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DropLaser_EffPos"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "DropLaser_Eff"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DropLaser_EffPos": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.4,
+          "duration": 0.4,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalPos",
+              "LINAHBPILJD": false,
+              "key": "_ABILITY_Emilie_CountAttack_Pos",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 1.5,
+                  "maxRandomRange": 4
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Monster",
+                  "Gadget",
+                  "Gear"
+                ],
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR16_5HC14"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Gadget",
+                    "Gear"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "Target",
+                  "LINAHBPILJD": false,
+                  "key": "_ABILITY_Emilie_CountAttack_Pos",
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "onGround": true
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalPos",
+              "otherTargets": {
+                "$type": "MLGOPFEPNML",
+                "FJDIDOIAKBF": "CurLocalAvatar",
+                "LPAMECLOCLF": "SelfAttackActiveTarget"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Gadget",
+                    "Gear",
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 16.5
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "compareType": "Y",
+                  "value": 7
+                }
+              ],
+              "LINAHBPILJD": false,
+              "key": "_ABILITY_Emilie_CountAttack_Pos"
+            },
+            {
+              "$type": "FireSubEmitterEffect",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "positionKey": "_ABILITY_Emilie_CountAttack_Pos"
+              },
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_GadgetAttack1"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "DropLaser_EffPos"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Emilie_LV2_LV1_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Duration",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "SetElementDurabilityToGlobalValue",
+              "target": "OriginOwner",
+              "minValue": 0,
+              "isElementDuration": true,
+              "maxValue": 0,
+              "globalValueKey": "_ABILITY_EMILIE_LevelDown_Timer"
+            }
+          ],
+          "elementDurability": "Duration",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AddElementDurability",
+          "value": "CD_Timer",
+          "maxValue": "CD_Timer",
+          "modifierName": "Emilie_LV2_LV1_Timer"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Change_Fx_Origin",
+            "Change_Fx_Fire"
+          ],
+          "valueSteps": [
+            -0.5,
+            [
+              "Level1",
+              0.5,
+              "SUB"
+            ],
+            100
+          ],
+          "globalValueKey": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Lamp_Fx_0",
+            "Lamp_Fx_1",
+            "Lamp_Fx_2",
+            "Lamp_Fx_3",
+            "Lamp_Fx_4"
+          ],
+          "globalValueKey": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5,
+            3.5,
+            100
+          ]
+        }
+      ],
+      "abilityName": "SkillObj_Emilie_ArtGadget",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LifeTime"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Gadget_Attack_Handler"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Emilie_PermanentSkill_1"
+        }
+      ],
+      "abilitySpecials": {
+        "Level1": {
+          "$type": "GNPGOLDCAGO",
+          "value": 4.0
+        },
+        "Damage4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 8.0
+        },
+        "CD_Timer": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.10000000149011612
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LifeTime": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "CheckInterval",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByHasAbilityState",
+                  "abilityState": "ElementBurning"
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "Target",
+                  "LINAHBPILJD": false,
+                  "key": "_ABILITY_Avatar_Emilie_CoreGadget_Born"
+                },
+                {
+                  "$type": "AttachModifier",
+                  "target": "OriginOwner",
+                  "modifierName": "UNIQUE_Avatar_Emilie_Create_Gadget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Avatar_Emilie_Create_Gadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.8,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "target": "Applier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "useRotation": true,
+                "DJJOOBHDHEG": 2.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 1.5,
+                  "maxRandomRange": 3
+                },
+                "positionKey": "_ABILITY_Avatar_Emilie_CoreGadget_Born"
+              },
+              "gadgetID": 41099013,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SkillObj_Emilie_ArtGadget_ToMonster",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "LifeTime"
+        }
+      ],
+      "abilitySpecials": {
+        "CheckInterval": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Collect_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "CollectInterval",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "isAuthority": 1,
+                  "entityTypes": [
+                    "Gadget"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_SkillObj_Emilie_CoreGadget_Die"
+                },
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "configIdArray": [
+                    41099013
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Apply_On_CoreGadget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Apply_On_CoreGadget": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.9,
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "target": "Caster",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityIsAlive"
+                    }
+                  ],
+                  "useLimitRange": true,
+                  "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+                  "maxValue": 8,
+                  "minValue": 0,
+                  "value": 2
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "TriggerAbility",
+                  "target": "Caster",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityIsAlive"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 4,
+                      "compareType": "MoreThanAndEqual",
+                      "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache"
+                    }
+                  ],
+                  "abilityName": "SkillObj_Emilie_ArtGadget",
+                  "abilitySpecials": {
+                    "CD_Timer": "Duration"
+                  }
+                },
+                {
+                  "$type": "AddGlobalValue",
+                  "target": "Caster",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityIsAlive"
+                    }
+                  ],
+                  "useLimitRange": true,
+                  "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+                  "maxValue": 4,
+                  "minValue": 0,
+                  "value": 2
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "PermanentSkill_1"
+                }
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "target": "Caster",
+              "predicates": [
+                {
+                  "$type": "ByEntityIsAlive"
+                }
+              ],
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_CoreBullet_GetEff",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                41099013
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_SkillObj_Emilie_CoreGadget_Die",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "muteRemoteAction": true,
+              "modifierName": "CoreGadget_DieEff"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CoreGadget_DieEff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "FireSubEmitterEffect",
+              "muteRemoteAction": true,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_CoreGadget_Die"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "muteRemoteAction": true,
+              "parameter": "Die",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_CoreGadget"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SendEffectTrigger",
+          "parameter": "Die",
+          "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern_Die",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SkillObj_Emilie_ArtGadget_Collect",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Collect_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "CollectInterval": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.5
+        },
+        "Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 8.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gadget_FX": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 11.8,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_CoreGadget_Die02",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireSubEmitterEffect",
+              "muteRemoteAction": true,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_CoreGadget_Born"
+            },
+            {
+              "$type": "AttachEffect",
+              "muteRemoteAction": true,
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_CoreGadget",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SkillObj_Emilie_Core_Gadget",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Gadget_FX"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Delay_Create": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetCollisionPointToGlobalPos",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "LANEADNAMOA": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "y": 0.9
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": -5
+                  }
+                }
+              },
+              "raycastLength": 2.0999999046325684,
+              "key": "_ABILITY_Avatar_Emilie_BurstGadget_Pos"
+            },
+            {
+              "$type": "SetGlobalPos",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_BurstGadget_Pos",
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "positionKey": "_ABILITY_Avatar_Emilie_BurstGadget_Pos"
+              }
+            },
+            {
+              "$type": "SetGlobalDir",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_BurstGadget_Dir",
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              }
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "useRotation": true,
+                "positionKey": "_ABILITY_Avatar_Emilie_BurstGadget_Pos"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 41099021
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Get_And_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "configIdArray": [
+                41099031
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "globalValueKey": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+              "overrideMapKey": "GV_From_Gadget"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Reborn": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": [
+            "Time",
+            "Talent4",
+            "ADD",
+            0.7,
+            "ADD"
+          ],
+          "duration": [
+            "Time",
+            "Talent4",
+            "ADD",
+            1.5,
+            "ADD"
+          ],
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Emilie_CanCreateGadget",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Emilie_CanCreateGadget",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetOverrideMapValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 0,
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Do_Once"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetOverrideMapValue",
+                  "logic": "Equal",
+                  "targetValue": 0,
+                  "targetKey": "Do_Once"
+                }
+              ],
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByGlobalValue",
+                "onGround": true,
+                "useGlobalUp": true,
+                "positionKey": "_ABILITY_Avatar_Emilie_BurstGadget_Pos",
+                "directionKey": "_ABILITY_Avatar_Emilie_BurstGadget_Dir"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 41099031
+            },
+            {
+              "$type": "SetOverrideMapValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 1,
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Do_Once"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Emilie_CanCreateGadget",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "TransGV"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "TransGV": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.05,
+          "duration": 0.05,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "configID": 41099031
+              },
+              "key": "_ABILITY_EMILIE_SEED_STATE_MARK_Cache",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": "GV_From_Gadget"
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "globalValueKey": "_ABILITY_EMILIE_LevelDown_Timer",
+              "overrideMapKey": "CD_Timer"
+            },
+            {
+              "$type": "TriggerAbility",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "configID": 41099031
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_ABILITY_EMILIE_LevelDown_Timer"
+                }
+              ],
+              "abilityName": "SkillObj_Emilie_ArtGadget",
+              "abilitySpecials": {
+                "CD_Timer": "CD_Timer"
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "TransGV"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Reborn2": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": [
+            "Time",
+            "Talent4",
+            "ADD",
+            0.7,
+            "ADD"
+          ],
+          "duration": [
+            "Time",
+            "Talent4",
+            "ADD",
+            1.5,
+            "ADD"
+          ],
+          "onRemoved": [
+            {
+              "$type": "KillGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 41099021
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetOverrideMapValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 0,
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Do_Once2"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "configID": 41099021
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetOverrideMapValue",
+                  "logic": "Equal",
+                  "targetValue": 0,
+                  "targetKey": "Do_Once2"
+                }
+              ],
+              "modifierName": "BurstGadget_DieEff"
+            },
+            {
+              "$type": "SetOverrideMapValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 1,
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Do_Once2"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "BurstGadget_DieEff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Die",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_Start_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarSkillStart",
+              "skillID": 10995,
+              "cdRatio": 1,
+              "costStaminaRatio": 1,
+              "GIBAINFKPBO": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Avatar_Emilie_BurstEffect_Tag",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AvatarEnterCameraShot",
+                  "cameraMoveCfgPath": "Camera_Emilie_ElementalBurst"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_ABILITY_Avatar_Emilie_BurstEffect_Tag",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "BurstEffIn"
+                },
+                {
+                  "$type": "AvatarCameraParam",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "cameraParam": {
+                    "$type": "ConfigStateCameraParam",
+                    "shouldKeepForceRadius": true,
+                    "forceRadiusDuration": 0.0,
+                    "forceRadius": 6.0
+                  }
+                },
+                {
+                  "$type": "DoActionsLocal",
+                  "actionList": [
+                    {
+                      "$type": "FireEffect",
+                      "predicates": [
+                        {
+                          "$type": "ByNot",
+                          "predicates": [
+                            {
+                              "$type": "ByIsLocalAvatar",
+                              "target": "Self"
+                            }
+                          ]
+                        }
+                      ],
+                      "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_NoCamera",
+                      "scale": 1,
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_NoCamera",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackNotHitScene",
+                  "checkWaterLayer": true,
+                  "attackPattern": {
+                    "$type": "ConfigAttackCircle",
+                    "triggerType": "TriggerNoRepeat",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "useRotation": true,
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0.5
+                      }
+                    },
+                    "radius": 1.4,
+                    "height": 2.0
+                  }
+                },
+                {
+                  "$type": "ByAvatarInWaterDepth",
+                  "compareType": "LessAndEqual",
+                  "depth": 0.5
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_Protection_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 11002
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "RigidBodyFreezeMixin"
+            },
+            {
+              "$type": "WindZoneMixin",
+              "targetType": "Enemy",
+              "innerRadius": 0,
+              "strength": -3,
+              "attenuation": 2,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "shapeName": "CircleR2",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Grass"
+                  ]
+                },
+                {
+                  "$type": "ByTargetWeight",
+                  "logic": "LesserOrEqual",
+                  "weight": 250
+                }
+              ]
+            }
+          ],
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_Camera_Control": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "triggerID": "BurstEffOut"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_BurstEffect_Tag",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "EnableHeadControl",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableHeadControl",
+              "LIHMHHKBCPI": false
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DisableMotionBlurMixin"
+            },
+            {
+              "$type": "EffectChangeAlphaMixin",
+              "target": "Team",
+              "endDuration": 0.30000001192092896,
+              "startDuration": 0.20000000298023224,
+              "EPJMODHHJFD": true,
+              "syncToRemote": 0,
+              "JCBNNDNGDNN": "GV_EffectChangeAlphaMixin_Team"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Emilie_Camera_In": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_Cast_Eyes",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_Cast_Finger",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToMultiNormalizedTimeMixin",
+              "modifierName": "Emilie_DungeonFog_Eff",
+              "normalizedStateIDList": [
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "ElementalBurst"
+                },
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "ElementalBurst_AS",
+                  "normalizeEnd": 0.004999999888241291
+                }
+              ]
+            },
+            {
+              "$type": "AttachToMultiNormalizedTimeMixin",
+              "modifierName": "Emilie_Delay_Eff",
+              "normalizedStateIDList": [
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "ElementalBurst",
+                  "normalizeStart": 0.33000001311302185
+                },
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "ElementalBurst_AS",
+                  "normalizeEnd": 0.004999999888241291
+                }
+              ]
+            },
+            {
+              "$type": "AttachToMultiNormalizedTimeMixin",
+              "modifierName": "ElementalBurst_AS_Eff",
+              "normalizedStateIDList": [
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "ElementalBurst",
+                  "normalizeStart": 0.9789999723434448
+                },
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "ElementalBurst_AS"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Emilie_DungeonFog_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "DungeonFogEffects",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "GKJEBAMMFEJ": true,
+              "cameraFogEffectName": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_Cast_Camera"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "DungeonFogEffects",
+              "muteRemoteAction": true,
+              "enable": true,
+              "GKJEBAMMFEJ": true,
+              "cameraFogEffectName": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_Cast_Camera"
+            },
+            {
+              "$type": "AttachEffect",
+              "muteRemoteAction": true,
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_Cast",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "muteRemoteAction": true,
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_CastBackground",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_AS_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "muteRemoteAction": true,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_Attack",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Emilie_Delay_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "muteRemoteAction": true,
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_Cast2",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetOverrideMapValue",
+          "value": 0,
+          "maxValue": 0,
+          "minValue": 0,
+          "overrideMapKey": "GV_From_Gadget"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_EMILIE_LevelDown_Timer",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "KillGadget",
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 41099021
+          }
+        },
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 41099031
+          },
+          "modifierName": "Get_And_Kill"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Reborn"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Reborn2"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Reborn"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Reborn2"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst"
+          ],
+          "modifierName": "ElementalBurst_Start_Handler"
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Delay_Create",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "ElementalBurst",
+              "normalizeStart": 0.9679999947547913
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "ElementalBurst_AS",
+              "normalizeEnd": 0.30000001192092896
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "ElementalBurst_Protection_Invincible",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "ElementalBurst"
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "ElementalBurst_AS",
+              "normalizeEnd": 0.18000000715255737
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalBurst",
+            "ElementalBurst_AS"
+          ],
+          "modifierName": "ElementalBurst_Camera_Control"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Emilie_Camera_In"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_Avatar_Emilie_BurstEffect_Tag",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Avatar_Emilie_ElementalBurst",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_EMILIE_LevelDown_Timer",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "GV_From_Gadget": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Do_Once": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Do_Once2": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "CD_Timer": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Time": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Talent4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Gadget_FX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Level",
+              "value": 3,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Flower",
+              "value": 4,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_Lantern",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "duration": 9.0,
+              "transDuration": 0.30000001192092896,
+              "type": "Skill",
+              "weatherPattern": "Weather_Emilie_ElementalBurst"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Attack": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "duration": [
+            "Time",
+            "Talent4",
+            "ADD"
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "OriginOwner",
+              "key": "_Test_BurstAttackTime",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "target": "OriginOwner",
+              "key": "_Test_BurstAttackTime",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetOverrideMapValue",
+              "value": [
+                0,
+                "Tag",
+                "SUB"
+              ],
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "Tag"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Emilie_ElementalBurst_Gadget_Timer1"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "Emilie_ElementalBurst_Gadget_Timer2"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetOverrideMapValue",
+                  "targetValue": 0,
+                  "targetKey": "Tag"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Emilie_ElementalBurst_Gadget_Timer1": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 0.3,
+          "onAdded": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_ABILITY_Emilie_ElementalBurst_TriggerPos1",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 3.5,
+                  "maxRandomRange": 9.5
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Random",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR12_5H14"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "modifierName": "Emilie_ElementalBurst_Mark",
+                      "MIMAGBDDPNK": true
+                    }
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Emilie_ElementalBurst_Mark"
+                },
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "Target",
+                  "LINAHBPILJD": false,
+                  "key": "_ABILITY_Emilie_ElementalBurst_TriggerPos1",
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "onGround": true
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "FireSubEmitterEffect",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "positionKey": "_ABILITY_Emilie_ElementalBurst_TriggerPos1"
+              },
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_GadgetAttack1"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "target": "OriginOwner",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 40.0,
+                    "damagePercentage": "Burst_Damage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "attenuationTag": "Elemental_Burst",
+                  "attackTag": "Elemental_Burst"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "massiveAttackRatio": 0.6000000238418579,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    },
+                    "KBOBCHGAMFB": "Caster",
+                    "positionKey": "_ABILITY_Emilie_ElementalBurst_TriggerPos1"
+                  },
+                  "radius": 2.5,
+                  "height": 4.5
+                }
+              }
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Emilie_ElementalBurst_Gadget_Timer1"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Emilie_ElementalBurst_Gadget_Timer2": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 0.3,
+          "onAdded": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_ABILITY_Emilie_ElementalBurst_TriggerPos2",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 3.5,
+                  "maxRandomRange": 9.5
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Random",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR12_5H14"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "modifierName": "Emilie_ElementalBurst_Mark",
+                      "MIMAGBDDPNK": true
+                    }
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Emilie_ElementalBurst_Mark"
+                },
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "Target",
+                  "LINAHBPILJD": false,
+                  "key": "_ABILITY_Emilie_ElementalBurst_TriggerPos2",
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "onGround": true
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "FireSubEmitterEffect",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "positionKey": "_ABILITY_Emilie_ElementalBurst_TriggerPos2"
+              },
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalBurst_GadgetAttack1"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "target": "OriginOwner",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 40.0,
+                    "damagePercentage": "Burst_Damage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "attenuationTag": "Elemental_Burst",
+                  "attackTag": "Elemental_Burst"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "massiveAttackRatio": 0.6000000238418579,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -1
+                    },
+                    "KBOBCHGAMFB": "Caster",
+                    "positionKey": "_ABILITY_Emilie_ElementalBurst_TriggerPos2"
+                  },
+                  "radius": 2.5,
+                  "height": 4.5
+                }
+              }
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Emilie_ElementalBurst_Gadget_Timer2"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Emilie_ElementalBurst_Mark": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": [
+            0.7,
+            "Less_Interval",
+            "SUB"
+          ],
+          "duration": [
+            0.7,
+            "Less_Interval",
+            "SUB"
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Emilie_ElementalBurst_Mark"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SkillObj_Emilie_BurstGadget",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Gadget_FX"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Attack"
+        }
+      ],
+      "abilitySpecials": {
+        "Tag": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "Burst_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Time": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Talent4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Less_Interval": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_Fx": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ArtGadget_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ArtGadget_Bullet_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Move_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.15,
+          "duration": 0.6,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "AnglerSpeedUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AnglerSpeedUp": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_BulletMoveAngularVelocityRatio": "Speed"
+          },
+          "stacking": "Multiple",
+          "stackingOption": {
+            "$type": "ConfigModifierStackingOption",
+            "maxModifierNumForMultipleType": 3
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Grass",
+                "damagePercentageRatio": 0,
+                "damagePercentage": "Bullet_Damage1",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV1"
+              },
+              "attenuationGroup": "Emilie_ElementalArt_Bullet",
+              "attenuationTag": "Emilie_ElementalArt_Bullet",
+              "attackTag": "Elemental_Art",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ArtGadget_Bullet_Hit",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByCollisionPoint"
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SkillObj_Emilie_ArtGadget_Bullet_Material",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Bullet_Fx"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Move_Timer"
+        }
+      ],
+      "abilitySpecials": {
+        "Speed": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.699999988079071
+        },
+        "Bullet_Damage1": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_Fx": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ArtGadget_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ArtGadget_Bullet_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Move_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.15,
+          "duration": 0.6,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "AnglerSpeedUp"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AnglerSpeedUp": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_BulletMoveAngularVelocityRatio": "Speed"
+          },
+          "stacking": "Multiple",
+          "stackingOption": {
+            "$type": "ConfigModifierStackingOption",
+            "maxModifierNumForMultipleType": 3
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Grass",
+                "damagePercentageRatio": 0,
+                "damagePercentage": "Bullet_Damage2",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV1"
+              },
+              "attenuationGroup": "Emilie_ElementalArt_Bullet",
+              "attenuationTag": "Emilie_ElementalArt_Bullet",
+              "attackTag": "Elemental_Art",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_ElementalArt_ArtGadget_Bullet_Hit",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByCollisionPoint"
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SkillObj_Emilie_ArtGadget_Bullet2_Material",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Bullet_Fx"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Move_Timer"
+        }
+      ],
+      "abilitySpecials": {
+        "Speed": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.699999988079071
+        },
+        "Bullet_Damage2": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Emilie_Emotion_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ControlEmotion",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ControlEmotion",
+              "MJCILBIAAJA": false,
+              "PIIDHCFMKEM": false,
+              "LIIHBLNMGAF": false
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Attack01",
+            "Attack02",
+            "Attack03",
+            "Attack04",
+            "Attack05",
+            "ExtraAttack",
+            "ExtraAttack_AS",
+            "ElementalArt",
+            "ElementalArt_AS",
+            "ElementalBurst",
+            "ElementalBurst_AS"
+          ],
+          "modifierName": "Emilie_Emotion_Handler"
+        }
+      ],
+      "abilityName": "Avatar_Emilie_EmotionControl"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Emilie_HideWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "TriggerHideWeapon",
+                  "canBeHandledOnRecover": true,
+                  "partNames": [
+                    "equip01",
+                    "equip02",
+                    "sheathPoint"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "TriggerHideWeapon",
+                  "canBeHandledOnRecover": true,
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "partNames": [
+                    "equip01",
+                    "equip02",
+                    "sheathPoint"
+                  ],
+                  "visible": true
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ElementalArt",
+            "ElementalArt_AS",
+            "ElementalBurst",
+            "ElementalBurst_AS"
+          ],
+          "modifierName": "Emilie_HideWeapon"
+        }
+      ],
+      "abilityName": "Avatar_Emilie_HideWeapon"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Emilie_NormalAttack_01",
+          "animEventNames": [
+            "ATK01",
+            "ATK01_Talent"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Emilie_NormalAttack_02",
+          "animEventNames": [
+            "ATK02",
+            "ATK02_Talent"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Emilie_NormalAttack_03",
+          "animEventNames": [
+            "ATK03",
+            "ATK03_Talent"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Emilie_NormalAttack_04",
+          "animEventNames": [
+            "ATK04",
+            "ATK04_Talent"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "Emilie_ExtraAttack",
+          "animEventNames": [
+            "ExtraAttack",
+            "ExtraAttack_Talent"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Emilie_NormalAttack_DamageHandler",
+      "abilitySpecials": {
+        "Emilie_NormalAttack_01": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Emilie_NormalAttack_02": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Emilie_NormalAttack_03": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Emilie_NormalAttack_04": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Emilie_ExtraAttack": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Emilie_PermanentSkill_2_Attack_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageCountMixin",
+              "damagePercentageRatio": "Emilie_PermanentSkill_2_Ratio",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByHasAbilityState",
+                  "abilityState": "ElementBurning"
+                }
+              ],
+              "ignoreEventInfo": true,
+              "countPredicates": [
+                {
+                  "$type": "ONJEHDDFFCH"
+                }
+              ],
+              "maxModifyCount": 99
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "SetOverrideMapValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "value": [
+                "FIGHT_PROP_CUR_ATTACK",
+                "Ratio",
+                "MUL",
+                0.001,
+                "MUL"
+              ],
+              "maxValue": "MaxRatio",
+              "minValue": 0,
+              "overrideMapKey": "Emilie_PermanentSkill_2_Ratio"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Emilie_PermanentSkill_2",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Emilie_PermanentSkill_2_Attack_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "Emilie_PermanentSkill_2_Ratio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Ratio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "MaxRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SkillObj_Emilie_ResistBurning_Interval": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "target": "AllPlayerAvatars",
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 40
+                }
+              ],
+              "modifierName": "UNIQUE_SkillObj_Emilie_ResistBurning_BurningDamageReduce"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_SkillObj_Emilie_ResistBurning_BurningDamageReduce": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.2,
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyBeHitDamageMixin",
+              "damagePercentageRatio": 0,
+              "attackTags": [
+                "BurningDamage"
+              ],
+              "FEEBDFJNAAL": "Reduce"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SkillObj_Emilie_ResistBurning",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "predicates": [
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "PermanentSkill_3"
+            }
+          ],
+          "modifierName": "SkillObj_Emilie_ResistBurning_Interval"
+        }
+      ],
+      "abilitySpecials": {
+        "Reduce": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Emilie_Talent1_Interval": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "target": "AllPlayerAvatars",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 40
+                }
+              ],
+              "modifierName": "Avatar_Emilie_Talent1_BurnTrigger"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent1_BurnTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 12,
+          "onHittingOther": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "Avatar_Emilie_Talent1_DropSeed"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByHasAbilityState",
+                  "abilityState": "ElementBurning"
+                },
+                {
+                  "$type": "ByHitElement",
+                  "element": "Grass"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionByElementReactionMixin",
+              "actions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "Avatar_Emilie_Talent1_DropSeed"
+                }
+              ],
+              "NGEMAJNHAEJ": true,
+              "entityTypes": [
+                "Monster"
+              ],
+              "reactionTypes": [
+                "Burning"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent1_DropSeed": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "CDTime",
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "target": "CurLocalAvatar",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "ownerIs": "Caster",
+              "propOwnerIs": "Caster",
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "DJJOOBHDHEG": 2.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0.5,
+                  "maxRandomRange": 1.5
+                }
+              },
+              "gadgetID": 41099013,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": "Ratio",
+          "attackTags": [
+            "Elemental_Art",
+            "Emilie_PermanentSkill_1"
+          ]
+        },
+        {
+          "$type": "DoActionByTeamStatusMixin",
+          "DBLNHBMOHNA": true,
+          "OFLOBFOHCEJ": true,
+          "waitTime": 20.0,
+          "actions": [
+            {
+              "$type": "AttachModifier",
+              "target": "AllPlayerAvatars",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 40
+                }
+              ],
+              "modifierName": "Avatar_Emilie_Talent1_BurnTrigger"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Emilie_Talent1",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Emilie_Talent1_Interval"
+        }
+      ],
+      "abilitySpecials": {
+        "CDTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Ratio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Emilie_Talent2_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "onHittingOther": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "target": "Target",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "UNIQUE_Avatar_Emilie_Talent2_GrassDown"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Elemental_Art",
+                    "Elemental_Burst",
+                    "Emilie_PermanentSkill_1"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Avatar_Emilie_Talent2_GrassDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "Dura",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_GrassSubHurtDelta": [
+              0,
+              "Ratio",
+              "SUB"
+            ]
+          },
+          "stacking": "RefreshUniqueDurability",
+          "elementDurability": 100,
+          "state": "DefenseDown",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Emilie_Talent2",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Emilie_Talent2_Buff"
+        }
+      ],
+      "abilitySpecials": {
+        "Ratio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Emilie_Talent6Trigger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Avatar_Emilie_Talent6_CD"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_Ready": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_Talent6Ready",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Emilie_Talent6_Fx"
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Avatar_Emilie_Talent6_Fx"
+            }
+          ],
+          "elementDurability": 100,
+          "onAvatarIn": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Avatar_Emilie_Talent6_Fx"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_Fx": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_Talent6Watch",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_CD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "CDTime",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Ready",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": "Times"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Ready",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "duration": "Dura",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ReplaceEventPatternMixin",
+              "newPatterns": [
+                "Emilie_Attack01_Talent",
+                "Emilie_Attack02_Talent",
+                "Emilie_Attack03_Talent",
+                "Emilie_Attack04_Talent",
+                "Emilie_ExtraAttack_Talent"
+              ],
+              "oldPatterns": [
+                "Emilie_Attack01",
+                "Emilie_Attack02",
+                "Emilie_Attack03",
+                "Emilie_Attack04",
+                "Emilie_ExtraAttack"
+              ]
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "Avatar_Emilie_Talent6_TriggerGadget_Right",
+              "normalizeEnd": 0.09000000357627869,
+              "stateID": "Attack01",
+              "normalizeStart": 0.019999999552965164
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "Avatar_Emilie_Talent6_TriggerGadget_Front",
+              "normalizeEnd": 0.07000000029802322,
+              "stateID": "Attack02",
+              "normalizeStart": 0.03999999910593033
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "Avatar_Emilie_Talent6_TriggerGadget_Left",
+              "normalizeEnd": 0.15000000596046448,
+              "stateID": "Attack03",
+              "normalizeStart": 0.10999999940395355
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "Avatar_Emilie_Talent6_TriggerGadget_Left2",
+              "normalizeEnd": 0.11999999731779099,
+              "stateID": "Attack04",
+              "normalizeStart": 0.07999999821186066
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "Avatar_Emilie_Talent6_TriggerGadget_Front2",
+              "normalizeEnd": 0.699999988079071,
+              "stateID": "ExtraAttack",
+              "normalizeStart": 0.05000000074505806
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "equip02",
+                  "sheathPoint"
+                ]
+              },
+              "modifierName": "Avatar_Emilie_Talent6_WeaponEff"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_WeaponEff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Girl_Pole_Emilie_Talent_WeaponEff",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_TriggerGadget_Right": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 2,
+                  "z": 0.5
+                },
+                "DJJOOBHDHEG": 2.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0.5,
+                  "maxRandomRange": 1
+                }
+              },
+              "gadgetID": 41099013,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "maxValue": "Times",
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_TriggerGadget_Front": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "z": 2.5
+                },
+                "DJJOOBHDHEG": 2.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0.5,
+                  "maxRandomRange": 1
+                }
+              },
+              "gadgetID": 41099013,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "maxValue": "Times",
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_TriggerGadget_Front2": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "z": 2.5
+                },
+                "DJJOOBHDHEG": 2.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0.5,
+                  "maxRandomRange": 1
+                }
+              },
+              "gadgetID": 41099013,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "maxValue": "Times",
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_TriggerGadget_Left": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -2,
+                  "z": 0.5
+                },
+                "DJJOOBHDHEG": 2.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0.5,
+                  "maxRandomRange": 1
+                }
+              },
+              "gadgetID": 41099013,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "maxValue": "Times",
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Emilie_Talent6_TriggerGadget_Left2": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": -2,
+                  "z": 0.5
+                },
+                "DJJOOBHDHEG": 2.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 0.5,
+                  "maxRandomRange": 1
+                }
+              },
+              "gadgetID": 41099013,
+              "campID": 1001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Avatar_Emilie_Talent6_Times",
+              "maxValue": "Times",
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Avatar_Emilie_Talent6Trigger",
+          "normalizeEnd": 0.6000000238418579,
+          "stateID": "ElementalArt",
+          "normalizeStart": 0.10000000149011612
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Avatar_Emilie_Talent6Trigger",
+          "stateID": "ElementalBurst",
+          "normalizeStart": 0.05000000074505806
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Avatar_Emilie_Talent6"
+          ],
+          "valueSteps": [
+            0.5,
+            4.5
+          ],
+          "globalValueKey": "_ABILITY_Avatar_Emilie_Talent6_Times",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Avatar_Emilie_Talent6_Ready"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_Avatar_Emilie_Talent6_Ready",
+          "defaultGlobalValueOnCreate": 1
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damageExtra": [
+            "FIGHT_PROP_CUR_ATTACK",
+            "Talent6Ratio",
+            "MUL"
+          ],
+          "animEventNames": [
+            "ATK01_Talent",
+            "ATK02_Talent",
+            "ATK03_Talent",
+            "ATK04_Talent",
+            "ExtraAttack_Talent"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Emilie_Talent6",
+      "isDynamicAbility": true,
+      "abilitySpecials": {
+        "Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Times": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Talent6Ratio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "CDTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FallingAnthem_BS_Material": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.53,
+          "onRemoved": [
+            {
+              "$type": "ActCameraRadialBlur",
+              "cameraRadialBlur": {
+                "$type": "ConfigCameraRadialBlur",
+                "blurTime": 0.30000001192092896,
+                "fadeTime": 0.15000000596046448,
+                "power": 0.30000001192092896
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Pole_FallingAnthem_BS_Normal",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Sprint_Boost",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_VelocityForce_Initialize": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_LoopDamage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 25.0,
+                    "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                    "elementDurability": 0,
+                    "overrideByWeapon": true,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 1,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 25.0,
+                    "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                    "elementDurability": 0,
+                    "overrideByWeapon": true,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 1,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_FallingAttack_Altitude"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "value": "FallingAnthem_FallingDamageRatio_Lv0"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "value": "FallingAnthem_FallingDamageRatio_Lv1"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "value": "FallingAnthem_FallingDamageRatio_Lv2"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "value": "FallingAnthem_FallingDamageRatio_Lv3"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "value": "FallingAnthem_FallingDamageRatio_Lv4"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_02"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_FallingAttack_Altitude",
+              "overrideMapKey": "FallingAnthem_FallingDamageRatio"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_03"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_03": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": "FallingAnthem_FallingDamageRatio"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "FallingAnthem_Loop_Normal_Rank_1",
+                "FallingAnthem_Loop_Normal_Rank_2"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_FallingAnthem_UseCamera",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Loop_01_Normal",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Loop_02_Normal",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Inertia": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyInertiaVelocityMixin",
+              "JOHELJNOOBE": false,
+              "useY": false
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Height_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 5
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.20000000298023224,
+                "forceRadius": 4.5
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Landed_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.10000000149011612,
+                "forceRadius": 6.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_ClearVelocityForce": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "InertiaType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 100.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_1_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.23999999463558197,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.23999999463558197
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV4"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": -0.5
+                }
+              },
+              "radius": 3,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 150.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_2_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.4000000059604645,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0,
+                  "z": 1.0
+                },
+                "shakeTime": 0.20000000298023224,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.5
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV7"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": -0.5
+                }
+              },
+              "radius": 5,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Strike_01_Normal",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Strike_02_Normal",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AvatarChangeSkillMixin",
+          "OLDBNEGFONF": 5099010,
+          "IJBAHBAGBCN": 5099010
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_Material"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_Loop_Normal"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_LoopDamage"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_VelocityForce_Initialize"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_Height_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_FallingDamageImmune_01"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "Inertia"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_OverHead_Camera"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_ClearVelocityForce"
+        }
+      ],
+      "abilityName": "Avatar_Emilie_FallingAnthem",
+      "abilitySpecials": {
+        "FallingAnthem_Normal_Loop_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_1_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_2_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Altitude_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": 20.0
+        },
+        "FallingAnthem_Altitude_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": 40.0
+        },
+        "FallingAnthem_Altitude_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": 60.0
+        },
+        "FallingAnthem_Altitude_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": 100.0
+        },
+        "FallingAnthem_Altitude_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 200.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.8999999761581421
+        },
+        "FallingAnthem_FallingDamageRatio_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.800000011920929
+        },
+        "FallingAnthem_FallingDamageRatio_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.6000000238418579
+        },
+        "FallingAnthem_FallingDamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  }
+]

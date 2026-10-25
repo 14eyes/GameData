@@ -1,0 +1,952 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CeremonyGhost_TeleportState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "ActivitySkill_CommonMove"
+              ],
+              "modifierName": "CeremonyGhost_PlayerTeleporting"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_PlayerTeleporting": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_GateForbidArea_GateMark",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_CeremonyGhost_PunishmentCount",
+              "value": 1,
+              "useLimitRange": true,
+              "maxValue": 10
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_GateForbidArea_GateMark",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_PunishScore": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "target": "Team",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_CeremonyGhost_AreaWarning",
+                  "value": 1,
+                  "useLimitRange": true,
+                  "maxValue": 15
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AddGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_CeremonyGhost_AreaWarning",
+                  "value": -2,
+                  "useLimitRange": true,
+                  "maxValue": 15
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "CeremonyGhost_PlayerInOthersArea"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_PlayerInOthersArea_Fatal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+              "modifierNameSteps": [
+                "CeremonyGhost_PlayerInOthersArea_Warning",
+                "CeremonyGhost_PlayerInOthersArea_Punish"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                8.5,
+                12.5,
+                9999
+              ],
+              "globalValueKey": "_CeremonyGhost_AreaWarning"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_PlayerInOthersArea_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+              "modifierNameSteps": [
+                "CeremonyGhost_PlayerInOthersArea_Warning",
+                "CeremonyGhost_PlayerInOthersArea_Punish"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                10.5,
+                14.5,
+                9999
+              ],
+              "globalValueKey": "_CeremonyGhost_AreaWarning"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_PlayerInOthersArea": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+              "modifierNameSteps": [
+                "CeremonyGhost_PlayerInOthersArea_Normal",
+                "CeremonyGhost_PlayerInOthersArea_Fatal"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -0.5,
+                2.5,
+                9999
+              ],
+              "globalValueKey": "_CeremonyGhost_PunishmentCount"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_PlayerInOthersArea_Warning": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ShowReminder",
+              "muteRemoteAction": true,
+              "id": 480600103
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_PlayerInOthersArea_Punish": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": "GV_GateForbidArea_GateMark",
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_CeremonyGhost_Punish",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_GateForbidArea_GateMark",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_ClearIndicator": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 70331050
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_CameraFix": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyCameraMaxDistanceMixin",
+              "ResetToMaxOnStart": true,
+              "LerpInDuration": 0.5,
+              "MaxDistance": 10.0,
+              "lerpOutDuration": 2.0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Billboard": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "CeremonyGhost_Billboard_Avator"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_Billboard_Avator": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeBillboardMixin",
+              "billboard": {
+                "$type": "ConfigProgressBillboard",
+                "radiusOffset": 0.5,
+                "showDistance": 80.0,
+                "offset": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 2.0
+                },
+                "attachPoint": "BillboardAttach",
+                "prefabPluginName": "FilmfestBallGame",
+                "type": "FilmfestBallgame"
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Forbid": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "HideAvatarSkillMixin",
+              "skillIDs": [
+                10413,
+                10013
+              ]
+            },
+            {
+              "$type": "HideActionSlotMixin",
+              "slotType": "SlotQuickUse"
+            },
+            {
+              "$type": "HideActionSlotMixin"
+            },
+            {
+              "$type": "HideActionSlotMixin",
+              "slotType": "Slot1"
+            },
+            {
+              "$type": "HideActionSlotMixin",
+              "slotType": "Slot2"
+            },
+            {
+              "$type": "HideActionSlotMixin",
+              "slotType": "Slot5"
+            },
+            {
+              "$type": "ForbidAvatarFlyMixin"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_Sprint_ReduceCost": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_CostStaminaRatio": -0.5
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Immune_Avatar": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": -1
+          },
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Immune": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "UNIQUE_CeremonyGhost_Immune_Avatar"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_TeamBuff": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "CameraScreenEffect",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "effectName": "Eff_UI_CeremonyGhost_Screen_01"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "CameraScreenEffect",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "enable": true,
+              "effectName": "Eff_UI_CeremonyGhost_Screen_01"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Activity_CeremonyGhost_Attract",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_CeremonyGhost_Player",
+        "GV_GateForbidArea_GateMark",
+        "GV_GateForbidArea_PrevGateMark"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "CurLocalAvatarMixinV2",
+          "modifierName": "CeremonyGhost_Sprint_ReduceCost"
+        },
+        {
+          "$type": "AttachModifierToPredicateMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "MoreThan",
+              "key": "GV_GateForbidArea_GateMark"
+            }
+          ],
+          "modifierName": "CeremonyGhost_PlayerInOthersArea"
+        },
+        {
+          "$type": "CurLocalAvatarMixinV2",
+          "modifierName": "CeremonyGhost_TeleportState"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "CeremonyGhost_TeamBuff"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "SGV_CeremonyGhost_TeamBuff"
+        }
+      ],
+      "abilityName": "Activity_CeremonyGhost_TeamAbility",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_CeremonyGhost_CameraFix"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_CeremonyGhost_Forbid"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_CeremonyGhost_Immune"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "CeremonyGhost_PunishScore"
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_CeremonyGhost_AreaWarning",
+          "maxValue": 15,
+          "useLimitRange": true,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_CeremonyGhost_PunishmentCount",
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CeremonyGhost_BuffDetect_Avatar_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR1.5H3"
+              },
+              "successActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_CeremonyGhost_BuffPicked",
+                  "param3": 0,
+                  "luaCallType": "CurGalleryControlGroup"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "UNIQUE_CeremonyGhost_Buff_01"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DisableBuff"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Ability_CeremonyGhost_BuffType"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR1.5H3"
+              },
+              "successActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_CeremonyGhost_BuffPicked",
+                  "param3": 0,
+                  "luaCallType": "CurGalleryControlGroup"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "UNIQUE_CeremonyGhost_Buff_02"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DisableBuff"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_Ability_CeremonyGhost_BuffType"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR1.5H3"
+              },
+              "successActions": [
+                {
+                  "$type": "ServerLuaCall",
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_CeremonyGhost_BuffPicked",
+                  "param3": 0,
+                  "luaCallType": "CurGalleryControlGroup"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "UNIQUE_CeremonyGhost_Buff_03"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DisableBuff"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 3,
+                  "key": "_Ability_CeremonyGhost_BuffType"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_CheckJump_Avatar": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.4,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToAnimatorStateIDMixin",
+              "isCheckOnAttach": true,
+              "stateIDs": [
+                "FallOnGround",
+                "FallOnGroundLit",
+                "FallToGroundRun",
+                "FallToGroundRunHard",
+                "FallToGroundSprint"
+              ],
+              "modifierName": "UNIQUE_CeremonyGhost_Land_Avatar"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Land_Avatar": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "CopyGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "otherTargets": {
+                "$type": "GENFIIMMOOJ",
+                "targetKey": "_Ability_CeremonyGhost_CurFloor"
+              },
+              "srcKey": "SGV_CeremonyGhost_StepCount",
+              "dstTarget": "Team",
+              "srcTarget": "Other",
+              "dstKey": "_Ability_CeremonyGhost_StepCount"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "GENFIIMMOOJ",
+                "targetKey": "_Ability_CeremonyGhost_CurFloor"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "compareType": "Y",
+                  "value": 3.8
+                }
+              ],
+              "modifierName": "SteppedOn_Once"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "target": "Other",
+              "otherTargets": {
+                "$type": "GENFIIMMOOJ",
+                "targetKey": "_Ability_CeremonyGhost_CurFloor"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "compareType": "Y",
+                  "value": 3.8
+                }
+              ],
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_CeremonyGhost_Step",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "SteppedOn_Once": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "_Ability_CeremonyGhost_StepCount",
+              "value": 1,
+              "useLimitRange": true,
+              "maxValue": "_Ability_CeremonyGhost_StepCount"
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": [
+                    "_Ability_CeremonyGhost_StepCount",
+                    1,
+                    "SUB"
+                  ],
+                  "compareType": "LessAndEqual",
+                  "key": "_Ability_CeremonyGhost_StepCount"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_CeremonyGhostBox_01_CrackBurst",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DisableBuff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Ability_CeremonyGhost_BuffType",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": -10
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Buff_01": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "ReviveStamina",
+              "target": "CurLocalAvatar",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 50
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Buff_02": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "buffDuration",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Properties_Speed_Up",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Animator_MoveSpeedRatio": 0.4
+          },
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CeremonyGhost_Buff_03": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "buffDuration",
+          "onRemoved": [
+            {
+              "$type": "EnableRocketJump",
+              "target": "CurTeamAvatars",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "type": "DungeonJump"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_JumpUp_01_Buff",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableRocketJump",
+              "canBeHandledOnRecover": true,
+              "extention": {
+                "$type": "NGBCAJAHICF",
+                "xzMultiplier": 1.5,
+                "yMultiplier": 1.2999999523162842
+              },
+              "type": "DungeonJump",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Jump"
+              ],
+              "modifierName": "CeremonyGhost_RocketJumpEffect"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "CeremonyGhost_RocketJumpEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_CeremonyGhost_DoJump",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Stages_Level_Common_Jumpplatform_01_Active",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "_Ability_CeremonyGhost_StepCount"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "CurLocalAvatarMixinV2",
+          "modifierName": "CeremonyGhost_BuffDetect_Avatar_Normal"
+        },
+        {
+          "$type": "LocalTeamTriggerMixin",
+          "BDJEECOBFCH": 25.0,
+          "OFDNNHAMJIP": "EffectMesh",
+          "IHIMIAKHJFH": {
+            "$type": "KHONDIIGEDF",
+            "prefabName": "MTP_LocalTeamTriggerMixin_CeremonyGhost",
+            "campTargetType": "AllExceptSelf",
+            "GGIHLEMLIGN": "InterTarget",
+            "triggerType": "TriggerAlways",
+            "triggerCD": 0.10000000149011612
+          },
+          "CNOKKMALIAP": [
+            {
+              "$type": "DebugLog",
+              "content": "CeremonyGhost: trigger action!!!"
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "DebugLog",
+                  "content": "CeremonyGhost: target found!!!"
+                },
+                {
+                  "$type": "AttachModifier",
+                  "target": "CurLocalAvatar",
+                  "modifierName": "UNIQUE_CeremonyGhost_CheckJump_Avatar"
+                },
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "Target",
+                  "targetKey": "_Ability_CeremonyGhost_CurFloor",
+                  "MDDCCEIHMAK": "CurLocalAvatar"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "SGV_CeremonyGhost_FloorType"
+                },
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 201
+                }
+              ]
+            }
+          ],
+          "triggerName": "CeremonyGhost"
+        }
+      ],
+      "abilityName": "Activity_CeremonyGhost_TeamAbility_Buff",
+      "isDynamicAbility": true,
+      "abilitySpecials": {
+        "buffDuration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 15.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Activity_CeremonyGhost_TeamAbility_PlayerMark_01",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 0,
+          "param2": 0,
+          "funcName": "SLC_CeremonyGhost_GetPlayerIndex",
+          "param3": 0,
+          "CallParamList": [
+            248060001
+          ],
+          "luaCallType": "SpecificGroup"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Activity_CeremonyGhost_TeamAbility_PlayerMark_02",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 0,
+          "param2": 0,
+          "funcName": "SLC_CeremonyGhost_GetPlayerIndex",
+          "param3": 0,
+          "CallParamList": [
+            248061002
+          ],
+          "luaCallType": "SpecificGroup"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Activity_CeremonyGhost_TeamAbility_PlayerMark_03",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 0,
+          "param2": 0,
+          "funcName": "SLC_CeremonyGhost_GetPlayerIndex",
+          "param3": 0,
+          "CallParamList": [
+            248062002
+          ],
+          "luaCallType": "SpecificGroup"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Activity_CeremonyGhost_TeamAbility_PlayerMark_04",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ServerLuaCall",
+          "param1": 0,
+          "param2": 0,
+          "funcName": "SLC_CeremonyGhost_GetPlayerIndex",
+          "param3": 0,
+          "CallParamList": [
+            248063002
+          ],
+          "luaCallType": "SpecificGroup"
+        }
+      ]
+    }
+  }
+]

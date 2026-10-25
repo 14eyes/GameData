@@ -1,0 +1,232 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            1
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                103,
+                202
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            2
+          ],
+          "enterActions": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                101,
+                102,
+                201
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Fox_AIStateInitial"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Random_MoveSpeedRatio": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": "RandomSpeed"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Run",
+            "Disappear"
+          ],
+          "modifierName": "Random_MoveSpeedRatio"
+        }
+      ],
+      "abilityName": "Animal_Fox_Random",
+      "onAdded": [
+        {
+          "$type": "SetRandomOverrideMapValue",
+          "overrideMapKey": "RandomSpeed",
+          "valueRangeMax": 0.25
+        }
+      ],
+      "abilitySpecials": {
+        "RandomSpeed": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseBool",
+          "value": true,
+          "boolID": "WanderState"
+        }
+      ],
+      "abilityName": "Animal_Fox_GetUp"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseBool",
+          "boolID": "WanderState"
+        }
+      ],
+      "abilityName": "Animal_Fox_GetDown"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DisappearTimer": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 3.0
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Disappear"
+            },
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear",
+              "duration": 2.5,
+              "KBKCMPMOKGM": true,
+              "ELJJHIPAFKC": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Disappear",
+            "Disappear2"
+          ],
+          "modifierName": "DisappearTimer"
+        }
+      ],
+      "abilityName": "Animal_Fox_Disappear"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            101
+          ],
+          "enterActions": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "GreaterOrEqual",
+                  "value": 5
+                }
+              ],
+              "triggerID": "AwareTrigger"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Animal_Fox_AwareTigger"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_Fox_02_CheckPlayerArround": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR5"
+              },
+              "successActions": [
+                {
+                  "$type": "SetNeuronEnable",
+                  "neuronName": "SURROUND",
+                  "enable": true
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Animal_Fox_02_GoToMHPoint",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Animal_Fox_02_CheckPlayerArround"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetNeuronEnable",
+          "neuronName": "SURROUND",
+          "enable": true
+        }
+      ],
+      "abilityName": "Animal_Fox_02_Alert"
+    }
+  }
+]

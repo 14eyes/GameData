@@ -1,0 +1,21 @@
+main_id = 40170
+sub_ids = {4017001}
+finish_action = {CLIENT = {}, SERVER = {}}
+fail_action = {CLIENT = {}, SERVER = {}}
+cancel_action = {CLIENT = {}, SERVER = {}}
+rewind_data = {["4017001"] = {}}
+
+quest_data = {
+    ["4017001"] = {
+        transmit_points = {
+            {point_id = 1, scene_id = 3, pos = "[3_300401901:2283.135,215.999,-895.548,0.000,295.501,0.000]"},
+            {point_id = 2, scene_id = 100, pos = "[100_910001206:472.134,459.752,182.756,0.000,271.949,0.000]"},
+            {point_id = 3, scene_id = 100, pos = "[100_910001207:897.320,230.580,703.701,0.000,50.205,0.000]"},
+            {
+                point_id = 4,
+                scene_id = 100,
+                pos = "[100_910003014:-439.395,588.698,-713.113,0.000,139.904,0.000]"
+            }
+        }
+    }
+}

@@ -1,0 +1,3166 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Pose_Close": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CloseTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Back": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "CloseTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "DodgeTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Dodge": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_RemoveEffect"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Invincible"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Darkwraith_Wind_HitShield_Succ"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "DodgeTag"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge_Invincible"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_AddEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetAnimationPauseByAbilityStateMixin",
+              "abilityStates": [
+                "ElementFrozen",
+                "ElementPetrifaction"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Pose_Close",
+            "Pose_Back"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            99.5
+          ],
+          "globalValueKey": "_DARKWRAITH_WIND_CLOSE_TAG_",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Pose_Normal",
+            "Pose_Dodge"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_DARKWRAITH_WIND_DODGE_TAG_",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "FieldEntityCountChangeMixin",
+          "onFieldExit": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_DARKWRAITH_WIND_CLOSE_TAG_",
+              "maxValue": 99,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasFeatureTag",
+              "featureTagIDs": [
+                4902
+              ]
+            },
+            {
+              "$type": "ByHasFeatureTag",
+              "featureTagIDs": [
+                4013
+              ]
+            }
+          ],
+          "onFieldEnter": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_DARKWRAITH_WIND_CLOSE_TAG_",
+              "maxValue": 99,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "campTargetType": "Alliance",
+          "MOICJEBDAMB": 0,
+          "simpleCountMaxValue": 0
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Pose"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Darkwraith_Strong_Wind_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_WindElement",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Effect"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Effect"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_AddEffect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Effect"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_RemoveEffect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Wind_HitShield_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "modifierName": "UNIQUE_Darkwraith_Wind_HitShield_Succ"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasShieldV2",
+                  "type": "All"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Monster_Darkwraith_Wind_Attack"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Darkwraith_Wind_HitShield_Succ": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_DARKWRAITH_WIND_DODGE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "LoseHP",
+              "target": "Caster",
+              "amountByTargetCurrentHPRatio": 0.15,
+              "enableLockHP": true,
+              "amount": 0,
+              "OIIGPGHDHHG": false,
+              "BHBDBILLNBG": true
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_DARKWRAITH_WIND_DODGE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Darkwraith_Strong_Wind_HitShield",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Darkwraith_Wind_HitShield_Detect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Darkwraith_Strong_Wind_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle"
+                  ]
+                },
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "target": "TargetOriginOwner",
+              "successActions": [
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle"
+                  ]
+                },
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Invincible"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge_Invincible"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Darkwraith_Strong_Wind_Dodge_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox_Weapon"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HeadBox"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "TriggerSetVisible",
+              "visible": true
+            },
+            {
+              "$type": "HideUIBillBoard"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_Dodge_BS",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Darkwraith_Strong_Wind_Dodge_ResetCD"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Dodge_AttackEnhance"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_Alert"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_DARKWRAITH_WIND_DODGE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Darkwraith_Strong_Wind_Dodge_Invincible"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Darkwraith_Strong_Wind_Dodge_DenyLockOn"
+            },
+            {
+              "$type": "TriggerSetVisible"
+            },
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ]
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox_Weapon"
+              ]
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HeadBox"
+              ]
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_Dodge_BS",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Eye"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_Dodge_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_Dodge_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_Dodge_Actions": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasAbilityState",
+                      "abilityState": "ElementFreeze"
+                    },
+                    {
+                      "$type": "ByHasAbilityState",
+                      "abilityState": "ElementPetrifaction"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByEntityIsAlive",
+                  "target": "Self"
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "DodgeTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_Dodge_ResetCD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "SetAISkillGCD",
+              "value": 3.0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                201,
+                202,
+                301,
+                302,
+                401,
+                402,
+                501,
+                502,
+                601,
+                602,
+                701,
+                702,
+                703
+              ]
+            },
+            {
+              "$type": "SetAISkillGCD"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Darkwraith_Strong_Wind_Dodge_AttackEnhance": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_AttackRatio": "Darkwraith_Strong_Wind_AttackEnhance"
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Darkwraith_Strong_Wind_Dodge_Actions"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Dodge_Handler",
+          "normalizeEnd": 0.949999988079071,
+          "stateID": "Dodge"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge",
+      "abilitySpecials": {
+        "Darkwraith_Strong_Wind_AttackEnhance": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.30000001192092896
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "SelfAttackTarget",
+          "successActions": [
+            {
+              "$type": "TryFindBlinkPointByBorn",
+              "target": "SelfAttackTarget",
+              "ignoreWater": true,
+              "limitY": 2.5,
+              "born": {
+                "$type": "ConfigBornByTargetLinearPoint",
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 3,
+                  "z": 0,
+                  "y": 0
+                },
+                "linearMin": 0,
+                "linearOffset": -4,
+                "linearMax": 25
+              },
+              "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "TryFindBlinkPointByBorn",
+                  "ignoreWater": true,
+                  "limitY": 2.5,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "onGround": true,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 4,
+                      "maxRandomRange": 6
+                    }
+                  },
+                  "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByFindBlinkPointSuccess",
+                  "JFBCPABJAIJ": false
+                }
+              ]
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TryFindBlinkPointByBorn",
+              "ignoreWater": true,
+              "limitY": 2.5,
+              "born": {
+                "$type": "ConfigBornByTargetLinearPoint",
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "linearMin": 0,
+                "linearOffset": 5,
+                "linearMax": 25
+              },
+              "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "TryFindBlinkPointByBorn",
+                  "ignoreWater": true,
+                  "limitY": 2.5,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "onGround": true,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 4,
+                      "maxRandomRange": 6
+                    }
+                  },
+                  "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByFindBlinkPointSuccess",
+                  "JFBCPABJAIJ": false
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "logic": "LesserOrEqual",
+              "value": 7.5
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge_FindBlinkPoint"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "DoBlink"
+        },
+        {
+          "$type": "TurnDirectionToPos",
+          "target": "SelfAttackTarget",
+          "toPos": {
+            "$type": "ConfigBornByTarget"
+          }
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge_DoBlink"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Darkwraith_EndureDelta": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_EndureDelta": "Darkwraith_Endure"
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "ForlornVessel_ElementShield"
+            }
+          ],
+          "modifierName": "UNIQUE_Darkwraith_EndureDelta"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_EndureDelta_Add",
+      "abilitySpecials": {
+        "Darkwraith_Endure": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Darkwraith_EndureDelta_Funnel": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_EndureDelta": "Darkwraith_Endure_Funnel"
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "ForlornVessel_ElementShield"
+            }
+          ],
+          "modifierName": "UNIQUE_Darkwraith_EndureDelta_Funnel"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_EndureDelta_AddMax",
+      "abilitySpecials": {
+        "Darkwraith_Endure_Funnel": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Darkwraith_EndureDelta"
+        },
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Darkwraith_EndureDelta_Funnel"
+        },
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Dodge_AttackEnhance"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_EndureDelta_Remove"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.07999999821186066,
+          "steerStateIDs": [
+            "SwordAtk01"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.07000000029802322,
+          "steerStateIDs": [
+            "SwordAtk02"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.3100000023841858,
+          "steerStateIDs": [
+            "SwordAtk02"
+          ],
+          "startNormalizedTime": 0.23999999463558197
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.07000000029802322,
+          "steerStateIDs": [
+            "SwordAtk03"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "steerStateIDs": [
+            "SwordAtk03"
+          ],
+          "startNormalizedTime": 0.2199999988079071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "steerStateIDs": [
+            "ChainAtk01"
+          ],
+          "startNormalizedTime": 0.25
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.12999999523162842,
+          "steerStateIDs": [
+            "ChainAtk02"
+          ],
+          "startNormalizedTime": 0.03999999910593033
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 270.0,
+          "endNormalizedTime": 0.4099999964237213,
+          "steerStateIDs": [
+            "ChainAtk02"
+          ],
+          "startNormalizedTime": 0.3100000023841858
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.44999998807907104,
+          "steerStateIDs": [
+            "FunnelAtk_BS"
+          ],
+          "startNormalizedTime": 0.3499999940395355
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 720.0,
+          "endNormalizedTime": 0.949999988079071,
+          "steerStateIDs": [
+            "Dodge"
+          ],
+          "startNormalizedTime": 0.800000011920929
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "MPTriggerOnRemote": true,
+          "triggerID": "ChainAtk01WeaponTrigger"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_ChainAtk01_Weapon"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "MPTriggerOnRemote": true,
+          "triggerID": "ChainAtk02WeaponTrigger"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_ChainAtk02_Weapon"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "ChainAtk02_01"
+          },
+          "bulletID": 42208008,
+          "trackTarget": "Self"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "ChainAtk02_02"
+          },
+          "bulletID": 42208008,
+          "trackTarget": "Self"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "ChainAtk02_03"
+          },
+          "bulletID": 42208008,
+          "trackTarget": "Self"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "ChainAtk02_04"
+          },
+          "bulletID": 42208008,
+          "trackTarget": "Self"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "ChainAtk02_05"
+          },
+          "bulletID": 42208008,
+          "trackTarget": "Self"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "ChainAtk02_06"
+          },
+          "bulletID": 42208008,
+          "trackTarget": "Self"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_ChainAtk02_TriggerBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_ChainAtk02_BulletHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208008
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "KillSelf",
+          "otherTargets": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42208008
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ChainAtk02"
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_ChainAtk02_BulletHandler"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_ChainAtk02_KillBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Wind",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 10.0,
+                "damagePercentage": 0.4,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "Monster_Darkwraith_Strong_Wind_ChainAtk02",
+              "attenuationTag": "Monster_Darkwraith_Strong_Wind_ChainAtk02",
+              "attackTag": "Monster_Darkwraith_Wind_Attack",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1.5
+            }
+          }
+        }
+      ],
+      "abilityName": "Darkwraith_Strong_Wind_ChainAtk02_Bullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_01": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_01"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208001,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_01"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208011,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_EndTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "FunnelAtkEnd"
+                },
+                {
+                  "$type": "SetAISkillCDAvailableNow",
+                  "skillIDs": [
+                    701
+                  ]
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "value": 3.5
+                    },
+                    {
+                      "$type": "BySelfForwardAndTargetPosition",
+                      "value": 90
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_KillGadget": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_EndTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_EndTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_Reconnect": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_EndTag_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_01"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Darkwraith_Strong_Wind_FunnelAtk_EndTag_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FunnelAtk_Loop"
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "NormalIdle"
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_KillGadget"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_Reconnect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_02": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_02"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208002,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_02"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208012,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_02"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_03": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_03"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208003,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_03"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208013,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_03"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_03"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_04": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_04"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208004,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_04"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208014,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_04"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_04"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_05": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_05"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208005,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_05"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208015,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_05"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_05"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_06": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_06"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208006,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "FunnelAtk_06"
+              },
+              "lifeByOwnerV2": true,
+              "gadgetID": 42208016,
+              "campID": 4001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_StaticGadget_06"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_06"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_GVHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208001
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet"
+            },
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208011
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_Crystallization"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208006
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet"
+            },
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208016
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_Crystallization"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 2,
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208002
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet"
+            },
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208012
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_Crystallization"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3,
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208005
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet"
+            },
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208015
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_Crystallization"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 4,
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208003
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet"
+            },
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208013
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_Crystallization"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 5,
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208004
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet"
+            },
+            {
+              "$type": "TriggerAbility",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42208014
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_"
+                }
+              ],
+              "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_Crystallization"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 6,
+              "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_"
+            }
+          ]
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_Darkwraith_Strong_Wind_FunnelAtk_Count_",
+          "maxValue": 6,
+          "minValue": 1,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FunnelAtk_BS",
+            "FunnelAtk_Loop",
+            "FunnelAtk_AS"
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_GVHandler"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_Launch"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_FunnelAtk_WeaponHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "FunnelAtkWeaponTag"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "FunnelAtkWeaponTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_WeaponHandler"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FunnelAtk_BS",
+            "FunnelAtk_Loop",
+            "FunnelAtk_AS"
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_FunnelAtk_WeaponHandler"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_FunnelAtk_Weapon"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FunnelAtk_StaticBullet_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FunnelAtk_StaticBullet_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "Enemy",
+            "shapeName": "CircleR50"
+          },
+          "successActions": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "target": "Target"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Vehicle",
+                "Partner"
+              ]
+            },
+            {
+              "$type": "BySelfForwardAndTargetPosition",
+              "logic": "Lesser",
+              "value": 120
+            }
+          ]
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf"
+          },
+          "bulletID": 42208007
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Empty",
+            "FunnelAtk_StaticBullet_Kill"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_Darkwraith_Strong_Wind_FunnelAtk_EndTag_",
+          "valueSteps": [
+            0,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "FunnelAtk_StaticBullet_Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FunnelAtk_StaticBullet_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet_Big",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet_Trail_Big",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FunnelAtk_StaticBullet_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "Enemy",
+            "shapeName": "CircleR50"
+          },
+          "successActions": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "target": "Target"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar",
+                "Vehicle",
+                "Partner"
+              ]
+            },
+            {
+              "$type": "BySelfForwardAndTargetPosition",
+              "logic": "Lesser",
+              "value": 120
+            }
+          ]
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true
+          },
+          "bulletID": 42208010
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet_Fire_Big",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "KillSelf",
+          "target": "Caster"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Empty",
+            "FunnelAtk_StaticBullet_Kill"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_Darkwraith_Strong_Wind_FunnelAtk_EndTag_",
+          "valueSteps": [
+            0,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_StaticBullet_Crystallization",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "FunnelAtk_StaticBullet_Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FunnelAtk_Bullet_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Wind",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 25.0,
+                "damagePercentage": 0.3,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Monster_Darkwraith_Wind_Attack",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1
+            }
+          }
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Damage",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_Bullet",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FunnelAtk_Bullet_Effect"
+        },
+        {
+          "$type": "KillSelf",
+          "target": "Owner"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FunnelAtk_Bullet_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet_Big",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Bullet_Trail_Big",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Wind",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 25.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Monster_Darkwraith_Wind_Attack",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 2.5
+            }
+          }
+        },
+        {
+          "$type": "KillSelf",
+          "configIdArray": [
+            42208010
+          ]
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_FunnelAtk_Damage_Big",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Darkwraith_Strong_Wind_FunnelAtk_Bullet_Craystallization",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FunnelAtk_Bullet_Effect"
+        },
+        {
+          "$type": "KillSelf",
+          "target": "Owner",
+          "configIdArray": [
+            42208011,
+            42208012,
+            42208013,
+            42208014,
+            42208015,
+            42208016
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_AlertHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Leisure"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Ceremony"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Leisure"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Ceremony"
+            }
+          ]
+        },
+        "UNIQUE_Darkwraith_Strong_Wind_Eye": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Darkwraith_Strong_Flammard_Eye",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Eye"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Eye"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0,
+            1
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_AlertHandler"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Alert"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_Salute": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "Darkwraith_Salute",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "facingTargetTypes": [
+            "BuddyTarget"
+          ],
+          "endNormalizedTime": 0.20000000298023224,
+          "steerStateIDs": [
+            "Salute"
+          ],
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Salute"
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_Salute"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Salute",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Darkwraith_Salute",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExitBattle": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ResetAnimatorTrigger",
+              "triggerID": "FunnelAtkEnd"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_DARKWRAITH_WIND_DODGE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Dodge_AttackEnhance"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Eye"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "FunnelAtkEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0
+          ],
+          "modifierName": "ExitBattle"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_ExitBattle"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Darkwraith_Crystallization_ForJSLY": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ShowReminder",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_WIND_TAG_"
+                }
+              ],
+              "id": 1001850016
+            },
+            {
+              "$type": "ShowReminder",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_DARKWRAITH_ROCK_TAG_"
+                }
+              ],
+              "id": 1001850017
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Darkwraith_NoCrystallization_Shader_Delay"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_DenyLockOn"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_Invincible"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_IsGhostToEnemy"
+            },
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 13002
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "RigidBodyFreezeMixin"
+            },
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "HideUIBillBoard",
+                  "hide": true
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "ShieldPushCollider",
+                    "ShieldPushColliderExtra",
+                    "PushCollider_Occluder_Crystallization",
+                    "PushCollider_Extra_Crystallization"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "HideUIBillBoard"
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "ShieldPushCollider",
+                    "ShieldPushColliderExtra",
+                    "PushCollider_Occluder_Crystallization",
+                    "PushCollider_Extra_Crystallization"
+                  ]
+                }
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_IsGhostToEnemy": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "IsGhostToEnemy",
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Crystallization": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "canBeHandledOnRecover": true,
+              "value": true,
+              "boolID": "Crystallization"
+            },
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "value": true,
+              "boolID": "Crystallization"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_NoCrystallization": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "Crystallization"
+            },
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "Crystallization"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Darkwraith_Alert_Crystallization",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Crystallization_Alert": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "Crystallization"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "RefreshUICombatBarLayout"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_NoCrystallization_Shader_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.4,
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_Crystallization_ForJSLY"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Fat_Rock_Crystallization_ForJSLY"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            9003
+          ],
+          "modifierName": "UNIQUE_Darkwraith_Crystallization_ForJSLY"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Darkwraith_Crystallization",
+            "Darkwraith_NoCrystallization"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "SGV_DARKWRAITH_ALERT_JSLY"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Darkwraith_Crystallization_Alert",
+          "normalizeEnd": 0.30000001192092896,
+          "stateID": "Alert_Crystallization"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Common_Crystallization_ForJSLY",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_DARKWRAITH_CRYSTALLIZATION_TAG_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetAnimatorBool",
+          "canBeHandledOnRecover": true,
+          "value": true,
+          "boolID": "CrystallizationSkillTag"
+        },
+        {
+          "$type": "ResetAIThreatBroadcastRange",
+          "canBeHandledOnRecover": true,
+          "range": 0
+        },
+        {
+          "$type": "ResetAIResistTauntLevel",
+          "canBeHandledOnRecover": true,
+          "resistTauntLevel": "Monster_TauntLevel_6"
+        },
+        {
+          "$type": "SetAIHitFeeling"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Darkwraith_Strong_Wind_Crystallization_Alert": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_DARKWRAITH_WIND_ALERT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Darkwraith_Strong_Wind_Crystallization_NoticeRock"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_DARKWRAITH_WIND_ALERT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Darkwraith_Strong_Wind_Crystallization_NoticeRock"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_Crystallization_NoticeRock": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 40,
+          "onRemoved": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_DARKWRAITH_WIND_ALERT_"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "Darkwraith_Rock_Alert",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToHPPercentMixin",
+              "valueSteps": [
+                0.7
+              ],
+              "modifierNameSteps": [
+                "Blank",
+                "Darkwraith_Strong_Wind_Crystallization_HpDetect"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_Crystallization_NoticeRockEnhanced": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_DARKWRAITH_ROCK_ENHANCED_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Darkwraith_Strong_Wind_Crystallization_HpDetect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Darkwraith_Strong_Wind_Crystallization_NoticeRock"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Darkwraith_Wind_Crystallization_Shader": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 13002
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderLerpMixin",
+              "type": "DarkwraithCrystallization_Wind"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Darkwraith_Wind_Crystallization_Shader"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "Predicated",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "entityTypePriority": [
+              "Monster"
+            ],
+            "sizeRatio": 1,
+            "campTargetType": "Alliance",
+            "shapeName": "CircleR50H50C"
+          },
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "Darkwraith_Strong_Wind_Crystallization_NoticeRockEnhanced"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Monster"
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_DARKWRAITH_ROCK_TAG_"
+            }
+          ]
+        },
+        {
+          "$type": "ShowReminder",
+          "id": 1001850019
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2
+          ],
+          "modifierName": "Darkwraith_Strong_Wind_Crystallization_Alert"
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Crystallization_ForJSLY",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_DARKWRAITH_WIND_TAG_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Darkwraith_Strong_Wind_Crystallization_NoticeRock"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Darkwraith_Wind_Crystallization_Shader"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Pose_Close": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "CloseTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Back": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "CloseTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "DodgeTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Dodge": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_RemoveEffect"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Darkwraith_Strong_Wind_Invincible"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Darkwraith_Wind_HitShield_Succ"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "DodgeTag"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_Dodge_Invincible"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Darkwraith_Strong_Wind_AddEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetAnimationPauseByAbilityStateMixin",
+              "abilityStates": [
+                "ElementFrozen",
+                "ElementPetrifaction"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Pose_Close",
+            "Pose_Back"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            99.5
+          ],
+          "globalValueKey": "_DARKWRAITH_WIND_CLOSE_TAG_",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Pose_Normal",
+            "Pose_Dodge"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_DARKWRAITH_WIND_DODGE_TAG_",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "FieldEntityCountChangeMixin",
+          "onFieldExit": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_DARKWRAITH_WIND_CLOSE_TAG_",
+              "maxValue": 99,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasFeatureTag",
+              "featureTagIDs": [
+                4014
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "SGV_DARKWRAITH_ALERT_JSLY"
+            }
+          ],
+          "onFieldEnter": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_DARKWRAITH_WIND_CLOSE_TAG_",
+              "maxValue": 99,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "campTargetType": "Alliance",
+          "MOICJEBDAMB": 0,
+          "simpleCountMaxValue": 0
+        }
+      ],
+      "abilityName": "Monster_Darkwraith_Strong_Wind_Pose_Crystallization"
+    }
+  }
+]

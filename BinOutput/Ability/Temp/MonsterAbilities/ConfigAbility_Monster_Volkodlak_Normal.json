@@ -1,0 +1,5243 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Normal_Confused_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsInSpecialZone"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Normal_Confused_On": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "IsInSpecialZone"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Normal_BeHitAlertCheckOff": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Normal_BeHitAlertCheckOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "BeHit",
+                "BeHitThrow",
+                "Struggle",
+                "BeHitThrowToStandby"
+              ],
+              "modifierName": "Modifier_Volkodlak_Normal_BeHitAlertCheck"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Normal_BeHitAlertCheck": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToAIAlertnessMixin",
+              "alertness": [
+                1,
+                2,
+                3
+              ],
+              "modifierName": "Modifier_Volkodlak_Normal_AlertAfterBeHit"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Normal_AlertAfterBeHit": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_WEAPON_SHEATHED",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Normal_ReturnToBornPose": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorFloat",
+                  "floatID": "WeaponInHandState",
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorFloat",
+                  "floatID": "WeaponInHandState",
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_WEAPON_SHEATHED"
+                }
+              ]
+            }
+          ],
+          "onChangeAuthority": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorFloat",
+                  "floatID": "WeaponInHandState",
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorFloat",
+                  "floatID": "WeaponInHandState",
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_WEAPON_SHEATHED"
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Normal_BerserkAttackExecuted",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Normal_BerserkAttackAvailable": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Volkodlak_Normal_BerserkAttackExecuted"
+                }
+              ],
+              "skillIDs": [
+                501
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Common_AffectedByStarReaction_Flash",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "Fx_ChestNode"
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Modifier_Volkodlak_Normal_Confused_Off",
+            "Modifier_Volkodlak_Normal_Confused_On"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            2.5
+          ],
+          "globalValueKey": "_IS_IN_STARMODE",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Modifier_Volkodlak_Normal_BeHitAlertCheckOff",
+            "Modifier_Volkodlak_Normal_BeHitAlertCheckOn"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_WEAPON_SHEATHED",
+          "NBOEEIHGCPD": true,
+          "defaultGlobalValueOnCreate": 1
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            1901,
+            1902,
+            1911
+          ],
+          "modifierName": "Modifier_Volkodlak_Normal_ReturnToBornPose"
+        },
+        {
+          "$type": "AttachModifierToHPPercentMixinV2",
+          "OBIAJLABGII": true,
+          "valueSteps": [
+            0.4
+          ],
+          "modifierNameSteps": [
+            "Modifier_Blank",
+            "Modifier_Volkodlak_Normal_BerserkAttackAvailable"
+          ]
+        },
+        {
+          "$type": "DoActionOnGlobalValueChangeMixin",
+          "CEBHIKGMAED": true,
+          "actions": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorFloat",
+                  "floatID": "WeaponInHandState",
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorFloat",
+                  "floatID": "WeaponInHandState",
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_WEAPON_SHEATHED"
+                }
+              ]
+            }
+          ],
+          "NBOEEIHGCPD": true,
+          "globalValueKey": "_WEAPON_SHEATHED"
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Normal_General"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Sheepdog_ReturnToBornDither": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityDitherMixinV2",
+              "cutOutTime": 0.800000011920929,
+              "cutInTime": 2.0,
+              "forceUpdateAtStart": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.7799999713897705,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TurnLeft"
+          ],
+          "startNormalizedTime": 0.20000000298023224
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.7900000214576721,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TurnRight"
+          ],
+          "startNormalizedTime": 0.23000000417232513
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 900.0,
+          "endNormalizedTime": 0.10000000149011612,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TauntAware01_StartTurn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 50.0,
+          "endNormalizedTime": 0.4449999928474426,
+          "CHMMMGEJCME": "Right",
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TauntAware01"
+          ],
+          "startNormalizedTime": 0.3659999966621399
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 50.0,
+          "endNormalizedTime": 0.4449999928474426,
+          "CHMMMGEJCME": "Right",
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TauntAware01_StartTurn"
+          ],
+          "startNormalizedTime": 0.3659999966621399
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 75.0,
+          "endNormalizedTime": 0.8690000176429749,
+          "CHMMMGEJCME": "Left",
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TauntAware01"
+          ],
+          "startNormalizedTime": 0.7900000214576721
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 75.0,
+          "endNormalizedTime": 0.8690000176429749,
+          "CHMMMGEJCME": "Left",
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TauntAware01_StartTurn"
+          ],
+          "startNormalizedTime": 0.7900000214576721
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 75.0,
+          "endNormalizedTime": 0.20000000298023224,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAttack01"
+          ],
+          "startNormalizedTime": 0.05000000074505806
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.18000000715255737,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAttack02"
+          ],
+          "startNormalizedTime": 0.03999999910593033
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.23999999463558197,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "ShootAttack"
+          ],
+          "startNormalizedTime": 0.04500000178813934
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.5799999833106995,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttack_BS"
+          ],
+          "startNormalizedTime": 0.27000001072883606
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 225.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.3569999933242798,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttack_Loop"
+          ],
+          "startNormalizedTime": 0.257999986410141
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 225.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.8700000047683716,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttack_Loop"
+          ],
+          "startNormalizedTime": 0.6700000166893005
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.5799999833106995,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttackConfused_BS"
+          ],
+          "startNormalizedTime": 0.27000001072883606
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 300.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.3569999933242798,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttackConfused_Loop01"
+          ],
+          "startNormalizedTime": 0.257999986410141
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 300.0,
+          "ONBKNHMBGON": true,
+          "endNormalizedTime": 0.8700000047683716,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttackConfused_Loop01"
+          ],
+          "startNormalizedTime": 0.6700000166893005
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            1902
+          ],
+          "modifierName": "Modifier_Volkodlak_Sheepdog_ReturnToBornDither"
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "TurnDirectionToPos",
+              "target": "SelfAttackActiveTarget",
+              "predicates": [
+                {
+                  "$type": "BySelfForwardAndTargetPosition",
+                  "target": "SelfAttackActiveTarget",
+                  "value": 20
+                }
+              ],
+              "toPos": {
+                "$type": "ConfigBornByTarget",
+                "useRotation": true
+              }
+            }
+          ],
+          "stateIDs": [
+            "Alert"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Sheepdog_SteerManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Sheepdog_ShootAttackCommand": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAiCommandThreatTarget",
+                  "target": "SelfAttackActiveTarget",
+                  "enable": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAiCommandThreatTarget",
+                  "target": "SelfAttackActiveTarget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "useCorrectDir": true,
+                  "maxAngleType": "ByConfig",
+                  "FHBHCCMDINJ": {
+                    "$type": "IBKENFFDIKB",
+                    "HCHFDCNOOOF": 20.0,
+                    "LKBGFILKLJI": 20.0,
+                    "BCNFMACKCMG": 30.0,
+                    "AKKKAPLHNAF": 60.0
+                  }
+                },
+                "attachPointName": "ShootLaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42510051,
+              "trackTarget": "SelfAttackActiveTarget"
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "useCorrectDir": true
+                },
+                "attachPointName": "ShootLaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42510051
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "BySelfForwardAndTargetPosition",
+              "target": "SelfAttackActiveTarget",
+              "logic": "LesserOrEqual",
+              "value": 90
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ShootAttack"
+          ],
+          "modifierName": "Modifier_Volkodlak_Sheepdog_ShootAttackCommand"
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_SheepDog_ShootAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Sheepdog_ConfusedLoopNotEnd": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "ConfusedLoopEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Sheepdog_ConfusedLoopEnd": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "ConfusedLoopEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Sheepdog_ConfusedLoopNotEndProtect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "ProtectBerserkEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Sheepdog_ConfusedLoopEndProtect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "ProtectBerserkEnd"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "AddGlobalValueV2",
+          "minValue": 0,
+          "key": "_MONSTER_Volkodlak_Sheepdog_BerserkAttackConfusedLoopTimes",
+          "value": 1,
+          "maxValue": 0
+        },
+        {
+          "$type": "FixedMonsterRushMove",
+          "PGLJIHAEIAD": 0.36000001430511475,
+          "maxRange": 4.0,
+          "ignoreDetectForward": true,
+          "animatorStateIDs": [
+            "BerserkAttackConfused_Stop",
+            "BerserkAttackConfused_Loop01",
+            "BerserkAttackConfused_AS"
+          ],
+          "toPos": {
+            "$type": "ConfigBornBySelf",
+            "onGround": true,
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": -6,
+              "y": 0
+            }
+          },
+          "timeRange": 0.12
+        },
+        {
+          "$type": "TriggerAbility",
+          "abilityName": "Monster_Volkodlak_Normal_General",
+          "CFPNOMHBGIA": true
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "ClearEndura"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Normal_BerserkAttackExecuted",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Sheepdog_BerserkAttackConfusedLoopTimes",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Sheepdog_BerserkAttackConfusedLoopTimesProtect",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stateIDs": [
+            "BerserkAttack_BS",
+            "BerserkAttackConfused_BS"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Sheepdog_BerserkAttackConfusedLoopTimes",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Sheepdog_BerserkAttackConfusedLoopTimesProtect",
+              "value": 1,
+              "maxValue": 0
+            }
+          ],
+          "stateIDs": [
+            "BerserkAttack_Loop"
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Modifier_Sheepdog_ConfusedLoopNotEnd",
+            "Modifier_Sheepdog_ConfusedLoopEnd"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "_MONSTER_Volkodlak_Sheepdog_BerserkAttackConfusedLoopTimes",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Modifier_Sheepdog_ConfusedLoopNotEndProtect",
+            "Modifier_Sheepdog_ConfusedLoopEndProtect"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            2.5,
+            3.5
+          ],
+          "globalValueKey": "_MONSTER_Volkodlak_Sheepdog_BerserkAttackConfusedLoopTimesProtect",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_SheepDog_BerserkAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Arctichare_WalkF_AS_01_RushMove": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 1.5,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "WalkF_AS_01"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 5,
+                  "y": 0
+                }
+              },
+              "timeRange": 0.5
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Arctichare_WalkFree_AS_01_RushMove": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 1.2000000476837158,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "WalkFree_AS_01"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 5,
+                  "y": 0
+                }
+              },
+              "timeRange": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 720.0,
+          "endNormalizedTime": 0.699999988079071,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "WalkF_AS_01"
+          ],
+          "startNormalizedTime": 0.44999998807907104
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 720.0,
+          "endNormalizedTime": 0.699999988079071,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Walk_AS_02"
+          ],
+          "startNormalizedTime": 0.44999998807907104
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 720.0,
+          "IJMBPGKKOJD": 15.0,
+          "endNormalizedTime": 0.5,
+          "CHMMMGEJCME": "Right",
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SurroundTurnLToR"
+          ],
+          "startNormalizedTime": 0.14000000059604645,
+          "globalPosKey": "_MONSTER_Volkodlak_Arctichare_BackPos"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 720.0,
+          "IJMBPGKKOJD": -15.0,
+          "endNormalizedTime": 0.46000000834465027,
+          "CHMMMGEJCME": "Left",
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "SurroundTurnRToL"
+          ],
+          "startNormalizedTime": 0.1599999964237213,
+          "globalPosKey": "_MONSTER_Volkodlak_Arctichare_BackPos"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.46000000834465027,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TurnLeft"
+          ],
+          "startNormalizedTime": 0.1599999964237213
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TurnRight"
+          ],
+          "startNormalizedTime": 0.14000000059604645
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 640.0,
+          "endNormalizedTime": 0.7200000286102295,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BeHitThrowToStandby"
+          ],
+          "startNormalizedTime": 0.6079999804496765
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 640.0,
+          "endNormalizedTime": 0.11999999731779099,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Dodge"
+          ],
+          "startNormalizedTime": 0.05999999865889549
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.4399999976158142,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Alert"
+          ],
+          "startNormalizedTime": 0.07500000298023224
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.8500000238418579,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Aware"
+          ],
+          "startNormalizedTime": 0.23499999940395355
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.22499999403953552,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAttack01"
+          ],
+          "startNormalizedTime": 0.05999999865889549
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.15000000596046448,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAttack02"
+          ],
+          "startNormalizedTime": 0.05000000074505806
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.36000001430511475,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAttack02"
+          ],
+          "startNormalizedTime": 0.25999999046325684
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 150.0,
+          "endNormalizedTime": 0.2750000059604645,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "ShootAttack"
+          ],
+          "startNormalizedTime": 0.07500000298023224
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5799999833106995,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttack_BS"
+          ],
+          "startNormalizedTime": 0.27000001072883606
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.5799999833106995,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttackConfused_BS"
+          ],
+          "startNormalizedTime": 0.27000001072883606
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 1800.0,
+          "ONBKNHMBGON": true,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttack_Loop"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 1800.0,
+          "ONBKNHMBGON": true,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttackConfused_Loop"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 640.0,
+          "endNormalizedTime": 0.6700000166893005,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttack_AS"
+          ],
+          "startNormalizedTime": 0.578000009059906
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "WalkF_AS_01"
+          ],
+          "modifierName": "Modifier_Volkodlak_Arctichare_WalkF_AS_01_RushMove"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "WalkFree_AS_01"
+          ],
+          "modifierName": "Modifier_Volkodlak_Arctichare_WalkFree_AS_01_RushMove"
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_MONSTER_Volkodlak_Arctichare_BackPos",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -5,
+                  "y": 0
+                }
+              }
+            }
+          ],
+          "stateIDs": [
+            "SurroundTurnLToR",
+            "SurroundTurnRToL"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "exitActions": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "target": "SelfAttackActiveTarget",
+                  "compareType": "XYZ",
+                  "value": 18
+                }
+              ],
+              "skillIDs": [
+                401
+              ]
+            }
+          ],
+          "enterActions": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "predicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "target": "SelfAttackActiveTarget",
+                  "compareType": "XYZ",
+                  "value": 18
+                }
+              ],
+              "skillIDs": [
+                401
+              ]
+            }
+          ],
+          "stateIDs": [
+            "Alert"
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            1,
+            1101
+          ],
+          "enterActions": [
+            {
+              "$type": "SetPoseInt",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "GV_7_0_WQDefenceMark"
+                }
+              ],
+              "value": 1002,
+              "intID": "FreePoseMark"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Arctichare_SteerManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FixedMonsterRushMove",
+          "target": "SelfAttackActiveTarget",
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "target": "SelfAttackActiveTarget",
+              "value": 1.9
+            }
+          ],
+          "maxRange": 2.200000047683716,
+          "animatorStateIDs": [
+            "NormalAttack01"
+          ],
+          "toPos": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "onGround": true,
+            "useRotation": true,
+            "linearMin": 0,
+            "linearOffset": -1,
+            "linearMax": 50
+          },
+          "timeRange": 0.275
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Arctichare_NormalAttack01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FixedMonsterRushMove",
+          "target": "SelfAttackActiveTarget",
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "target": "SelfAttackActiveTarget",
+              "value": 3
+            }
+          ],
+          "maxRange": 4.5,
+          "animatorStateIDs": [
+            "NormalAttack02",
+            "NormalAttack02Combo_Dodge"
+          ],
+          "toPos": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "onGround": true,
+            "useRotation": true,
+            "linearMin": 0,
+            "linearOffset": -1.75,
+            "linearMax": 50
+          },
+          "timeRange": 0.425
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Arctichare_NormalAttack02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Arctichare_BanCommonAttack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Arctichare_DodgeComboSkill_Ready",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Arctichare_DodgeComboSkill_Ready",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Arctichare_ShootAttackCommand": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAiCommandThreatTarget",
+                  "target": "SelfAttackActiveTarget",
+                  "enable": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAiCommandThreatTarget",
+                  "target": "SelfAttackActiveTarget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "useCorrectDir": true,
+                  "maxAngleType": "ByConfig",
+                  "FHBHCCMDINJ": {
+                    "$type": "IBKENFFDIKB",
+                    "HCHFDCNOOOF": 20.0,
+                    "LKBGFILKLJI": 20.0,
+                    "BCNFMACKCMG": 30.0,
+                    "AKKKAPLHNAF": 60.0
+                  }
+                },
+                "attachPointName": "ShootLaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42510052,
+              "trackTarget": "SelfAttackActiveTarget"
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "useCorrectDir": true
+                },
+                "attachPointName": "ShootLaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42510052
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "BySelfForwardAndTargetPosition",
+              "target": "SelfAttackActiveTarget",
+              "logic": "LesserOrEqual",
+              "value": 90
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Modifier_Volkodlak_Arctichare_BanCommonAttack"
+            }
+          ],
+          "stateIDs": [
+            "Dodge"
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ShootAttack"
+          ],
+          "modifierName": "Modifier_Volkodlak_Arctichare_ShootAttackCommand"
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Arctichare_ShootAttack",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_MONSTER_Volkodlak_Arctichare_DodgeComboSkill_Ready",
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Arctichare_WeaponEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_BerserkAttack_Weapon",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Arctichare_RotateAttackEffect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.333,
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "AS",
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_BerserkAttackRotate"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Modifier_Volkodlak_Arctichare_BerserkAttackRotateEffectRemoveDelay"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Modifier_Volkodlak_Arctichare_BerserkAttackRotateEffectRemoveDelay"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Arctichare_BerserkAttackRotateEffOn",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_BerserkAttackRotate_Ground",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByAny",
+                      "predicates": [
+                        {
+                          "$type": "ByHasAbilityState",
+                          "target": "Self",
+                          "abilityState": "ElementFreeze"
+                        },
+                        {
+                          "$type": "ByHasAbilityState",
+                          "target": "Self",
+                          "abilityState": "ElementPetrifaction"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Wind",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 40.0,
+                    "damagePercentage": 0.5,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "Animal_Penguin_03_RotateAtk",
+                  "attenuationTag": "Animal_Penguin_03_RotateAtk"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": -0.5
+                    }
+                  },
+                  "radius": 1.6,
+                  "height": 2.25
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Arctichare_BerserkAttackRotateEffectRemoveDelay": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.7,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Arctichare_BerserkAttackRotateEffOn",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Arctichare_RotateAttackConfusedEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_BerserkAttackRotate_Ground02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Arctichare_BerserkAttackRotateEffOn": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_BerserkAttackRotate",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Modifier_Volkodlak_Arctichare_WeaponEffect",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_BS",
+              "normalizeStart": 0.11699999868869781
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_BS",
+              "normalizeStart": 0.11699999868869781
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop01",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop02",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop03",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop04",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop05",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_BS_Loop",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop01",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop02",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop03",
+              "normalizeEnd": 99.0
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Modifier_Volkodlak_Arctichare_RotateAttackEffect",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_BS",
+              "normalizeStart": 0.6340000033378601
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_BS",
+              "normalizeStart": 0.6340000033378601
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop01",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop02",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop03",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop04",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop05",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_BS_Loop",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop01",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop02",
+              "normalizeEnd": 99.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop03",
+              "normalizeEnd": 99.0
+            }
+          ]
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "BerserkAttackConfused_Loop01",
+            "BerserkAttackConfused_Loop02",
+            "BerserkAttackConfused_Loop03"
+          ],
+          "modifierName": "Modifier_Volkodlak_Arctichare_RotateAttackConfusedEffect"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Pos",
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_BerserkAttackRotate"
+            }
+          ],
+          "stateIDs": [
+            "BerserkAttackConfused_Loop01"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Arctichare_BerserkAttackRotateEffOn",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stateIDs": [
+            "NormalBorn",
+            "BeHit",
+            "BeHitThrow",
+            "Struggle",
+            "Die",
+            "SwimDie",
+            "Die_RagDoll"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "ClearEndura"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Normal_BerserkAttackExecuted",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stateIDs": [
+            "BerserkAttack_BS",
+            "BerserkAttackConfused_BS"
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Modifier_Arctichare_BerserkAttackRotateEffOn"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_MONSTER_Volkodlak_Arctichare_BerserkAttackRotateEffOn",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Arctichare_BerserkAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Arctichare_BerserkSpeedRatioControl": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.25,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Arctichare_BerserkSpeedRatio",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "BerserkSpeedRatio",
+              "value": "_MONSTER_Volkodlak_Arctichare_BerserkSpeedRatio"
+            },
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 1.274999976158142,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "BerserkAttackConfused_Loop01",
+                "BerserkAttackConfused_Loop02",
+                "BerserkAttackConfused_Loop03"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -5,
+                  "y": 0
+                }
+              },
+              "timeRange": 0.6
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0.1,
+              "key": "_MONSTER_Volkodlak_Arctichare_BerserkSpeedRatio",
+              "value": 0.2,
+              "useLimitRange": true,
+              "maxValue": 2.4
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "BerserkSpeedRatio",
+              "value": "_MONSTER_Volkodlak_Arctichare_BerserkSpeedRatio"
+            },
+            {
+              "$type": "FixedMonsterRushMove",
+              "maxRange": 1.274999976158142,
+              "ignoreDetectForward": true,
+              "animatorStateIDs": [
+                "BerserkAttackConfused_Loop01",
+                "BerserkAttackConfused_Loop02",
+                "BerserkAttackConfused_Loop03"
+              ],
+              "toPos": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -5,
+                  "y": 0
+                }
+              },
+              "timeRange": 0.6
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Arctichare_BerserkBeHitControl": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Caster",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Blunt",
+                  "enBreak": 10000.0,
+                  "elementDurability": 0,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "overrideHitImpulse": {
+                    "$type": "ConfigHitImpulse",
+                    "hitLevel": "Air",
+                    "hitImpulseX": 0,
+                    "hitImpulseY": 800
+                  },
+                  "hitImpulseType": "LV7"
+                },
+                "attenuationGroup": "default"
+              },
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Fx_ChestNode"
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "_MONSTER_Volkodlak_Arctichare_BerserkSpeedRatio"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "BerserkAttackConfused_Loop01",
+            "BerserkAttackConfused_Loop02",
+            "BerserkAttackConfused_Loop03"
+          ],
+          "modifierName": "Modifier_Volkodlak_Arctichare_BerserkSpeedRatioControl"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "BerserkAttackConfused_Loop03"
+          ],
+          "modifierName": "Modifier_Volkodlak_Arctichare_BerserkBeHitControl"
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Arctichare_BerserkAttackConfused",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_MONSTER_Volkodlak_Arctichare_BerserkSpeedRatio",
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Beaver_ReturnToBornDither": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityDitherMixinV2",
+              "cutOutTime": 0.800000011920929,
+              "cutInTime": 2.0,
+              "forceUpdateAtStart": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_MuteAwareAlertSkill": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_CanDoAwareAlertSkill",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_CanDoAwareAlertSkill",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_PushCollider_BerserkAttack": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Entity_MassRatio": 5
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider_BerserkAttack"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider_BerserkAttack"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_PushCollider_Relax": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Entity_MassRatio": 5
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider_Relax"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider_Relax"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_PushCollider_Sharpen": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Entity_MassRatio": 5
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider_Sharpen"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider_Sharpen"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_PushCollider_SharpenBody": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Entity_MassRatio": 5
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider_SharpenBody"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider_SharpenBody"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Vulkodlak_Die",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "DieEffectNode"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetEffectFollowPath",
+          "DPNPNCGKIMP": "DieEffectNode",
+          "attachPoint": "DieEffectNode",
+          "effectPattern": "Eff_Monster_Vulkodlak_Die"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.800000011920929,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TurnLeft"
+          ],
+          "startNormalizedTime": 0.2549999952316284
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.6949999928474426,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TurnRight"
+          ],
+          "startNormalizedTime": 0.19499999284744263
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 75.0,
+          "endNormalizedTime": 0.6800000071525574,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "Aware"
+          ],
+          "startNormalizedTime": 0.47999998927116394
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.2800000011920929,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TauntAware01"
+          ],
+          "startNormalizedTime": 0.18000000715255737
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.5559999942779541,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "TauntAware01"
+          ],
+          "startNormalizedTime": 0.47999998927116394
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 75.0,
+          "endNormalizedTime": 0.25,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "NormalAttack"
+          ],
+          "startNormalizedTime": 0.029999999329447746
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.6000000238418579,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "ShootAttack_BS"
+          ],
+          "startNormalizedTime": 0.15000000596046448
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.44999998807907104,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttack_BS"
+          ],
+          "startNormalizedTime": 0.28999999165534973
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.44999998807907104,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "BerserkAttackConfused_BS"
+          ],
+          "startNormalizedTime": 0.28999999165534973
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            1902
+          ],
+          "modifierName": "Modifier_Volkodlak_Beaver_ReturnToBornDither"
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "TurnDirectionToPos",
+              "target": "SelfAttackActiveTarget",
+              "predicates": [
+                {
+                  "$type": "BySelfForwardAndTargetPosition",
+                  "target": "SelfAttackActiveTarget",
+                  "value": 20
+                }
+              ],
+              "toPos": {
+                "$type": "ConfigBornByTarget",
+                "useRotation": true
+              }
+            }
+          ],
+          "stateIDs": [
+            "Alert"
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Modifier_Volkodlak_Beaver_MuteAwareAlertSkill",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle01_BS",
+              "normalizeEnd": 0.20000000298023224
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality01_BS",
+              "normalizeEnd": 0.20000000298023224
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Modifier_Volkodlak_Beaver_PushCollider_BerserkAttack",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_BS",
+              "normalizeStart": 0.4950000047683716
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_BS",
+              "normalizeStart": 0.4950000047683716
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop_BS",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop01",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop02",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_Loop03",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_Loop01",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttackConfused_AS",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BerserkAttack_AS",
+              "normalizeEnd": 0.25200000405311584
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Modifier_Volkodlak_Beaver_PushCollider_Relax",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality01_BS",
+              "normalizeStart": 0.10000000149011612
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle01_BS",
+              "normalizeStart": 0.10000000149011612
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality01_Loop",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle01_Loop",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality01_AS01",
+              "normalizeEnd": 0.2460000067949295
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle01_AS01",
+              "normalizeEnd": 0.2460000067949295
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Modifier_Volkodlak_Beaver_PushCollider_Sharpen",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality02_BS",
+              "normalizeStart": 0.16599999368190765
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle02_BS",
+              "normalizeStart": 0.16599999368190765
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality02_Loop",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle02_Loop",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality02_AS01",
+              "normalizeEnd": 0.32600000500679016
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle02_AS01",
+              "normalizeEnd": 0.32600000500679016
+            }
+          ]
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "Modifier_Volkodlak_Beaver_PushCollider_SharpenBody",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality02_BS",
+              "normalizeStart": 0.7940000295639038
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle02_BS",
+              "normalizeStart": 0.7940000295639038
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality02_Loop",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle02_Loop",
+              "normalizeEnd": 9999999.0
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "Personality02_AS01",
+              "normalizeEnd": 0.19499999284744263
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "FreePoseIdle02_AS01",
+              "normalizeEnd": 0.19499999284744263
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "RemoveEffect",
+              "ILLLPEOODKP": "Beaver_Personality02_Eff"
+            }
+          ],
+          "stateIDs": [
+            "NormalBorn",
+            "Aware",
+            "Alert",
+            "BeHit",
+            "BeHitThrow",
+            "Struggle",
+            "Die",
+            "SwimDie",
+            "Die_RagDoll"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_SteerManager",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_MONSTER_Volkodlak_Beaver_CanDoAwareAlertSkill",
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Beaver_ShootAttackCommand": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "SetAiCommandThreatTarget",
+                  "target": "SelfAttackActiveTarget",
+                  "enable": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "SetAiCommandThreatTarget",
+                  "target": "SelfAttackActiveTarget"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "useCorrectDir": true,
+                  "maxAngleType": "ByConfig",
+                  "FHBHCCMDINJ": {
+                    "$type": "IBKENFFDIKB",
+                    "HCHFDCNOOOF": 10.0,
+                    "LKBGFILKLJI": 20.0,
+                    "BCNFMACKCMG": 30.0,
+                    "AKKKAPLHNAF": 60.0
+                  }
+                },
+                "attachPointName": "ShootLaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42510053,
+              "trackTarget": "SelfAttackActiveTarget"
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "useCorrectDir": true
+                },
+                "attachPointName": "ShootLaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42510053
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "BySelfForwardAndTargetPosition",
+              "target": "SelfAttackActiveTarget",
+              "logic": "LesserOrEqual",
+              "value": 90
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ShootAttack_BS",
+            "ShootAttack_Loop",
+            "ShootAttack_AS"
+          ],
+          "modifierName": "Modifier_Volkodlak_Beaver_ShootAttackCommand"
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_ShootAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Beaver_BerserkAttackHitCheck": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_Mark",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "CEBHIKGMAED": true,
+              "actions": [
+                {
+                  "$type": "Predicated",
+                  "failActions": [
+                    {
+                      "$type": "Predicated",
+                      "target": "Target",
+                      "successActions": [
+                        {
+                          "$type": "DamageByAttackValue",
+                          "target": "Caster",
+                          "attackInfo": {
+                            "$type": "ConfigAttackInfo",
+                            "attackProperty": {
+                              "$type": "ConfigAttackProperty",
+                              "damagePercentageRatio": 0,
+                              "strikeType": "Blunt",
+                              "enBreak": 10000.0,
+                              "elementDurability": 0,
+                              "arkheGrade": 0
+                            },
+                            "hitPattern": {
+                              "$type": "ConfigHitPattern",
+                              "onHitEffectName": "none",
+                              "overrideHitImpulse": {
+                                "$type": "ConfigHitImpulse",
+                                "hitLevel": "Air",
+                                "hitImpulseX": 0,
+                                "hitImpulseY": 900
+                              },
+                              "hitImpulseType": "LV7"
+                            },
+                            "attenuationGroup": "default"
+                          },
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "useRotation": true,
+                            "attachPointName": "Fx_ChestNode"
+                          }
+                        },
+                        {
+                          "$type": "SetGlobalValueV2",
+                          "minValue": 0,
+                          "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime",
+                          "maxValue": 0,
+                          "value": 0
+                        }
+                      ],
+                      "failActions": [
+                        {
+                          "$type": "DamageByAttackValue",
+                          "target": "Caster",
+                          "attackInfo": {
+                            "$type": "ConfigAttackInfo",
+                            "attackProperty": {
+                              "$type": "ConfigAttackProperty",
+                              "damagePercentageRatio": 0,
+                              "strikeType": "Blunt",
+                              "enBreak": 10000.0,
+                              "elementDurability": 0,
+                              "arkheGrade": 0
+                            },
+                            "hitPattern": {
+                              "$type": "ConfigHitPattern",
+                              "onHitEffectName": "none",
+                              "overrideHitImpulse": {
+                                "$type": "ConfigHitImpulse",
+                                "hitLevel": "Light",
+                                "hitImpulseX": 200,
+                                "hitImpulseY": 0
+                              },
+                              "hitImpulseType": "LV3"
+                            },
+                            "attenuationGroup": "default"
+                          },
+                          "born": {
+                            "$type": "ConfigBornByAttachPoint",
+                            "useRotation": true,
+                            "attachPointName": "Fx_ChestNode"
+                          }
+                        }
+                      ],
+                      "targetPredicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "target": "Self",
+                          "value": 4,
+                          "compareType": "MoreThanAndEqual",
+                          "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime"
+                        }
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime"
+                    }
+                  ]
+                }
+              ],
+              "NBOEEIHGCPD": true,
+              "globalValueKey": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Fire",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "Randomed",
+          "failActions": [
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackBulletType",
+                  "maxValue": 0,
+                  "value": 3
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "FCLMJDMLPMI": {
+                    "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 3
+                  },
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "x": -90.0
+                      }
+                    },
+                    "attachPointName": "ShootLaunchPoint",
+                    "attachPointTargetType": "Self"
+                  },
+                  "bulletID": 42510054
+                }
+              ],
+              "chance": 0.5,
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackBulletType",
+                  "maxValue": 0,
+                  "value": 2
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "FCLMJDMLPMI": {
+                    "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 2
+                  },
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "x": -90.0
+                      }
+                    },
+                    "attachPointName": "ShootLaunchPoint",
+                    "attachPointTargetType": "Self"
+                  },
+                  "bulletID": 42510054
+                }
+              ]
+            }
+          ],
+          "chance": 0.333,
+          "successActions": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackBulletType",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "TriggerBullet",
+              "FCLMJDMLPMI": {
+                "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 1
+              },
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": -90.0
+                  }
+                },
+                "attachPointName": "ShootLaunchPoint",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 42510054
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "ClearEndura"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Normal_BerserkAttackExecuted",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stateIDs": [
+            "BerserkAttack_BS",
+            "BerserkAttackConfused_BS"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stateIDs": [
+            "BerserkAttack_BS"
+          ]
+        },
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stateIDs": [
+            "BerserkAttackConfused_BS",
+            "BerserkAttackConfused_Loop"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_BerserkAttack",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttackHitCheck"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SetGlobalPos",
+              "LINAHBPILJD": false,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "DJJOOBHDHEG": 30.0
+              }
+            },
+            {
+              "$type": "TriggerBullet",
+              "FCLMJDMLPMI": {
+                "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 1
+              },
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 10
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": 90.0
+                  }
+                },
+                "KBOBCHGAMFB": "Self",
+                "positionKey": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround"
+              },
+              "bulletID": 42510055
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "SelfAttackActiveTarget",
+                  "LINAHBPILJD": false,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+                  "born": {
+                    "$type": "ConfigBornByTargetLinearPoint",
+                    "onGround": true,
+                    "useRotation": true,
+                    "DJJOOBHDHEG": 30.0,
+                    "linearMin": 2.5,
+                    "linearOffset": 0,
+                    "linearMax": 30
+                  }
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "SelfAttackActiveTarget",
+                  "LINAHBPILJD": false,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+                  "born": {
+                    "$type": "ConfigBornByTargetLinearPoint",
+                    "onGround": true,
+                    "useRotation": true,
+                    "DJJOOBHDHEG": 30.0,
+                    "linearMin": 2.5,
+                    "linearOffset": 0,
+                    "linearMax": 120
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Volkodlak_Beaver_TPSNoMove_Mark"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "FCLMJDMLPMI": {
+                "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 1
+              },
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 10
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": 90.0
+                  }
+                },
+                "KBOBCHGAMFB": "Self",
+                "positionKey": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround"
+              },
+              "bulletID": 42510055
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_BerserkAttackConfused_BulletType01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SetGlobalPos",
+              "LINAHBPILJD": false,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "DJJOOBHDHEG": 30.0
+              }
+            },
+            {
+              "$type": "TriggerBullet",
+              "FCLMJDMLPMI": {
+                "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 2
+              },
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 10
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": 90.0
+                  }
+                },
+                "KBOBCHGAMFB": "Self",
+                "positionKey": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround"
+              },
+              "bulletID": 42510055
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "SelfAttackActiveTarget",
+                  "LINAHBPILJD": false,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+                  "born": {
+                    "$type": "ConfigBornByTargetLinearPoint",
+                    "onGround": true,
+                    "useRotation": true,
+                    "DJJOOBHDHEG": 30.0,
+                    "linearMin": 2.5,
+                    "linearOffset": 0,
+                    "linearMax": 30
+                  }
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "SelfAttackActiveTarget",
+                  "LINAHBPILJD": false,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+                  "born": {
+                    "$type": "ConfigBornByTargetLinearPoint",
+                    "onGround": true,
+                    "useRotation": true,
+                    "DJJOOBHDHEG": 30.0,
+                    "linearMin": 2.5,
+                    "linearOffset": 0,
+                    "linearMax": 120
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Volkodlak_Beaver_TPSNoMove_Mark"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "FCLMJDMLPMI": {
+                "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 2
+              },
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 10
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": 90.0
+                  }
+                },
+                "KBOBCHGAMFB": "Self",
+                "positionKey": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround"
+              },
+              "bulletID": 42510055
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_BerserkAttackConfused_BulletType02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "SetGlobalPos",
+              "LINAHBPILJD": false,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "DJJOOBHDHEG": 30.0
+              }
+            },
+            {
+              "$type": "TriggerBullet",
+              "FCLMJDMLPMI": {
+                "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 3
+              },
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 10
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": 90.0
+                  }
+                },
+                "KBOBCHGAMFB": "Self",
+                "positionKey": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround"
+              },
+              "bulletID": 42510055
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "SelfAttackActiveTarget",
+                  "LINAHBPILJD": false,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+                  "born": {
+                    "$type": "ConfigBornByTargetLinearPoint",
+                    "onGround": true,
+                    "useRotation": true,
+                    "DJJOOBHDHEG": 30.0,
+                    "linearMin": 2.5,
+                    "linearOffset": 0,
+                    "linearMax": 30
+                  }
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "SelfAttackActiveTarget",
+                  "LINAHBPILJD": false,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround",
+                  "born": {
+                    "$type": "ConfigBornByTargetLinearPoint",
+                    "onGround": true,
+                    "useRotation": true,
+                    "DJJOOBHDHEG": 30.0,
+                    "linearMin": 2.5,
+                    "linearOffset": 0,
+                    "linearMax": 120
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Volkodlak_Beaver_TPSNoMove_Mark"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "FCLMJDMLPMI": {
+                "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType": 3
+              },
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 10
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": 90.0
+                  }
+                },
+                "KBOBCHGAMFB": "Self",
+                "positionKey": "_MONSTER_Volkodlak_Beaver_BerserkAttack_BulletBornPosOnGround"
+              },
+              "bulletID": 42510055
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_BerserkAttackConfused_BulletType03"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Beaver_TPSGeneral": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "HitBoxOptimizationMixin"
+            },
+            {
+              "$type": "ModifyBeHitDamageMixin",
+              "damagePercentageRatio": -999,
+              "damageExtra": -99999,
+              "predicates": [
+                {
+                  "$type": "ByHitBoxType",
+                  "target": "Self",
+                  "hitBoxType": "TPSOther"
+                }
+              ],
+              "ignoreEventInfo": true,
+              "ONKJNIAICCK": -999
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Volkodlak_Beaver_TPSGeneral",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_TPSGeneral"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Monster_Volkodlak_Beaver_TPSNoMove",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_MONSTER_Volkodlak_Beaver_TPSNoMove_Mark",
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_SheepDog_ShootAttack_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Sheepdog_RangedAttack_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_KillSelfTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 9,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Modifier_Volkodlak_SheepDog_ShootAttack_Effect"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Volkodlak_Sheepdog_RangedAttack_BulletHit",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "RootNode"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Default",
+                        "enBreak": 50.0,
+                        "damagePercentage": 0.8,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "shakeTime": 0.09000000357627869,
+                        "shakeRange": 0.05999999865889549
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "none",
+                        "hitImpulseType": "LV2"
+                      },
+                      "attenuationGroup": "default",
+                      "canBeModifiedBy": "OriginOwner"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackSphere",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "useRotation": true,
+                        "attachPointName": "RootNode"
+                      },
+                      "radius": 0.5
+                    }
+                  }
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_HAS_TRIGGERED_",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "KillSelf",
+                  "configIdArray": [
+                    42510051
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Volkodlak_Sheepdog_RangedAttack_BulletHit",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "damagePercentage": 0.8,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.09000000357627869,
+                    "shakeRange": 0.05999999865889549
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 0.5
+                }
+              }
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510051
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_HAS_TRIGGERED_"
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Partner",
+                        "Gadget",
+                        "Vehicle",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByIsTargetCamp",
+                      "campBaseOn": "Owner",
+                      "campTargetType": "Enemy"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_SheepDog_ShootAttack_BulletAbility",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_SheepDog_ShootAttack_Effect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Modifier_KillSelfTimer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Arctichare_ShootAttack_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_RangedAttack_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_KillSelfTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 9,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Modifier_Volkodlak_Arctichare_ShootAttack_Effect"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Volkodlak_Arctichare_RangedAttack_BulletHit",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "RootNode"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Default",
+                        "enBreak": 50.0,
+                        "damagePercentage": 0.75,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "shakeTime": 0.09000000357627869,
+                        "shakeRange": 0.05999999865889549
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "none",
+                        "hitImpulseType": "LV3"
+                      },
+                      "attenuationGroup": "default",
+                      "canBeModifiedBy": "OriginOwner"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackSphere",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "useRotation": true,
+                        "attachPointName": "RootNode"
+                      },
+                      "radius": 0.5
+                    }
+                  }
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_HAS_TRIGGERED_",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "KillSelf",
+                  "configIdArray": [
+                    42510052
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Volkodlak_Arctichare_RangedAttack_BulletHit",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "damagePercentage": 0.75,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.09000000357627869,
+                    "shakeRange": 0.05999999865889549
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 0.5
+                }
+              }
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510052
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_HAS_TRIGGERED_"
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Partner",
+                        "Gadget",
+                        "Vehicle",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByIsTargetCamp",
+                      "campBaseOn": "Owner",
+                      "campTargetType": "Enemy"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Arctichare_ShootAttack_BulletAbility",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_Arctichare_ShootAttack_Effect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Modifier_KillSelfTimer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Beaver_ShootAttack_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Randomed",
+              "failActions": [
+                {
+                  "$type": "Randomed",
+                  "failActions": [
+                    {
+                      "$type": "AttachEffect",
+                      "scale": 1,
+                      "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_Bullet03",
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType",
+                      "maxValue": 0,
+                      "value": 3
+                    }
+                  ],
+                  "chance": 0.5,
+                  "successActions": [
+                    {
+                      "$type": "AttachEffect",
+                      "scale": 1,
+                      "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_Bullet02",
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType",
+                      "maxValue": 0,
+                      "value": 2
+                    }
+                  ]
+                }
+              ],
+              "chance": 0.333,
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "scale": 1,
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_Bullet01",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_KillSelfTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 9,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Modifier_Volkodlak_Beaver_ShootAttack_Effect"
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1,
+                      "compareType": "NoneOrEqual",
+                      "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_BulletHit01",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "RootNode"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 2,
+                      "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_BulletHit02",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "RootNode"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 3,
+                      "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_BulletHit03",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "RootNode"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Default",
+                        "enBreak": 50.0,
+                        "damagePercentage": 0.8,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "shakeTime": 0.09000000357627869,
+                        "shakeRange": 0.05999999865889549
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "none",
+                        "hitImpulseType": "LV2"
+                      },
+                      "attenuationGroup": "default",
+                      "canBeModifiedBy": "OriginOwner"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackSphere",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "useRotation": true,
+                        "attachPointName": "RootNode"
+                      },
+                      "radius": 0.5
+                    }
+                  }
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_HAS_TRIGGERED_",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "KillSelf",
+                  "configIdArray": [
+                    42510053
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_BulletHit01",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_BulletHit02",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_ShootAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_RangedAttack_BulletHit03",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "damagePercentage": 0.8,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.09000000357627869,
+                    "shakeRange": 0.05999999865889549
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "none",
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "radius": 0.5
+                }
+              }
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510053
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_HAS_TRIGGERED_"
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Partner",
+                        "Gadget",
+                        "Vehicle",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByIsTargetCamp",
+                      "campBaseOn": "Owner",
+                      "campTargetType": "Enemy"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_ShootAttack_BulletAbility",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_ShootAttack_Effect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Modifier_KillSelfTimer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Beaver_BerserkAttack_UpBulletEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet01_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet02_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet03",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet03_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused",
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Owner",
+                  "value": 1,
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackConfused"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_BerserkAttack_UpFlashEnd": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.6,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet_Flash",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAbility",
+              "target": "Owner",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ],
+              "abilityName": "Monster_Volkodlak_Beaver_BerserkAttackConfused_BulletType01",
+              "CFPNOMHBGIA": true
+            },
+            {
+              "$type": "TriggerAbility",
+              "target": "Owner",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ],
+              "abilityName": "Monster_Volkodlak_Beaver_BerserkAttackConfused_BulletType02",
+              "CFPNOMHBGIA": true
+            },
+            {
+              "$type": "TriggerAbility",
+              "target": "Owner",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ],
+              "abilityName": "Monster_Volkodlak_Beaver_BerserkAttackConfused_BulletType03",
+              "CFPNOMHBGIA": true
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_UpBulletEffect"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510054
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_BerserkAttack_UpBullet_Target": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime",
+              "value": 1,
+              "useLimitRange": true,
+              "maxValue": 4
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Grass",
+                  "attackType": "Melee",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Blunt",
+                  "enBreak": 40.0,
+                  "damagePercentage": 0.8,
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "cameraShake": {
+                  "$type": "ConfigCameraShake",
+                  "shakeTime": 0.09000000357627869,
+                  "shakeRange": 0.05999999865889549
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "retreatType": "ByHitDirection",
+                  "onHitEffectName": "none",
+                  "hitHaltTimeScale": 0.05000000074505806,
+                  "hitImpulseType": "LV2"
+                },
+                "attenuationGroup": "default",
+                "canBeModifiedBy": "OriginOwner"
+              },
+              "attacker": "Self",
+              "born": {
+                "$type": "EEIECHOPFGM"
+              }
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Hit",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1,
+                      "compareType": "NoneOrEqual",
+                      "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround01",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 2,
+                      "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround02",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 3,
+                      "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround03",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 3,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Volkodlak_Beaver_Mark"
+                }
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Volkodlak_Beaver_Mark"
+                }
+              ],
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_UpBullet_Target"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_UpBulletEffect"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510054
+              ]
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround01",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround02",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround03",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_UpBulletEffect"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510054
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_HAS_TRIGGERED_"
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Partner",
+                        "Gadget",
+                        "Vehicle",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByIsTargetCamp",
+                      "campBaseOn": "Owner",
+                      "campTargetType": "Enemy"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Volkodlak_Beaver_Mark"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_UpBulletEffect"
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_BerserkAttack_UpBulletAbility",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_UpBulletEffect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_UpFlashEnd"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_Beaver_BerserkAttack_DownBulletEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet_Flash",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Warning",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "DJJOOBHDHEG": 12.5
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet01_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet02_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet03",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet03_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_BerserkAttack_DownFlashEnd": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_HAS_TRIGGERED_"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Bullet_Flash",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_DownBulletEffect"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510055
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Modifier_Volkodlak_Beaver_BerserkAttack_DownBullet_Target": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime",
+              "value": 1,
+              "useLimitRange": true,
+              "maxValue": 4
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Grass",
+                  "attackType": "Melee",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Blunt",
+                  "enBreak": 40.0,
+                  "damagePercentage": 0.8,
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "cameraShake": {
+                  "$type": "ConfigCameraShake",
+                  "shakeTime": 0.09000000357627869,
+                  "shakeRange": 0.05999999865889549
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "retreatType": "ByHitDirection",
+                  "onHitEffectName": "none",
+                  "hitHaltTimeScale": 0.05000000074505806,
+                  "hitImpulseType": "LV2"
+                },
+                "attenuationGroup": "default",
+                "canBeModifiedBy": "OriginOwner"
+              },
+              "attacker": "Self",
+              "born": {
+                "$type": "EEIECHOPFGM"
+              }
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_Hit",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1,
+                      "compareType": "NoneOrEqual",
+                      "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround01",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 2,
+                      "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround02",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "FireEffect",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 3,
+                      "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                    }
+                  ],
+                  "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround03",
+                  "scale": 1,
+                  "born": {
+                    "$type": "EEIECHOPFGM",
+                    "useRotation": true
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 3,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_MONSTER_Volkodlak_Beaver_BerserkAttackHitTime"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Volkodlak_Beaver_Mark"
+                }
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Volkodlak_Beaver_Mark"
+                }
+              ],
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_DownBullet_Target"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_DownBulletEffect"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510055
+              ]
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround01",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround02",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "key": "_GADGET_Volkodlak_Beaver_BerserkAttackBulletType"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Volkodlak_Beaver_BerserkAttack_BulletHitGround03",
+              "scale": 1,
+              "born": {
+                "$type": "EEIECHOPFGM",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_HAS_TRIGGERED_",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_DownBulletEffect"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42510055
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_HAS_TRIGGERED_"
+            },
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar",
+                        "Partner",
+                        "Gadget",
+                        "Vehicle",
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByIsTargetCamp",
+                      "campBaseOn": "Owner",
+                      "campTargetType": "Enemy"
+                    }
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Level"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Volkodlak_Beaver_Mark"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_DownBulletEffect"
+        }
+      ],
+      "abilityName": "Monster_Volkodlak_Beaver_BerserkAttack_DownBulletAbility",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_DownBulletEffect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Modifier_Volkodlak_Beaver_BerserkAttack_DownFlashEnd"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_7": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetAnimatorLayerWeightMixin",
+              "GCANEOHDOIC": true,
+              "LJPPDIGCJMJ": "Hit Layer",
+              "LCDHELKGFJC": 0,
+              "JHDJEICCLMG": 0,
+              "priority": 10,
+              "weight": 0.699999988079071
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Volkodlak_TPSAffix_ShakeAdditive_0_7",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_7"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_2": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetAnimatorLayerWeightMixin",
+              "GCANEOHDOIC": true,
+              "LJPPDIGCJMJ": "Hit Layer",
+              "LCDHELKGFJC": 0,
+              "JHDJEICCLMG": 0,
+              "priority": 10,
+              "weight": 0.20000000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Volkodlak_TPSAffix_ShakeAdditive_0_2",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_2"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_35": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetAnimatorLayerWeightMixin",
+              "GCANEOHDOIC": true,
+              "LJPPDIGCJMJ": "Hit Layer",
+              "LCDHELKGFJC": 0,
+              "JHDJEICCLMG": 0,
+              "priority": 10,
+              "weight": 0.3499999940395355
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Volkodlak_TPSAffix_ShakeAdditive_0_35",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_35"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_075": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetAnimatorLayerWeightMixin",
+              "GCANEOHDOIC": true,
+              "LJPPDIGCJMJ": "Hit Layer",
+              "LCDHELKGFJC": 0,
+              "JHDJEICCLMG": 0,
+              "priority": 10,
+              "weight": 0.07500000298023224
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Volkodlak_TPSAffix_ShakeAdditive_0_075",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Modifier_Volkodlak_TPSAffix_ShakeAdditive_0_075"
+        }
+      ]
+    }
+  }
+]

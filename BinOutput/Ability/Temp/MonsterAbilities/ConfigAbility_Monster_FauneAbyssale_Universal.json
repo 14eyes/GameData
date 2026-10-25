@@ -1,0 +1,651 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ApplyCollisionMixin",
+          "MMKAJFKBIIE": [
+            "MoveCollider"
+          ]
+        }
+      ],
+      "abilityName": "FauneAbyssale_Universal_UnderwaterSettings",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_EnvironmentType",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 2
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AbilityAnimal_Logic_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceBuffDebuffs": [
+                "ElementPetrifaction",
+                "ElementFreeze"
+              ]
+            },
+            {
+              "$type": "ResetAIThreatBroadcastRange",
+              "range": 0
+            },
+            {
+              "$type": "ResetAIResistTauntLevel",
+              "resistTauntLevel": "Monster_TauntLevel_6"
+            },
+            {
+              "$type": "SetAIHitFeeling"
+            },
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "AbilityAnimal_Cooldown",
+                "AbilityAnimal_CanBeAbsorbed"
+              ],
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+              "defaultGlobalValueOnCreate": 1
+            }
+          ],
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_CanBeAbsorbed": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "MPTriggerOnRemote": true,
+              "triggerID": "BeAbsorbed"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ChangeTag",
+              "tag": "FauneAbyssale_AbilityAnimal",
+              "isAdd": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_Cooldown": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onAdded": [
+            {
+              "$type": "ChangeTag",
+              "tag": "FauneAbyssale_AbilityAnimal"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChangeLockTypeMixin",
+              "overrideRange": 0.009999999776482582,
+              "lockType": "Default",
+              "DHBLMAABPFN": 0.0,
+              "MPNEFIAAKHC": 0.0
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "ABILITY_ANIMAL_SUPPRESSOR"
+                }
+              ],
+              "key": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_AbilityAnimal",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "AbilityAnimal_Logic_Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "FauneAbyssale_Universal_AbilityAnimal_Suppressor",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "ABILITY_ANIMAL_SUPPRESSOR",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            101
+          ],
+          "enterActions": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "DisableWhenReturnToBorn"
+            }
+          ]
+        }
+      ],
+      "abilityName": "FauneAbyssale_ResetPoseParam"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AbilityAnimal_MantaRay_VFX_Manager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_MantaRay_AbilityAnimal_HeadMark",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AbilityAnimal_Cooldown_VFX",
+                "AbilityAnimal_CanBeAbsorbed_VFX"
+              ],
+              "globalValueKey": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_CanBeAbsorbed_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_MantaRay_Larva_Absorbable",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_Cooldown_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_AbilityAnimal_MantaRay",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "AbilityAnimal_MantaRay_VFX_Manager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AbilityAnimal_MantaRay_VFX_Manager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_HermitCrab_AbilityAnimal_HeadMark",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AbilityAnimal_Cooldown_VFX",
+                "AbilityAnimal_CanBeAbsorbed_VFX"
+              ],
+              "globalValueKey": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_CanBeAbsorbed_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_HermitCrab_Larva_Absorbable",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_Cooldown_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_AbilityAnimal_HermitCrab",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "AbilityAnimal_MantaRay_VFX_Manager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AbilityAnimal_MantaRay_VFX_Manager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_Seal_AbilityAnimal_HeadMark",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AbilityAnimal_Cooldown_VFX",
+                "AbilityAnimal_CanBeAbsorbed_VFX"
+              ],
+              "globalValueKey": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_CanBeAbsorbed_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_Seal_Larva_Absorbable",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_Cooldown_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_AbilityAnimal_Seal",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "AbilityAnimal_MantaRay_VFX_Manager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AbilityAnimal_MantaRay_VFX_Manager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_JellyFish_AbilityAnimal_HeadMark",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AbilityAnimal_Cooldown_VFX",
+                "AbilityAnimal_CanBeAbsorbed_VFX"
+              ],
+              "globalValueKey": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_CanBeAbsorbed_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_JellyFish_Larva_Absorbable",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_Cooldown_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_AbilityAnimal_JellyFish",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "AbilityAnimal_MantaRay_VFX_Manager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AbilityAnimal_MantaRay_VFX_Manager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_Octopus_AbilityAnimal_HeadMark",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "AbilityAnimal_Cooldown_VFX",
+                "AbilityAnimal_CanBeAbsorbed_VFX"
+              ],
+              "globalValueKey": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_CanBeAbsorbed_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_Octopus_Larva_Absorbable",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AbilityAnimal_Cooldown_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_AbilityAnimal_Octopus",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "AbilityAnimal_MantaRay_VFX_Manager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FauneAbyssale_Universal_DisableMoveCollider": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "MoveCollider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_DisableMoveCollider",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FauneAbyssale_Universal_DisableMoveCollider"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FauneAbyssale_Universal_EnableMoveCollider": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "MoveCollider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_EnableMoveCollider",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FauneAbyssale_Universal_EnableMoveCollider"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "FauneAbyssale_Universal_HideBillBoard",
+      "onAdded": [
+        {
+          "$type": "HideUIBillBoard",
+          "hide": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FauneAbyssale_Universal_Special_Endure": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_EndureDelta": 0
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "FauneAbyssale_Universal_Special_Endure",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FauneAbyssale_Universal_Special_Endure"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AbilityFishDiePatternSwitch": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DiePatternSwitchMixin",
+              "priority": "LevelPlay",
+              "NGGGFNDCCPM": true,
+              "NHKKKCFDJGB": true,
+              "HBDAIEHOEMK": false,
+              "dieShaderEnableDurationTime": 0.0,
+              "GJNCACJIMFH": true,
+              "DGOAOCDKKGA": true,
+              "BGAPBIAJAKN": true,
+              "MIIDKADGGIC": true,
+              "dieEndTime": 0.009999999776482582
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DestroySelf": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 1.5,
+              "CJKPCCEKEGA": 2.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "DestroySelf"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5
+          ],
+          "globalValueKey": "ABILITY_ANIMAL_CAN_BE_ABSORBED",
+          "defaultGlobalValueOnCreate": 1
+        }
+      ],
+      "abilityName": "MonsterAffix_AbilityAnimal",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_AquarDiving_Mark",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "AbilityFishDiePatternSwitch"
+        }
+      ]
+    }
+  }
+]

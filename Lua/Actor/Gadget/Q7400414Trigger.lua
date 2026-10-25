@@ -1,0 +1,42 @@
+require("Actor/ActorCommon")
+local GadgetActorProxy = require("Actor/Gadget/GadgetActorProxy")
+
+local Q7400414Trigger = class("Q7400414Trigger", GadgetActorProxy)
+Q7400414Trigger.defaultAlias = "Q7400414Trigger"
+local Q74004ClientConfig = require("Quest/Client/Q74004ClientConfig")
+
+local this
+local subIDs = Q74004ClientConfig.SubIDs
+local npcs = Q74004ClientConfig.Npcs
+local points = Q74004ClientConfig.Points
+local datas = Q74004ClientConfig.Datas
+
+function Q7400414Trigger:OnPostDataPrepare()
+    print("[MainId: 74004][Trigger: Q7400414Trigger] OnPostDataPrepare")
+    this = self
+end
+
+function Q7400414Trigger:OnPostComponentPrepare()
+    print("[MainId: 74004][Trigger: Q7400414Trigger] OnPostComponentPrepare")
+    this:AddComponentTrigger(5, DistType.EULER, {x = 0.0, y = 0.0, z = 0.0}, self.TriggerIn, self.TriggerOut, nil, self.PreTriggerIn, self.LightUpTriggerIn)
+end
+
+function Q7400414Trigger:TriggerIn()
+    print("[MainId: 74004][Trigger: Q7400414Trigger] TriggerIn")
+    actorUtils.FinishQuestID(false, 7400414)
+    this:DestroySelf()
+end
+
+function Q7400414Trigger:PreTriggerIn()
+    print("[MainId: 74004][Trigger: Q7400414Trigger] PreTriggerIn")
+end
+
+function Q7400414Trigger:LightUpTriggerIn()
+    print("[MainId: 74004][Trigger: Q7400414Trigger] LightUpTriggerIn")
+end
+
+function Q7400414Trigger:TriggerOut()
+    print("[MainId: 74004][Trigger: Q7400414Trigger] TriggerOut")
+end
+
+return Q7400414Trigger

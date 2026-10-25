@@ -1,0 +1,127 @@
+main_id = 20061
+local tbl = {}
+local n = 2006102
+local v = 2006103
+local n2 = 2006104
+local n3 = 2006105
+local n4 = 2006106
+local n5 = 2006107
+local n6 = 2006108
+local n7 = 2006109
+local n8 = 2006110
+local n9 = 2006111
+local n10 = 2006112
+local n11 = 2006113
+local n12 = 2006114
+local n13 = 2006115
+local n14 = 2006116
+local n15 = 2006117
+local n16 = 2006118
+local n17 = 2006119
+local n18 = 2006120
+tbl[1] = 2006101
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+tbl[5] = n3
+tbl[6] = n4
+tbl[7] = n5
+tbl[8] = n6
+tbl[9] = n7
+tbl[10] = n8
+tbl[11] = n9
+tbl[12] = n10
+tbl[13] = n11
+tbl[14] = n12
+tbl[15] = n13
+tbl[16] = n14
+tbl[17] = n15
+tbl[18] = n16
+tbl[19] = n17
+tbl[20] = n18
+sub_ids = tbl
+
+rewind_data = {
+    ["2006101"] = {},
+    ["2006102"] = {},
+    ["2006106"] = {},
+    ["2006107"] = {},
+    ["2006108"] = {},
+    ["2006109"] = {},
+    ["2006110"] = {},
+    ["2006111"] = {},
+    ["2006114"] = {},
+    ["2006115"] = {}
+}
+
+quest_data = {
+    ["2006101"] = {},
+    ["2006102"] = {},
+    ["2006106"] = {},
+    ["2006107"] = {},
+    ["2006108"] = {},
+    ["2006109"] = {},
+    ["2006110"] = {},
+    ["2006111"] = {},
+    ["2006114"] = {},
+    ["2006115"] = {
+        npcs = {
+            {
+                id = 1005,
+                alias = "Paimon",
+                script = "Actor/Quest/Q352/Paimon",
+                pos = "Q20061Des05",
+                scene_id = 3,
+                data_index = 1
+            }
+        }
+    }
+}
+
+finish_action = {}
+fail_action = {}
+cancel_action = {}
+local tbl2 = {CLIENT = {}}
+local server = {}
+local qUEST_EXEC_REFRESH_GROUP_SUITE = {}
+local tbl3 = {}
+local str = "133002310,1"
+tbl3[1] = "3"
+tbl3[2] = str
+local tbl4 = {}
+local str2 = "133002313,1"
+tbl4[1] = "3"
+tbl4[2] = str2
+local tbl5 = {}
+local str3 = "133002311,1"
+tbl5[1] = "3"
+tbl5[2] = str3
+qUEST_EXEC_REFRESH_GROUP_SUITE[1] = tbl3
+qUEST_EXEC_REFRESH_GROUP_SUITE[2] = tbl4
+qUEST_EXEC_REFRESH_GROUP_SUITE[3] = tbl5
+server.QUEST_EXEC_REFRESH_GROUP_SUITE = qUEST_EXEC_REFRESH_GROUP_SUITE
+server.QUEST_EXEC_DEL_ALL_SPECIFIC_PACK_ITEM = {{"100354,100352"}}
+tbl2.SERVER = server
+finish_action = tbl2
+local tbl6 = {CLIENT = {}}
+local server2 = {}
+local qUEST_EXEC_REFRESH_GROUP_SUITE2 = {}
+local tbl7 = {}
+local str4 = "133002310,1"
+tbl7[1] = "3"
+tbl7[2] = str4
+local tbl8 = {}
+local str5 = "133002313,1"
+tbl8[1] = "3"
+tbl8[2] = str5
+local tbl9 = {}
+local str6 = "133002311,1"
+tbl9[1] = "3"
+tbl9[2] = str6
+qUEST_EXEC_REFRESH_GROUP_SUITE2[1] = tbl7
+qUEST_EXEC_REFRESH_GROUP_SUITE2[2] = tbl8
+qUEST_EXEC_REFRESH_GROUP_SUITE2[3] = tbl9
+server2.QUEST_EXEC_REFRESH_GROUP_SUITE = qUEST_EXEC_REFRESH_GROUP_SUITE2
+server2.QUEST_EXEC_DEL_ALL_SPECIFIC_PACK_ITEM = {{"100354,100352"}}
+tbl6.SERVER = server2
+cancel_action = tbl6

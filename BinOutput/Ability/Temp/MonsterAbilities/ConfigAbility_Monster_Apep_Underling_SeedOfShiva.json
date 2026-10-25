@@ -1,0 +1,340 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_Apep_Underling_SeedOfShiva_ExplodeTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "Explode"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Apep_Stage2_DefendTarget"
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 3
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "Explode"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Apep_Stage2_DefendTarget"
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 3.5
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SeedOfShiva_Die": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ServerCreateGadgetOnKillMixin",
+              "campID": 1001,
+              "gadgetIDList": [
+                42908209
+              ],
+              "campTargetType": "Enemy"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SeedOfShiva_Explode": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "ExplodeDie"
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                1,
+                1
+              ]
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DiePatternSwitchMixin",
+              "NGGGFNDCCPM": true,
+              "NHKKKCFDJGB": true,
+              "dieForceDisappearTime": 0.0,
+              "GJNCACJIMFH": true,
+              "DGOAOCDKKGA": true,
+              "BGAPBIAJAKN": true,
+              "MIIDKADGGIC": true
+            },
+            {
+              "$type": "ServerCreateGadgetOnKillMixin",
+              "campID": 4001,
+              "gadgetIDList": [
+                42908207
+              ],
+              "campTargetType": "Enemy"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Underling_SeedOfShiva_ExplodeTrigger",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Charging"
+            }
+          ],
+          "stateIDs": [
+            "Explode"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 99.0,
+          "steerStateIDs": [
+            "NormalMove"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 99.0,
+          "steerStateIDs": [
+            "Explode"
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "SeedOfShiva_Die",
+            "SeedOfShiva_Explode"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_MONSTER_Apep_Underling_SeedOfShiva_ExplodeTrigger",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Monster_Apep_Underling_SeedOfShiva_ExplodeTrigger",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Monster_Apep_Underling_SeedOfShiva_ExplodeTrigger"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Underling_SeedOfShiva_Tag",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ShowReminder",
+          "id": 201790203
+        },
+        {
+          "$type": "ServerMonsterLog",
+          "paramList": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Apep_Underling_SeedOfShiva_Die",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Underling_SpecialGadget",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ServerLuaCall",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "sortType": "Nearest",
+            "sizeRatio": 1,
+            "campTargetType": "SelfCamp",
+            "shapeName": "CircleR50"
+          },
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "SGV_Show_Bar"
+            }
+          ],
+          "isTarget": true,
+          "param1": 220,
+          "param2": 0,
+          "paramNum": 1,
+          "funcName": "SLC_UpdateProtectScore",
+          "param3": 0,
+          "luaCallType": "FromGroup"
+        },
+        {
+          "$type": "ReviveElemEnergy",
+          "target": "AllPlayerAvatars",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "value": 20
+        },
+        {
+          "$type": "KillSelf",
+          "duration": 2.0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SelfExplosion": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Apep_Underling_SeedOfShiva_Explode",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 100.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "extension": {
+                      "$type": "ConfigCameraShakeExt",
+                      "rangeAttenuation": 0.8999999761581421,
+                      "baseCycle": 0.07999999821186066,
+                      "cycleDamping": 0.03999999910593033
+                    },
+                    "shakeTime": 0.30000001192092896,
+                    "shakeRange": 0.03999999910593033
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV4"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "attackTag": "Apep_UnderlingAttack_Type3"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 3.5
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "duration": 3.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Apep_Underling_SeedOfShiva_SelfExplosion",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "SelfExplosion"
+        }
+      ]
+    }
+  }
+]

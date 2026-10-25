@@ -1,0 +1,3058 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ResistShock": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 14004
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Slime_Electric_ResistShock"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_SLime_Electric_ElementState"
+        }
+      ],
+      "abilityName": "Slime_Electric_TestTool_Discharge"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElectricDetect": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "LesserOrEqual",
+                  "parameter": "PoseID",
+                  "value": 3
+                }
+              ],
+              "abilityName": "Slime_Electric_02_ElementState"
+            }
+          ]
+        },
+        "UNIQUE_SLime_Electric_ElementState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RebornTimer"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Discharge_Timer",
+                "Discharge_Timer_Off"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+              "defaultGlobalValueOnCreate": 0
+            },
+            {
+              "$type": "FieldEntityCountChangeMixin",
+              "onFieldExit": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByLCTrigger",
+                    "campTargetType": "SelfCamp"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPartControlTarget",
+                      "target": "Target",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                    },
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "PMECOANPKHN": true,
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                },
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "onFieldEnter": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByLCTrigger",
+                    "campTargetType": "SelfCamp"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPartControlTarget",
+                      "target": "Target",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                    },
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "campTargetType": "SelfCamp",
+              "MOICJEBDAMB": 0,
+              "simpleCountGlobaValueKey": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+              "simpleCountMaxValue": 0
+            }
+          ],
+          "elementType": "Electric",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "AddElementDurability",
+              "predicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                }
+              ],
+              "value": 25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 100,
+              "modifierName": "UNIQUE_SLime_Electric_ElementState"
+            }
+          ]
+        },
+        "RebornTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 7.5,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "RebornGCD"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "RebornGCD"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Ready",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.15
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity"
+                },
+                "attachPointName": "ElectrifiedBody"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackTargetMapEvent",
+              "attackTargetMapEvent": {
+                "$type": "ConfigAttackTargetMapEvent",
+                "attackInfoMap": {
+                  "2": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 80.0,
+                      "damagePercentage": 1,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "hitImpulseType": "LV2"
+                    },
+                    "attenuationGroup": "default"
+                  },
+                  "1": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "enBreak": 80.0,
+                      "damagePercentage": 0,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerAlways",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -0.5,
+                      "y": 0.35
+                    }
+                  },
+                  "radius": 1.55,
+                  "height": 0.5
+                }
+              }
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "maxValue": 9,
+              "randomInRange": true,
+              "minValue": 5,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "overrideMapKey": "DischargeTime"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "AddElementDurability",
+              "value": -25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 100,
+              "modifierName": "UNIQUE_SLime_Electric_ElementState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DischargeTime",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Discharge"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ElectrifiedBody"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Gap",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Timer_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ElectrifiedBody"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Gap",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Transition": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "modifierName": "Discharge"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_BS",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerFaceAnimation",
+              "faceAnimation": "Attack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_SLime_02_Electric_ElementState_SimpleStick": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 50,
+          "elementType": "Electric",
+          "state": "LockHP",
+          "MGNAPCNBGEB": false,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_SLime_Electric_ElementState"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToElementTypeMixin",
+          "modifierName": "ElectricDetect",
+          "reject": true,
+          "elementTypes": [
+            "Electric"
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_SLime_Electric_ElementState",
+            "UNIQUE_SLime_02_Electric_ElementState_SimpleStick"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_MONSTER_Slime_SimpleStick",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Slime_Electric_02_ElementState",
+      "abilitySpecials": {
+        "DischargeTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 7.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElectricDetect": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "RebornTimer"
+                },
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Slime_Electric_03_ElementState"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "LesserOrEqual",
+                  "parameter": "PoseID",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        },
+        "UNIQUE_SLime_Electric_ElementState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RebornTimer"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 200,
+          "modifierMixins": [
+            {
+              "$type": "ReplaceEventPatternMixin",
+              "newPatterns": [
+                "Monster_Slime_Electric_03_NormalAttack_Electric",
+                "Monster_Slime_Electric_JumpAttack_Electric"
+              ],
+              "oldPatterns": [
+                "Monster_Slime_Electric_03_NormalAttack",
+                "Monster_Slime_Electric_JumpAttack"
+              ]
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Discharge_Timer",
+                "Discharge_Timer_Off"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+              "defaultGlobalValueOnCreate": 0
+            },
+            {
+              "$type": "FieldEntityCountChangeMixin",
+              "onFieldExit": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByLCTrigger",
+                    "campTargetType": "SelfCamp"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPartControlTarget",
+                      "target": "Target",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                    },
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "PMECOANPKHN": true,
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                },
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "onFieldEnter": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByLCTrigger",
+                    "campTargetType": "SelfCamp"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPartControlTarget",
+                      "target": "Target",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                    },
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "campTargetType": "SelfCamp",
+              "MOICJEBDAMB": 0,
+              "simpleCountGlobaValueKey": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+              "simpleCountMaxValue": 0
+            }
+          ],
+          "elementType": "Electric",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "AddElementDurability",
+              "predicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                }
+              ],
+              "value": 25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 200,
+              "modifierName": "UNIQUE_SLime_Electric_ElementState"
+            }
+          ]
+        },
+        "RebornTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "RebornGCD"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "RebornGCD"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Ready",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.3
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity"
+                },
+                "attachPointName": "ElectrifiedBody"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackTargetMapEvent",
+              "attackTargetMapEvent": {
+                "$type": "ConfigAttackTargetMapEvent",
+                "attackInfoMap": {
+                  "2": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 80.0,
+                      "damagePercentage": 0.333,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "hitImpulseType": "LV2"
+                    },
+                    "attenuationGroup": "default"
+                  },
+                  "1": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "enBreak": 80.0,
+                      "damagePercentage": 0,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -0.6,
+                      "y": 0.75
+                    }
+                  },
+                  "radius": 2.9,
+                  "height": 0.75
+                }
+              }
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "maxValue": 9,
+              "randomInRange": true,
+              "minValue": 5,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "overrideMapKey": "DischargeTime"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "AddElementDurability",
+              "value": -25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 200,
+              "modifierName": "UNIQUE_SLime_Electric_ElementState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DischargeTime",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Discharge"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ElectrifiedBody"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Gap",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Timer_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ElectrifiedBody"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Gap",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Transition": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "modifierName": "Discharge"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_BS",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerFaceAnimation",
+              "faceAnimation": "Attack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_SLime_03_Electric_ElementState_SimpleStick": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 50,
+          "elementType": "Electric",
+          "state": "LockHP",
+          "MGNAPCNBGEB": false,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_SLime_Electric_ElementState"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToElementTypeMixin",
+          "modifierName": "ElectricDetect",
+          "reject": true,
+          "elementTypes": [
+            "Electric"
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_SLime_Electric_ElementState",
+            "UNIQUE_SLime_03_Electric_ElementState_SimpleStick"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_MONSTER_Slime_SimpleStick",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Slime_Electric_03_ElementState",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_SLime_Electric_ElementState"
+        }
+      ],
+      "abilitySpecials": {
+        "DischargeTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 7.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElectricDetect": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "RebornTimer"
+                },
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Slime_Electric_03_Positive_ElementState"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "LesserOrEqual",
+                  "parameter": "PoseID",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        },
+        "UNIQUE_SLime_Electric_ElementState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "IsAttract"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsAttract"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RebornTimer"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Positive_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 500,
+          "modifierMixins": [
+            {
+              "$type": "ReplaceEventPatternMixin",
+              "newPatterns": [
+                "Monster_Slime_Electric_03_NormalAttack_Electric",
+                "Monster_Slime_Electric_JumpAttack_Electric"
+              ],
+              "oldPatterns": [
+                "Monster_Slime_Electric_03_NormalAttack",
+                "Monster_Slime_Electric_JumpAttack"
+              ]
+            },
+            {
+              "$type": "FieldEntityCountChangeMixin",
+              "onFieldExit": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_NEGATIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "PMECOANPKHN": true,
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                },
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "onFieldEnter": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_NEGATIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "campTargetType": "SelfCamp",
+              "MOICJEBDAMB": 0,
+              "simpleCountGlobaValueKey": "_ABILITY_SLIME_ELECTRIC_NEGATIVE_COUNT",
+              "simpleCountMaxValue": 0
+            }
+          ],
+          "elementType": "Electric",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "AddElementDurability",
+              "predicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                }
+              ],
+              "value": 25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 500,
+              "modifierName": "UNIQUE_SLime_Electric_ElementState"
+            }
+          ]
+        },
+        "RebornTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "RebornGCD"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "RebornGCD"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Positive_Discharge_Ready",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Positive_Discharge",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.3
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity"
+                },
+                "attachPointName": "ElectrifiedBody"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackTargetMapEvent",
+              "attackTargetMapEvent": {
+                "$type": "ConfigAttackTargetMapEvent",
+                "attackInfoMap": {
+                  "2": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 80.0,
+                      "damagePercentage": 0.333,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "hitImpulseType": "LV2"
+                    },
+                    "attenuationGroup": "default"
+                  },
+                  "1": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "enBreak": 80.0,
+                      "damagePercentage": 0,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -0.6,
+                      "y": 0.75
+                    }
+                  },
+                  "radius": 2.9,
+                  "height": 0.75
+                }
+              }
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "maxValue": 9,
+              "randomInRange": true,
+              "minValue": 5,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "overrideMapKey": "DischargeTime"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "AddElementDurability",
+              "value": -25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 500,
+              "modifierName": "UNIQUE_SLime_Electric_ElementState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Positive": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR15"
+              },
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "target": "Target",
+                  "effectPattern": "Eff_Monster_Slime_Electric_Positive_Discharge_Current",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "attachPointName": "ElectrifiedBody",
+                    "attachPointTargetType": "Caster"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAudio",
+                  "operation": {
+                    "$type": "ConfigAudioPositionedEventOp",
+                    "operation": {
+                      "$type": "ConfigWwiseString",
+                      "text": "Play_sfx_char_lisa_catalyst_electric_attackElect"
+                    },
+                    "positioning": 0.5,
+                    "duration": 5.0
+                  },
+                  "responder": "FreeAgent"
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "target": "Target",
+                  "MPTriggerOnRemote": true,
+                  "triggerID": "Discharge_Current"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Discharge_Negative"
+                },
+                {
+                  "$type": "SetSelfAttackTarget",
+                  "target": "Target"
+                },
+                {
+                  "$type": "SetGlobalValueByTargetDistance",
+                  "target": "Target",
+                  "key": "_ABILITY_SLIME_ELECTRIC_DISCHARGE_CURRENT_DISTANCE"
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "direction": {
+                      "$type": "ConfigDirectionByAttackTarget"
+                    },
+                    "attachPointName": "RootNode"
+                  },
+                  "bulletID": 42001006
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                }
+              ]
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "maxValue": 5,
+              "randomInRange": true,
+              "minValue": 3,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "overrideMapKey": "DischargeTime"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "AddElementDurability",
+              "value": -25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 500,
+              "modifierName": "UNIQUE_SLime_Electric_ElementState"
+            },
+            {
+              "$type": "ResetAIAttackTarget"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Negative": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Ready",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "direction": {
+                  "$type": "ConfigDirectionByEntity"
+                },
+                "attachPointName": "ElectrifiedBody"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackTargetMapEvent",
+              "attackTargetMapEvent": {
+                "$type": "ConfigAttackTargetMapEvent",
+                "attackInfoMap": {
+                  "2": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 80.0,
+                      "damagePercentage": 0.333,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "hitImpulseType": "LV2"
+                    },
+                    "attenuationGroup": "default"
+                  },
+                  "1": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "enBreak": 80.0,
+                      "damagePercentage": 0,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -0.6,
+                      "y": 0.75
+                    }
+                  },
+                  "radius": 2.9,
+                  "height": 0.75
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_BS",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DischargeTime",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Discharge"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ElectrifiedBody"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Positive_Discharge_Gap",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Transition": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_SLIME_ELECTRIC_NEGATIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "modifierName": "Discharge"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_ABILITY_SLIME_ELECTRIC_NEGATIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "modifierName": "Discharge_Positive"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Positive_Discharge_BS",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerFaceAnimation",
+              "faceAnimation": "Attack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_SLime_Electric_ElementState"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToElementTypeMixin",
+          "modifierName": "ElectricDetect",
+          "reject": true,
+          "elementTypes": [
+            "Electric"
+          ]
+        }
+      ],
+      "abilityName": "Slime_Electric_03_Positive_ElementState",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_SLime_Electric_ElementState"
+        }
+      ],
+      "abilitySpecials": {
+        "DischargeTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 7.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Slime_Electric_Current_Damage",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueToOverrideMap",
+          "globalValueKey": "_ABILITY_SLIME_ELECTRIC_DISCHARGE_CURRENT_DISTANCE",
+          "isFromOwner": true,
+          "overrideMapKey": "DischargeTargetDistance"
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 80.0,
+                "damagePercentage": 0.333,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.2199999988079071,
+                "hitHaltTime": 0.10000000149011612,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.8
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                }
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 0.6,
+                "z": "DischargeTargetDistance",
+                "y": 1.2
+              }
+            }
+          }
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilitySpecials": {
+        "DischargeTargetDistance": {
+          "$type": "GNPGOLDCAGO",
+          "value": 10.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "ByHasElement",
+              "element": "Electric"
+            }
+          ],
+          "effectPattern": "Eff_Monster_Slime_Electric_JumpPrepared",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "ByHasElement",
+              "element": "Electric"
+            }
+          ],
+          "effectPattern": "Eff_Monster_Slime_Electric_Positive_JumpPrepared",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "ActCameraShake",
+          "cameraShake": {
+            "$type": "ConfigCameraShake",
+            "shakeDir": {
+              "$type": "NFFDDFHHDHG",
+              "y": 1.0
+            },
+            "shakeTime": 0.15000000596046448,
+            "shakeType": "CustomVector",
+            "shakeRange": 0.05999999865889549
+          }
+        }
+      ],
+      "abilityName": "Slime_Electric_JumpGround_castShadow"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "JumpGround_Alert": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Slime_Fire_JumpGround_Alert",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByRushToPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "JumpCollider": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "TriggerSetCastShadow",
+                  "predicates": [
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "TriggerSetCastShadow",
+                  "predicates": [
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ],
+                  "castShadow": true
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "JumpGround_Alert"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "JumpCollider",
+          "normalizeEnd": 0.7400000095367432,
+          "stateID": "JumpAttack",
+          "normalizeStart": 0.3449999988079071
+        }
+      ],
+      "abilityName": "Slime_Electric_JumpGround_Alert"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_MonsterEliteAffix_DefaultState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "UseSkillEliteSet",
+              "skillEliteSetID": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "ByHasElement",
+              "element": "Electric"
+            }
+          ],
+          "effectPattern": "Eff_Monster_Slime_Electric_JumpGround",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "ByHasElement",
+              "element": "Electric"
+            }
+          ],
+          "effectPattern": "Eff_Monster_Slime_Electric_Positive_JumpGround",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByHasElement",
+              "element": "Electric"
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 200.0,
+                "damagePercentage": 1,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": -1.0
+                },
+                "shakeTime": 0.15000000596046448,
+                "shakeType": "CustomVector",
+                "shakeDistance": 25.0,
+                "shakeRange": 0.11999999731779099
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV6"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "radius": 2,
+              "height": 1.5
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ]
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 50.0,
+                "damagePercentage": 0.666,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": -1.0
+                },
+                "shakeTime": 0.15000000596046448,
+                "shakeType": "CustomVector",
+                "shakeDistance": 25.0,
+                "shakeRange": 0.11999999731779099
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV6"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "radius": 1.25,
+              "height": 1.5
+            }
+          }
+        }
+      ],
+      "abilityName": "Slime_Electric_JumpGround_Attack",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ELITEAFFIX_TAG"
+            }
+          ],
+          "modifierName": "UNIQUE_MonsterEliteAffix_DefaultState"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.5400000214576721,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.20000000298023224,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "JumpAttack"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.25,
+          "attackDistance": 12.0,
+          "steerStateIDs": [
+            "NormalAttack"
+          ]
+        }
+      ],
+      "abilityName": "Slime_Electric_AnimationSteer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElectricDetect": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "RebornTimer"
+                },
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "Slime_Electric_03_NoAI_ElementState"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "LesserOrEqual",
+                  "parameter": "PoseID",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        },
+        "UNIQUE_SLime_Electric_NoAI_ElementState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "RebornTimer"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "ElementState"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "SkinShader"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 200,
+          "modifierMixins": [
+            {
+              "$type": "ReplaceEventPatternMixin",
+              "newPatterns": [
+                "Monster_Slime_Electric_03_NormalAttack_Electric",
+                "Monster_Slime_Electric_JumpAttack_Electric"
+              ],
+              "oldPatterns": [
+                "Monster_Slime_Electric_03_NormalAttack",
+                "Monster_Slime_Electric_JumpAttack"
+              ]
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Discharge_Timer",
+                "Discharge_Timer_Off"
+              ],
+              "DEFOFMOIAAI": true,
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+              "defaultGlobalValueOnCreate": 0
+            },
+            {
+              "$type": "FieldEntityCountChangeMixin",
+              "onFieldExit": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByLCTrigger",
+                    "campTargetType": "SelfCamp"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPartControlTarget",
+                      "target": "Target",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                    },
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "PMECOANPKHN": true,
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                },
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "onFieldEnter": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByLCTrigger",
+                    "campTargetType": "SelfCamp"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPartControlTarget",
+                      "target": "Target",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_ABILITY_SLIME_ELECTRIC_PROPERITY"
+                    },
+                    {
+                      "$type": "ByHasElement",
+                      "element": "Electric"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "value": true,
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "enable": true,
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "SetAnimatorBool",
+                      "boolID": "IsAttract"
+                    },
+                    {
+                      "$type": "EnablePartControl",
+                      "partRootNames": [
+                        "AntennaControl"
+                      ]
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "MoreThan",
+                      "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT"
+                    }
+                  ]
+                }
+              ],
+              "campTargetType": "SelfCamp",
+              "MOICJEBDAMB": 0,
+              "simpleCountGlobaValueKey": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+              "simpleCountMaxValue": 0
+            }
+          ],
+          "elementType": "Electric",
+          "MGNAPCNBGEB": false,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "AddElementDurability",
+              "predicates": [
+                {
+                  "$type": "ByHitElement",
+                  "element": "Electric"
+                }
+              ],
+              "value": 25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 200,
+              "modifierName": "UNIQUE_SLime_Electric_NoAI_ElementState"
+            }
+          ]
+        },
+        "RebornTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "RebornGCD"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "RebornGCD"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.05,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Ready",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.3
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByEntity"
+                },
+                "attachPointName": "ElectrifiedBody"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackTargetMapEvent",
+              "attackTargetMapEvent": {
+                "$type": "ConfigAttackTargetMapEvent",
+                "attackInfoMap": {
+                  "2": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 80.0,
+                      "damagePercentage": 0.333,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "hitImpulseType": "LV2"
+                    },
+                    "attenuationGroup": "default"
+                  },
+                  "1": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "enBreak": 80.0,
+                      "damagePercentage": 0,
+                      "elementDurability": 50,
+                      "arkheGrade": 0
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -0.6,
+                      "y": 0.75
+                    }
+                  },
+                  "radius": 2.9,
+                  "height": 0.75
+                }
+              }
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "maxValue": 9,
+              "randomInRange": true,
+              "minValue": 5,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_SLIME_ELECTRIC_DISCHARGE",
+              "overrideMapKey": "DischargeTime"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Discharge_Timer"
+            },
+            {
+              "$type": "AddElementDurability",
+              "value": -25,
+              "useLimitRange": true,
+              "minValue": 0,
+              "maxValue": 200,
+              "modifierName": "UNIQUE_SLime_Electric_NoAI_ElementState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DischargeTime",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "modifierName": "Discharge_Transition"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_SLIME_ELECTRIC_POSITIVE_COUNT",
+                  "forceByCaster": true
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Discharge"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ElectrifiedBody"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Gap",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Timer_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ElectrifiedBody"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_Gap",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Discharge_Transition": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasElement",
+                  "element": "Electric"
+                }
+              ],
+              "modifierName": "Discharge"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Slime_Electric_Discharge_BS",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerFaceAnimation",
+              "faceAnimation": "Attack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_SLime_Electric_NoAI_ElementState"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToElementTypeMixin",
+          "modifierName": "ElectricDetect",
+          "reject": true,
+          "elementTypes": [
+            "Electric"
+          ]
+        }
+      ],
+      "abilityName": "Slime_Electric_03_NoAI_ElementState",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_SLime_Electric_NoAI_ElementState"
+        }
+      ],
+      "abilitySpecials": {
+        "DischargeTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 7.0
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,248 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FlightGear_Sprint_On": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_FlightGear_Sprint_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FlightGear_Sprint_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_FlightGear_Sprint_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_ABILITY_FlightGear_Sprint_Mark",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_ABILITY_FlightGear_Sprint_Mark",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAnimatorInt",
+                  "logic": "Equal",
+                  "value": 5,
+                  "parameter": "MotionFlag"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_FlightGear_Sprint": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ActCameraRadialBlur",
+              "cameraRadialBlur": {
+                "$type": "ConfigCameraRadialBlur",
+                "blurTime": 0.20000000298023224,
+                "fadeTime": 0.20000000298023224,
+                "power": 0.6000000238418579
+              }
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FoxCraft_Speedup",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerPostProcessEffectMixin",
+              "duration": 0.0,
+              "postEffectAssetName": "PostEffect_Skiff_Sprint"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_FlightGear_MonoSprintEffectProlong": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FoxCraft_Speedup",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_FlightGear_MuteIce": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FoxCraft_Tail",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "VehicleMuteIce",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 0.0,
+                    "damagePercentage": 0,
+                    "elementDurability": 10,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "none",
+                    "muteHitText": true,
+                    "hitImpulseType": "LV0"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -3.3,
+                      "y": 0
+                    }
+                  },
+                  "checkHitLayerType": "OnlyHitMassiveEntity",
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 5,
+                    "z": 8,
+                    "y": 4
+                  }
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Sprint"
+          ],
+          "modifierName": "FlightGear_Sprint_On"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Sprint",
+            "FastSkill",
+            "ChargeSkill"
+          ],
+          "modifierName": "FlightGear_Sprint_Handler"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "UNIQUE_FlightGear_Sprint"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_FlightGear_Sprint_Mark",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "InvisibleInTalkAndCSMixin",
+          "pushColliderNames": [
+            "MoveCollider",
+            "MoveColliderDummy",
+            "PushColliderExtra"
+          ]
+        },
+        {
+          "$type": "ModifyCameraAircraftParamMixin",
+          "GADACNLOEOG": 6.0,
+          "HNEFADDLLII": 6.0,
+          "HPKOHCMGJNM": 0.800000011920929
+        }
+      ],
+      "abilityName": "Vehicle_FlightGear_Normal_01",
+      "onAdded": [
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 15001
+        },
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 15002
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "UNIQUE_FlightGear_MuteIce"
+        }
+      ]
+    }
+  }
+]

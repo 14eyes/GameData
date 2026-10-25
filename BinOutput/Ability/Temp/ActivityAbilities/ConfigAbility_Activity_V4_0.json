@@ -1,0 +1,441 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "OceanCurrent_Parkou_StopGallery": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_OceanCurrent_Parkou_StopGallery",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanCurrent_Parkou_BoostEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SpeedWaterBall_Buff_01_State",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OceanCurrent_Parkou_BoostEffect_On"
+              ],
+              "globalValueKey": "GV_OceanCurrentBoost_Trail",
+              "valueSteps": [
+                0.5,
+                9999
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanCurrent_Parkou_BoostEffect_On": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "effectPattern": "Eff_SceneObj_SpeedWaterBall_Buff_01_State",
+              "type": "Int"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 203,
+              "effectPattern": "Eff_SceneObj_SpeedWaterBall_Buff_01_State",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OceanCurrent_Parkou_DetectBubble": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "topLimit": 5,
+                "sortType": "Nearest",
+                "tag": "Is_OceanCurrent_Bubble"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "compareType": "XYZ",
+                      "value": "Detect_Bubble_Dis"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "Is_Bubble_SpecDistance"
+                    }
+                  ],
+                  "key": "OceanCurrent_Bubble_Show",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "compareType": "XYZ",
+                      "value": "Detect_Bubble_Dis02"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "Is_Bubble_SpecDistance"
+                    }
+                  ],
+                  "key": "OceanCurrent_Bubble_Show",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onRemoved": [
+        {
+          "$type": "KillGadget",
+          "target": "CurTeamAvatars",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 70330667
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "LevelCurveMixin",
+          "EDFJOMKHLFM": [
+            [
+              {
+                "$type": "SetCurveProgressInfoToGlobalValue",
+                "PFCIBLHFIAL": "GV_UnderOceanCurrent_Index_"
+              },
+              {
+                "$type": "SetGlobalValueToOverrideMap",
+                "globalValueKey": "GV_UnderOceanCurrent_Index_0",
+                "overrideMapKey": "CurveIndex"
+              },
+              {
+                "$type": "SetGlobalValueToOverrideMap",
+                "globalValueKey": "GV_UnderOceanCurrent_Index_1",
+                "overrideMapKey": "IsNeadClear"
+              },
+              {
+                "$type": "ServerLuaCall",
+                "param1": "CurveIndex",
+                "param2": "IsNeadClear",
+                "paramNum": 2,
+                "funcName": "SLC_CreateSuite",
+                "param3": 0,
+                "luaCallType": "CurGalleryControlGroup"
+              }
+            ],
+            [
+              {
+                "$type": "SetCurveProgressInfoToGlobalValue",
+                "PFCIBLHFIAL": "GV_UnderOceanCurrent_Index_"
+              },
+              {
+                "$type": "SetGlobalValueToOverrideMap",
+                "globalValueKey": "GV_UnderOceanCurrent_Index_0",
+                "overrideMapKey": "CurveIndex"
+              },
+              {
+                "$type": "ServerLuaCall",
+                "param1": "CurveIndex",
+                "param2": 0,
+                "paramNum": 1,
+                "funcName": "SLC_GadgetState_GearStart",
+                "param3": 0,
+                "luaCallType": "CurGalleryControlGroup"
+              }
+            ],
+            [
+              {
+                "$type": "ServerLuaCall",
+                "param1": 0,
+                "param2": 0,
+                "funcName": "SLC_Oceancurrent_End",
+                "param3": 0,
+                "luaCallType": "CurGalleryControlGroup"
+              }
+            ],
+            [
+              {
+                "$type": "SetCurveProgressInfoToGlobalValue",
+                "PFCIBLHFIAL": "GV_UnderOceanCurrent_Index_"
+              },
+              {
+                "$type": "SetGlobalValueToOverrideMap",
+                "globalValueKey": "GV_UnderOceanCurrent_Index_0",
+                "overrideMapKey": "CurveIndex"
+              },
+              {
+                "$type": "ServerLuaCall",
+                "param1": "CurveIndex",
+                "param2": 0,
+                "paramNum": 1,
+                "funcName": "SLC_OceanCurrent_SetGroupVar",
+                "param3": 0,
+                "luaCallType": "CurGalleryControlGroup"
+              }
+            ]
+          ],
+          "BEDOJLFENKK": [
+            "Activity_Oceancurrent_CreateGadget",
+            "Activity_Oceancurrent_ActiveGadget",
+            "Activity_Oceancurrent_End",
+            "Activity_Oceancurrent_SetGroupVar"
+          ],
+          "tag": "OceanCurrent_Activity"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Sprint",
+            "Walk",
+            "Run",
+            "Swim",
+            "Fly",
+            "Climb"
+          ],
+          "modifierName": "OceanCurrent_Parkou_StopGallery"
+        }
+      ],
+      "abilityName": "Activity_OceanCurrent_Parkour_AvatarAbility",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": false
+          },
+          "modifierName": "OceanCurrent_Parkou_DetectBubble"
+        },
+        {
+          "$type": "AttachModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": false
+          },
+          "modifierName": "OceanCurrent_Parkou_BoostEffect"
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_OceanCurrentBoost_Trail",
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "Detect_Bubble_Dis": {
+          "$type": "GNPGOLDCAGO",
+          "value": 15.0
+        },
+        "Detect_Bubble_Dis02": {
+          "$type": "GNPGOLDCAGO",
+          "value": 48.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Nutcracker_BGM_Protector": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Nutcracker_OnAbilityReady",
+              "param3": 0,
+              "CallParamList": [
+                133402002
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onRemoved": [
+                {
+                  "$type": "TriggerAudio",
+                  "operation": {
+                    "$type": "ConfigAudioEventOp",
+                    "operation": {
+                      "$type": "ConfigWwiseString",
+                      "text": "SetState_SpecialQuest_off"
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Nutcracker_BGM_State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "SetState_SpecialQuest_off"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Nutcracker_BGM_State_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "SetState_v40_Nutcracker_S01"
+                }
+              }
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "RegionAbility_Boss_Nutcracker_TeamAbility"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Nutcracker_BGM_State_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "SetState_v40_Nutcracker_S02"
+                }
+              }
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "RegionAbility_Boss_Nutcracker_TeamAbility"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAudio",
+          "operation": {
+            "$type": "ConfigAudioEventOp",
+            "operation": {
+              "$type": "ConfigWwiseString",
+              "text": "SetState_specialQuest_on"
+            }
+          }
+        }
+      ],
+      "onRemoved": [
+        {
+          "$type": "TriggerAudio",
+          "operation": {
+            "$type": "ConfigAudioEventOp",
+            "operation": {
+              "$type": "ConfigWwiseString",
+              "text": "SetState_SpecialQuest_off"
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Nutcracker_BGM_State_0",
+            "Nutcracker_BGM_State_1",
+            "Nutcracker_BGM_State_2"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "SGV_BGM_State"
+        }
+      ],
+      "abilityName": "RegionAbility_Boss_Nutcracker_TeamAbility",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Nutcracker_BGM_Protector"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,4399 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SetTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "EndHoldTrigger"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Cost": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CostStaminaMixin",
+              "costStaminaDelta": "ExtraAttack_Claymore_Stamina_Cost",
+              "onStaminaEmpty": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "EndHoldTrigger"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ButtonHoldChargeMixin",
+          "skillID": 10201,
+          "OnReleaseCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "EndHoldTrigger"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "SetTrigger"
+            }
+          ],
+          "OnBeginUncharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            },
+            {
+              "$type": "ResetAnimatorTrigger",
+              "triggerID": "EndHoldTrigger"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "SetTrigger"
+            }
+          ],
+          "secondChargeTime": "Max_Dura",
+          "chargeTime": 0.25,
+          "OnBeginCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 6
+            }
+          ],
+          "OnBeginSecondCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "EndHoldTrigger"
+            }
+          ],
+          "chargeStateIDs": [
+            "Attack01_BS",
+            "Attack01",
+            "Attack02",
+            "Attack03",
+            "Attack04",
+            "ExtraAttack",
+            "ExtraAttack1"
+          ]
+        },
+        {
+          "$type": "AvatarSteerByCameraMixin",
+          "stateIDs": [
+            "ExtraAttack1"
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ExtraAttack1"
+          ],
+          "modifierName": "Cost"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ExtraAttack",
+            "ExtraAttack1",
+            "ExtraAttack2",
+            "ExtraAttack3"
+          ],
+          "modifierName": "Camera"
+        }
+      ],
+      "abilityName": "Avatar_Razor_ExtraAttack",
+      "abilitySpecials": {
+        "ExtraAttack_Claymore_Stamina_Cost": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Max_Dura": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LycanMode_Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Adapter": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ReplaceEventPatternMixin",
+              "newPatterns": [
+                "Razor_Attack01_LycanMode",
+                "Razor_Attack02_LycanMode",
+                "Razor_Attack03_LycanMode",
+                "Razor_Attack04_LycanMode",
+                "Razor_ClawMark_Click_Lycan",
+                "Audio_Boy_Razor_ClawMark_LycanMode_Charge"
+              ],
+              "oldPatterns": [
+                "Razor_Attack01",
+                "Razor_Attack02",
+                "Razor_Attack03",
+                "Razor_Attack04",
+                "Razor_ClawMark_Click",
+                "Audio_Boy_Razor_ClawMark_Charge"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "LycanMode_Blank",
+            "LycanMode_Adapter"
+          ],
+          "valueSteps": [
+            -1,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_ABILITY_LycanMode_Flag",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Avatar_Razor_General_Handler",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_LycanMode_Flag",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SkillButtonHoldChargeMixin",
+          "beforeStateIDs": [
+            "Razor_ClawMark_BS"
+          ],
+          "endHoldTrigger": "EndHoldTrigger",
+          "chargeLoopStateIDs": [
+            "Razor_ClawMark_Charge",
+            "Razor_ClawMark_Burst"
+          ],
+          "chargeLoopDurations": [
+            0.05000000074505806
+          ],
+          "skillID": 10202,
+          "nextLoopTriggerID": "NextLoopTrigger"
+        }
+      ],
+      "abilityName": "Avatar_Razor_ClawMark_Main"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ClawMark_WeaponFade": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerHideWeapon",
+              "partNames": [
+                "equip01"
+              ],
+              "visible": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerHideWeapon",
+              "partNames": [
+                "equip01"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Hand": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Hand",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_LycanMode_Flag",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Slash",
+                "enBreak": 140.0,
+                "damagePercentage": "ClawMark_Damage",
+                "elementDurability": 50,
+                "elementRank": 1.5,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.6000000238418579
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.029999999329447746,
+                "hitHaltTime": 0.10000000149011612,
+                "canBeDefenceHalt": true,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Elemental_Art"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": 0
+                }
+              },
+              "radius": 2.4,
+              "height": 1.600000023841858,
+              "fanAngle": 240.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_LycanMode_Flag",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Slash",
+                "enBreak": 140.0,
+                "damagePercentage": "ClawMark_Damage",
+                "elementDurability": 50,
+                "elementRank": 1.5,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.6000000238418579
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.029999999329447746,
+                "hitHaltTime": 0.10000000149011612,
+                "canBeDefenceHalt": true,
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Elemental_Art"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": 0
+                }
+              },
+              "radius": 3,
+              "height": 1.600000023841858,
+              "fanAngle": 240.0
+            }
+          }
+        },
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10202,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_ClawMark_Click"
+          ],
+          "modifierName": "ClawMark_Hand"
+        }
+      ],
+      "abilityName": "Avatar_Razor_ClawMark_Click",
+      "abilitySpecials": {
+        "ClawMark_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ClawMark_SetMark_Elemental_Art": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "modifierName": "ClawMark_Mark_Add"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "predicates": [
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "_ABILITY_LycanMode_Flag",
+                          "forceByCaster": true
+                        }
+                      ]
+                    }
+                  ],
+                  "modifierName": "ClawMark_Click_DropBall_Base"
+                },
+                {
+                  "$type": "RemoveUniqueModifier",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByUnlockTalentParam",
+                      "talentParam": "Razor_ElectrifiedScar"
+                    }
+                  ],
+                  "modifierName": "UNIQUE_ElectrifiedScar_ArmorDown"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByUnlockTalentParam",
+                      "talentParam": "Razor_ElectrifiedScar"
+                    }
+                  ],
+                  "modifierName": "UNIQUE_ElectrifiedScar_ArmorDown"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Elemental_Art"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByHitStrikeType",
+                  "strikeType": "Slash"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_SetMark_ChargedBlade": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Caster",
+                  "modifierName": "ClawMark_ChargedBlade_Mark_Add"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "ChargedBlade"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_LycanMode_Flag",
+                  "forceByCaster": true
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Mark_Add": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "TriggerSkillEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 2,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "SGV_HexenzirkelLevel"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Razpor_IsLycanMode"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ABILITY_ClawMark_Count"
+                }
+              ],
+              "LABOIMCPHOD": "Razor_ClawMark_Mark_OverLoad",
+              "radius": 2
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Razor_C6"
+                }
+              ],
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Razor_C6"
+                }
+              ],
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_ChargedBlade_Mark_Add": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "TriggerSkillEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 2,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "SGV_HexenzirkelLevel"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Razpor_IsLycanMode"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 3,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ABILITY_ClawMark_Count"
+                }
+              ],
+              "LABOIMCPHOD": "Razor_ClawMark_Mark_OverLoad",
+              "radius": 2
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Razor_C6"
+                }
+              ],
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Razor_C6"
+                }
+              ],
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ClawMark_Mark_Count": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 18,
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_ClawMark_Count",
+              "maxValue": "ClawMark_MaxCount",
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_ClawMark_Count",
+              "maxValue": "ClawMark_MaxCount",
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "MultipleAllRefresh",
+          "stackingOption": {
+            "$type": "ConfigModifierStackingOption",
+            "maxModifierNumForMultipleType": 3
+          },
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Click_DropBall_Base": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "GenerateElemBall",
+              "ratio": "GetElementRatio",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": 0
+                }
+              },
+              "configID": 2020,
+              "baseEnergy": 9.0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Mark_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Sign_1",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_ChargeEfficiencyDelta": "ClawMark_EfficiencyDelta_1"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Mark_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Sign_1",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Sign_2",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_ChargeEfficiencyDelta": "ClawMark_EfficiencyDelta_2"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Mark_3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Sign_1",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Sign_2",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Sign_3",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_ChargeEfficiencyDelta": "ClawMark_EfficiencyDelta_3"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Mark_4": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Mark_3",
+              "effectTempleteID": -1
+            }
+          ],
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_ChargeEfficiencyDelta": "ClawMark_EfficiencyDelta_4"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ElectrifiedScar_ArmorDown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 7,
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_DefenceRatio": "ElectrifiedScar_ArmorDown"
+          },
+          "elementDurability": 100,
+          "state": "DefenseDown",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "ClawMark_Blank",
+            "ClawMark_Mark_1",
+            "ClawMark_Mark_2",
+            "ClawMark_Mark_3",
+            "ClawMark_Mark_4"
+          ],
+          "valueSteps": [
+            -1,
+            0.5,
+            1.5,
+            2.5,
+            3.5,
+            4.5
+          ],
+          "globalValueKey": "_ABILITY_ClawMark_Count",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Avatar_Razor_ClawMark_SetMark",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_ClawMark_Count",
+          "maxValue": 0,
+          "minValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ClawMark_SetMark_ChargedBlade"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ClawMark_SetMark_Elemental_Art"
+        }
+      ],
+      "abilitySpecials": {
+        "ClawMark_MaxCount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        },
+        "GetElementRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "ClawMark_EfficiencyDelta_1": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.20000000298023224
+        },
+        "ClawMark_EfficiencyDelta_2": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.4000000059604645
+        },
+        "ClawMark_EfficiencyDelta_3": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.6000000238418579
+        },
+        "ClawMark_EfficiencyDelta_4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.800000011920929
+        },
+        "ElectrifiedScar_ArmorDown": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.15000000596046448
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_ClawMark_Weather_Controller": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 5,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "duration": 5.0,
+              "type": "Skill",
+              "weatherPattern": "Weather_Lisa_ThunderFall"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Weather_Flag": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ClawMark_Weather_Controller"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Charging_Material_Flag": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ClawMark_Charging_Material"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ClawMark_Charging_Material": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Charge",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_ClawMark_Weather_Controller"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_ClawMark_Charging_Material"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_ClawMark_Charge",
+            "Razor_ClawMark_Burst",
+            "Razor_ClawMark_Burst_AS"
+          ],
+          "modifierName": "ClawMark_Weather_Flag"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_ClawMark_Charge",
+            "Razor_ClawMark_Burst"
+          ],
+          "modifierName": "ClawMark_Charging_Material_Flag"
+        }
+      ],
+      "abilityName": "Avatar_Razor_ClawMark_Charging"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_ClawMark_Weather_Controller"
+        }
+      ],
+      "abilityName": "Avatar_Razor_ClawMark_Weather_Remove"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ClawMark_Burst_DropBall_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGlobalValue",
+                          "value": 1,
+                          "key": "_ABILITY_LycanMode_Flag",
+                          "forceByCaster": true
+                        }
+                      ]
+                    }
+                  ],
+                  "modifierName": "ClawMark_Burst_DropBall_Base"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Elemental_Art"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByHitStrikeType",
+                  "strikeType": "Blunt"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Burst_DropBall_Base": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "GenerateElemBall",
+              "ratio": "GetElementRatio",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": 0
+                }
+              },
+              "configID": 2020,
+              "baseEnergy": 12.0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_ClawMark_Charging_Material"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Charge_Disappear",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_LycanMode_Flag",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 300.0,
+                "damagePercentage": "ExplodeDamage",
+                "elementDurability": 50,
+                "elementRank": 1.5,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "baseCycle": 0.07999999821186066,
+                  "cycleDamping": -0.03999999910593033
+                },
+                "shakeTime": 0.36000001430511475,
+                "shakeDistance": 30.0,
+                "shakeRange": 0.6000000238418579
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV5"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "Elemental_Art"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 5
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_LycanMode_Flag",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 300.0,
+                "damagePercentage": "ExplodeDamage",
+                "elementDurability": 50,
+                "elementRank": 1.5,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "baseCycle": 0.07999999821186066,
+                  "cycleDamping": -0.03999999910593033
+                },
+                "shakeTime": 0.36000001430511475,
+                "shakeDistance": 30.0,
+                "shakeRange": 0.6000000238418579
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "Elemental_Art"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 5
+            }
+          }
+        },
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10202,
+          "cdRatio": 1.68,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_LycanMode_Flag",
+                  "forceByCaster": true
+                }
+              ]
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Explode",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "alongGround": true,
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_LycanMode_Flag",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Explode_Lycan",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "alongGround": true,
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAbility",
+          "abilityName": "Avatar_Razor_ClawMark_EnergyRegain"
+        }
+      ],
+      "abilityName": "Avatar_Razor_ClawMark_Burst",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ClawMark_Burst_DropBall_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "ExplodeDamage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "GetElementRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "ClawMark_MaxCount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        },
+        "ClawMark_Burst_EnergyRegain": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ClawMark_Burst_EnergyRegain_Factor": {
+          "$type": "GNPGOLDCAGO",
+          "value": 5.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ClawMark_Burst_EnergyRegain_1": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.6,
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Restore_1",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 5
+            },
+            {
+              "$type": "TriggerSkillEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Razor_C6"
+                }
+              ],
+              "LABOIMCPHOD": "Razor_ClawMark_Mark_Consume",
+              "radius": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Burst_EnergyRegain_2": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.6,
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Restore_2",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 5
+            },
+            {
+              "$type": "TriggerSkillEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Razor_C6"
+                }
+              ],
+              "LABOIMCPHOD": "Razor_ClawMark_Mark_Consume",
+              "radius": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClawMark_Burst_EnergyRegain_3": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.6,
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ClawMark_Mark_Count"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ClawMark_Restore_3",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 5
+            },
+            {
+              "$type": "TriggerSkillEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Hexenzirkel_Enhanced"
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "talentParam": "Razor_C6"
+                }
+              ],
+              "LABOIMCPHOD": "Razor_ClawMark_Mark_Consume",
+              "radius": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "compareType": "MoreThanAndEqual",
+              "key": "_ABILITY_ClawMark_Count",
+              "forceByCaster": true
+            }
+          ],
+          "modifierName": "ClawMark_Burst_EnergyRegain_1"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 2,
+              "compareType": "MoreThanAndEqual",
+              "key": "_ABILITY_ClawMark_Count",
+              "forceByCaster": true
+            }
+          ],
+          "modifierName": "ClawMark_Burst_EnergyRegain_2"
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 3,
+              "compareType": "MoreThanAndEqual",
+              "key": "_ABILITY_ClawMark_Count",
+              "forceByCaster": true
+            }
+          ],
+          "modifierName": "ClawMark_Burst_EnergyRegain_3"
+        }
+      ],
+      "abilityName": "Avatar_Razor_ClawMark_EnergyRegain"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 51.75,
+                "damagePercentage": "LycanMode_BlastDamage",
+                "elementDurability": 50,
+                "elementRank": 3.0,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "baseCycle": 0.07999999821186066,
+                  "cycleDamping": -0.03999999910593033
+                },
+                "shakeTime": 0.36000001430511475,
+                "shakeDistance": 30.0,
+                "shakeRange": 0.6000000238418579
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV3"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "Elemental_Burst"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 5
+            }
+          }
+        },
+        {
+          "$type": "ActCameraRadialBlur",
+          "cameraRadialBlur": {
+            "$type": "ConfigCameraRadialBlur",
+            "blurTime": 0.4000000059604645,
+            "fadeTime": 0.20000000298023224,
+            "power": 1.0
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ThunderFang_Blast",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAbility",
+          "abilityName": "Avatar_Razor_ClawMark_EnergyRegain"
+        },
+        {
+          "$type": "ModifyAvatarSkillCD",
+          "predicates": [
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "Razor_CombatReadiness"
+            }
+          ],
+          "skillID": 10202,
+          "cdRatio": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": [
+            "NormalAttack_01_DamagePercentage",
+            "LycanMode_LycanAttackFactor",
+            "MUL"
+          ],
+          "animEventNames": [
+            "ATK01_Lycan"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": [
+            "NormalAttack_02_DamagePercentage",
+            "LycanMode_LycanAttackFactor",
+            "MUL"
+          ],
+          "animEventNames": [
+            "ATK02_Lycan"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": [
+            "NormalAttack_03_DamagePercentage",
+            "LycanMode_LycanAttackFactor",
+            "MUL"
+          ],
+          "animEventNames": [
+            "ATK03_Lycan"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": [
+            "NormalAttack_04_DamagePercentage",
+            "LycanMode_LycanAttackFactor",
+            "MUL"
+          ],
+          "animEventNames": [
+            "ATK04_Lycan"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Razor_LycanMode",
+      "abilitySpecials": {
+        "LycanMode_BlastDamage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_01_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_02_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_03_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_04_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "LycanMode_LycanAttackFactor": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LycanMode_Camera_Protection_Ghost": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 11002
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Camera_Protection_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_EmoSync_Controller": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ControlEmotion",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ControlEmotion",
+              "MJCILBIAAJA": false,
+              "PIIDHCFMKEM": false,
+              "LIIHBLNMGAF": false
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Electrified": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_EndureDelta": 0.5,
+            "Actor_ElecSubHurtDelta": 0.8
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "RejectAttackMixin",
+              "attackTag": "ShockDamage"
+            },
+            {
+              "$type": "RejectAttackMixin",
+              "attackTag": "MoonShockDamage"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "LycanMode_Electric_Buff"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Electric_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.1,
+          "elementDurability": 25,
+          "elementType": "Electric",
+          "state": "ElementElectric",
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_LycanMode_Weather_Controller": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "duration": 0.5,
+              "transDuration": 0.10000000149011612,
+              "type": "Skill",
+              "weatherPattern": "Weather_Razor_LycanMode"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Camera_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "AvatarCameraParam",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.0,
+                "forceRadius": 6.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "duration": "LycanMode_Time",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Razpor_IsLycanMode",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_LycanMode_Flag",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -5
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "LycanMode_LycanMaterial_Remover"
+            },
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "LycanMode_Electrified"
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "LycanMode_Energy_FeedBack"
+            },
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "LycanMode_LycanMaterial_Dissipate"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": true,
+              "boolID": "CanSpecialPerform"
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "floatID": "IsLycan",
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "CanSpecialPerform"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Razpor_IsLycanMode",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "floatID": "IsLycan",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_LycanMode_Flag",
+                  "forceByCaster": true
+                }
+              ],
+              "stateIDs": [
+                "Attack01_BS",
+                "Attack01",
+                "Attack02",
+                "Attack03",
+                "Attack04",
+                "ExtraAttack",
+                "ExtraAttack_AS"
+              ],
+              "modifierName": "LycanMode_Accelerate"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_LycanMode_Energy_FeedBack",
+              "maxValue": 5,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_LycanMaterial_Dissipate": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.5,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_ThunderFang_Dissipate",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Leave": {
+          "$type": "ConfigAbilityModifier",
+          "onAvatarOut": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "LycanMode_Timer"
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_LycanMode_LycanMaterial"
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "LycanMode_Timer"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Accelerate": {
+          "$type": "ConfigAbilityModifier",
+          "isLimitedProperties": true,
+          "properties": {
+            "Animator_AttackSpeedRatio": "LycanMode_Accelerate_SpeedRatio"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Energy_FeedBack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "LycanMode_Energy_Regain"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "globalValueKey": "_ABILITY_LycanMode_Energy_FeedBack",
+              "overrideMapKey": "Energy_FeedBack_Level"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_Energy_Regain": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onAdded": [
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": [
+                "Energy_FeedBack_Level",
+                2,
+                "MUL"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanMode_LycanMaterial_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.2,
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_ABILITY_LycanMode_Flag",
+                      "forceByCaster": true
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_LycanMode_LycanMaterial"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "Fade",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_LycanMode_LycanMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_Attack01_BS": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Attack01",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_Attack02": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Attack02",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_Attack03": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Attack03",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_Attack04": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Attack04",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_ExtraAttack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "ExtraAttack",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_ClawMark_BS": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "ClawMark_BS",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_ClawMark_Click": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "ClawMark_Click",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_ClawMark_Charge": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "ClawMark_Charge",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_ClawMark_Burst": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "ClawMark_Burst",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LycanSimulator_Move": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Stop",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Move",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_LycanMode_LycanMaterial"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "UNIQUE_LycanMode_LycanMaterial"
+        },
+        {
+          "$type": "SendEffectTrigger",
+          "parameter": "Start",
+          "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_LycanMode_Lycan"
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_LycanMode_Flag",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_LycanMode_Energy_FeedBack",
+          "maxValue": 5,
+          "minValue": 0,
+          "value": 5
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "LycanMode_Electrified"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "LycanMode_Timer"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "LycanMode_Leave"
+        },
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10203,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_LycanMode"
+          ],
+          "modifierName": "LycanMode_Camera_Protection_Ghost"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_LycanMode"
+          ],
+          "modifierName": "LycanMode_Camera_Protection_Invincible"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_LycanMode"
+          ],
+          "modifierName": "LycanMode_Camera_Remover"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_LycanMode",
+            "Razor_LycanMode_AS"
+          ],
+          "modifierName": "LycanMode_EmoSync_Controller"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "LycanSimulator_Attack01_BS",
+          "stateID": "Attack01_BS",
+          "normalizeStart": 0.5
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Attack02"
+          ],
+          "modifierName": "LycanSimulator_Attack02"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Attack03"
+          ],
+          "modifierName": "LycanSimulator_Attack03"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Attack04"
+          ],
+          "modifierName": "LycanSimulator_Attack04"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ExtraAttack"
+          ],
+          "modifierName": "LycanSimulator_ExtraAttack"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_LycanMode_Flag"
+            }
+          ],
+          "stateIDs": [
+            "Razor_ClawMark_Click_Lycan"
+          ],
+          "modifierName": "LycanSimulator_ClawMark_Click"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_LycanMode_Flag"
+            }
+          ],
+          "stateIDs": [
+            "Razor_ClawMark_BS"
+          ],
+          "modifierName": "LycanSimulator_ClawMark_BS"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_ClawMark_Charge"
+          ],
+          "modifierName": "LycanSimulator_ClawMark_Charge"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Razor_ClawMark_Burst"
+          ],
+          "modifierName": "LycanSimulator_ClawMark_Burst"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "WalkToRun",
+            "Walk",
+            "RunToWalk",
+            "Run",
+            "RunningTurn",
+            "SprintToRun",
+            "FallToGroundRun",
+            "FallToGroundRunHard",
+            "FallToGroundSprint",
+            "Sprint",
+            "SprintBS"
+          ],
+          "modifierName": "LycanSimulator_Move"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Jump",
+            "JumpWeapon"
+          ],
+          "modifierName": "LycanSimulator_Move"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "UNIQUE_LycanMode_Weather_Controller",
+          "normalizeEnd": 0.6700000166893005,
+          "stateID": "Razor_LycanMode",
+          "normalizeStart": 0.4650000035762787
+        }
+      ],
+      "abilityName": "Avatar_Razor_LycanMode_LycanSimulator",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Razpor_IsLycanMode",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "Energy_FeedBack_Level": {
+          "$type": "GNPGOLDCAGO",
+          "value": 5.0
+        },
+        "LycanMode_Time": {
+          "$type": "GNPGOLDCAGO",
+          "value": 16.0
+        },
+        "LycanMode_Accelerate_SpeedRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Avatar_Razor_LycanMode_FirstAttackGuaranteer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "RunningWild_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_CostStaminaRatio": "RunningWild_CostStaminaRatio"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Sprint",
+            "SprintBS",
+            "Swim"
+          ],
+          "modifierName": "RunningWild_Buff"
+        }
+      ],
+      "abilityName": "Avatar_Razor_Talent_RunningWild",
+      "abilitySpecials": {
+        "RunningWild_CostStaminaRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ChargedBlade_Charger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "sheathPoint"
+                ]
+              },
+              "modifierName": "UNIQUE_ChargedBlade_WeaponMaterial"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_Talent_ChargedBlade_IsCharged",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargedBlade_Charger_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "ChargedBlade_Charger_Handler_EXE"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Talent_ChargedBlade_IsCharged",
+                  "forceByCaster": true
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NormalAttack_01",
+                    "NormalAttack_02",
+                    "NormalAttack_03",
+                    "NormalAttack_04"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargedBlade_Charger_Handler_EXE": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ChargedBlade_Charger_Timer"
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 69.0,
+                    "damagePercentage": "ChargedBlade_Damage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "y": 1.0
+                    },
+                    "shakeTime": 0.11999999731779099,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 30.0,
+                    "shakeRange": 0.30000001192092896
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV2"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "attackTag": "ChargedBlade"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0.7,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1.5
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_Talent_ChargedBlade_Thunderfall",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0.7,
+                  "y": 0
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "sheathPoint"
+                ]
+              },
+              "modifierName": "ChargedBlade_WeaponMaterial_Remover"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ChargedBlade_Charger"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_Talent_ChargedBlade_IsCharged",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -10
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ChargedBlade_WeaponMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_Talent_ChargedBlade",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargedBlade_WeaponMaterial_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_ChargedBlade_WeaponMaterial"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargedBlade_Charger_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "ChargedBlade_Period",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "ChargedBlade_Charger"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargedBlade_WeaponMaterial_Checker": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "sheathPoint"
+                ]
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Talent_ChargedBlade_IsCharged",
+                  "forceByCaster": true
+                }
+              ],
+              "modifierName": "UNIQUE_ChargedBlade_WeaponMaterial"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Razor_Talent_ChargedBlade",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "ChargedBlade_Charger_Handler"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "ChargedBlade_Charger"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "ChargedBlade_WeaponMaterial_Checker"
+        },
+        {
+          "$type": "AddGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "useLimitRange": true,
+          "key": "_ABILITY_Talent_ChargedBlade_IsCharged",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "ChargedBlade_Period": {
+          "$type": "GNPGOLDCAGO",
+          "value": 10.0
+        },
+        "ChargedBlade_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Capacitor_EnergyGain_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "Capacitor_EnergyGain_Up"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "Capacitor_EnergyGain_Up"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEnergyRatio",
+                  "logic": "LesserOrEqual",
+                  "ratio": 0.5
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Capacitor_EnergyGain_Up": {
+          "$type": "ConfigAbilityModifier",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_ChargeEfficiencyDelta": "Capacitor_EfficiencyDelta"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Razor_Talent_Capacitor",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Capacitor_EnergyGain_Detect"
+        }
+      ],
+      "abilitySpecials": {
+        "Capacitor_EfficiencyDelta": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.30000001192092896
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_ArcaneFeast_Attack_Up": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "ArcaneFeast_Duration",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_AddHurtDelta": "ArcaneFeast_AttackDelta"
+          },
+          "elementDurability": 100,
+          "state": "AttackUp",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "DoActionByEnergyChangeMixin",
+          "doWhenEnergyMax": true,
+          "elementTypes": [
+            "Electric",
+            "Fire",
+            "Water",
+            "Rock",
+            "None",
+            "Wind",
+            "Grass",
+            "Ice"
+          ],
+          "onGainEnergyByBall": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_ArcaneFeast_Attack_Up"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Razor_Talent_ArcaneFeast",
+      "isDynamicAbility": true,
+      "abilitySpecials": {
+        "ArcaneFeast_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 8.0
+        },
+        "ArcaneFeast_AttackDelta": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.10000000149011612
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "OverPower_Damage_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "bonusCritical": "OverPower_BonusCritical",
+              "attackTags": [
+                "ChargedBlade",
+                "Elemental_Art",
+                "Elemental_Art_Hold",
+                "Elemental_Art_Extra",
+                "Elemental_Burst",
+                "ExtraAttack",
+                "NormalAttack_01",
+                "NormalAttack_02",
+                "NormalAttack_03",
+                "NormalAttack_04",
+                "NormalAttack_05",
+                "FallingAttack"
+              ],
+              "predicates": [
+                {
+                  "$type": "ByTargetHPRatio",
+                  "logic": "LesserOrEqual",
+                  "HPRatio": 0.3
+                }
+              ]
+            },
+            {
+              "$type": "ModifyNewElementReactionDamageMixin",
+              "bonusCritical": "OverPower_BonusCritical",
+              "predicates": [
+                {
+                  "$type": "ByTargetHPRatio",
+                  "logic": "LesserOrEqual",
+                  "HPRatio": 0.3
+                }
+              ],
+              "attackTags": [
+                "MoonShockDamage",
+                "MoonCrystallizeWaterDamage",
+                "StarSwirlIceDamage",
+                "StarSwirlWindDamage"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Razor_Talent_OverPower",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "OverPower_Damage_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "OverPower_BonusCritical": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.10000000149011612
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Razor_DashStaminaReduction_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurTeamAvatars",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_DashStaminaReduction"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_DashStaminaReduction": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Sprint",
+                "SprintBS"
+              ],
+              "modifierName": "DashStamina_Reduction"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DashStamina_Reduction": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_CostStaminaRatio": -0.2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Razor_DashStamina_Reduction",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "target": "CurTeamAvatars",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "UNIQUE_DashStaminaReduction"
+        },
+        {
+          "$type": "AttachModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Razor_DashStaminaReduction_Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_01_DamagePercentage",
+          "animEventNames": [
+            "ATK01"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_02_DamagePercentage",
+          "animEventNames": [
+            "ATK02"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_03_DamagePercentage",
+          "animEventNames": [
+            "ATK03"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_04_DamagePercentage",
+          "animEventNames": [
+            "ATK04"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "ExtraAttack_Loop_DamagePercentage",
+          "animEventNames": [
+            "ExtraAttack1"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "ExtraAttack_End_DamagePercentage",
+          "animEventNames": [
+            "ExtraAttack2"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Razor_NormalAttack_DamageHandler",
+      "abilitySpecials": {
+        "NormalAttack_01_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_02_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_03_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_04_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ExtraAttack_Loop_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ExtraAttack_End_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FallingAnthem_AttachSelfEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Self_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_Material": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Self",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Claymore_FallAnthem_BS",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_VelocityForce_Initialize": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_LoopDamage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 35.0,
+                    "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                    "elementDurability": 0,
+                    "overrideByWeapon": true,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 1,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_01": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ClearGlobalValue",
+              "key": "_ABILITY_FallingAttack_Altitude"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv0",
+              "value": "FallingAnthem_FallingDamageRatio_Lv0"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv0"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv1",
+              "value": "FallingAnthem_FallingDamageRatio_Lv1"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv1"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv2",
+              "value": "FallingAnthem_FallingDamageRatio_Lv2"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                },
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv2"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv3",
+              "value": "FallingAnthem_FallingDamageRatio_Lv3"
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": "FallingAnthem_Altitude_Lv3"
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAttack_Altitude",
+              "maxValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "minValue": "FallingAnthem_FallingDamageRatio_Lv4",
+              "value": "FallingAnthem_FallingDamageRatio_Lv4"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_02"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_02": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_FallingAttack_Altitude",
+              "overrideMapKey": "FallingAnthem_FallingDamageRatio"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "FallingAnthem_FallingDamageImmune_03"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune_03": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": "FallingAnthem_FallingDamageRatio"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "FallingAnthem_Loop_Normal_Rank_1",
+                "FallingAnthem_Loop_Normal_Rank_2"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_FallingAnthem_UseCamera",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Loop_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Loop_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Inertia": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyInertiaVelocityMixin",
+              "JOHELJNOOBE": false,
+              "useY": false
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Height_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 5
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.20000000298023224,
+                "forceRadius": 4.5
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Landed_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.10000000149011612,
+                "forceRadius": 6.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_ClearVelocityForce": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "InertiaType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 150.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_1_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.23999999463558197,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.23999999463558197
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV4"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": -0.5
+                }
+              },
+              "radius": 3,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 200.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_2_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.4000000059604645,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0,
+                  "z": 1.0
+                },
+                "shakeTime": 0.20000000298023224,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.5
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV7"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 1,
+                  "y": -0.5
+                }
+              },
+              "radius": 5,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Strike_01",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Strike_02",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AvatarChangeSkillMixin",
+          "OLDBNEGFONF": 5020010,
+          "IJBAHBAGBCN": 5020010
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_Material"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_Loop_Normal"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS_2",
+            "FallingAnthem_Loop",
+            "FallingAnthem_Loop_Low"
+          ],
+          "modifierName": "FallingAnthem_LoopDamage"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_VelocityForce_Initialize"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_Height_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_FallingDamageImmune_01"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "Inertia"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_OverHead_Camera"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_ClearVelocityForce"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_AttachSelfEffect"
+        }
+      ],
+      "abilityName": "Avatar_Razor_FallingAnthem",
+      "abilitySpecials": {
+        "FallingAnthem_Normal_Loop_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_1_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_2_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Altitude_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": 20.0
+        },
+        "FallingAnthem_Altitude_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": 40.0
+        },
+        "FallingAnthem_Altitude_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": 60.0
+        },
+        "FallingAnthem_Altitude_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": 100.0
+        },
+        "FallingAnthem_Altitude_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": 200.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv0": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv1": {
+          "$type": "GNPGOLDCAGO",
+          "value": -1.0
+        },
+        "FallingAnthem_FallingDamageRatio_Lv2": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.8999999761581421
+        },
+        "FallingAnthem_FallingDamageRatio_Lv3": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.800000011920929
+        },
+        "FallingAnthem_FallingDamageRatio_Lv4": {
+          "$type": "GNPGOLDCAGO",
+          "value": -0.6000000238418579
+        },
+        "FallingAnthem_FallingDamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Razor_Hexenzirkel_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": 0,
+              "damageExtra": [
+                "Wolf_DamageUp",
+                "FIGHT_PROP_CUR_ATTACK",
+                "MUL"
+              ],
+              "attackTags": [
+                "Razor_WolfDamage"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Razor_Hexenzirkel_TwoHex_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionBySkillEventMixin",
+              "onEvent": [
+                {
+                  "$type": "Predicated",
+                  "target": "Other",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "born": {
+                        "$type": "PPLILBLAJHB",
+                        "value": true
+                      },
+                      "modifierName": "Razor_Hexenzirkel_MarkOverLoad_Buff"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetType"
+                    }
+                  ]
+                }
+              ],
+              "LABOIMCPHOD": "Razor_ClawMark_Mark_OverLoad"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Razor_Hexenzirkel_MarkOverLoad_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "MarkOverLoad_Buff_CD",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Razor_Hexenzirkel_Thunderfall"
+            },
+            {
+              "$type": "ReviveElemEnergy",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": "ReviveEnergy"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Razor_Hexenzirkel_Thunderfall": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "duration": [
+            "MarkOverLoad_Buff_CD",
+            0.7,
+            "MUL"
+          ],
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "SelfAttackTarget",
+                  "targetKey": "_ABILITY_Razor_Thunderfall_Target"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "key": "_ABILITY_Razor_Thunderfall_HasTarget",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "key": "_ABILITY_Razor_Thunderfall_HasTarget",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "target": "TempTarget",
+                  "DJOOHHCGMDG": {
+                    "$type": "GDCEGOKEBID",
+                    "GCGFDNHKCIH": "_ABILITY_Razor_Thunderfall_Target"
+                  },
+                  "LINAHBPILJD": false,
+                  "key": "_ABILITY_Razor_Thunderfall_TargetPos",
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "useRotation": true
+                  }
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "topLimit": 1,
+                    "entityTypePriority": [
+                      "Monster"
+                    ],
+                    "sortType": "Nearest",
+                    "sizeRatio": 1,
+                    "campTargetType": "Enemy",
+                    "shapeName": "CircleR15H10"
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ANIMAL_ENTITY_TYPE"
+                    }
+                  ],
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalPos",
+                      "target": "Other",
+                      "LINAHBPILJD": false,
+                      "key": "_ABILITY_Razor_Thunderfall_TargetPos",
+                      "born": {
+                        "$type": "ConfigBornByTarget",
+                        "useRotation": true
+                      }
+                    },
+                    {
+                      "$type": "SetGlobalValue",
+                      "born": {
+                        "$type": "PPLILBLAJHB",
+                        "value": true
+                      },
+                      "key": "_ABILITY_Razor_Thunderfall_HasTarget",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 1
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "_ABILITY_Razor_Thunderfall_HasTarget"
+                }
+              ]
+            },
+            {
+              "$type": "SetGlobalPos",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_ABILITY_Razor_Thunderfall_HasTarget"
+                }
+              ],
+              "key": "_ABILITY_Razor_Thunderfall_TargetPos",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "FLFGOALBFIC": true,
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 2,
+                  "y": 0
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Claymore_Razor_Enhanced_Thunderfall",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "useRotation": true,
+                "positionKey": "_ABILITY_Razor_Thunderfall_TargetPos"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 100.0,
+                    "damagePercentage": "ThunderfallDamage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "extension": {
+                      "$type": "ConfigCameraShakeExt",
+                      "rangeAttenuation": 0.07999999821186066,
+                      "baseCycle": 0.05000000074505806,
+                      "FBGLLKPBKON": true
+                    },
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "y": 1.0
+                    },
+                    "shakeTime": 0.15000000596046448,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 30.0,
+                    "shakeRange": 0.20000000298023224
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "useRotation": true,
+                    "positionKey": "_ABILITY_Razor_Thunderfall_TargetPos"
+                  },
+                  "radius": 5,
+                  "height": 3.0
+                }
+              }
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Razor_Hexenzirkel_Thunderfall"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Razor_Hexenzirkel_C6_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionBySkillEventMixin",
+              "onEvent": [
+                {
+                  "$type": "Predicated",
+                  "target": "Other",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "successActions": [
+                    {
+                      "$type": "ApplyModifier",
+                      "born": {
+                        "$type": "PPLILBLAJHB",
+                        "value": true
+                      },
+                      "modifierName": "Razor_Hexenzirkel_C6_Buff"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetType"
+                    }
+                  ]
+                }
+              ],
+              "LABOIMCPHOD": "Razor_ClawMark_Mark_Consume"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Razor_Hexenzirkel_C6_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "C6_Buff_Duration",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_CriticalDelta": "C6_CritUp",
+            "Actor_CriticalHurtDelta": "C6_CritDamageUp"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Razor_Hexenzirkel_TwoHex_Handler"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "SGV_HexenzirkelLevel",
+          "valueSteps": [
+            1.5,
+            99
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "Avatar_Razor_HexenzirkelSkill",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Hexenzirkel_Enhanced",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "AttachModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Razor_Hexenzirkel_Handler"
+        },
+        {
+          "$type": "AttachModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Razor_Hexenzirkel_C6_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "Wolf_DamageUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "MarkOverLoad_Buff_CD": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ReviveEnergy": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ThunderfallDamage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "C6_Buff_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "C6_CritUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "C6_CritDamageUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  }
+]

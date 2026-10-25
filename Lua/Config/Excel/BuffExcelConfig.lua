@@ -1,0 +1,1 @@
+BuffStackType = {BUFF_REFRESH = 0, BUFF_EXTEND = 1}

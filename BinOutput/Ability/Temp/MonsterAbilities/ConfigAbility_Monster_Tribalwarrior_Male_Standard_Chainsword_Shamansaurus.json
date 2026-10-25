@@ -1,0 +1,772 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_NotEnhanced": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Enhanced"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Enhanced"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Enhanced": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "Enhanced"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Enhanced"
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "ChainsawRotateRate",
+              "transitionTime": 1.0,
+              "value": 0.35
+            }
+          ],
+          "properties": {
+            "Actor_AttackRatio": 0.2
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ReplaceEventPatternMixin",
+              "newPatterns": [
+                "Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_EnhancedMelee_01",
+                "Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_EnhancedMelee_02",
+                "Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_EnhancedMelee_03"
+              ],
+              "oldPatterns": [
+                "Monster_Tribalwarrior_Male_Standard_Chainsword_MeleeAttack01",
+                "Monster_Tribalwarrior_Male_Standard_Chainsword_MeleeAttack02_V2",
+                "Monster_Tribalwarrior_Male_Standard_Chainsword_MeleeAttack03_V2"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Reset": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SHAMANSAURUS_ENABLE_ENHANCED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_ToEnhanced": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SHAMANSAURUS_ENABLE_ENHANCED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_Reset": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SHAMANSAURUS_ENHANCED",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_TribeUlt_Cast_Weapon",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_TribeUlt_Cast",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SHAMANSAURUS_ENHANCED",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            1,
+            2,
+            1101
+          ],
+          "enterActions": [
+            {
+              "$type": "SetPoseInt",
+              "value": 1001,
+              "intID": "FreePoseMark"
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "State_NotEnhanced",
+            "State_Enhanced"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_SHAMANSAURUS_ENHANCED",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToHPPercentMixin",
+          "valueSteps": [
+            0.8
+          ],
+          "modifierNameSteps": [
+            "HP_Reset",
+            "HP_ToEnhanced"
+          ]
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            901,
+            1901
+          ],
+          "modifierName": "State_Reset"
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Male_Standard_Chainsword_StateManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Chainsaw_Stop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "ChainsawRotateRate",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Chainsaw_Rotate": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "ChainsawRotateRate",
+              "transitionTime": 1.0,
+              "value": 0.2
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "ChainsawRotateRate",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0,
+            1
+          ],
+          "modifierName": "Chainsaw_Stop"
+        },
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            2
+          ],
+          "modifierName": "Chainsaw_Rotate"
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Male_Standard_Chainsword_ChainsawRotationManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Weapon_VisibilityTag_Hide": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_WEAPON_HIDE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_WEAPON_HIDE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponShow": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "setEnable": true,
+              "renderNames": [
+                "MonEquip_Tribalwarrior_Chainsword_Shamansaurus_Model"
+              ]
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "predicates": [
+                {
+                  "$type": "DGBGFPCHLAB",
+                  "JLMHCHIHKJO": "DieDrawn"
+                }
+              ],
+              "renderNames": [
+                "MonEquip_Tribalwarrior_Chainsword_Shamansaurus_Model"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeaponHide": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerSetRenderersEnableV2",
+              "renderNames": [
+                "MonEquip_Tribalwarrior_Chainsword_Shamansaurus_Model"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerSetRenderersEnableV2",
+          "renderNames": [
+            "MonEquip_Tribalwarrior_Chainsword_Shamansaurus_Model"
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "WeaponShow",
+            "WeaponHide"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_WEAPON_HIDE",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Struggle"
+          ],
+          "modifierName": "Weapon_VisibilityTag_Hide"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            9001
+          ],
+          "modifierName": "Weapon_VisibilityTag_Hide"
+        }
+      ],
+      "abilityName": "Monster_TribalWarrior_Male_Standard_Chainsword_Shamansaurus_WeaponVisibilityManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 420.0,
+          "endNormalizedTime": 0.20000000298023224,
+          "steerStateIDs": [
+            "Alert"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.6700000166893005,
+          "steerStateIDs": [
+            "MeditationAlert"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 300.0,
+          "IJMBPGKKOJD": 20.0,
+          "endNormalizedTime": 0.2199999988079071,
+          "steerStateIDs": [
+            "MeleeAttack01"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 300.0,
+          "endNormalizedTime": 0.20999999344348907,
+          "steerStateIDs": [
+            "MeleeAttack02"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.722000002861023,
+          "CHMMMGEJCME": "Left",
+          "steerStateIDs": [
+            "MeleeAttack02"
+          ],
+          "startNormalizedTime": 0.5,
+          "EMBOAOPDDKP": 240.0
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 480.0,
+          "endNormalizedTime": 0.10999999940395355,
+          "steerStateIDs": [
+            "MeleeAttack03"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.722000002861023,
+          "steerStateIDs": [
+            "MeleeAttack03"
+          ],
+          "startNormalizedTime": 0.6069999933242798
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 75.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "steerStateIDs": [
+            "TribalUlt"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 75.0,
+          "endNormalizedTime": 0.800000011920929,
+          "steerStateIDs": [
+            "TribalUlt"
+          ],
+          "startNormalizedTime": 0.6600000262260437
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 400.0,
+          "IJMBPGKKOJD": 60.0,
+          "endNormalizedTime": 0.11999999731779099,
+          "steerStateIDs": [
+            "FloatR"
+          ],
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.6399999856948853,
+          "steerStateIDs": [
+            "FloatR"
+          ],
+          "startNormalizedTime": 0.15000000596046448,
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 400.0,
+          "IJMBPGKKOJD": -40.0,
+          "endNormalizedTime": 0.11999999731779099,
+          "steerStateIDs": [
+            "FloatFR"
+          ],
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.6399999856948853,
+          "steerStateIDs": [
+            "FloatFR"
+          ],
+          "startNormalizedTime": 0.15000000596046448,
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 400.0,
+          "IJMBPGKKOJD": -60.0,
+          "endNormalizedTime": 0.11999999731779099,
+          "steerStateIDs": [
+            "FloatL"
+          ],
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.6600000262260437,
+          "steerStateIDs": [
+            "FloatL"
+          ],
+          "startNormalizedTime": 0.15000000596046448,
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 400.0,
+          "IJMBPGKKOJD": 40.0,
+          "endNormalizedTime": 0.11999999731779099,
+          "steerStateIDs": [
+            "FloatFL"
+          ],
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 0.6600000262260437,
+          "steerStateIDs": [
+            "FloatFL"
+          ],
+          "startNormalizedTime": 0.15000000596046448,
+          "IBMKLKNGDEA": false
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.3799999952316284,
+          "steerStateIDs": [
+            "TauntAware01"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.9399999976158142,
+          "steerStateIDs": [
+            "TauntAware01"
+          ],
+          "startNormalizedTime": 0.6700000166893005
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.6000000238418579,
+          "steerStateIDs": [
+            "Aware"
+          ],
+          "startNormalizedTime": 0.10000000149011612
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.6000000238418579,
+          "steerStateIDs": [
+            "TauntAware_BS"
+          ],
+          "startNormalizedTime": 0.25
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.6000000238418579,
+          "steerStateIDs": [
+            "TauntAware_AS"
+          ],
+          "startNormalizedTime": 0.10000000149011612
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.17000000178813934,
+          "steerStateIDs": [
+            "TauntAware02"
+          ],
+          "startNormalizedTime": 0.05000000074505806
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.47999998927116394,
+          "steerStateIDs": [
+            "TauntAware02"
+          ],
+          "startNormalizedTime": 0.36000001430511475
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.9100000262260437,
+          "steerStateIDs": [
+            "TauntAware02"
+          ],
+          "startNormalizedTime": 0.699999988079071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.20000000298023224,
+          "steerStateIDs": [
+            "TauntAware03A"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.9200000166893005,
+          "steerStateIDs": [
+            "TauntAware03A"
+          ],
+          "startNormalizedTime": 0.699999988079071
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.9200000166893005,
+          "steerStateIDs": [
+            "TauntAware03C"
+          ],
+          "startNormalizedTime": 0.05000000074505806
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_AttackSteer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_IceBlade_Fire",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "BladeBorn"
+          },
+          "bulletID": 42551029,
+          "trackTarget": "SelfAttackActiveTarget",
+          "lifeByOwnerV2": true
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 135.0,
+          "endNormalizedTime": 0.800000011920929,
+          "steerStateIDs": [
+            "IceBlade"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_IceBlade_Trigger"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "IceBullet_Display": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_IceBlade_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 25,
+          "elementType": "Ice",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_IceBlade_Bullet_Hit",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 150.0,
+                "damagePercentage": 0.8,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "OJKMIPPGDCE": "Owner",
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "Eremite_Dancer_BoomerangBullet",
+              "attenuationTag": "IceBlade",
+              "canBeModifiedBy": "Owner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 0.3
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_IceBlade_Bullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "IceBullet_Display"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_IceBlade_Bullet_Hit",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Ice",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 150.0,
+                "damagePercentage": 0.8,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "OJKMIPPGDCE": "Owner",
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "Owner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 1
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Male_Standard_Chainsword_Shamansaurus_IceBlade_Bullet_LifeTimeOver"
+    }
+  }
+]

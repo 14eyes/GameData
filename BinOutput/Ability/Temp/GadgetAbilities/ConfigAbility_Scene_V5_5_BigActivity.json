@@ -1,0 +1,2198 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "VentiDongeon_5_5_LaserChecking_Team": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "VentiDongeon_5_5_LaserChecking_Avatar"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "VentiDongeon_5_5_LaserChecking_Avatar": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "LoseHP",
+                  "amountByTargetMaxHPRatio": 0.2
+                }
+              ],
+              "globalValueKey": "_ABILITY_VentiDongeon_LaserChecking_GV"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetTargetToTargetKey",
+              "target": "Other",
+              "targetKey": "Attack_Target"
+            },
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "otherTargets": {
+                    "$type": "GENFIIMMOOJ",
+                    "targetKey": "Attack_Target"
+                  },
+                  "modifierName": "VentiLaser_CD"
+                },
+                {
+                  "$type": "AddGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_ABILITY_VentiDongeon_LaserChecking_GV",
+                  "value": 1,
+                  "maxValue": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "VentiLaser_Moveable_Attack"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "VentiLaser_CD": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_VentiLaser_CD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_VentiLaser_CD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onRemoved": [
+        {
+          "$type": "RemoveModifier",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "VentiDongeon_5_5_LaserChecking_Team"
+        }
+      ],
+      "abilityName": "Ability_Team_VentiDongeon_5_5_LaserChecking",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "VentiDongeon_5_5_LaserChecking_Team"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Bone_Boom01"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AirRaidBomb_PreWarmBall",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Normal"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Death",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "ForceDeath",
+              "gadgetState": 202
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_AirRaidBomb_Appear",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorInt",
+                  "intID": "GadgetState",
+                  "value": 201
+                },
+                {
+                  "$type": "ChangeGadgetState",
+                  "state": 201
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "VentiDelayedBomb_Already_Hit",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "VentiDelayedBomb_Already_Hit"
+                }
+              ]
+            }
+          ]
+        },
+        "Death": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DelayDeath"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_AirRaidBomb_PreWarmBall",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DelayDeath": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 4,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "sizeRatio": 1,
+                    "campTargetType": "All",
+                    "shapeName": "CircleR6H10"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "DamageByAttackValue",
+                      "target": "Target",
+                      "attackInfo": {
+                        "$type": "ConfigAttackInfo",
+                        "attackProperty": {
+                          "$type": "ConfigAttackProperty",
+                          "elementType": "Fire",
+                          "damagePercentageRatio": 0,
+                          "ignoreModifyDamage": true,
+                          "ignoreAttackerProperty": true,
+                          "strikeType": "Default",
+                          "enBreak": 0.0,
+                          "trueDamage": true,
+                          "damageExtra": "Value_DamageSystemValue",
+                          "elementDurability": 0,
+                          "arkheGrade": 0
+                        },
+                        "hitPattern": {
+                          "$type": "ConfigHitPattern",
+                          "onHitEffectName": "default",
+                          "hitHaltTimeScale": 0.05000000074505806,
+                          "hitImpulseType": "LV6"
+                        },
+                        "attenuationGroup": "default"
+                      }
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsByShape",
+                    "sizeRatio": 1,
+                    "campTargetType": "All",
+                    "shapeName": "CircleR6H10"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "DamageByAttackValue",
+                      "target": "Target",
+                      "attackInfo": {
+                        "$type": "ConfigAttackInfo",
+                        "attackProperty": {
+                          "$type": "ConfigAttackProperty",
+                          "elementType": "Fire",
+                          "damagePercentageRatio": 0,
+                          "ignoreModifyDamage": true,
+                          "ignoreAttackerProperty": true,
+                          "strikeType": "Default",
+                          "enBreak": 0.0,
+                          "trueDamage": true,
+                          "damageExtra": [
+                            84,
+                            "Value_DamageSystemValue",
+                            "MUL"
+                          ],
+                          "elementDurability": 0,
+                          "arkheGrade": 0
+                        },
+                        "hitPattern": {
+                          "$type": "ConfigHitPattern",
+                          "onHitEffectName": "default",
+                          "hitHaltTimeScale": 0.05000000074505806,
+                          "hitImpulseType": "LV6"
+                        },
+                        "attenuationGroup": "default"
+                      }
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Monster"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "target": "Self",
+                      "gadgetState": 202
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_AirRaidBomb_Boom_12M",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73042003
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ForceDeath": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_AirRaidBomb_Appear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73042003
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_VentiDelayedBomb_01",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "VentiDelayedBomb_Already_Hit",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "Value_DamageSystemValue",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffManager"
+        }
+      ],
+      "abilitySpecials": {
+        "Value_DamageSystemValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Laser_PowerOff": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Laser_Continue": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Laser_01_Standard",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_VentiLaser_CD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "damagePercentageRatio": 0,
+                        "enBreak": 0.0,
+                        "damagePercentage": 0,
+                        "elementDurability": 0,
+                        "arkheGrade": 0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "retreatType": "ByHitDirection",
+                        "onHitEffectName": "none",
+                        "hitHaltTimeScale": 0.05000000074505806,
+                        "overrideHitImpulse": {
+                          "$type": "ConfigHitImpulse",
+                          "hitLevel": "Air",
+                          "hitImpulseX": 600,
+                          "hitImpulseY": 800
+                        },
+                        "hitImpulseType": "LV6"
+                      },
+                      "attenuationGroup": "default",
+                      "attackTag": "VentiLaser_Moveable_Attack"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "useRotation": true,
+                        "offset": {
+                          "$type": "DynamicFloatVector",
+                          "x": 0,
+                          "z": 0,
+                          "y": 0
+                        },
+                        "direction": {
+                          "$type": "ConfigDirectionByEntity",
+                          "angleOffset": {
+                            "$type": "DynamicFloatVector",
+                            "x": 0,
+                            "z": 0,
+                            "y": 0
+                          }
+                        },
+                        "attachPointName": "ShootPoint"
+                      },
+                      "checkHitLayerType": "Both",
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0.8,
+                        "z": 50,
+                        "y": 0.5
+                      },
+                      "muteHitBehindScene": true
+                    }
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_VentiLaser_CD"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "PLAYER_ENTER",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": -5
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Laser_PowerOff"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Laser_Continue",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_VentiLaser_Moveable",
+      "onFieldEnter": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "PLAYER_ENTER",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 5
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "PLAYER_ENTER",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": -5
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Normal": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "Normal"
+              ]
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Broken"
+              ]
+            },
+            {
+              "$type": "ShowUICombatBar",
+              "LNEIGAHADOB": true
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 1000.0,
+              "tauntLevel": "Monster_TauntLevel_MAX"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowBar": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "onAdded": [
+            {
+              "$type": "ShowUICombatBar",
+              "LNEIGAHADOB": true,
+              "show": true
+            },
+            {
+              "$type": "RefreshUICombatBarLayout"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Default"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "Normal"
+              ]
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Broken"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 1000.0,
+              "tauntLevel": "Monster_TauntLevel_MAX"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "canBeHandledOnRecover": true,
+              "MPTriggerOnRemote": true,
+              "triggerID": "Hit"
+            }
+          ]
+        },
+        "Broken": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "Normal"
+              ]
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "Broken"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 1000.0,
+              "tauntLevel": "Monster_TauntLevel_MAX"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "canBeHandledOnRecover": true,
+              "MPTriggerOnRemote": true,
+              "triggerID": "Hit"
+            }
+          ]
+        },
+        "Default": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "careValue": 1000.0,
+              "tauntLevel": "Monster_TauntLevel_MAX"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Normal"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ShowBar",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Broken",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_SpecialMamolu_01",
+      "onAdded": [
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 11002
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SCENEOBJ_PROTECTTARGET",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "_IS_SpecialMamoluHPBar",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Default": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "onAdded": [
+            {
+              "$type": "RefreshUICombatBarLayout"
+            },
+            {
+              "$type": "ShowUICombatBar",
+              "LNEIGAHADOB": true
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "tauntLevel": "Monster_TauntLevel_MAX"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_SpecialMamoluHPBar_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Default"
+        },
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceListID": 11002
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SCENEOBJ_PROTECTTARGET",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "_IS_SpecialMamoluHPBar",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DelaySLC": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_CanonShoot",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CanonShoot": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillShieldBreaker_01",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "EffController": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Default"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "FullCharge",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Active",
+              "gadgetState": 202
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Default": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FullCharge": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Active": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillShieldBreaker_01",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "CanonShoot"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "CSE_CanonTrigger",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 201
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "ShowReminder",
+              "muteRemoteAction": true,
+              "id": 1002370049
+            }
+          ],
+          "succActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "CanonShoot"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DelaySLC"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_NatlanDrillShieldBreaker_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Eff"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NatlanDrillpoint_Idle": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_Circle_Create",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_Circle_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_NatlanDrillpoint_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_Circle_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73042011
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Vehicle"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "NatlanDrillpoint_Idle"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NatlanDrillBall_Idle": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "SGV_NatlanDrillBall_Tail"
+                }
+              ],
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_Trail_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_NatlanDrillBall_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_01",
+              "type": "Int"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73042012,
+                73042015
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Vehicle"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "NatlanDrillBall_Idle"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NatlanDrillBall_Idle": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 207
+            },
+            {
+              "$type": "AttachEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "SGV_NatlanDrillBall_Tail"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_Trail_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "colRoot"
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Idle"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Idle": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "IdleEff"
+            }
+          ],
+          "duration": 1.3,
+          "onRemoved": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "colRoot"
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "IdleEff"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IdleEff": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "colRoot"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "colRoot"
+              ]
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_NatlanDrillBallSpecialBorn_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "State",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillpoint_01",
+              "type": "Int"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73042020
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByAny",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Vehicle"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "NatlanDrillBall_Idle"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "HitManager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillBigpoint_Born",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBigpoint_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NatlanDrillBigpoint_Destroy",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73042013
+              ]
+            }
+          ]
+        },
+        "Default": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Warning": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBigpoint_Warning",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Default"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Warning",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_NatlanDrillBalloon_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HitManager"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Avatar_Chasca_AimGadget",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NatlanDrill_Prop_SeekerBattery": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "NatlanDrill_Prop_SeekerBatteryEffect"
+            },
+            {
+              "$type": "DebugLog",
+              "content": "删除常驻特效"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NatlanDrill_Prop_SeekerBatteryEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SeekerBattery_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NatlanDrill_TriggerBuff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_ABILITY_5_5_Activity_Trigger",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "_ABILITY_5_5_Activity_Trigger",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Activity_NatlanDrillDefence_GetBuff",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NatlanDrill_KillGadget": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear",
+              "configIdArray": [
+                73042014
+              ],
+              "ECGCMJJJFLI": true,
+              "JFPOJJMMION": true
+            },
+            {
+              "$type": "DebugLog",
+              "content": "杀死gadget"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_SeekerBattery_01_Destroy",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 1
+            }
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "DebugLog",
+          "content": "能量球被移除时调用了吗111111"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "NatlanDrill_Prop_SeekerBatteryEffect"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_NatlanDrillLightBuff_01",
+      "onFieldEnter": [
+        {
+          "$type": "DebugLog",
+          "content": "onFieldEnter"
+        },
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "NatlanDrill_Prop_SeekerBatteryEffect"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "NatlanDrill_TriggerBuff"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Caster",
+              "modifierName": "NatlanDrill_KillGadget"
+            },
+            {
+              "$type": "DebugLog",
+              "content": "这里走到了"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Ability_Property_Prop_IsUse",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "key": "_Ability_Property_Prop_IsUse"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "Is_First_FireEffect",
+          "maxValue": 2,
+          "minValue": 1,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_Ability_Property_Prop_IsUse",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_SeekerBattery_01_BornFast",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "NatlanDrill_Prop_SeekerBattery"
+            },
+            {
+              "$type": "DebugLog",
+              "content": "有能量球被创建了"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "Is_First_FireEffect",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "Is_First_FireEffect"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillEnemySheild_Shield",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "NoneBreak"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "FirstBreak",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "SecondBreak",
+              "gadgetState": 202
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "ThirdBreak",
+              "gadgetState": 203
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "TotalBreak",
+              "gadgetState": 204
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "NoneBreak": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "collider"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FirstBreak": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "collider"
+              ]
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillEnemySheild_Shield",
+              "type": "Int"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SecondBreak": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "collider"
+              ]
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 202,
+              "effectPattern": "Eff_SceneObj_NatlanDrillEnemySheild_Shield",
+              "type": "Int"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ThirdBreak": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "setEnable": true,
+              "transformNames": [
+                "collider"
+              ]
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 203,
+              "effectPattern": "Eff_SceneObj_NatlanDrillEnemySheild_Shield",
+              "type": "Int"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "TotalBreak": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "thinkInterval": 2.5,
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "collider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 204,
+              "effectPattern": "Eff_SceneObj_NatlanDrillEnemySheild_Shield",
+              "type": "Int"
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "canBeHandledOnRecover": true,
+              "transformNames": [
+                "collider"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_NatlanDrillEnemySheild_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Green",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Normal"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Fade",
+              "gadgetState": 201
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Green",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fade": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Green",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_NatlanDrillBeammark_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Normal"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Fade",
+              "gadgetState": 201
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fade": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Purple",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_NatlanDrillBeammark_02",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Red",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Normal"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Fade",
+              "gadgetState": 201
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Red",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fade": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_Red",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_NatlanDrillBeammark_03",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffManager": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_White",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Normal"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Fade",
+              "gadgetState": 201
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Normal": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_White",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Fade": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Appear",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_NatlanDrillBeammark_White",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Nt_Property_Ani_Prop_NatlanDrillBeammark_04",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffManager"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "State_Active": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.2
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_TournamentPillar_01_ActiveState",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.3
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_TournamentPillar_01_Amber",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_ActivityTournamentPillar_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "State_Active"
+        }
+      ]
+    }
+  }
+]

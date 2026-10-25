@@ -1,0 +1,654 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Floating": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Fly"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "Fly"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HideWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_WEAPON_HIDE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_WATCHER_IN_ULTIMATE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceBuffDebuffs": [
+                "Struggle"
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_WEAPON_HIDE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_WATCHER_IN_ULTIMATE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_UltimateA_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0.001
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "VelocityForceMixin",
+              "excludeForces": [
+                "RetreatAirType",
+                "RetreatType",
+                "WindZoneType"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "InAttackState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 4,
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "Fly"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ULTIMATE_TIMER",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ULTIMATE_ALREADY_CAST",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "CreateAttackRing"
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "Fly"
+            }
+          ],
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_WATCHER_NEVER_BE_HIT",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "CreateGadget",
+              "target": "SelfAttackActiveTarget",
+              "FGNHCAEHEJK": true,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "onGround": true,
+                "useRotation": true,
+                "DJJOOBHDHEG": 15.0,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 4,
+                  "maxRandomRange": 5
+                }
+              },
+              "gadgetID": 42551037,
+              "campID": 4004
+            },
+            {
+              "$type": "AddGlobalValue",
+              "key": "_ULTIMATE_TIMER",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "UltimateEnd"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 8,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ULTIMATE_TIMER"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CreateAttackRing": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.9,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_LOCK_TARGET",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "_LOCK_TARGET",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "CreateGadget",
+                  "target": "SelfAttackActiveTarget",
+                  "FGNHCAEHEJK": true,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "onGround": true,
+                    "useRotation": true
+                  },
+                  "gadgetID": 42551035
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_LOCK_TARGET",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 4
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "CreateGadget",
+                  "FGNHCAEHEJK": true,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "onGround": true,
+                    "useRotation": true,
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 8,
+                      "maxRandomRange": 16
+                    }
+                  },
+                  "gadgetID": 42551035
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "LessAndEqual",
+                  "key": "_LOCK_TARGET"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Ultimate_BS",
+            "Ultimate_Disappear",
+            "Ultimate_Cast",
+            "Ultimate_Loop_BS",
+            "Ultimate_Loop"
+          ],
+          "modifierName": "Floating"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Ultimate_Cast",
+            "Ultimate_Loop_BS",
+            "Ultimate_Loop"
+          ],
+          "modifierName": "HideWeapon"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Ultimate_Loop_BS",
+            "Ultimate_Loop"
+          ],
+          "modifierName": "InAttackState"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetGlobalPos",
+              "otherTargets": {
+                "$type": "SelectTargetsBySelfGroup",
+                "value": 25515501
+              },
+              "LINAHBPILJD": false,
+              "key": "_ULTIMATE_POS",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "useRotation": true
+              }
+            },
+            {
+              "$type": "DoBlinkByGlobalPos",
+              "positionKey": "_ULTIMATE_POS"
+            }
+          ],
+          "stateIDs": [
+            "Ultimate_Cast",
+            "Shamansaurus_TribalUlt_AfterBlink"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_Elite_Ultimate"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Ring_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.06,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_Stone_Break",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Ice",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 200.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "hitImpulseType": "LV5"
+                  },
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "y": -1.5
+                    }
+                  },
+                  "radius": 5,
+                  "height": 4.0
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_FloatingAttack_Target_Fast",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_Elite_UltimateIce",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Ring_VFX"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GadgetLogic": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 6.6,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Graffiti_Create_1M",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Graffiti_Die_1M",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "MPTriggerOnRemote": true,
+                  "triggerID": "End"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "ExplodeTimer"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "GadgetLogic"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByHitEnBreak",
+                      "enBreak": 0
+                    },
+                    {
+                      "$type": "ByHitDamage",
+                      "damage": 0
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ExplodeTimer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 200.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV6"
+                  },
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "radius": 3.2
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_BombExplode",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "target": "Caster"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_BombWarn",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_Elite_Stone",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "GadgetLogic"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CreationHint": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.55,
+          "onRemoved": [
+            {
+              "$type": "CreateGadget",
+              "ownerIs": "OriginOwner",
+              "FGNHCAEHEJK": true,
+              "gadgetID": 42551033,
+              "campID": 4004
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_Elite_StoneCreation",
+      "onAdded": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_BombCreateRing",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "CreationHint"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "WaterBall_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Wayob_Mosasaurus_EX_RangeAtk2_WaterBall",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Water",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 55.0,
+                "damagePercentage": 0.45,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "overrideHitImpulse": {
+                  "$type": "ConfigHitImpulse",
+                  "hitLevel": "Light",
+                  "hitImpulseX": 400
+                }
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 0.75
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Wayob_Mosasaurus_EX_RangeAtk2_WaterBallExplode",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "WaterBall_VFX"
+        }
+      ],
+      "abilityName": "Monster_Tribalwarrior_Female_Standard_Launcher_Shamansaurus_Elite_WaterBall",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "WaterBall_VFX"
+        }
+      ]
+    }
+  }
+]

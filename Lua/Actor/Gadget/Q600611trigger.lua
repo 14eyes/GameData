@@ -1,0 +1,42 @@
+require("Actor/ActorCommon")
+local GadgetActorProxy = require("Actor/Gadget/GadgetActorProxy")
+
+local Q600611trigger = class("Q600611trigger", GadgetActorProxy)
+Q600611trigger.defaultAlias = "Q600611trigger"
+local Q6006ClientConfig = require("Quest/Client/Q6006ClientConfig")
+
+local this
+local subIDs = Q6006ClientConfig.SubIDs
+local datas = Q6006ClientConfig.Datas
+local npcs = Q6006ClientConfig.Npcs
+local points = Q6006ClientConfig.Points
+
+function Q600611trigger:OnPostDataPrepare()
+    print("Q600611trigger - OnPostDataPrepare")
+    this = self
+end
+
+function Q600611trigger:OnPostComponentPrepare()
+    print("Q600611trigger - OnPostComponentPrepare")
+    this:AddComponentTrigger(10, DistType.EULER, {x = 0, y = 0, z = 0}, self.TriggerIn, self.TriggerOut, nil, self.PreTriggerIn, self.LightUpTriggerIn, 6006)
+end
+
+function Q600611trigger:TriggerIn()
+    print("Q600611trigger - TriggerIn")
+    actorUtils.FinishQuestID(false, 600611)
+    this:DestroySelf()
+end
+
+function Q600611trigger:PreTriggerIn()
+    print("Q600611trigger - PreTriggerIn")
+end
+
+function Q600611trigger:LightUpTriggerIn()
+    print("Q600611trigger - LightUpTriggerIn")
+end
+
+function Q600611trigger:TriggerOut()
+    print("Q600611trigger - TriggerOut")
+end
+
+return Q600611trigger

@@ -1,0 +1,365 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Fungus_Deux_BVB_Fire_FlameFountain_Trigger"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Fungus_Deux_BVB_Fire_FlameFountain_Gadget"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FlameImpact_AttackLanded_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Fungus_FlameImpact"
+                  ]
+                }
+              ],
+              "triggerID": "FlameImpactAttack"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FlameImpact_Attack_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Deux_Fire_FlameImpact_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Deux_Fire_FlameImpact_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 99.0,
+          "steerStateIDs": [
+            "FlameImpact_Attack"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 360.0,
+          "endNormalizedTime": 99.0,
+          "steerStateIDs": [
+            "FlameImpact_BS"
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FlameImpact_Attack"
+          ],
+          "modifierName": "FlameImpact_Attack_Modifier"
+        }
+      ],
+      "abilityName": "Fungus_Deux_BVB_Fire_FlameImpact",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FlameImpact_AttackLanded_Monitor"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Fire",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "enBreak": 45.0,
+                "damagePercentage": 2.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 3.8,
+              "height": 1.0,
+              "fanAngle": 75.0
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Fungus_Deux_Fire_FlameFountain_P1",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Fungus_Deux_BVB_Fire_FireBomb_NormalAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "target": "SelfAttackTarget",
+          "gadgetID": 42609022
+        }
+      ],
+      "abilityName": "Fungus_Deux_BVB_Fire_FireBomb_Trigger"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FireBomb_Gadget_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.7,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Fungus_Deux_Fire_FlameImpact_Blast",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "FungusAOE_R5"
+              },
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Fire",
+                  "attackType": "Range",
+                  "damagePercentageRatio": 0,
+                  "enBreak": 120.0,
+                  "damagePercentage": 10,
+                  "elementDurability": 50,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "hitImpulseType": "LV3"
+                },
+                "attenuationGroup": "default",
+                "canBeModifiedBy": "Owner"
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Fungus_Deux_Fire_FlameImpact_BS",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Fungus_Deux_BVB_Fire_FireBomb_Gadget",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FireBomb_Gadget_Handler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Passive_Heal": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 8,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_TARGET_FOUND",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Partner",
+                  "Monster"
+                ],
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR30H10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Partner",
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetHPRatio",
+                  "logic": "Lesser",
+                  "HPRatio": [
+                    1,
+                    "heal_amount",
+                    "SUB"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Heal_Effect"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_TARGET_FOUND",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Partner",
+                  "Monster"
+                ],
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR30H10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "_TARGET_FOUND"
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Partner",
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetHPRatio",
+                  "logic": "Lesser",
+                  "HPRatio": 1
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "Heal_Effect"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Heal_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "HealHP",
+              "amountByTargetMaxHPRatio": "heal_amount"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Fungus_Deux_Fire_HealFx",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Fungus_Deux_BVB_Fire_Passive",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Passive_Heal"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_TARGET_FOUND",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilitySpecials": {
+        "heal_amount": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.20000000298023224
+        }
+      }
+    }
+  }
+]

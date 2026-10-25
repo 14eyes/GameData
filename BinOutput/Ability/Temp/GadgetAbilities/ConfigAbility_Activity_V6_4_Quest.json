@@ -1,0 +1,2095 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "target": "Caster",
+              "triggerID": "Crow_Control_Show"
+            },
+            {
+              "$type": "ShowUICombatBar",
+              "HEDENEJAFFI": true,
+              "LNEIGAHADOB": true,
+              "show": true
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                201,
+                300
+              ],
+              "modifierNames": [
+                [
+                  "Idle"
+                ],
+                [
+                  "Attack"
+                ],
+                [
+                  "Ghost"
+                ]
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "TriggerAudioV2",
+              "muteRemoteAction": true,
+              "pattern": "v6_4_Aozi_Damaged"
+            }
+          ]
+        },
+        "Idle": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Fischl_S_Skill_Show_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetTargetToTargetKey",
+              "target": "CurLocalAvatar",
+              "targetKey": "_CurrentTarget"
+            },
+            {
+              "$type": "SetPartControlTarget",
+              "otherTargets": {
+                "$type": "GENFIIMMOOJ",
+                "targetKey": "_CurrentTarget"
+              },
+              "partRootNames": [
+                "PartControl"
+              ]
+            },
+            {
+              "$type": "EnablePartControl",
+              "enable": true,
+              "partRootNames": [
+                "PartControl"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Attack": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Fischl_S_Skill_Show_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetTargetToTargetKey",
+              "target": "Team",
+              "targetKey": "_CurrentTarget"
+            },
+            {
+              "$type": "SetPartControlTarget",
+              "otherTargets": {
+                "$type": "GENFIIMMOOJ",
+                "targetKey": "_CurrentTarget"
+              },
+              "partRootNames": [
+                "PartControl"
+              ]
+            },
+            {
+              "$type": "EnablePartControl",
+              "enable": true,
+              "partRootNames": [
+                "PartControl"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Crow_Talent_C_ExtreAttack"
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "FireBulletNode",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "FireBulletNode"
+              },
+              "bulletID": 73126004,
+              "trackTarget": "CurLocalAvatar"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckHp": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_CheckHp_Triggered",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_CheckHp_Triggered",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ServerLuaCall",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "param1": 0,
+                  "param2": 0,
+                  "funcName": "SLC_NotifyAoZiLessHp",
+                  "param3": 0,
+                  "CallParamList": [
+                    220329003
+                  ],
+                  "luaCallType": "SpecificGroup"
+                },
+                {
+                  "$type": "ServerLuaTriggerEvent",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "param1": 0,
+                  "param2": 0,
+                  "CallParamList": [
+                    220329003
+                  ],
+                  "param3": 0,
+                  "sourceName": "AoZiLessHp",
+                  "luaCallType": "SpecificGroup"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetHPRatio",
+                  "logic": "LesserOrEqual",
+                  "HPRatio": 0.2
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_CheckHp_Triggered"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Ghost": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "setEnable": true,
+              "transformNames": [
+                "Model"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "transformNames": [
+                "Model"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Fischl_E_Skill_Appear",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Aozi",
+      "onAdded": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Fischl_E_Skill_Appear",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "CheckHp"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullet_FX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Fischl_Skill_S_Crow_NormalAttackTrail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "ElementLevelCo",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "target": "Other",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "targetType": "SelfCamp",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "bonusCriticalHurt": 0,
+                "enBreak": 39.599998474121094,
+                "trueDamage": true,
+                "damageExtra": [
+                  "ElementLevelCo",
+                  "DamageRatio",
+                  "MUL"
+                ],
+                "elementDurability": 25,
+                "bonusCritical": 0,
+                "ELIEOGNBGKG": 0,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "Eff_Fischl_Skill_S_Crow_NormalHit",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitHaltTime": 0.029999999329447746,
+                "canBeDefenceHalt": true,
+                "hitImpulseType": "LV1"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "radius": 1
+            }
+          }
+        },
+        {
+          "$type": "Predicated",
+          "target": "Other",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "successActions": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73126004
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_6_4_Aozi_Bullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Bullet_FX"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ElementLevelCo": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "GroupTriggerKill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_KilledbyGroup",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Model"
+              ]
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "WeakIdle"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_ScenObj_NightCrowStatue_05_Appear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "LockDieEffect"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_RemoveEntity",
+              "param3": 0,
+              "CallParamList": [
+                220329003
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "FieldTrigger"
+              ]
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "LockDieEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                300,
+                301,
+                201,
+                202
+              ],
+              "modifierNames": [
+                [
+                  "Invincible_Default"
+                ],
+                [
+                  "Invincible"
+                ],
+                [
+                  "InvincibleWithAim"
+                ],
+                [
+                  "NoWeakIdle"
+                ],
+                [
+                  "WeakIdle"
+                ]
+              ]
+            },
+            {
+              "$type": "PlatformMoveMixin",
+              "moveModifiers": [
+                "MoveStateModifier"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "MoveStateModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "FieldTrigger"
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "state": 201
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "SGV_ContextData"
+                    }
+                  ],
+                  "state": 202
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "GV_HitPlayer"
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 300
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_HitPlayer",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NightCrowBattle_Rush",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "FieldTrigger"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "InvincibleWithAim": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NightCrowBattle_AimLine",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "Invincible_Default": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "BeHitLogic": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "Hit"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "Hit"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WeakIdle": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_WeakStateFlag",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_WeakStateFlag",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_NightCrowBattle_Dizziness",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_NightCrowBattle_Hit",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "BeHitLogic"
+            }
+          ]
+        },
+        "NoWeakIdle": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_HitPlayer",
+        "GV_WeakStateFlag",
+        "SGV_ContextData"
+      ],
+      "onKill": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "StateMachineHandler"
+        },
+        {
+          "$type": "CreateGadget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_KilledbyGroup"
+            }
+          ],
+          "gadgetID": 73126027
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "GroupTriggerKill",
+          "gadgetState": 401
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Prop_NightCrowStatue",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "target": "Other",
+              "effectPattern": "Eff_Animal_Electrohercules_Blink_AS",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByTarget"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Fischl_E_Skill_Appear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByHitPoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_HitPlayer",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetSystemValueToOverrideMap",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "OAEJNDBEDPO": -1,
+              "key": "ElementLevelCo",
+              "type": "ElementLevelCo"
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "target": "Other",
+              "targetType": "All",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "enBreak": 999.0,
+                    "trueDamage": true,
+                    "damageExtra": [
+                      "ElementLevelCo",
+                      "DamageRatio",
+                      "MUL"
+                    ],
+                    "elementDurability": 0,
+                    "ELIEOGNBGKG": 0,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeTime": 0.36000001430511475,
+                    "shakeRange": 0.36000001430511475
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "hitLevel": "Air",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Air",
+                      "hitImpulseX": 650,
+                      "hitImpulseY": 950
+                    },
+                    "hitImpulseType": "LV6"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerAlways",
+                  "ignoreMassive": true,
+                  "born": {
+                    "$type": "ConfigBornByTarget"
+                  },
+                  "radius": 3
+                }
+              }
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 300
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_ScenObj_NightCrowStatue_05_Appear",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ElementLevelCo": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LifeControl": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73126027
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Common_Property_CreateElementOrb",
+      "onAdded": [
+        {
+          "$type": "GenerateElemBall",
+          "ratio": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true
+          },
+          "configID": 2024,
+          "baseEnergy": 2.0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LifeControl"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FireShield": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FireShieldMasterTarget_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": "ShieldValue",
+          "modifierMixins": [
+            {
+              "$type": "ElementShieldMixin",
+              "AMMMDCMOAPF": true,
+              "shieldHPRatio": 1,
+              "shieldAngle": 360,
+              "elementType": "Fire",
+              "damageRatio": 0,
+              "onShieldBroken": [
+                {
+                  "$type": "GenerateElemBall",
+                  "ratio": "ratio",
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    },
+                    "bornRandom": {
+                      "$type": "BornRandomFromCenter",
+                      "minRandomRange": 1,
+                      "maxRandomRange": 3
+                    }
+                  },
+                  "configID": 2024,
+                  "baseEnergy": 2.0
+                },
+                {
+                  "$type": "KillSelf",
+                  "configIdArray": [
+                    73126003
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "ShieldBarMixin"
+            }
+          ],
+          "elementType": "Fire",
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_CharMasterTarget_Destroy",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0.2
+            },
+            "attachPointName": "EffectNode"
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Ani_Prop_CharMaster_CommonTarget_Fire",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "FireShield"
+        }
+      ],
+      "abilitySpecials": {
+        "GenerateElemBall": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ShieldValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ratio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                201
+              ],
+              "modifierNames": [
+                [
+                  "State_0"
+                ],
+                [
+                  "State_201"
+                ]
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "Model"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "Model"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Model"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Model"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Common_Property_Prop_Avatar_Girl_Bow_Ambor",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                201,
+                202
+              ],
+              "modifierNames": [
+                [
+                  "State_0"
+                ],
+                [
+                  "State_201"
+                ],
+                [
+                  "State_202"
+                ]
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "ShieldStay"
+              ],
+              "globalValueKey": "_ShieldStay",
+              "valueSteps": [
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShieldStay": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FclShield_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_ShieldStay",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "State",
+              "value": 200,
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_ShieldStay",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "State",
+              "value": 201,
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_202": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_FclShield_01_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_TriggerState_202",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValueV2",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_TriggerState_202"
+                }
+              ],
+              "minValue": 0,
+              "key": "_ShieldStay",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_TriggerState_202",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Common_Property_Ani_Prop_Fischl_Sheild",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "_BirthEff": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachSubEmitterEffectMixin",
+              "effectPattern": "Eff_SceneObj_InvisibleTile_01",
+              "APFNECGPPJJ": true,
+              "GKHPNAJNIAA": "Model",
+              "NHHILEOGIDN": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "_BirthEff",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Ani_Prop_6_4_SpecialFloor_Square",
+      "onFieldEnter": [
+        {
+          "$type": "ChangeGadgetState",
+          "state": 201
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "_BirthEff": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "SetMaterialParamFloatByTransform",
+          "lerpCurveIndex": 1,
+          "useCurve": true,
+          "value": 0,
+          "patternName": "_DitherAlpha",
+          "lerpTime": 1.0,
+          "matName": "Mat"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "_BirthEff",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Ani_Prop_6_4_SpecialFloor_Square_Life_Common"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AutoFire": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": [
+            "SGV_ContextData_0",
+            "SGV_ContextData_1",
+            "ADD"
+          ],
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "SingleFireDuration"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "SingleFireDuration"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SingleFireDuration": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "SGV_ContextData_1",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FireSpray": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "WeaponR"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Gear_Fire_Spray",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "WeaponR"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Gear_Fire_Spray2",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "WeaponR"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Gear_Fire_Spray3",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "WeaponR"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Gear_Fire_Spray4",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "ONBKHMOBGLD": 5004,
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "damagePercentageRatio": 0,
+                    "damagePercentage": 2,
+                    "elementDurability": 30,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "hitHaltTimeScale": 0.2199999988079071,
+                    "hitImpulseType": "LV0"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "WeaponR"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 1.4,
+                    "z": 8,
+                    "y": 1.4
+                  },
+                  "muteHitBehindScene": true
+                }
+              }
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "ONBKHMOBGLD": 5004,
+              "targetType": "Alliance",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "damagePercentageRatio": 0,
+                    "damagePercentage": 0.1,
+                    "elementDurability": 30,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "hitHaltTimeScale": 0.2199999988079071,
+                    "hitImpulseType": "LV0"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "WeaponR"
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 1.4,
+                    "z": 8,
+                    "y": 1.4
+                  },
+                  "muteHitBehindScene": true
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_ContextData_0",
+        "SGV_ContextData_1",
+        "GV_Fire"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Start"
+          ],
+          "modifierName": "FireSpray"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "AutoFire",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Ani_Prop_6_4_Spray_Fire",
+      "onAdded": [
+        {
+          "$type": "SetAnimatorInt",
+          "intID": "GadgetState",
+          "value": 0
+        },
+        {
+          "$type": "AttachAbilityStateResistance",
+          "resistanceBuffDebuffs": [
+            "ElementWet",
+            "ElementFrozen",
+            "ElementPetrifaction",
+            "ElementFreeze"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                201
+              ],
+              "modifierNames": [
+                [
+                  "State_0"
+                ],
+                [
+                  "State_201"
+                ]
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_Rotate",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MachineLightningRod_AS",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 1.075
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MachineLightningRod_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_Rotate",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_CurrentTarget_0",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_CurrentTarget_1",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetTargetToTargetKey",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR20"
+              },
+              "targetKey": "_CurrentTarget"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "CurLocalAvatar",
+                  "predicates": [
+                    {
+                      "$type": "NBIAMAMFECO",
+                      "target": "CurLocalAvatar",
+                      "logic": "Lesser",
+                      "value": 20,
+                      "compareType": "XYZ",
+                      "bornPos": {
+                        "$type": "ConfigBornBySelf",
+                        "useRotation": true
+                      }
+                    }
+                  ],
+                  "targetKey": "_CurrentTarget"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_CurrentTarget_0"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_CurrentTarget_1"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "failActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "otherTargets": {
+                    "$type": "GENFIIMMOOJ",
+                    "targetKey": "_CurrentTarget"
+                  },
+                  "modifierName": "Thunder"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_CurrentTarget_0"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_CurrentTarget_1"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Thunder": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Quest_EnviroLightning_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DelayShakeScreen"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DelayShakeScreen": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "TriggerAttackEvent",
+              "ONBKHMOBGLD": 5004,
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "damagePercentageRatio": 0,
+                    "ignoreModifyDamage": true,
+                    "ignoreAttackerProperty": true,
+                    "enBreak": 100.0,
+                    "trueDamage": true,
+                    "damageExtra": 800,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "extension": {
+                      "$type": "ConfigCameraShakeExt",
+                      "rangeAttenuation": 0.20000000298023224
+                    },
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "y": -1.0
+                    },
+                    "shakeTime": 0.5,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 50.0,
+                    "shakeRange": 1.100000023841858
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV8"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "radius": 3
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ShaderStateMachineSwitchMixin",
+          "MGFPCLPKIMI": 0.0
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Ani_Prop_LightningStrike",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "ShowUICombatBar",
+              "HEDENEJAFFI": true,
+              "LNEIGAHADOB": true,
+              "show": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_QQTotem_Destroy",
+          "scale": 2.5,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_BigDummy",
+      "onAdded": [
+        {
+          "$type": "HealHP",
+          "amount": 100
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElementalBurst_Gadget_TauntModifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.25,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR100"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_BreachSkillStart",
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "ElementalBurst_Gadget_TauntModifier"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "GV_BreachSkillStart",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_ShieldAbyssGate",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_IsAbyssGate",
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Appear": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "duration": 6,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_TriggeredAppear",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PartMoveMixin",
+              "MKOHICFPOEL": 17,
+              "duration": 5,
+              "LEEAMBMKLGJ": "Model",
+              "COKNAOFANGF": 1,
+              "targetPos": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": 6
+              },
+              "useCurve": true
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "JIBBGCFIDIM": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "GroundEffect"
+                  },
+                  "scale": 1,
+                  "effectPattern": "Eff_SceneObj_ConfrontBlockingPillar_Smoke_Ground",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "AttachEffect",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "JIBBGCFIDIM": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "Effect_1"
+                  },
+                  "scale": 1,
+                  "effectPattern": "Eff_SceneObj_ConfrontBlockingPillar_Smoke",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetEffectFollowPath",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "DPNPNCGKIMP": "Effect_1",
+                  "effectPattern": "Eff_SceneObj_ConfrontBlockingPillar_Smoke"
+                },
+                {
+                  "$type": "SetEffectFollowPath",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "DPNPNCGKIMP": "GroundEffect",
+                  "effectPattern": "Eff_SceneObj_ConfrontBlockingPillar_Smoke_Ground"
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "_TriggeredAppear",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_TriggeredAppear"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 4,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "GroundEffect"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_ConfrontBlockingPillar_Smoke_Ground",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "DPNPNCGKIMP": "GroundEffect",
+              "effectPattern": "Eff_SceneObj_ConfrontBlockingPillar_Smoke"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PartMoveMixin",
+              "MKOHICFPOEL": 17,
+              "duration": 3,
+              "LEEAMBMKLGJ": "Model",
+              "COKNAOFANGF": 1,
+              "targetPos": {
+                "$type": "DynamicFloatVector",
+                "x": 0,
+                "z": 0,
+                "y": -10
+              },
+              "useCurve": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Appear",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Disappear",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Property_Ani_Prop_ConfrontBlockingPillar",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Appear"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,622 @@
+main_id = 19172
+local tbl = {}
+local n = 1917202
+local v = 1917203
+local n2 = 1917209
+local n3 = 1917204
+local n4 = 1917205
+local n5 = 1917206
+local n6 = 1917207
+local n7 = 1917208
+tbl[1] = 1917201
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+tbl[5] = n3
+tbl[6] = n4
+tbl[7] = n5
+tbl[8] = n6
+tbl[9] = n7
+sub_ids = tbl
+finish_action = {CLIENT = {}, SERVER = {}}
+fail_action = {CLIENT = {}, SERVER = {}}
+cancel_action = {CLIENT = {}, SERVER = {}}
+
+rewind_data = {
+    ["1917201"] = {},
+    ["1917202"] = {
+        npcs = {
+            {
+                id = 12922,
+                alias = "Npc12922",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917004_N12922",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            }
+        }
+    },
+    ["1917203"] = {},
+    ["1917204"] = {},
+    ["1917205"] = {},
+    ["1917206"] = {},
+    ["1917207"] = {},
+    ["1917208"] = {}
+}
+
+quest_data = {
+    ["1917201"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917202_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12922,
+                alias = "Npc12922",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917004_N12922",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 1050,
+                alias = "Npc1050",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917002_N1050",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917202_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            }
+        }
+    },
+    ["1917202"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917202_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12925,
+                alias = "Npc12925",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917202_N12925",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 1050,
+                alias = "Npc1050",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917002_N1050",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917202_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            }
+        }
+    },
+    ["1917203"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12925,
+                alias = "Npc12925",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12925",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 30212,
+                alias = "Npc30212",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917203_N12926",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 30216,
+                alias = "Npc30216",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12927",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 30214,
+                alias = "Npc30214",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12928",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 30215,
+                alias = "Npc30215",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12929",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 1050,
+                alias = "Npc1050",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917002_N1050",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            }
+        }
+    },
+    ["1917204"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917204_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12925,
+                alias = "Npc12925",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12925",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 30212,
+                alias = "Npc30212",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917203_N12926",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 30216,
+                alias = "Npc30216",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917204_N30216",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 30214,
+                alias = "Npc30214",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917204_N30214",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 30215,
+                alias = "Npc30215",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917204_N30215",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 1050,
+                alias = "Npc1050",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917002_N1050",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917204_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            }
+        }
+    },
+    ["1917205"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917204_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12925,
+                alias = "Npc12925",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12925",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 30212,
+                alias = "Npc30212",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917203_N12926",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 30216,
+                alias = "Npc30216",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12927",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 30214,
+                alias = "Npc30214",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12928",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 30215,
+                alias = "Npc30215",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12929",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 1050,
+                alias = "Npc1050",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917002_N1050",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917204_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            }
+        }
+    },
+    ["1917206"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12925,
+                alias = "Npc12925",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12925",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 4022,
+                alias = "Npc4022",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917206_N4022",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 30212,
+                alias = "Npc30212",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917203_N12926",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 30216,
+                alias = "Npc30216",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12927",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 30214,
+                alias = "Npc30214",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12928",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 30215,
+                alias = "Npc30215",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12929",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 4134,
+                alias = "Npc4134",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917206_N12930",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            },
+            {
+                id = 4162,
+                alias = "Npc4162",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917206_N12931",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 9
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 10
+            }
+        }
+    },
+    ["1917207"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12925,
+                alias = "Npc12925",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12925",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 30212,
+                alias = "Npc30212",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917203_N12926",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 30216,
+                alias = "Npc30216",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12927",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 30214,
+                alias = "Npc30214",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12928",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 30215,
+                alias = "Npc30215",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12929",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 1050,
+                alias = "Npc1050",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917002_N1050",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            }
+        }
+    },
+    ["1917208"] = {
+        npcs = {
+            {
+                id = 513,
+                alias = "Coop_Faruzan",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12925,
+                alias = "Npc12925",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12925",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 4022,
+                alias = "Npc4022",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917206_N4022",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 30212,
+                alias = "Npc30212",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917203_N12926",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 30216,
+                alias = "Npc30216",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12927",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 30214,
+                alias = "Npc30214",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12928",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 30215,
+                alias = "Npc30215",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N12929",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 4134,
+                alias = "Npc4134",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917206_N12930",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            },
+            {
+                id = 4162,
+                alias = "Npc4162",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q1917206_N12931",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 9
+            },
+            {
+                id = 1067,
+                alias = "Npc1067",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q1917203_N513",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 10
+            }
+        }
+    },
+    ["1917209"] = {}
+}

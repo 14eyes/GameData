@@ -1,0 +1,281 @@
+main_id = 11121
+local tbl = {}
+local n = 1112104
+local v = 1112102
+local n2 = 1112103
+local n3 = 1112107
+local n4 = 1112108
+tbl[1] = 1112101
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+tbl[5] = n3
+tbl[6] = n4
+sub_ids = tbl
+finish_action = {CLIENT = {}, SERVER = {}}
+fail_action = {CLIENT = {}, SERVER = {}}
+cancel_action = {CLIENT = {}, SERVER = {}}
+
+rewind_data = {
+    ["1112101"] = {},
+    ["1112102"] = {
+        npcs = {
+            {
+                id = 10377,
+                alias = "Npc10377",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Boss_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10378,
+                alias = "Npc10378",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kuanggong_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            }
+        }
+    },
+    ["1112103"] = {
+        npcs = {
+            {
+                id = 10376,
+                alias = "Npc10376",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kun_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10377,
+                alias = "Npc10377",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Boss_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 10378,
+                alias = "Npc10378",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kuanggong_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            }
+        }
+    },
+    ["1112104"] = {
+        npcs = {
+            {
+                id = 10377,
+                alias = "Npc10377",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Boss_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10378,
+                alias = "Npc10378",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kuanggong_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            }
+        }
+    },
+    ["1112107"] = {
+        npcs = {
+            {
+                id = 10376,
+                alias = "Npc10376",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kun_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10377,
+                alias = "Npc10377",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Boss_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 10378,
+                alias = "Npc10378",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kuanggong_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 10424,
+                alias = "Npc10424",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Rock_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            }
+        }
+    },
+    ["1112108"] = {
+        npcs = {
+            {
+                id = 10424,
+                alias = "Npc10424",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Rock_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            }
+        }
+    }
+}
+
+quest_data = {
+    ["1112101"] = {
+        npcs = {
+            {
+                id = 10232,
+                alias = "Npc10232",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Zhongli_Boss_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10376,
+                alias = "Npc10376",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kun_Boss_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 10377,
+                alias = "Npc10377",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Boss_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 10378,
+                alias = "Npc10378",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kuanggong_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            }
+        }
+    },
+    ["1112102"] = {
+        npcs = {
+            {
+                id = 10232,
+                alias = "Npc10232",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Zhongli_Kun_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10376,
+                alias = "Npc10376",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kun_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            }
+        }
+    },
+    ["1112103"] = {
+        npcs = {
+            {
+                id = 10424,
+                alias = "Npc10424",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Rock_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            }
+        }
+    },
+    ["1112104"] = {
+        npcs = {
+            {
+                id = 10232,
+                alias = "Npc10232",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Zhongli_Book_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10376,
+                alias = "Npc10376",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kun_Before_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 10394,
+                alias = "Npc10394",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Book_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            }
+        }
+    },
+    ["1112107"] = {},
+    ["1112108"] = {
+        npcs = {
+            {
+                id = 10232,
+                alias = "Npc10232",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Zhongli_After_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 10376,
+                alias = "Npc10376",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q11121_Kun_After_Pos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            }
+        }
+    }
+}

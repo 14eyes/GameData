@@ -1,0 +1,1242 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Life": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "GV_LifeTimer",
+              "maxValue": 65,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "LifeEnd": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "target": "Self",
+                  "configIdArray": [
+                    73071001
+                  ]
+                }
+              ],
+              "configIdArray": [
+                73071001
+              ]
+            },
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "target": "Self",
+                  "configIdArray": [
+                    73071016
+                  ]
+                }
+              ],
+              "configIdArray": [
+                73071016
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckDistance": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.75,
+          "onAdded": [
+            {
+              "$type": "SetGlobalPos",
+              "LINAHBPILJD": false,
+              "key": "GV_CarPos",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1.5,
+                      "compareType": "LessAndEqual",
+                      "key": "GV_InAir"
+                    }
+                  ],
+                  "modifierName": "Killer"
+                },
+                {
+                  "$type": "ServerLuaTriggerEvent",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1.5,
+                      "compareType": "LessAndEqual",
+                      "key": "GV_InAir"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 1,
+                      "key": "GV_HoldCoin"
+                    }
+                  ],
+                  "param1": 0,
+                  "param2": 0,
+                  "param3": 0,
+                  "sourceName": "CoinCollectorDestroy",
+                  "luaCallType": "CurGalleryControlGroup"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalPos",
+                  "key": "GV_CarPos",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "HPANBNKJCMI",
+                  "target": "Self",
+                  "logic": "Lesser",
+                  "compareType": "XYZ",
+                  "value": 1,
+                  "positionKey": "GV_CarPos"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Killer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_DestroyFlag",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_LifeTimer",
+        "GV_DestroyFlag",
+        "GV_CarInDestroyArea",
+        "GV_CarPos",
+        "GV_CarPos_0",
+        "GV_CarPos_1",
+        "GV_CarPos_2"
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_FilmfestSniper_01_Appear_Audio",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "LifeEnd"
+          ],
+          "globalValueKey": "GV_LifeTimer",
+          "valueSteps": [
+            90.5,
+            91.5
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "LifeEnd"
+          ],
+          "globalValueKey": "GV_DestroyFlag",
+          "valueSteps": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "LifeEnd"
+          ],
+          "globalValueKey": "GV_CarInDestroyArea",
+          "valueSteps": [
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Ani_Prop_OpenTheWay_Car_LifeCycle",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_DestroyFlag",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Life"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_FilmfestSniper_01_Appear_Audio",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "CheckDistance"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "Eff"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "CollectCoin"
+              ],
+              "globalValueKey": "GV_HoldCoin",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "DestroyFlag"
+              ],
+              "globalValueKey": "GV_DestroyFlag",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CollectCoin": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_CollectCoinActive",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "DebugLog",
+                  "content": "Collect Coin !"
+                },
+                {
+                  "$type": "EnableSceneTransformByName",
+                  "setEnable": true,
+                  "transformNames": [
+                    "Eff"
+                  ]
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_SceneObj_OpenwayReward_Star_Appear",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_CollectCoinActive",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "key": "GV_CollectCoinActive"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DestroyFlag": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "GV_HoldCoin"
+                }
+              ],
+              "content": "Coin Collector Destroyed !"
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "GV_HoldCoin"
+                }
+              ],
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "CoinCollectorDestroy",
+              "luaCallType": "CurGalleryControlGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_HoldCoin",
+        "GV_DestroyFlag"
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Ani_Prop_OpenTheWay_Car_CoinCollector",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "IceBuff"
+              ],
+              "globalValueKey": "GV_IceMode",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "Jump"
+              ],
+              "globalValueKey": "GV_JumpFlag",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "NoStoneBuff"
+              ],
+              "globalValueKey": "GV_StoneMode",
+              "valueSteps": [
+                -0.5,
+                0.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "InWaterState"
+              ],
+              "globalValueKey": "GV_CarInWater",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "InWaterState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_CarContinueWaterState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CarContinueWaterState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_CarInWaterTime",
+              "value": 0.5,
+              "maxValue": 0
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_DestroyFlag",
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "GV_CarInWaterTime"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "NoStoneBuff": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "WindLeft",
+                "WindRight"
+              ],
+              "globalValueKey": "GV_WindZoneMode",
+              "valueSteps": [
+                0.5,
+                1.5,
+                2.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "IceBuff": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Citalali_CurlocalAvatar_Attack"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Citalali_CurlocalAvatar_Attack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "target": "Caster",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Ice",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "damagePercentage": 0,
+                    "damageExtra": 0,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "Elemental_Art",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "massiveAttackRatio": 1.100000023841858,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": -5,
+                      "z": 1,
+                      "y": -3
+                    }
+                  },
+                  "radius": 20
+                }
+              }
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "target": "Caster",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Ice",
+                    "attackType": "None",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Default",
+                    "damagePercentage": 0,
+                    "damageExtra": 0,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "Elemental_Art",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "massiveAttackRatio": 1.100000023841858,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 5,
+                      "z": 0,
+                      "y": -3
+                    }
+                  },
+                  "radius": 25,
+                  "height": 9.0
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Jump": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_JumpStartFlag",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AddVelocityForce",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": -80,
+                    "z": 0.1,
+                    "y": 0.1
+                  },
+                  "useCorrectDir": true
+                }
+              },
+              "forceType": "RetreatAirType",
+              "GCDNNBINIMG": 28
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DelayChangeStateBack"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OpenwayBuffBall_02_Disappear",
+              "scale": 2,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.5
+                },
+                "attachPointName": "Model"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DelayChangeStateBack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_JumpFlag",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WindLeft": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudioV2",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "pattern": "v6_1_OpenWay_FaruzanRobot_WindBlow"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CarContinuousPushMixin",
+              "PBGCKMLMGMP": 10,
+              "HMMBKOLDICO": {
+                "$type": "NFFDDFHHDHG",
+                "z": -1.0
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "WindRight": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudioV2",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "pattern": "v6_1_OpenWay_FaruzanRobot_WindBlow"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CarContinuousPushMixin",
+              "PBGCKMLMGMP": 10,
+              "HMMBKOLDICO": {
+                "$type": "NFFDDFHHDHG",
+                "z": 1.0
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_StoneMode",
+        "GV_IceMode",
+        "GV_SpeedMode",
+        "GV_ClearBuff",
+        "GV_CarInWater"
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Ani_Prop_OpenTheWay_Car_ControllerPhysicExtend",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        },
+        {
+          "$type": "EnableCrashDamage"
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_IceMode",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_StoneMode",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_SpeedMode",
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SpeedController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "ForwardSpeedController",
+                "FallOnGroundSpeedController"
+              ],
+              "globalValueKey": "GV_InAir",
+              "valueSteps": [
+                -1.5,
+                1.5,
+                2.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "SpeedUpBuffEffect"
+              ],
+              "globalValueKey": "GV_SpeedMode",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "StoneBuffEffect"
+              ],
+              "globalValueKey": "GV_StoneMode",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "IceBuffEffect"
+              ],
+              "globalValueKey": "GV_IceMode",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ForwardSpeedController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "UNIQUE_CarNoSpeedUpBuff",
+                "UNIQUE_CarSpeedUpBuff"
+              ],
+              "globalValueKey": "GV_SpeedMode",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallOnGroundSpeedController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "OverrideRigidbodyMoveAnimatorVelocityMixin",
+              "CIFADBDOAFI": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CarNoSpeedUpBuff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudioV2",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "pattern": "v6_1_OpenWay_FaruzanRobot_Move"
+            },
+            {
+              "$type": "DebugLog",
+              "content": "v6_1_OpenWay_FaruzanRobot_Move"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "OverrideRigidbodyMoveAnimatorVelocityMixin",
+              "CIFADBDOAFI": 5.5
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_CarSpeedUpBuff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudioV2",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "pattern": "v6_1_OpenWay_FaruzanRobot_Sprint"
+            },
+            {
+              "$type": "DebugLog",
+              "content": "v6_1_OpenWay_FaruzanRobot_Sprint"
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -0.95
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "OverrideRigidbodyMoveAnimatorVelocityMixin",
+              "CIFADBDOAFI": 10
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "JumpStart": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CarVelocityDirectionChangeMixin",
+              "EHMAKMFMFMH": true,
+              "NPIAKPOBAKG": 0.25,
+              "IEDONKJFGLN": [
+                {
+                  "$type": "SetAnimatorInt",
+                  "intID": "GadgetState",
+                  "value": 201
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_InAir",
+                  "maxValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "DebugLog",
+                  "content": "Car Velocity Change !"
+                },
+                {
+                  "$type": "TriggerAudioV2",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "muteRemoteAction": true,
+                  "pattern": "v6_1_OpenWay_FaruzanRobot_DropDown"
+                },
+                {
+                  "$type": "DebugLog",
+                  "content": "v6_1_OpenWay_FaruzanRobot_DropDown"
+                }
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "CheckToGround"
+              ],
+              "globalValueKey": "GV_JumpStartFlag",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "InWaterViewState"
+              ],
+              "globalValueKey": "GV_CarInWater",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "JumpStart"
+              ],
+              "globalValueKey": "GV_JumpStartFlag",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "InWaterViewState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "OverrideRigidbodyMoveAnimatorVelocityMixin",
+              "CIFADBDOAFI": 3
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckToGround": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfSurfaceTypeMixin",
+              "surfaceType": "Rock",
+              "modifierName": "AirToGroundHandler"
+            },
+            {
+              "$type": "AttachModifierToSelfSurfaceTypeMixin",
+              "surfaceType": "Water",
+              "modifierName": "AirToGroundHandler"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AirToGroundHandler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.65,
+          "duration": 0.65,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_InAir",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_InAir",
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "DebugLog",
+              "content": "Car Air To Ground !"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            },
+            {
+              "$type": "TriggerAudioV2",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "muteRemoteAction": true,
+              "pattern": "v6_1_OpenWay_FaruzanRobot_FallOnGroud"
+            },
+            {
+              "$type": "DebugLog",
+              "content": "v6_1_OpenWay_FaruzanRobot_FallOnGroud"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_JumpStartFlag",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SpeedUpBuffEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "Element",
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "Element",
+              "value": 0.5
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "UNIQUE_BuffEffectState"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OpenwayBuffBall_01_Disappear",
+              "scale": 2,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.5
+                },
+                "attachPointName": "Model"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StoneBuffEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "UNIQUE_BuffEffectState"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OpenwayBuffBall_04_Disappear",
+              "scale": 2,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.5
+                },
+                "attachPointName": "Model"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IceBuffEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "UNIQUE_BuffEffectState"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OpenwayBuffBall_03_Disappear",
+              "scale": 2,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.5
+                },
+                "attachPointName": "Model"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_BuffEffectState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "Eff2"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Activity_BulletHell_SpeedUp",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "Eff2",
+              "effectPattern": "Eff_Activity_BulletHell_SpeedUp"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_SpeedMode",
+        "GV_StoneMode",
+        "GV_IceMode",
+        "GV_CarInWater",
+        "GV_InAir",
+        "GV_JumpStartFlag"
+      ],
+      "abilityName": "SceneObj_Level_Nt_Property_Ani_Prop_OpenTheWay_Car_ViewController",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_InAir",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "SpeedController"
+        }
+      ]
+    }
+  }
+]

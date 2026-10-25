@@ -1,0 +1,3944 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LimboPermanent": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_HpThresholdRatio": 0.005
+          },
+          "elementDurability": 100,
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Dummy": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "SummonAnimated"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "STAGE_A_QUEEN_DEAD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HP_Kill": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "SummonAnimated"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "STAGE_A_QUEEN_DEAD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "MPTriggerOnRemote": true,
+              "triggerID": "FakeDie"
+            },
+            {
+              "$type": "SetPoseInt",
+              "value": 2,
+              "intID": "Stage"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "State_LockHP"
+            },
+            {
+              "$type": "SetUICombatBarAsh",
+              "canBeHandledOnRecover": true,
+              "enable": true
+            },
+            {
+              "$type": "EnableAIStealthy",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "State_LockHP": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        },
+        "ChangeDiePush": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider",
+                    "PushColliderExtra"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushColliderDie"
+                  ]
+                },
+                {
+                  "$type": "HideUIBillBoard",
+                  "hide": true
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider",
+                    "PushColliderExtra"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushColliderDie"
+                  ]
+                },
+                {
+                  "$type": "HideUIBillBoard"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageRES": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": "sub_hurt_delta",
+            "Actor_FireSubHurtDelta": "sub_hurt_delta",
+            "Actor_ElecSubHurtDelta": "sub_hurt_delta",
+            "Actor_IceSubHurtDelta": "sub_hurt_delta",
+            "Actor_WaterSubHurtDelta": "sub_hurt_delta",
+            "Actor_GrassSubHurtDelta": "sub_hurt_delta",
+            "Actor_WindSubHurtDelta": "sub_hurt_delta",
+            "Actor_RockSubHurtDelta": "sub_hurt_delta"
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToHPPercentMixin",
+          "valueSteps": [
+            0.01
+          ],
+          "modifierNameSteps": [
+            "HP_Dummy",
+            "HP_Kill"
+          ]
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "FakeDie_Loop"
+          ],
+          "modifierName": "ChangeDiePush"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetLockingV3Config",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_FIRST_BORN"
+                }
+              ],
+              "enable": true,
+              "specialCameraName": "Cam_ChessBoardAttack",
+              "GHOJECGJGML": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_FIRST_BORN",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stateIDs": [
+            "Summoned"
+          ],
+          "exitActions": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "SummonAnimated"
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Summoned"
+          ],
+          "modifierName": "DamageRES"
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 360.0,
+          "IJMBPGKKOJD": 180.0,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "FakeDie"
+          ],
+          "globalPosKey": "_DIE_FACING"
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_StageController",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "LimboPermanent"
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_Born_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_Born",
+              "scale": 1,
+              "born": {
+                "$type": "FIICAIGCIHM",
+                "onGround": true,
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 90.0
+                  }
+                },
+                "DLMJBPMOAEF": {
+                  "$type": "NKJNCPHCBFF",
+                  "OGJNFNJGJID": "Random"
+                },
+                "ELIKFMGPHOC": {
+                  "$type": "ConfigBornBySelf",
+                  "useRotation": true
+                },
+                "KELADNANFEK": {
+                  "$type": "MFADAJEKELD",
+                  "IPCEJPLJIED": 0,
+                  "HIAIPHNGEAF": 0
+                }
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_FIRST_BORN"
+            }
+          ]
+        },
+        {
+          "$type": "CreateGadget",
+          "FGNHCAEHEJK": true,
+          "CEMJCDOPCGG": true,
+          "gadgetID": 42912002,
+          "byServer": true
+        },
+        {
+          "$type": "RefreshUICombatBarLayout"
+        },
+        {
+          "$type": "SetGlobalPos",
+          "otherTargets": {
+            "$type": "SelectTargetsBySelfGroup",
+            "topLimit": 1,
+            "value": 1026,
+            "operation": "XOR"
+          },
+          "LINAHBPILJD": false,
+          "key": "_DIE_FACING",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true
+          }
+        }
+      ],
+      "abilitySpecials": {
+        "sub_hurt_delta": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetLockingV3Config",
+          "enable": true,
+          "specialCameraName": "Cam_SoftReset",
+          "GHOJECGJGML": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetLockingV3Config",
+              "enable": true,
+              "specialCameraName": "Cam_SoftReset",
+              "GHOJECGJGML": 1
+            },
+            {
+              "$type": "RefreshUICombatBarLayout"
+            }
+          ],
+          "stateIDs": [
+            "Standby"
+          ]
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_CameraManager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackTarget",
+          "LINAHBPILJD": false,
+          "key": "_TARGET_POS",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true
+          }
+        },
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackTarget",
+          "LINAHBPILJD": false,
+          "key": "_MOVE_TO_POS",
+          "born": {
+            "$type": "FIICAIGCIHM",
+            "onGround": true,
+            "direction": {
+              "$type": "ConfigDirectionByWorld",
+              "eularAngles": {
+                "$type": "NFFDDFHHDHG",
+                "y": -90.0
+              }
+            },
+            "DLMJBPMOAEF": {
+              "$type": "NKJNCPHCBFF",
+              "globalPosKey": "_TARGET_POS"
+            },
+            "ELIKFMGPHOC": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true
+            },
+            "KELADNANFEK": {
+              "$type": "MFADAJEKELD",
+              "MPBFJNCLJPK": 1,
+              "IPCEJPLJIED": 3,
+              "HOHDDCIPNAH": 3,
+              "HIAIPHNGEAF": 1
+            }
+          }
+        },
+        {
+          "$type": "FixedMonsterRushMove",
+          "maxRange": -1.0,
+          "ignoreDetectForward": true,
+          "animatorStateIDs": [
+            "SkillMove"
+          ],
+          "toPos": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "_MOVE_TO_POS"
+          },
+          "checkAnimatorStateOnExitOnly": true,
+          "timeRange": 0.6
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_SkillMove"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ClosePush": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider",
+                    "PushColliderExtra"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider",
+                    "PushColliderExtra"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DiagonallyWarning": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.185,
+          "onRemoved": [
+            {
+              "$type": "ActionsQueueOnMultiBorn",
+              "OEHIJJPPECF": {
+                "$type": "PNEDHEBBONC",
+                "KELADNANFEK": {
+                  "$type": "MFADAJEKELD",
+                  "MPBFJNCLJPK": 1,
+                  "HOHDDCIPNAH": 1
+                },
+                "ELIKFMGPHOC": {
+                  "$type": "ConfigBornByGlobalValue",
+                  "positionKey": "_MOVE_TO_POS"
+                }
+              },
+              "DIEJIGFLBIM": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_JumpAttack_Warning",
+                  "scale": 1,
+                  "born": {
+                    "$type": "BNOICONGAFK",
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "y": 90.0
+                      }
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CruciformWarning": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.185,
+          "onRemoved": [
+            {
+              "$type": "ActionsQueueOnMultiBorn",
+              "OEHIJJPPECF": {
+                "$type": "PNEDHEBBONC",
+                "KELADNANFEK": {
+                  "$type": "MFADAJEKELD",
+                  "IPCEJPLJIED": 1,
+                  "HIAIPHNGEAF": 1
+                },
+                "ELIKFMGPHOC": {
+                  "$type": "ConfigBornByGlobalValue",
+                  "positionKey": "_MOVE_TO_POS"
+                }
+              },
+              "DIEJIGFLBIM": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_JumpAttack_Warning",
+                  "scale": 1,
+                  "born": {
+                    "$type": "BNOICONGAFK",
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "y": 90.0
+                      }
+                    }
+                  },
+                  "effectTempleteID": -1
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackTarget",
+          "LINAHBPILJD": false,
+          "key": "_TARGET_POS",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true
+          }
+        },
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackTarget",
+          "LINAHBPILJD": false,
+          "key": "_MOVE_TO_POS",
+          "born": {
+            "$type": "FIICAIGCIHM",
+            "DLMJBPMOAEF": {
+              "$type": "NKJNCPHCBFF",
+              "globalPosKey": "_TARGET_POS"
+            },
+            "ELIKFMGPHOC": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true
+            },
+            "KELADNANFEK": {
+              "$type": "MFADAJEKELD",
+              "MPBFJNCLJPK": 1,
+              "IPCEJPLJIED": 3,
+              "HOHDDCIPNAH": 2,
+              "HIAIPHNGEAF": 1
+            }
+          }
+        },
+        {
+          "$type": "FixedMonsterRushMove",
+          "PGLJIHAEIAD": 0.10000000149011612,
+          "maxRange": -1.0,
+          "ignoreDetectForward": true,
+          "animatorStateIDs": [
+            "JumpAttack",
+            "JumpAttack_Combo01"
+          ],
+          "toPos": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "_MOVE_TO_POS"
+          },
+          "checkAnimatorStateOnExitOnly": true,
+          "timeRange": 0.6
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_JumpAttack_Warning",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByGlobalValue",
+            "direction": {
+              "$type": "ConfigDirectionByWorld",
+              "eularAngles": {
+                "$type": "NFFDDFHHDHG",
+                "y": -90.0
+              }
+            },
+            "useGlobalUp": true,
+            "positionKey": "_MOVE_TO_POS"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "CruciformWarning"
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DiagonallyWarning"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ATTACK_DIAGONALLY"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.3499999940395355,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "JumpAttack"
+          ],
+          "startNormalizedTime": 0.20000000298023224,
+          "globalPosKey": "_MOVE_TO_POS"
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "ClosePush",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "JumpAttack",
+              "normalizeEnd": 0.4699999988079071
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "JumpAttack_Combo01",
+              "normalizeEnd": 0.4699999988079071
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetLockingV3Config",
+              "enable": true,
+              "specialCameraName": "Cam_JumpAttack",
+              "GHOJECGJGML": 1
+            }
+          ],
+          "stateIDs": [
+            "JumpAttack"
+          ]
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_JumpAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FixedMonsterRushMove",
+          "PGLJIHAEIAD": 0.10000000149011612,
+          "maxRange": -1.0,
+          "animatorStateIDs": [
+            "JumpAttack",
+            "JumpAttack_Combo01"
+          ],
+          "toPos": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "_MOVE_TO_POS"
+          },
+          "checkAnimatorStateOnExitOnly": true,
+          "exactArrive": true,
+          "timeRange": 0.36
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_JumpAttack_Fixed"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CruciformAttack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.185,
+          "onRemoved": [
+            {
+              "$type": "ActCameraShake",
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.10000000149011612
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.23999999463558197,
+                "shakeType": "CustomVector",
+                "shakeDistance": 40.0,
+                "shakeRange": 0.6000000238418579
+              }
+            },
+            {
+              "$type": "ActionsQueueOnMultiBorn",
+              "OEHIJJPPECF": {
+                "$type": "PNEDHEBBONC",
+                "KELADNANFEK": {
+                  "$type": "MFADAJEKELD",
+                  "IPCEJPLJIED": 1,
+                  "HIAIPHNGEAF": 1
+                },
+                "ELIKFMGPHOC": {
+                  "$type": "ConfigBornByGlobalValue",
+                  "positionKey": "_MOVE_TO_POS"
+                }
+              },
+              "DIEJIGFLBIM": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion_02",
+                  "scale": 1,
+                  "born": {
+                    "$type": "BNOICONGAFK",
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "y": 90.0
+                      }
+                    }
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "elementType": "Fire",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Blunt",
+                        "enBreak": 100.0,
+                        "damagePercentage": 0.8,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "default",
+                        "overrideHitImpulse": {
+                          "$type": "ConfigHitImpulse",
+                          "hitLevel": "Heavy",
+                          "hitImpulseX": 650
+                        }
+                      },
+                      "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                      "attenuationTag": "QueenJumpAttack"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 4.8,
+                        "z": 4.8,
+                        "y": 6
+                      },
+                      "LBPPMIHPIMO": true
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DiagonallyAttack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.185,
+          "onRemoved": [
+            {
+              "$type": "ActionsQueueOnMultiBorn",
+              "OEHIJJPPECF": {
+                "$type": "PNEDHEBBONC",
+                "KELADNANFEK": {
+                  "$type": "MFADAJEKELD",
+                  "MPBFJNCLJPK": 1,
+                  "HOHDDCIPNAH": 1
+                },
+                "ELIKFMGPHOC": {
+                  "$type": "ConfigBornByGlobalValue",
+                  "positionKey": "_MOVE_TO_POS"
+                }
+              },
+              "DIEJIGFLBIM": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion_02",
+                  "scale": 1,
+                  "born": {
+                    "$type": "BNOICONGAFK",
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "y": 90.0
+                      }
+                    }
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "elementType": "Fire",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Blunt",
+                        "enBreak": 100.0,
+                        "damagePercentage": 0.8,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "default",
+                        "overrideHitImpulse": {
+                          "$type": "ConfigHitImpulse",
+                          "hitLevel": "Heavy",
+                          "hitImpulseX": 650
+                        }
+                      },
+                      "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                      "attenuationTag": "QueenJumpAttack"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 4.8,
+                        "z": 4.8,
+                        "y": 6
+                      },
+                      "LBPPMIHPIMO": true
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion_01",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByGlobalValue",
+            "direction": {
+              "$type": "ConfigDirectionByWorld",
+              "eularAngles": {
+                "$type": "NFFDDFHHDHG",
+                "y": -90.0
+              }
+            },
+            "useGlobalUp": true,
+            "positionKey": "_MOVE_TO_POS"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Fire",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 100.0,
+                "damagePercentage": 0.8,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.25
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": -1.0
+                },
+                "shakeTime": 0.23999999463558197,
+                "shakeType": "CustomVector",
+                "shakeDistance": 40.0,
+                "shakeRange": 0.8999999761581421
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "overrideHitImpulse": {
+                  "$type": "ConfigHitImpulse",
+                  "hitLevel": "Heavy",
+                  "hitImpulseX": 650
+                }
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+              "attenuationTag": "QueenJumpAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": -90.0
+                  }
+                },
+                "useGlobalUp": true,
+                "positionKey": "_MOVE_TO_POS"
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 4.8,
+                "z": 4.8,
+                "y": 3.5
+              },
+              "LBPPMIHPIMO": true
+            }
+          }
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "CruciformAttack"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ATTACK_DIAGONALLY",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DiagonallyAttack"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ATTACK_DIAGONALLY",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ATTACK_DIAGONALLY"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_JumpAttack_Damage"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.92,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 90.0
+                  }
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 400.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "extension": {
+                      "$type": "ConfigCameraShakeExt",
+                      "rangeAttenuation": 0.25
+                    },
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "y": -1.0
+                    },
+                    "shakeTime": 0.23999999463558197,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 32.0,
+                    "shakeRange": 0.30000001192092896
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "overrideHitImpulse": {
+                      "$type": "ConfigHitImpulse",
+                      "hitLevel": "Air",
+                      "hitImpulseX": 50,
+                      "hitImpulseY": 1025
+                    }
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                  "attenuationTag": "QueenJumpAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackBox",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "y": 2.7
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "y": 90.0
+                      }
+                    }
+                  },
+                  "size": {
+                    "$type": "DynamicFloatVector",
+                    "x": 4.8,
+                    "z": 4.8,
+                    "y": 11.2
+                  },
+                  "LBPPMIHPIMO": true
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 90.0
+                  }
+                }
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_GiantChess_Queen_StageA_ChessBoardAttack_DamageGadget",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ChessBoardAttack_AttackHandler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "interval",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ATTACK_RANGE_ATTACK",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "timeScale": "Level",
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion_01",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "direction": {
+                      "$type": "ConfigDirectionByWorld",
+                      "eularAngles": {
+                        "$type": "NFFDDFHHDHG",
+                        "y": 90.0
+                      }
+                    },
+                    "positionKey": "_ATTACK_ORIGIN_POS"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "elementType": "Fire",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Blunt",
+                        "enBreak": 400.0,
+                        "damagePercentage": 1,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "extension": {
+                          "$type": "ConfigCameraShakeExt",
+                          "rangeAttenuation": 0.4000000059604645
+                        },
+                        "shakeDir": {
+                          "$type": "NFFDDFHHDHG",
+                          "y": -1.0
+                        },
+                        "shakeTime": 0.36000001430511475,
+                        "shakeType": "CustomVector",
+                        "shakeDistance": 70.0,
+                        "shakeRange": 1.5
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "default",
+                        "overrideHitImpulse": {
+                          "$type": "ConfigHitImpulse",
+                          "hitLevel": "Air",
+                          "hitImpulseX": 50,
+                          "hitImpulseY": 1025
+                        }
+                      },
+                      "forceCameraShake": true,
+                      "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                      "attenuationTag": "QueenJumpAttack"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        },
+                        "positionKey": "_ATTACK_ORIGIN_POS"
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 4.8,
+                        "z": 4.8,
+                        "y": 5
+                      },
+                      "LBPPMIHPIMO": true
+                    }
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 1,
+                      "HIAIPHNGEAF": 1
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 2,
+                      "HIAIPHNGEAF": 2
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                  "scale": 1,
+                  "born": {
+                    "$type": "FIICAIGCIHM",
+                    "DLMJBPMOAEF": {
+                      "$type": "NKJNCPHCBFF",
+                      "OGJNFNJGJID": "Random"
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    },
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 0,
+                      "HIAIPHNGEAF": 0
+                    }
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "TriggerAttackEvent",
+                  "targetType": "Enemy",
+                  "attackEvent": {
+                    "$type": "ConfigAttackEvent",
+                    "attackInfo": {
+                      "$type": "ConfigAttackInfo",
+                      "attackProperty": {
+                        "$type": "ConfigAttackProperty",
+                        "elementType": "Fire",
+                        "damagePercentageRatio": 0,
+                        "strikeType": "Blunt",
+                        "enBreak": 400.0,
+                        "damagePercentage": 1,
+                        "elementDurability": 25,
+                        "arkheGrade": 0
+                      },
+                      "cameraShake": {
+                        "$type": "ConfigCameraShake",
+                        "extension": {
+                          "$type": "ConfigCameraShakeExt",
+                          "rangeAttenuation": 0.25
+                        },
+                        "shakeDir": {
+                          "$type": "NFFDDFHHDHG",
+                          "y": -1.0
+                        },
+                        "shakeTime": 0.23999999463558197,
+                        "shakeType": "CustomVector",
+                        "shakeDistance": 32.0,
+                        "shakeRange": 0.30000001192092896
+                      },
+                      "hitPattern": {
+                        "$type": "ConfigHitPattern",
+                        "onHitEffectName": "default",
+                        "overrideHitImpulse": {
+                          "$type": "ConfigHitImpulse",
+                          "hitLevel": "Air",
+                          "hitImpulseX": 50,
+                          "hitImpulseY": 1025
+                        }
+                      },
+                      "forceCameraShake": true,
+                      "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                      "attenuationTag": "QueenJumpAttack"
+                    },
+                    "attackPattern": {
+                      "$type": "ConfigAttackBox",
+                      "triggerType": "TriggerNoRepeat",
+                      "born": {
+                        "$type": "FIICAIGCIHM",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        },
+                        "DLMJBPMOAEF": {
+                          "$type": "NKJNCPHCBFF",
+                          "OGJNFNJGJID": "Random"
+                        },
+                        "ELIKFMGPHOC": {
+                          "$type": "ConfigBornByGlobalValue",
+                          "positionKey": "_ATTACK_ORIGIN_POS"
+                        },
+                        "KELADNANFEK": {
+                          "$type": "MFADAJEKELD",
+                          "IPCEJPLJIED": 0,
+                          "HIAIPHNGEAF": 0
+                        }
+                      },
+                      "size": {
+                        "$type": "DynamicFloatVector",
+                        "x": 4.8,
+                        "z": 4.8,
+                        "y": 11.2
+                      },
+                      "LBPPMIHPIMO": true
+                    }
+                  }
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 3,
+                      "HIAIPHNGEAF": 3
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 3,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 1,
+                      "HOHDDCIPNAH": 1
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 4,
+                      "HIAIPHNGEAF": 4
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 4,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 2,
+                      "HOHDDCIPNAH": 2
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 5,
+                      "HIAIPHNGEAF": 5
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 5,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 3,
+                      "HOHDDCIPNAH": 3
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 6,
+                      "HIAIPHNGEAF": 6
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 6,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 4,
+                      "HOHDDCIPNAH": 4
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 7,
+                      "HIAIPHNGEAF": 7
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 7,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 5,
+                      "HOHDDCIPNAH": 5
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 8,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 6,
+                      "HOHDDCIPNAH": 6
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 9,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 7,
+                      "HOHDDCIPNAH": 7
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Explosion",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    },
+                    {
+                      "$type": "TriggerAttackEvent",
+                      "targetType": "Enemy",
+                      "attackEvent": {
+                        "$type": "ConfigAttackEvent",
+                        "attackInfo": {
+                          "$type": "ConfigAttackInfo",
+                          "attackProperty": {
+                            "$type": "ConfigAttackProperty",
+                            "elementType": "Fire",
+                            "damagePercentageRatio": 0,
+                            "strikeType": "Blunt",
+                            "enBreak": 400.0,
+                            "damagePercentage": 1,
+                            "elementDurability": 25,
+                            "arkheGrade": 0
+                          },
+                          "cameraShake": {
+                            "$type": "ConfigCameraShake",
+                            "extension": {
+                              "$type": "ConfigCameraShakeExt",
+                              "rangeAttenuation": 0.25
+                            },
+                            "shakeDir": {
+                              "$type": "NFFDDFHHDHG",
+                              "y": -1.0
+                            },
+                            "shakeTime": 0.23999999463558197,
+                            "shakeType": "CustomVector",
+                            "shakeDistance": 32.0,
+                            "shakeRange": 0.30000001192092896
+                          },
+                          "hitPattern": {
+                            "$type": "ConfigHitPattern",
+                            "onHitEffectName": "default",
+                            "overrideHitImpulse": {
+                              "$type": "ConfigHitImpulse",
+                              "hitLevel": "Air",
+                              "hitImpulseX": 50,
+                              "hitImpulseY": 1025
+                            }
+                          },
+                          "forceCameraShake": true,
+                          "attenuationGroup": "Flamingo_Primo_NormalAtk01",
+                          "attenuationTag": "QueenJumpAttack"
+                        },
+                        "attackPattern": {
+                          "$type": "ConfigAttackBox",
+                          "triggerType": "TriggerNoRepeat",
+                          "born": {
+                            "$type": "BNOICONGAFK",
+                            "direction": {
+                              "$type": "ConfigDirectionByWorld",
+                              "eularAngles": {
+                                "$type": "NFFDDFHHDHG",
+                                "y": 90.0
+                              }
+                            }
+                          },
+                          "size": {
+                            "$type": "DynamicFloatVector",
+                            "x": 4.8,
+                            "z": 4.8,
+                            "y": 11.2
+                          },
+                          "LBPPMIHPIMO": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 10,
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ]
+            },
+            {
+              "$type": "AddGlobalValue",
+              "key": "_ATTACK_RANGE_ATTACK",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 11,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ATTACK_RANGE_ATTACK"
+                }
+              ],
+              "modifierName": "ChessBoardAttack_AttackHandler"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ChessBoardAttack_AttackHandler"
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_TriggerAttackAtOriginPos",
+      "abilitySpecials": {
+        "interval": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.22499999403953552
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ChessBoardAttack_WarningHandler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "interval",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ATTACK_RANGE",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalPos",
+              "key": "_ATTACK_ORIGIN_POS",
+              "born": {
+                "$type": "FIICAIGCIHM",
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 90.0
+                  }
+                },
+                "DLMJBPMOAEF": {
+                  "$type": "NKJNCPHCBFF",
+                  "OGJNFNJGJID": "Random"
+                },
+                "ELIKFMGPHOC": {
+                  "$type": "ConfigBornBySelf",
+                  "useRotation": true
+                },
+                "KELADNANFEK": {
+                  "$type": "MFADAJEKELD",
+                  "IPCEJPLJIED": 0,
+                  "HIAIPHNGEAF": 0
+                }
+              }
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "timeScale": "Level",
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByGlobalValue",
+                    "positionKey": "_ATTACK_ORIGIN_POS"
+                  },
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ATTACK_RANGE"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 1,
+                      "HIAIPHNGEAF": 1
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 2,
+                      "HIAIPHNGEAF": 2
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 3,
+                      "HIAIPHNGEAF": 3
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 3,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 1,
+                      "HOHDDCIPNAH": 1
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 4,
+                      "HIAIPHNGEAF": 4
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 4,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 2,
+                      "HOHDDCIPNAH": 2
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 5,
+                      "HIAIPHNGEAF": 5
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 5,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 3,
+                      "HOHDDCIPNAH": 3
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 6,
+                      "HIAIPHNGEAF": 6
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 6,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 4,
+                      "HOHDDCIPNAH": 4
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                },
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "IPCEJPLJIED": 7,
+                      "HIAIPHNGEAF": 7
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 7,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 5,
+                      "HOHDDCIPNAH": 5
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 8,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 6,
+                      "HOHDDCIPNAH": 6
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 9,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ActionsQueueOnMultiBorn",
+                  "OEHIJJPPECF": {
+                    "$type": "PNEDHEBBONC",
+                    "KELADNANFEK": {
+                      "$type": "MFADAJEKELD",
+                      "MPBFJNCLJPK": 7,
+                      "HOHDDCIPNAH": 7
+                    },
+                    "ELIKFMGPHOC": {
+                      "$type": "ConfigBornByGlobalValue",
+                      "positionKey": "_ATTACK_ORIGIN_POS"
+                    }
+                  },
+                  "DIEJIGFLBIM": [
+                    {
+                      "$type": "FireEffect",
+                      "effectPattern": "Eff_Monster_GiantChess_Queen_StageA_01_ChessBoardAttack_Warning",
+                      "scale": 1,
+                      "born": {
+                        "$type": "BNOICONGAFK",
+                        "direction": {
+                          "$type": "ConfigDirectionByWorld",
+                          "eularAngles": {
+                            "$type": "NFFDDFHHDHG",
+                            "y": 90.0
+                          }
+                        }
+                      },
+                      "effectTempleteID": -1
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 10,
+                  "key": "_ATTACK_RANGE"
+                },
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "HP_Dummy"
+                }
+              ]
+            },
+            {
+              "$type": "AddGlobalValue",
+              "key": "_ATTACK_RANGE",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "RemoveModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 11,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_ATTACK_RANGE"
+                }
+              ],
+              "modifierName": "ChessBoardAttack_WarningHandler"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ChessBoardAttack_WarningHandler"
+        },
+        {
+          "$type": "FixedMonsterRushMove",
+          "maxRange": -1.0,
+          "ignoreDetectForward": true,
+          "animatorStateIDs": [
+            "ChessBoardAttack"
+          ],
+          "toPos": {
+            "$type": "FIICAIGCIHM",
+            "onGround": true,
+            "direction": {
+              "$type": "ConfigDirectionByWorld",
+              "eularAngles": {
+                "$type": "NFFDDFHHDHG",
+                "y": 90.0
+              }
+            },
+            "DLMJBPMOAEF": {
+              "$type": "NKJNCPHCBFF",
+              "OGJNFNJGJID": "Random"
+            },
+            "ELIKFMGPHOC": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true
+            },
+            "KELADNANFEK": {
+              "$type": "MFADAJEKELD",
+              "IPCEJPLJIED": 0,
+              "HIAIPHNGEAF": 0
+            }
+          },
+          "checkAnimatorStateOnExitOnly": true,
+          "timeRange": 2
+        },
+        {
+          "$type": "TriggerAudio",
+          "operation": {
+            "$type": "ConfigAudioEventOp",
+            "operation": {
+              "$type": "ConfigWwiseString",
+              "text": "Play_vo_monster_GiantChess_StageA_ChessBoardAttack_Alice_01"
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetLockingV3Config",
+              "enable": true,
+              "specialCameraName": "Cam_ChessBoardAttack",
+              "GHOJECGJGML": 1
+            }
+          ],
+          "stateIDs": [
+            "ChessBoardAttack"
+          ]
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_ChessBoardAttack",
+      "abilitySpecials": {
+        "interval": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.22499999403953552
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "RootNode"
+          },
+          "bulletID": 42912005,
+          "trackTarget": "SelfAttackActiveTarget"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetLockingV3Config",
+              "enable": true,
+              "specialCameraName": "Cam_BulletAttack",
+              "GHOJECGJGML": 1
+            }
+          ],
+          "stateIDs": [
+            "BulletAttack"
+          ]
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_MultiBullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetLockingV3Config",
+          "enable": true,
+          "specialCameraName": "Cam_BulletAttackBurst",
+          "GHOJECGJGML": 1
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_MultiBulletCamera"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "FireHitEffect",
+          "hitEntity": "Eff_Monster_GiantChess_Queen_StageA_01_BulletAttack_Bullet_Hit",
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_Monster_GiantChess_Queen_StageA_01_BulletAttack_Bullet_Hit"
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Fire",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 60.0,
+                "damagePercentage": 0.55,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "retreatType": "ByHitDirection",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "Monster_Massive_MultiBullet",
+              "attenuationTag": "Monster_Massive_MultiBullet",
+              "canBeModifiedBy": "Owner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 0.65
+            }
+          }
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_MultiBullet_Damage"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackTarget",
+          "LINAHBPILJD": false,
+          "key": "_TARGET_POS",
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "useRotation": true
+          }
+        },
+        {
+          "$type": "SetGlobalPos",
+          "target": "SelfAttackTarget",
+          "LINAHBPILJD": false,
+          "key": "_MOVE_TO_POS",
+          "born": {
+            "$type": "FIICAIGCIHM",
+            "onGround": true,
+            "DLMJBPMOAEF": {
+              "$type": "NKJNCPHCBFF",
+              "globalPosKey": "_TARGET_POS"
+            },
+            "ELIKFMGPHOC": {
+              "$type": "ConfigBornBySelf",
+              "useRotation": true
+            },
+            "KELADNANFEK": {
+              "$type": "MFADAJEKELD",
+              "MPBFJNCLJPK": 1,
+              "IPCEJPLJIED": 1,
+              "HOHDDCIPNAH": 1,
+              "HIAIPHNGEAF": 1
+            }
+          }
+        },
+        {
+          "$type": "FixedMonsterRushMove",
+          "PGLJIHAEIAD": 0.10000000149011612,
+          "maxRange": -1.0,
+          "ignoreDetectForward": true,
+          "animatorStateIDs": [
+            "ClaymoreAttack"
+          ],
+          "toPos": {
+            "$type": "ConfigBornByGlobalValue",
+            "positionKey": "_MOVE_TO_POS"
+          },
+          "checkAnimatorStateOnExitOnly": true,
+          "timeRange": 0.5
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 160.0,
+          "endNormalizedTime": 0.4399999976158142,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "ClaymoreAttack"
+          ]
+        },
+        {
+          "$type": "SteerAttackTraceToPosMixin",
+          "angularSpeed": 160.0,
+          "endNormalizedTime": 0.5,
+          "AAPNADMFCNO": true,
+          "steerStateIDs": [
+            "ClaymoreAttack"
+          ],
+          "startNormalizedTime": 0.4410000145435333,
+          "globalPosKey": "_MOVE_TO_POS"
+        }
+      ],
+      "abilityName": "Monster_GiantChess_Queen_StageA_ClaymoreRushMove"
+    }
+  }
+]

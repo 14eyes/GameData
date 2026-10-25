@@ -1,0 +1,1772 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ElementalBurstFull": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ModifyAvatarSkillCD",
+              "target": "CurLocalAvatar",
+              "skillSlot": [
+                5
+              ],
+              "cdRatio": -1
+            },
+            {
+              "$type": "ReviveElemEnergy",
+              "target": "CurLocalAvatar",
+              "value": 8000
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "DynamicAbility_Avatar_ElementalBurstFull_VarkaDungeon",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "target": "CurLocalAvatar",
+          "modifierName": "ElementalBurstFull"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LockHp": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "param1": 0,
+              "param2": 0,
+              "CallParamList": [
+                220334002,
+                220334003,
+                220334004,
+                220334005
+              ],
+              "param3": 0,
+              "sourceName": "ReconnectEvent",
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "state": "Limbo",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DelayCheckHp"
+            }
+          ]
+        },
+        "DelayCheckHp": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "HealHP",
+                  "amountByTargetMaxHPRatio": 0.1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetHPRatio",
+                  "logic": "LesserOrEqual",
+                  "HPRatio": 0.1
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "DynamicAbility_Avatar_Faerga_LockHp",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LockHp"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "InvincibleModifier": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "DynamicAbility_VarkaDungeon_InvincibleAndSuperArmor",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "InvincibleModifier"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Line": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_CommandWind_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_EnableLine",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Line"
+          ],
+          "globalValueKey": "_EnableLine",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Line",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_VarkaDungeon_LineTarget",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "VarkaDungeon_LineTarget",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Line": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "_RandomDelay",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_EnableLine",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_LineTriggerCompleted",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetTargetToTargetKey",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "tag": "VarkaDungeon_LineTarget"
+              },
+              "targetKey": "_LineTarget"
+            },
+            {
+              "$type": "FireLineEffect",
+              "target": "TempTarget",
+              "DJOOHHCGMDG": {
+                "$type": "GDCEGOKEBID",
+                "GCGFDNHKCIH": "_LineTarget"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_LineTriggerCompleted"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_CommandWind_01",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "effectTempleteID": -1,
+              "IBNCLHFLDAC": "Target"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_LineTriggerCompleted",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "_RandomDelay"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Line"
+          ],
+          "globalValueKey": "_EnableLine",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Line",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_VarkaDungeon_LineObject",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "_LineOwner",
+          "isAdd": true
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "_RandomDelay",
+          "randomInRange": true,
+          "maxValue": 0.5,
+          "useLimitRange": true,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LineOwnerStart": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_EnableLine",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "TrapSkillManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "CheckLocalAvatar"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckLocalAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_A_TrapSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_A_TrapSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "predicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "target": "CurLocalAvatar",
+                  "featureTagIDs": [
+                    10128
+                  ]
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_A_TrapSkillEnable",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_InitTrapSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_InitTrapSkill": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ActivitySkillMixin",
+              "CEBHIKGMAED": true,
+              "priority": "Activity",
+              "PEONHILPDLC": 20195
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_A_TrapSkillEnable",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_TrapSkillStart",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "RemoveModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Avatar_InitTrapSkill"
+        },
+        {
+          "$type": "ServerLuaTriggerEvent",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "param1": 0,
+          "param2": 0,
+          "CallParamList": [
+            220334002,
+            220334003,
+            220334004,
+            220334005
+          ],
+          "param3": 0,
+          "sourceName": "TrapSkillStart",
+          "luaCallType": "SpecificGroup"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "_LineOwner"
+          },
+          "modifierName": "LineOwnerStart"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "VarkaDungeon_LineTarget"
+          },
+          "modifierName": "LineOwnerStart"
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "GV_A_TrapSkillEnable",
+        "GV_TrapSkillStart"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "TrapSkillManager"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "SGV_ContextData",
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "DynamicAbility_Avatar_Faerga_Command_A_TrapSkill",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_TrapSkillStart",
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LineOwnerStart": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_EnableLine",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ElementalBurst_Gadget_TauntModifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.25,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR100"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RetreatSkillManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "CheckLocalAvatar"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckLocalAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_B_RetreatSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_B_RetreatSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "predicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "target": "CurLocalAvatar",
+                  "featureTagIDs": [
+                    10128
+                  ]
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_B_RetreatSkillEnable",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_InitRetreatSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_InitRetreatSkill": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ActivitySkillMixin",
+              "CEBHIKGMAED": true,
+              "priority": "Activity",
+              "PEONHILPDLC": 20196
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_B_RetreatSkillEnable",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_RetreatSkillStart",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "RemoveModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Avatar_InitRetreatSkill"
+        },
+        {
+          "$type": "ServerLuaTriggerEvent",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "param1": 0,
+          "param2": 0,
+          "CallParamList": [
+            220334002,
+            220334003,
+            220334004,
+            220334005
+          ],
+          "param3": 0,
+          "sourceName": "RetreatSkillStart",
+          "luaCallType": "SpecificGroup"
+        },
+        {
+          "$type": "AttachModifier",
+          "target": "CurTeamAvatars",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "ElementalBurst_Gadget_TauntModifier"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "_LineOwner"
+          },
+          "modifierName": "LineOwnerStart"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "VarkaDungeon_LineTarget"
+          },
+          "modifierName": "LineOwnerStart"
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "GV_B_RetreatSkillEnable",
+        "GV_RetreatSkillStart"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "RetreatSkillManager"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "SGV_ContextData",
+          "valueSteps": [
+            1.5,
+            2.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "DynamicAbility_Avatar_Faerga_Command_B_RetreatSkill",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_RetreatSkillStart",
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LineOwnerStart": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_EnableLine",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LanternSkillManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "CheckLocalAvatar"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckLocalAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_C_LanternSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_C_LanternSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "predicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "target": "CurLocalAvatar",
+                  "featureTagIDs": [
+                    10128
+                  ]
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_C_LanternSkillEnable",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_InitLanternSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_InitLanternSkill": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ActivitySkillMixin",
+              "CEBHIKGMAED": true,
+              "priority": "Activity",
+              "PEONHILPDLC": 20197
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_C_LanternSkillEnable",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_LanternSkillStart",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "RemoveModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Avatar_InitLanternSkill"
+        },
+        {
+          "$type": "ServerLuaTriggerEvent",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "param1": 0,
+          "param2": 0,
+          "CallParamList": [
+            220334002,
+            220334003,
+            220334004,
+            220334005
+          ],
+          "param3": 0,
+          "sourceName": "LanternSkillStart",
+          "luaCallType": "SpecificGroup"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "_LineOwner"
+          },
+          "modifierName": "LineOwnerStart"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "VarkaDungeon_LineTarget"
+          },
+          "modifierName": "LineOwnerStart"
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "GV_C_LanternSkillEnable",
+        "GV_LanternSkillStart"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "LanternSkillManager"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "SGV_ContextData",
+          "valueSteps": [
+            2.5,
+            3.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "DynamicAbility_Avatar_Faerga_Command_C_LanternSkill",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_LanternSkillStart",
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LineOwnerStart": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_EnableLine",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BreachSkillManager": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "CheckLocalAvatar"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckLocalAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_D_BreachSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_D_BreachSkillEnable",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "predicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "target": "CurLocalAvatar",
+                  "featureTagIDs": [
+                    10128
+                  ]
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_D_BreachSkillEnable",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "Avatar_InitBreachSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_InitBreachSkill": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ActivitySkillMixin",
+              "CEBHIKGMAED": true,
+              "priority": "Activity",
+              "PEONHILPDLC": 20198
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_D_BreachSkillEnable",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "minValue": 0,
+          "key": "GV_BreachSkillStart",
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "RemoveModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Avatar_InitBreachSkill"
+        },
+        {
+          "$type": "ServerLuaTriggerEvent",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "param1": 0,
+          "param2": 0,
+          "CallParamList": [
+            220334002,
+            220334003,
+            220334004,
+            220334005
+          ],
+          "param3": 0,
+          "sourceName": "BreachSkillStart",
+          "luaCallType": "SpecificGroup"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "_LineOwner"
+          },
+          "modifierName": "LineOwnerStart"
+        },
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "topLimit": 10,
+            "sortType": "Nearest",
+            "tag": "VarkaDungeon_LineTarget"
+          },
+          "modifierName": "LineOwnerStart"
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "GV_D_BreachSkillEnable",
+        "GV_BreachSkillStart"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "BreachSkillManager"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "SGV_ContextData",
+          "valueSteps": [
+            3.5,
+            4.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "DynamicAbility_Avatar_Faerga_Command_D_BreachSkill",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_BreachSkillStart",
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                201,
+                202
+              ],
+              "modifierNames": [
+                [
+                  "State_0"
+                ],
+                [
+                  "State_201"
+                ],
+                [
+                  "State_202"
+                ]
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "ChargeBar_Mixin"
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "IconNode_1"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_Icon",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "IconNode_1",
+              "attachPoint": "IconNode_1",
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_Icon"
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "IconNode_2"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_Icon",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "IconNode_2",
+              "attachPoint": "IconNode_2",
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_Icon"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1
+            },
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "SetChargeBarValue",
+                  "value": "SGV_CurrentKillMonsterCount"
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_AS",
+                  "scale": 1,
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0.3
+                    },
+                    "direction": {
+                      "$type": "ConfigDirectionByDefault",
+                      "angleOffsetCorrect": {
+                        "$type": "DynamicFloatVector",
+                        "x": 90,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "attachPointName": "NormalEffectNode"
+                  },
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "ChangeGadgetState",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": "SGV_KillMonsterTargetCount",
+                      "compareType": "MoreThanAndEqual",
+                      "key": "SGV_CurrentKillMonsterCount"
+                    }
+                  ],
+                  "configIdArray": [
+                    73126013
+                  ],
+                  "state": 201
+                }
+              ],
+              "globalValueKey": "SGV_CurrentKillMonsterCount"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_Buff",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Water_Ring",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.5
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 0
+                  }
+                },
+                "attachPointName": "NormalEffectNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "ONBKHMOBGLD": 1001,
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Water",
+                    "damagePercentageRatio": 0,
+                    "ignoreModifyDamage": true,
+                    "ignoreAttackerProperty": true,
+                    "enBreak": 100.0,
+                    "trueDamage": true,
+                    "damageExtra": 0,
+                    "elementDurability": "ElementValue",
+                    "arkheGrade": 0
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "radius": 12.5
+                }
+              }
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ReviveStamina",
+                  "target": "CurLocalAvatar",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "value": "ReviveStamina"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "NBIAMAMFECO",
+                  "target": "CurLocalAvatar",
+                  "logic": "Lesser",
+                  "value": 12.5,
+                  "bornPos": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true
+                  }
+                },
+                {
+                  "$type": "ILMHBGFOAJN",
+                  "target": "CurLocalAvatar",
+                  "configIdArray": [
+                    10000002
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_202": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargeBar_Mixin": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DelaySyncSGV"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChargeBarMixin",
+              "DFOLBCDILPA": 0,
+              "chargeBarElementType": "Water",
+              "maxValue": "SGV_KillMonsterTargetCount"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DelaySyncSGV": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.75,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetChargeBarValue",
+                  "value": "SGV_CurrentKillMonsterCount"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetChargeBarValue",
+                  "value": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "SGV_CurrentKillMonsterCount"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_KillMonsterTargetCount",
+        "SGV_CurrentKillMonsterCount"
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Ani_Prop_MasteryAmplifyArtifact_02",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ],
+      "abilitySpecials": {
+        "ElementValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ReviveStamina": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMutexMixin",
+              "gadgetStates": [
+                0,
+                201
+              ],
+              "modifierNames": [
+                [
+                  "State_0"
+                ],
+                [
+                  "State_201"
+                ]
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "State_0": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "IconNode_1"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Fire_Icon",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "IconNode_1",
+              "attachPoint": "IconNode_1",
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Fire_Icon"
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "IconNode_2"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Fire_Icon",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "IconNode_2",
+              "attachPoint": "IconNode_2",
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Fire_Icon"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Fire_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "State_201": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 10,
+          "onAdded": [
+            {
+              "$type": "TriggerThinkInterval"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Fire",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MasteryAmplifyArtifact_Fire_Ring",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.2
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 0
+                  }
+                },
+                "attachPointName": "NormalEffectNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR30"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_MonsterPowerUp_Amplifier_Fire_Slave"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_MonsterPowerUp_Amplifier_Fire_Slave": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_PhysicalSubHurtDelta": "SubHurtRatio",
+            "Actor_FireSubHurtDelta": "SubHurtRatio",
+            "Actor_ElecSubHurtDelta": "SubHurtRatio",
+            "Actor_IceSubHurtDelta": "SubHurtRatio",
+            "Actor_WaterSubHurtDelta": "SubHurtRatio",
+            "Actor_GrassSubHurtDelta": "SubHurtRatio",
+            "Actor_WindSubHurtDelta": "SubHurtRatio",
+            "Actor_RockSubHurtDelta": "SubHurtRatio"
+          },
+          "elementDurability": "ElementValue",
+          "modifierMixins": [
+            {
+              "$type": "ElementOuterGlowEffectMixin"
+            }
+          ],
+          "elementType": "Fire",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_SubHurt"
+      ],
+      "abilityName": "SceneObj_Level_Common_Property_Ani_Prop_MasteryAmplifyArtifact_01",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ],
+      "abilitySpecials": {
+        "ElementValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "SubHurtRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ReviveStamina": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ReviveStamina",
+              "target": "CurLocalAvatar",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 3000
+            }
+          ],
+          "stacking": "MultipleRefresh",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Level_Common_Property_StaminaRecovery",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "target": "CurLocalAvatar",
+              "modifierName": "ReviveStamina"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

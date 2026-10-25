@@ -1,0 +1,347 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "steerStateIDs": [
+            "Slash_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 300.0,
+          "endNormalizedTime": 0.7279999852180481,
+          "steerStateIDs": [
+            "Slash_AS"
+          ],
+          "startNormalizedTime": 0.6349999904632568
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 100.0,
+          "endNormalizedTime": 0.5139999985694885,
+          "steerStateIDs": [
+            "Rush_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackTraceMixin",
+          "angularSpeed": 40.0,
+          "endNormalizedTime": 99.0,
+          "attackDistance": 8.199999809265137,
+          "steerStateIDs": [
+            "Rush_Loop"
+          ],
+          "attackTrigger": "Rush2Slash"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 420.0,
+          "endNormalizedTime": 0.5440000295639038,
+          "steerStateIDs": [
+            "Rush_AS"
+          ],
+          "startNormalizedTime": 0.45399999618530273
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.800000011920929,
+          "steerStateIDs": [
+            "Crossleg_Alert"
+          ],
+          "startNormalizedTime": 0.16899999976158142
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 400.0,
+          "steerStateIDs": [
+            "Alert"
+          ]
+        }
+      ],
+      "abilityName": "Eremite_Pole_AnimatorSteer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "predicates": [
+            {
+              "$type": "ByTargetPositionToSelfPosition",
+              "target": "SelfAttackTarget",
+              "logic": "Lesser",
+              "value": 8.2
+            }
+          ],
+          "triggerID": "Rush2Slash"
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Spear",
+                "enBreak": 200.0,
+                "damagePercentage": 0.15,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV1"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackBox",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.75
+                }
+              },
+              "size": {
+                "$type": "DynamicFloatVector",
+                "x": 1,
+                "z": 4.5,
+                "y": 1
+              }
+            }
+          }
+        }
+      ],
+      "abilityName": "Eremite_Pole_Rush_Detection"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Eremite_Pole_HideWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "WeaponInHand"
+            }
+          ],
+          "onChangeAuthority": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "WeaponInHand"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "canBeHandledOnRecover": true,
+              "boolID": "WeaponInHand"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Eremite_Pole_ShowWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01"
+                ]
+              },
+              "effectPattern": "Eff_Monster_Eremite_Weapon_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "WeaponInHand"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Eremite_Pole_Struggle_Weapon": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_EREMITE_POLE_HIDE_WEAPON_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_EREMITE_POLE_HIDE_WEAPON_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_EREMITE_POLE_HIDE_WEAPON_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_Eremite_Pole_ShowWeapon",
+            "UNIQUE_Eremite_Pole_HideWeapon"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_EREMITE_POLE_HIDE_WEAPON_",
+          "defaultGlobalValueOnCreate": 1
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            9001,
+            9002,
+            9003,
+            9004,
+            9005,
+            9501,
+            9502,
+            9503,
+            9504,
+            9505,
+            9506,
+            9511,
+            9512
+          ],
+          "enterActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_EREMITE_POLE_HIDE_WEAPON_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "DoActionByPoseIDMixin",
+          "poseIDs": [
+            1,
+            9007
+          ],
+          "enterActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_EREMITE_POLE_HIDE_WEAPON_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Struggle"
+          ],
+          "modifierName": "UNIQUE_Eremite_Pole_Struggle_Weapon"
+        }
+      ],
+      "abilityName": "Eremite_Pole_Equip_Display_Manager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EremiteWeapon_Pole_ShowWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible",
+              "visible": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "EremiteWeapon_Pole_HideWeapon": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "TriggerSetVisible"
+            }
+          ],
+          "onChangeAuthority": [
+            {
+              "$type": "TriggerSetVisible"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible",
+              "canBeHandledOnRecover": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "EremiteWeapon_Pole_ShowWeapon",
+            "EremiteWeapon_Pole_HideWeapon"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_EREMITE_POLE_HIDE_WEAPON_",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Eremite_Pole_Equip_Display_Logic"
+    }
+  }
+]

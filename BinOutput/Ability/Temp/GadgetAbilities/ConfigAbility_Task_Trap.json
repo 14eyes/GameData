@@ -1,0 +1,283 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Task_HuntTrap_GlobalValue",
+      "onAdded": [
+        {
+          "$type": "HideUIBillBoard",
+          "hide": true
+        },
+        {
+          "$type": "EnableAIStealthy",
+          "enable": true
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_Is_Hunt_Trap",
+          "maxValue": 1,
+          "minValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "RunToEscape": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 7,
+          "onRemoved": [
+            {
+              "$type": "SetPoseInt",
+              "intID": "FleeState"
+            },
+            {
+              "$type": "SetPoseBool",
+              "boolID": "NearTrap"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "onRunAdd Start!!!!!!"
+            },
+            {
+              "$type": "SetPoseInt",
+              "value": -1,
+              "intID": "FleeState"
+            },
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "NearTrap"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HuntBuff": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "duration": 2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "HuntBuff"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Is_Hunt_Animal"
+                }
+              ],
+              "modifierName": "RunToEscape"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Suicide180": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 180,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70300080
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Quest_SiteInteract",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 180,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Task_TrapHunter",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Suicide180"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HuntBuff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "MonsterSkill": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "DebugLog",
+              "content": "onMonster_Suicide Start!!!!!!"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR3"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Is_Hunt_Trap"
+                }
+              ],
+              "modifierName": "Trap_Suicide"
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Blunt",
+                  "enBreak": 500.0,
+                  "damagePercentage": 1,
+                  "elementDurability": 20,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "hitHaltTimeScale": 0.05000000074505806,
+                  "overrideHitImpulse": {
+                    "$type": "ConfigHitImpulse",
+                    "hitLevel": "Heavy",
+                    "hitImpulseX": 0,
+                    "hitImpulseY": 0
+                  },
+                  "muteHitText": true,
+                  "hitImpulseType": "LV3"
+                },
+                "attenuationGroup": "default"
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR3"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_Is_Hunt_Trap"
+                }
+              ],
+              "modifierName": "Trap_Suicide"
+            },
+            {
+              "$type": "DamageByAttackValue",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Blunt",
+                  "enBreak": 500.0,
+                  "damagePercentage": 1,
+                  "elementDurability": 20,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "hitHaltTimeScale": 0.05000000074505806,
+                  "overrideHitImpulse": {
+                    "$type": "ConfigHitImpulse",
+                    "hitLevel": "Heavy",
+                    "hitImpulseX": 0,
+                    "hitImpulseY": 0
+                  },
+                  "muteHitText": true,
+                  "hitImpulseType": "LV3"
+                },
+                "attenuationGroup": "default"
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Trap_Suicide": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.8,
+          "onRemoved": [
+            {
+              "$type": "DebugLog",
+              "content": "onKILL_Trap Start!!!!!!"
+            },
+            {
+              "$type": "DropSubfield",
+              "subfieldName": "MonsterMeat"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70300080
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "sizeRatio": 1,
+            "campTargetType": "All",
+            "shapeName": "CircleR3"
+          },
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_Is_Hunt_Animal"
+            }
+          ],
+          "modifierName": "MonsterSkill"
+        }
+      ],
+      "abilityName": "Trap_Hunt_Attack"
+    }
+  }
+]

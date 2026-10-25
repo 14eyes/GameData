@@ -1,0 +1,2204 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NormalState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FYD_Slider_01_Active",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FinishState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "NormalState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ActiveState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "FinishState",
+          "gadgetState": 101
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Slider_01",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "Slider",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LockState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "setEnable": true,
+              "transformNames": [
+                "RayCollider"
+              ]
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FYD_SliderStopper_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OpenState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "RayCollider"
+              ]
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "LockState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "OpenState",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_SliderObstacle_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ReconnectHelper": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "campTargetType": "Alliance"
+              },
+              "predicates": [
+                {
+                  "$type": "ByHasTag",
+                  "tag": "Slider"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "SelfAttackTarget",
+                  "modifierName": "Set_To_201_State"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "UNIQUE_Slider_Timer"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "SelfAttackTarget",
+                  "modifierName": "Set_To_0_State"
+                },
+                {
+                  "$type": "ChangeGadgetState",
+                  "predicates": [
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGadgetState",
+                          "gadgetState": 101
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "UNIQUE_Slider_Timer"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityIsAlive"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Set_To_201_State": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "gadgetState": 101
+                    }
+                  ]
+                }
+              ],
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Set_To_0_State": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "gadgetState": 101
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NormalState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FinishState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Slider_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_Timer",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "state": 201
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "UNIQUE_Slider_Timer"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "key": "gv_Timer",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 0.2
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "gv_Timer"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "滑块离开区域！！！"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "Set_To_0_State"
+            },
+            {
+              "$type": "ChangeGadgetState"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "UNIQUE_Slider_Timer"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Slider"
+            },
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 101
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "NormalState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ActiveState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "FinishState",
+          "gadgetState": 101
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_SliderBase_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DebugLog",
+              "content": "滑块进入区域！！！"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "modifierName": "Set_To_201_State"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_Slider_Timer"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByHasTag",
+              "tag": "Slider"
+            },
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 101
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ReconnectHelper"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Area_Common_Property_Ani_SliderRail_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NormalDrive": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "StopDrive": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_LaserHit": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_LaserHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_LaserLeave": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_LaserHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DefaultState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LaserState": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_DriveRotation",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "Gadget",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LaserMixin",
+              "IHMEDEHIDKJ": [
+                {
+                  "$type": "AttachModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_LaserHit"
+                }
+              ],
+              "GFBOOPIGHFK": [
+                {
+                  "$type": "AttachModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_LaserLeave"
+                }
+              ],
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DefaultState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "LaserState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "NormalDrive",
+            "StopDrive"
+          ],
+          "globalValueKey": "SGV_IsStopDrive",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_SealedTower_Gear_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LaserHitController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "ActiveCountdown"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "gv_LaserHit"
+                    },
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGadgetState",
+                          "gadgetState": 202
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGadgetState",
+                          "gadgetState": 203
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "ChangeGadgetState"
+                    },
+                    {
+                      "$type": "RemoveModifier",
+                      "modifierName": "ActiveCountdown"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "gv_LaserHit"
+                    },
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGadgetState",
+                          "gadgetState": 202
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "ByNot",
+                      "predicates": [
+                        {
+                          "$type": "ByTargetGadgetState",
+                          "gadgetState": 203
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "globalValueKey": "gv_LaserHit"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveCountdown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "gv_LaserHit"
+                }
+              ],
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ReceiveLaserState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "gv_LaserHit"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OpenGateState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_ScenObj_FYTPointReceiver_01",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EffectNode"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FinishState": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ReceiveLaserState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ActiveState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "OpenGateState",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "FinishState",
+          "gadgetState": 203
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_SealedTower_LaserReceiver_Point_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LaserHitController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Area_Common_Property_Ani_WheelDriveDoor_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LightEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "LightNode"
+                  },
+                  "scale": 1,
+                  "effectPattern": "Eff_SceneObj_EnergyWheel_Light_01",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetEffectFollowPath",
+                  "DPNPNCGKIMP": "LightNode",
+                  "attachPoint": "LightNode",
+                  "effectPattern": "Eff_SceneObj_EnergyWheel_Light_01"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "SGV_UpNodeLight"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachEffect",
+                  "born": {
+                    "$type": "ConfigBornByAttachPoint",
+                    "useRotation": true,
+                    "attachPointName": "LightNode1"
+                  },
+                  "scale": 1,
+                  "effectPattern": "Eff_SceneObj_EnergyWheel_Light_01",
+                  "effectTempleteID": -1
+                },
+                {
+                  "$type": "SetEffectFollowPath",
+                  "DPNPNCGKIMP": "LightNode1",
+                  "attachPoint": "LightNode1",
+                  "effectPattern": "Eff_SceneObj_EnergyWheel_Light_01"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "NoneOrEqual",
+                  "key": "SGV_DownNodeLight"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_MovingPillar_Light_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LightEffect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LaserReceiver": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "gv_LaserHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "gv_LaserHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OnNoLaserHit",
+                "OnLaserHit"
+              ],
+              "globalValueKey": "gv_LaserHit",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1000.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OnNoLaserHit": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "gadgetState": 202
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OnLaserHit": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Hit_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGadgetState",
+                      "gadgetState": 202
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_ActiveCounter"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ActiveCounter": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "state": 201
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "gv_LaserHit"
+                }
+              ]
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "DefaultState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default",
+              "IKJPMDJLPLP": 1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EffectNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_RayReceiver_01_Active",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FinishState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EffectNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_RayReceiver_01_Active",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "TurnOffState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGLMGICCHHK": "Default"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onRemoved": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_RayReceiver_01_Die",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DefaultState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ActiveState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "FinishState",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "TurnOffState",
+          "gadgetState": 203
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_RayReceiver_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LaserReceiver"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_RayReceiver_01_Create",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "gv_LaserTarget",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LaserState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_ShootLaser",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NoLaserState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_ShootLaser",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "LaserState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "NoLaserState",
+          "gadgetState": 101
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_PointerWheel_Shooter_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DefaultState": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "SGV_Arm_1"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "SGV_Arm_2"
+                    }
+                  ]
+                }
+              ],
+              "key": "gv_DriveRotation",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "Arm1_Off",
+                "Arm1_On"
+              ],
+              "globalValueKey": "SGV_Arm_1",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "Arm2_Off",
+                "Arm2_On"
+              ],
+              "globalValueKey": "SGV_Arm_2",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "DEFOFMOIAAI": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FinishState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 12,
+              "patternName": "_EmissionStrength",
+              "matName": "Arm1"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 12,
+              "patternName": "_EmissionStrength",
+              "matName": "Arm2"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DelayApplyFinishRotation"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Arm1_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "matName": "Arm1"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Arm1_On": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 12,
+              "patternName": "_EmissionStrength",
+              "matName": "Arm1"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Arm2_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "matName": "Arm2"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Arm2_On": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 12,
+              "patternName": "_EmissionStrength",
+              "matName": "Arm2"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DelayApplyFinishRotation": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "SGV_Arm_1"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "SGV_Arm_2"
+                    }
+                  ]
+                }
+              ],
+              "key": "gv_DriveRotation",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": "SGV_FinishRotation"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_FinishRotation"
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DefaultState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "FinishState",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_RotateWaterway_01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AudioController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "UNIQUE_PlayAudio_Gate01"
+                }
+              ],
+              "globalValueKey": "gv_DriveRotation"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayAudio_Gate01": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Stop_amb_sceneObj_gear_fenceGate_waterWheel_01_move"
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_fenceGate_waterWheel_01_move"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_FenceGate_WaterWheel_Audio_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AudioController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AudioController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "UNIQUE_PlayAudio_Gate03"
+                }
+              ],
+              "globalValueKey": "gv_DriveRotation"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayAudio_Gate03": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Stop_amb_sceneObj_gear_fenceGate_waterWheel_03_move"
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_fenceGate_waterWheel_03_move"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_FenceGate_WaterWheel_Audio_03",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AudioController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AudioController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "UNIQUE_PlayAudio_Pillar"
+                }
+              ],
+              "globalValueKey": "gv_DriveRotation"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayAudio_Pillar": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Stop_amb_sceneObj_gear_FDColumn_Slide_Slow"
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_FDColumn_Slide_Slow"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_MovingPillar_Audio_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AudioController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AudioController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "UNIQUE_PlayAudio_Slider"
+                }
+              ],
+              "globalValueKey": "gv_DriveRotation"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayAudio_Slider": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Stop_amb_sceneObj_gear_FYD_Track_Slide_Loop"
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_FYD_Track_Slide_Loop"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Slider_Audio_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AudioController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AudioController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DoActionOnGlobalValueChangeMixin",
+              "actions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "UNIQUE_PlayAudio_Rotatewaterway"
+                }
+              ],
+              "globalValueKey": "gv_DriveRotation"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_PlayAudio_Rotatewaterway": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Stop_amb_sceneObj_gear_rotateWaterway_01"
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_rotateWaterway_01"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_RotateWaterway_Audio_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AudioController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AudioController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "RotateAudio",
+                "NoRotateAudio",
+                "RotateAudio"
+              ],
+              "globalValueKey": "gv_RotationDelta",
+              "valueSteps": [
+                -9999,
+                -0.05,
+                0.05,
+                9999
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RotateAudio": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_amb_sceneObj_gear_energyWheel_02_metalgear_loop"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NoRotateAudio": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Stop_amb_sceneObj_gear_energyWheel_02_metalgear_loop"
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_PointerWheel_Audio_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AudioController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LaserController": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "NoShootLaser",
+                "ShootLaser"
+              ],
+              "globalValueKey": "gv_ShootLaser",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "NoShootLaser": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootLaser": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_LaserType",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_LaserType",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line_Fake",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Default",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "ShortLaser",
+                "LongLaser"
+              ],
+              "globalValueKey": "gv_LaserType",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1000.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShortLaser": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Gadget",
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LongLaser": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Gadget",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HiddenShooterLaserHit": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "gv_LaserHit",
+              "maxValue": 1000,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HiddenShooterLaserLeave": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "gv_LaserHit",
+              "maxValue": 1000,
+              "minValue": 0,
+              "value": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "LaserMixin",
+          "IHMEDEHIDKJ": [
+            {
+              "$type": "DebugLog",
+              "content": "激光：射中物件"
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "Target",
+              "modifierName": "HiddenShooterLaserHit"
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "gv_LaserType",
+                  "maxValue": 1000,
+                  "minValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "gv_LaserTarget"
+                }
+              ]
+            }
+          ],
+          "GFBOOPIGHFK": [
+            {
+              "$type": "DebugLog",
+              "content": "激光：离开物件"
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "Target",
+              "modifierName": "HiddenShooterLaserLeave"
+            },
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "useLimitRange": true,
+                  "key": "gv_LaserType",
+                  "maxValue": 1000,
+                  "minValue": 0,
+                  "value": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "gv_LaserTarget"
+                }
+              ]
+            }
+          ],
+          "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_HiddenConvexLens_01",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "LaserShooter",
+          "isAdd": true
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "gv_LaserType",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_ShootLaser",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_ShootLaser",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "SGV_DefaultShootLaser"
+            }
+          ]
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LaserController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LaserReceiver": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "gv_LaserHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "gv_LaserHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "LaserReceiveMixin",
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Line"
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OnNoLaserHit",
+                "OnLaserHit"
+              ],
+              "globalValueKey": "gv_LaserHit",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1000.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OnNoLaserHit": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "tag": "LaserShooter"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": "SGV_LensTag",
+                  "key": "SGV_LensTag"
+                }
+              ],
+              "modifierName": "CommandShootLaser"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OnLaserHit": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_EnergyWheel_01_Hit_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "tag": "LaserShooter"
+              },
+              "predicatesForeach": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": "SGV_LensTag",
+                  "key": "SGV_LensTag"
+                }
+              ],
+              "modifierName": "CommandShootLaser"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CommandShootLaser": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_ShootLaser",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "gv_ShootLaser",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_LensTag"
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_HiddenConcaveLens_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "LaserReceiver"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "gv_LaserTarget",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  }
+]

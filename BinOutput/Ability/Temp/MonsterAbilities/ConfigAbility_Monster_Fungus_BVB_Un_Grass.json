@@ -1,0 +1,372 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DendroBullet_VFX_Display": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_ShootDecayed_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget"
+            },
+            "attachPointName": "BulletSource",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42609021,
+          "lifeByOwnerV2": true
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_ShootDecayed_Attack",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAbility",
+          "abilityName": "Fungus_Un_BVB_Dendro_LeafBlessing"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Shoot_Loop"
+          ],
+          "modifierName": "DendroBullet_VFX_Display"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "steerStateIDs": [
+            "NormalAttack"
+          ]
+        }
+      ],
+      "abilityName": "Fungus_Un_BVB_Dendro_Bullet_Trigger"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DendroBullet_Display": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_Shoot_BulletDecayed",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_Shoot_BulletDecayed_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "elementType": "Grass",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_Shoot_HitDecayed",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "RootNode"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Grass",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "damagePercentage": 3,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "Owner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1.6
+            }
+          }
+        }
+      ],
+      "abilityName": "Fungus_Un_BVB_Dendro_Bullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "DendroBullet_Display"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "LeafBlessing_HealEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onRemoved": [
+            {
+              "$type": "HealHP",
+              "amountByTargetMaxHPRatio": 0.12
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Fungus_Un_Grass_LeafBlessing",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "LowHpRatio",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR30H10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Partner"
+                  ]
+                }
+              ],
+              "modifierName": "LeafBlessing_HealEffect"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_NORMAL_ATTACK_COUNT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "_NORMAL_ATTACK_COUNT_",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 2,
+              "compareType": "MoreThanAndEqual",
+              "key": "_NORMAL_ATTACK_COUNT_"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Fungus_Un_BVB_Dendro_LeafBlessing",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_NORMAL_ATTACK_COUNT_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Burst_VFX_Display": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Un_Grass_UnionBurst_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget"
+            },
+            "attachPointName": "BulletSource",
+            "attachPointTargetType": "Self"
+          },
+          "bulletID": 42609026,
+          "lifeByOwnerV2": true
+        },
+        {
+          "$type": "TriggerAbility",
+          "abilityName": "Fungus_Un_BVB_Dendro_LeafBlessing"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Burst_BS",
+            "Burst_Loop"
+          ],
+          "modifierName": "Burst_VFX_Display"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "steerStateIDs": [
+            "UnionBurst"
+          ]
+        }
+      ],
+      "abilityName": "Fungus_Un_BVB_Dendro_Bullet_UnionBurstTrigger"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DendroBullet_Display": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_Shoot_BulletDecayed",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_Shoot_BulletDecayed_Trail",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "elementType": "Grass",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Fungus_Un_Delta_Grass_Shoot_HitDecayed",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "attachPointName": "RootNode"
+          },
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Grass",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "damagePercentage": 2,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "FungusFightV2_Seq2",
+              "attenuationTag": "Dendro_Bullet",
+              "canBeModifiedBy": "Owner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1.6
+            }
+          }
+        }
+      ],
+      "abilityName": "Fungus_Un_BVB_Dendro_Bullet_UB",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "DendroBullet_Display"
+        }
+      ]
+    }
+  }
+]

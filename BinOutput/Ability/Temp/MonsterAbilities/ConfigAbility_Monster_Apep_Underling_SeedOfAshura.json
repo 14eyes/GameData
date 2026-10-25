@@ -1,0 +1,772 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 45.0,
+          "endNormalizedTime": 99.0,
+          "steerStateIDs": [
+            "Standby"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 2.0,
+          "steerStateIDs": [
+            "ChaseAttack"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "steerStateIDs": [
+            "MeleeAttack"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Apep_Underling_SeedOfAshura_ChaseAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Swallow_ChoseTarget_Manager": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR50"
+              },
+              "modifierName": "UNIQUE_Swallow_Target_TriggerTaunt"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_Swallow_HasTarget",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR50"
+              },
+              "modifierName": "UNIQUE_Swallow_Target_TriggerTaunt"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "ChosingTarget"
+              ],
+              "globalValueKey": "_MONSTER_Apep_Underling_SeedOfAshura_Swallow_HasTarget",
+              "valueSteps": [
+                -0.5,
+                0.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ChosingTarget": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Apep_Underling_SeedOfKarna_Tag"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_Swallow_Target_TriggerTaunt"
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MONSTER_Apep_Underling_SeedOfAshura_Swallow_HasTarget",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Swallow_Target_TriggerTaunt": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_TriggerTaunt",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Caster",
+              "modifierName": "Target_Die"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_TriggerTaunt",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalPos",
+              "key": "_Target_Pos",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              }
+            },
+            {
+              "$type": "SetCommandPos",
+              "target": "Caster",
+              "enable": true,
+              "key": "_Target_Pos"
+            },
+            {
+              "$type": "AttachModifier",
+              "target": "Caster",
+              "modifierName": "RunStateCheck"
+            }
+          ],
+          "onKill": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Caster",
+              "modifierName": "Target_Die"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_Target_Pos",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              }
+            },
+            {
+              "$type": "SetCommandPos",
+              "target": "Caster",
+              "enable": true,
+              "key": "_Target_Pos"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "RunStateCheck": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToAnimatorStateIDMixin",
+              "stateIDs": [
+                "Run"
+              ],
+              "modifierName": "SwallowTrigger"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SwallowTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Ashura_SwallowTrigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Target_Die": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_Swallow_HasTarget",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            101
+          ],
+          "modifierName": "Swallow_ChoseTarget_Manager"
+        }
+      ],
+      "abilityName": "Monster_Apep_Underling_SeedOfAshura_Swallow_ChoseTarget"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "NormalMode": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_ScaleUp",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RageMode": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_ScaleUp",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "RageMode"
+            }
+          ],
+          "onRemoved": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "RageMode"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "RageMode"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Ashura_SwallowTrigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "RageMode"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "RageMode_Timer"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Monster_Apep_Underling_SeedOfAshura_Swallow_Properties"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RageMode_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 20,
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RageMode_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3.5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "modifierName": "RageMode"
+                    }
+                  ]
+                }
+              ],
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_ScaleUp",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "modifierName": "RageMode_Timer"
+                    }
+                  ]
+                }
+              ],
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_RageMode",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_Apep_Underling_SeedOfAshura_Swallow_Properties": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 14002,
+              "durationRatio": 0.800000011920929
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0.01
+          },
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_Apep_Underling_SeedOfAshura_Swallow": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Underling_SeedOfAshura_Swallow_Range",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Monster_Apep_Underling_SeedOfAshura_ChosenOne": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_SwallowTarget",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                29080201,
+                29080202
+              ],
+              "duration": 0.10000000149011612
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DiePatternSwitchMixin",
+              "NGGGFNDCCPM": true,
+              "NHKKKCFDJGB": true,
+              "dieForceDisappearTime": 0.0,
+              "GJNCACJIMFH": true,
+              "DGOAOCDKKGA": true,
+              "BGAPBIAJAKN": true,
+              "MIIDKADGGIC": true,
+              "dieDisappearEffect": "Eff_Monster_Apep_Underling_SeedOfAshura_Swallow_Target"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Underling_SeedOfAshura_SwallowCount_Once",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR6"
+              },
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "key": "_MONSTER_Apep_Underling_SeedOfAshura_SwallowCount_Once",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_Monster_Apep_Underling_SeedOfAshura_ChosenOne"
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "target": "Target",
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "lifeByOwnerIsAlive": true,
+                  "bulletID": 42908205,
+                  "trackTarget": "Caster"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Apep_Underling_SeedOfKarna_Tag"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Apep_Underling_SeedOfAshura_TriggerTaunt"
+                }
+              ]
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "SelfCamp",
+                "shapeName": "CircleR6"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_MONSTER_Apep_Underling_SeedOfKarna_Tag"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "key": "_MONSTER_Apep_Underling_SeedOfAshura_SwallowCount_Once",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "UNIQUE_Monster_Apep_Underling_SeedOfAshura_ChosenOne"
+                },
+                {
+                  "$type": "TriggerBullet",
+                  "target": "Target",
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "lifeByOwnerIsAlive": true,
+                  "bulletID": 42908205,
+                  "trackTarget": "Caster"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_MONSTER_Ashura_SwallowTrigger",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 0
+                }
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_Swallow_HasTarget"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Apep_Underling_SeedOfAshura_Swallow_Success_Mouth",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_RageMode",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                1,
+                1
+              ]
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "compareType": "MoreThanAndEqual",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_SwallowCount_Once"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Swallow"
+          ],
+          "modifierName": "Monster_Apep_Underling_SeedOfAshura_Swallow"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "NormalMode",
+            "RageMode"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_MONSTER_Apep_Underling_SeedOfAshura_RageMode",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "ChaseAttack"
+          ],
+          "modifierName": "RageMode_Monitor"
+        }
+      ],
+      "abilityName": "Monster_Apep_Underling_SeedOfAshura_Swallow",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Underling_SeedOfAshura_Tag",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ServerMonsterLog",
+          "paramList": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Apep_Underling_SeedOfAshura_Swallow_Success_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "RageMode"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "compareType": "MoreThanAndEqual",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_SwallowCount_Once"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_Apep_Underling_SeedOfAshura_Swallow_ScaleUp_Start"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Monster_Apep_Underling_SeedOfAshura_ScaleUp": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetEntityScale",
+              "canBeHandledOnRecover": true,
+              "scale": 0.800000011920929
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetEntityScale",
+              "canBeHandledOnRecover": true,
+              "scale": 1.2999999523162842
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_ScaleUp",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "compareType": "MoreThanAndEqual",
+              "key": "_MONSTER_Apep_Underling_SeedOfAshura_SwallowCount_Once"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_Monster_Apep_Underling_SeedOfAshura_ScaleUp"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "_MONSTER_Apep_Underling_SeedOfAshura_ScaleUp",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Monster_Apep_Underling_SeedOfAshura_Swallow_ScaleUp"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "KillSelf",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_MONSTER_Apep_Underling_SeedOfKarna_Tag"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Apep_Underling_SeedOfAshura_SwallowTarget"
+    }
+  }
+]

@@ -1,0 +1,361 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "WarningState_Approach": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "WarningState",
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "WarningState",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WarningState_SprintFlash": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "WarningState",
+              "value": 1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "WarningState",
+              "value": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathRattle_Water": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ServerCreateGadgetOnKillMixin",
+              "campID": 4001,
+              "gadgetIDList": [
+                42301050
+              ],
+              "campTargetType": "Enemy"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathRattle_Electric": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ServerCreateGadgetOnKillMixin",
+              "campID": 4001,
+              "gadgetIDList": [
+                42301051
+              ],
+              "campTargetType": "Enemy"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_BoomSequence": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.8,
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_ExplosiveDrone_Alert",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                23070250,
+                23070251,
+                23070255,
+                23070256,
+                23070911,
+                23070912,
+                23070913,
+                23070914
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            1,
+            2
+          ],
+          "modifierName": "WarningState_Approach"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Sprint"
+          ],
+          "modifierName": "WarningState_SprintFlash"
+        },
+        {
+          "$type": "AttachToMultiNormalizedTimeMixin",
+          "modifierName": "UNIQUE_BoomSequence",
+          "normalizedStateIDList": [
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "TurnHeadWarning"
+            },
+            {
+              "$type": "BBLDAEJEMGL",
+              "stateID": "BoomAtk",
+              "normalizeEnd": 99.0
+            }
+          ]
+        }
+      ],
+      "abilityName": "Monster_ExplosiveDrone",
+      "onAdded": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DeathRattle_Water"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0.5,
+              "compareType": "MoreThanAndEqual",
+              "key": "GV_ExplosiveDrone_Water"
+            }
+          ]
+        },
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "DeathRattle_Electric"
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0.5,
+              "compareType": "MoreThanAndEqual",
+              "key": "GV_ExplosiveDrone_Electric"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Timer_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_ExplosiveDrone_Suicide_Water",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Timer_Damage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "AllExceptSelf",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Water",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 60.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "onGround": true,
+                    "useRotation": true
+                  },
+                  "radius": 4.5
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42301050,
+                42301051
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "ExplosiveDrone_KillSelfAtk_Water",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer_Effect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer_Damage"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Timer_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_ExplosiveDrone_Suicide_Electric",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Timer_Damage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "AllExceptSelf",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 60.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "retreatType": "ByHitDirection",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.05000000074505806,
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "onGround": true,
+                    "useRotation": true
+                  },
+                  "radius": 4.5
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42301050,
+                42301051
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "ExplosiveDrone_KillSelfAtk_Electric",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer_Effect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Timer_Damage"
+        }
+      ]
+    }
+  }
+]

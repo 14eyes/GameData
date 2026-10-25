@@ -1,0 +1,425 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Homeworld_NPCObj_Ani_Djinn_Normal",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Djinn_Advance",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Homeworld_NPCObj_Ani_Djinn_Advance",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Djinn_Advance",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Homeworld_NPCObj_Ani_Djinn_AdvanceWithCloud",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Djinn_Advance",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "EnablePartControl",
+          "enable": true,
+          "partRootNames": [
+            "CloudRoot"
+          ]
+        },
+        {
+          "$type": "SetPartControlTarget",
+          "otherTargets": {
+            "$type": "SelectTargetsByTag",
+            "tag": "Homeworld_Standard_MainBuilding"
+          },
+          "partRootNames": [
+            "CloudRoot"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AppearState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Djinn_Show",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SleepState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "DjinnSleepPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Djinn_Sleep",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IdleState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 15,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_Show_Mode",
+              "randomInRange": true,
+              "minValue": 1,
+              "maxValue": 20,
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 10,
+                  "compareType": "LessAndEqual",
+                  "key": "_Show_Mode"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_Djinn_Advance"
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Show01"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 7,
+                  "compareType": "LessAndEqual",
+                  "key": "_Show_Mode"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Djinn_Advance"
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Show01"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 7,
+                  "maxValue": 11,
+                  "compareType": "Between",
+                  "key": "_Show_Mode"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Djinn_Advance"
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Show02"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 11,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "_Show_Mode"
+                }
+              ],
+              "modifierName": "ShowEmotion"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "TalkState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ShowEmotion"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowEmotion": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Level1",
+                "Level2",
+                "Level3",
+                "Level4"
+              ],
+              "valueSteps": [
+                0.5,
+                3.5,
+                6.5,
+                9.5,
+                10.5
+              ],
+              "globalValueKey": "_ABILITY_Djinn_Comfort",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Level1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Djinn_Feeling_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Level2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Djinn_Feeling_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Level3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Djinn_Feeling_03",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Level4": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Djinn_Feeling_04",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ShowEmotion"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Appear"
+          ],
+          "modifierName": "AppearState"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Idle"
+          ],
+          "modifierName": "IdleState"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Show02Loop"
+          ],
+          "modifierName": "SleepState"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Talk"
+          ],
+          "modifierName": "TalkState"
+        }
+      ],
+      "abilityName": "SceneObj_Homeworld_NPCObj_Ani_Djinn_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_ABILITY_Djinn_Comfort",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AppearState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Djinn_Show",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SleepState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "DjinnSleepPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Djinn_Sleep",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IdleState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 15,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_Show_Mode",
+              "randomInRange": true,
+              "minValue": 1,
+              "maxValue": 10,
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 7,
+                  "compareType": "LessAndEqual",
+                  "key": "_Show_Mode"
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Show01"
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 7,
+                  "maxValue": 11,
+                  "compareType": "Between",
+                  "key": "_Show_Mode"
+                }
+              ],
+              "MPTriggerOnRemote": true,
+              "triggerID": "Show02"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Appear"
+          ],
+          "modifierName": "AppearState"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Idle"
+          ],
+          "modifierName": "IdleState"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Show02Loop"
+          ],
+          "modifierName": "SleepState"
+        }
+      ],
+      "abilityName": "SceneObj_Homeworld_NPCObj_Ani_Djinn_02_Ability"
+    }
+  }
+]

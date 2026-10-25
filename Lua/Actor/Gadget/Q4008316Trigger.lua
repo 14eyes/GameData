@@ -1,0 +1,31 @@
+require("Actor/ActorCommon")
+local GadgetActorProxy = require("Actor/Gadget/GadgetActorProxy")
+
+local Q4008316Trigger = class("Q4008316Trigger", GadgetActorProxy)
+Q4008316Trigger.defaultAlias = "Q4008316Trigger"
+local Q40083ClientConfig = require("Quest/Client/Q40083ClientConfig")
+
+local subIDs = Q40083ClientConfig.SubIDs
+local npcs = Q40083ClientConfig.Npcs
+local datas = Q40083ClientConfig.Datas
+
+function Q4008316Trigger:OnPostDataPrepare()
+    print("OnPostDataPrepare")
+end
+
+function Q4008316Trigger:OnPostComponentPrepare()
+    print("OnPostComponentPrepare")
+    self:AddComponentTrigger(50, DistType.EULER, {x = 0.0, y = 0.0, z = 0.0}, self.TriggerIn, self.TriggerOut)
+end
+
+function Q4008316Trigger:TriggerIn()
+    print("TriggerIn")
+    actorMgr:GetActor("40083"):RequestInteraction(npcs.Npc12859Data.alias)
+    self:DestroySelf()
+end
+
+function Q4008316Trigger:TriggerOut()
+    print("TriggerOut")
+end
+
+return Q4008316Trigger

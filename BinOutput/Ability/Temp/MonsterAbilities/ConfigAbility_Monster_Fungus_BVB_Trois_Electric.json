@@ -1,0 +1,706 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Overdose_Shader_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "ShaderState",
+              "value": 2
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "ShaderState",
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "UBShader"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Electric_UltraRotate",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceBuffDebuffs": [
+                "ElementFreeze",
+                "ElementFrozen"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "UltraRotate"
+          ],
+          "modifierName": "Overdose_Shader_VFX"
+        },
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Fungus_Trois_Electric_NormalRotate",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "stateIDs": [
+            "NormalRotate"
+          ]
+        }
+      ],
+      "abilityName": "Fungus_Trois_BVB_Electric_UltraRotate"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Debuff_Attack_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "NormalRotate_Defence_Down"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Trois_NormalRotate",
+                    "Trois_UltraRotate"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Avatar",
+                    "Partner"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NormalRotate_Defence_Down": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "properties": {
+            "Actor_DefenceRatio": -0.3
+          },
+          "elementDurability": 100,
+          "state": "DefenseDown",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Fungus_Trois_BVB_Electric_Passive_DefDebuff",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Debuff_Attack_Monitor"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 480.0,
+          "endNormalizedTime": 99.0,
+          "steerStateIDs": [
+            "Charge_Rotate"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "endNormalizedTime": 99.0,
+          "steerStateIDs": [
+            "Charge_Attack"
+          ]
+        }
+      ],
+      "abilityName": "Fungus_Trois_BVB_Electric_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ChargeDecayed_Attack_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.21,
+          "onRemoved": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Epsilon_Electric_ChargeDecayed_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Epsilon_Electric_ChargeDecayed_Loop_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "damagePercentage": 0.62,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "Fungus_Trois_Atk",
+                  "attenuationTag": "Fungus_Trois_Atk",
+                  "attackTag": "BVBChargeAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "radius": 1.8
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargeDecayed_Adjust_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Epsilon_Electric_ChargeDecayed_BSLoop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargeOverdose_Adjust_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Epsilon_Electric_ChargeNormal_BSLoop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargeOverdose_Attack_Modifier": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.21,
+          "onRemoved": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Epsilon_Electric_ChargeNormal_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Epsilon_Electric_ChargeNormal_Loop_Trail",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Electric",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "enBreak": 25.0,
+                    "damagePercentage": 2.03,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV1"
+                  },
+                  "attenuationGroup": "Fungus_Trois_Atk",
+                  "attenuationTag": "Fungus_Trois_Atk",
+                  "attackTag": "BVBChargeAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "radius": 2
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Charge_BS",
+            "Charge_Loop",
+            "Charge_Adjust"
+          ],
+          "modifierName": "ChargeDecayed_Adjust_Modifier"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "OverdoseCharge_BS",
+            "OverdoseCharge_Loop",
+            "OverdoseCharge_Adjust"
+          ],
+          "modifierName": "ChargeOverdose_Adjust_Modifier"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Charge_Attack01",
+            "Charge_Attack02"
+          ],
+          "modifierName": "ChargeDecayed_Attack_Modifier"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "OverdoseCharge_Attack"
+          ],
+          "modifierName": "ChargeOverdose_Attack_Modifier"
+        }
+      ],
+      "abilityName": "Fungus_Trois_BVB_Electric_ChargeAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ThunderPower_Attack_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "ThunderPower_Defence_Down"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "ThunderPower_Attack_Monitor"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "BVBChargeAttack"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ThunderPower_Defence_Down": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 6,
+          "properties": {
+            "Actor_DefenceRatio": -0.4
+          },
+          "elementDurability": 100,
+          "state": "DefenseDown",
+          "AIHNJLDFEGJ": 0
+        },
+        "ThunderPower_Gen_Charging": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Electric_Enhanced_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "ThunderPower_Attack_Monitor"
+            }
+          ],
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Electric",
+                      "damagePercentageRatio": 0,
+                      "enBreak": 0.0,
+                      "damagePercentage": 0.1,
+                      "elementDurability": 25,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "default",
+                      "hitImpulseType": "LV0"
+                    },
+                    "attenuationGroup": "FungusFight_Trois_FireRing",
+                    "attenuationTag": "ThunderPower_Charging"
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "BVBChargeAttack"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ThunderPower_Gen_Charging"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Fungus_Trois_Electric_Enhanced_BS",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByAnimatorStateIDMixin",
+          "stateIDs": [
+            "Charge_AS",
+            "OverdoseCharge_AS"
+          ],
+          "exitActions": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ThunderPower_Gen_Charging"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Fungus_Trois_BVB_Electric_ThunderPower"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Overdose_Gen_Enhanced": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 15,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "UBEnhanced"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "canBeHandledOnRecover": true,
+              "intID": "ShaderState",
+              "value": 2
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Fungus_Trois_Electric_Overdose_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "UBEnhanced"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "ShaderState",
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_CHARGE_ATTACK_COUNT_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0
+          },
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "key": "_CHARGE_ATTACK_COUNT_",
+                  "maxValue": 0,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "AttackLanded_Cooldown"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 7,
+                      "compareType": "MoreThanAndEqual",
+                      "key": "_CHARGE_ATTACK_COUNT_"
+                    }
+                  ],
+                  "modifierName": "Overdose_Gen_Enhanced"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "BVBChargeAttack"
+                  ]
+                },
+                {
+                  "$type": "ByHitDamage",
+                  "damage": 0,
+                  "useOriginDamage": true
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "target": "Self",
+                      "modifierName": "AttackLanded_Cooldown"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AttackLanded_Cooldown": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Overdose_Gen_Enhanced"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Fungus_Trois_Electric_Overdose_BS",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "ActCameraShake",
+          "cameraShake": {
+            "$type": "ConfigCameraShake",
+            "extension": {
+              "$type": "ConfigCameraShakeExt",
+              "cycleDamping": 0.30000001192092896
+            },
+            "shakeDir": {
+              "$type": "NFFDDFHHDHG",
+              "y": 1.0
+            },
+            "shakeTime": 0.20000000298023224,
+            "shakeType": "CustomVector",
+            "shakeDistance": 9.0,
+            "shakeRange": 0.4000000059604645
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Electric",
+                "damagePercentageRatio": 0,
+                "enBreak": 25.0,
+                "damagePercentage": 1,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV1"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf"
+              },
+              "radius": 3.6
+            }
+          }
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "DoActionByStateIDMixin",
+          "enterActions": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "UBShader"
+            }
+          ],
+          "stateIDs": [
+            "UnionBurst"
+          ]
+        }
+      ],
+      "abilityName": "Fungus_Trois_BVB_Electric_Overdose",
+      "onAdded": [
+        {
+          "$type": "SetAnimatorBool",
+          "canBeHandledOnRecover": true,
+          "boolID": "UBEnhanced"
+        }
+      ]
+    }
+  }
+]

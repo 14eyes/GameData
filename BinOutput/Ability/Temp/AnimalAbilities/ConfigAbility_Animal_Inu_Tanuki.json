@@ -1,0 +1,449 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Animal_Inu_Tanuki_IgnoreControlState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 15001
+            },
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 15002
+            }
+          ],
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Animal_Inu_Tanuki_IgnoreControlState",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Animal_Inu_Tanuki_IgnoreControlState"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Blink_State": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Inu_Tanuki_Blink_Actions"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Inu_Tanuki_Blink_Actions": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerSetVisible",
+              "visible": true
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible"
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Inu_Tanuki_Blink_Actions"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Blink_BS",
+            "End_BS"
+          ],
+          "modifierName": "Blink_State"
+        }
+      ],
+      "abilityName": "Animal_Inu_Tanuki_BlinkState"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "InitializeModifier": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_TANUKI_NEXTPATHPOINTFLAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetPoseInt",
+              "intID": "NextPointType"
+            },
+            {
+              "$type": "SetOverrideMapValue",
+              "value": 1,
+              "maxValue": 0,
+              "minValue": 0,
+              "overrideMapKey": "NextPathPointFlag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FindingNextPoint": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsBySelfGroup",
+                "offset": "NextPathPointFlag",
+                "operation": "XOR"
+              },
+              "successActions": [
+                {
+                  "$type": "SetPoseInt",
+                  "value": 2,
+                  "intID": "NextPointType"
+                },
+                {
+                  "$type": "TryFindBlinkPoint",
+                  "target": "Target",
+                  "forwardAngle": 360.0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsBySelfGroup",
+                    "offset": "NextPathPointFlag",
+                    "operation": "XOR"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPoseInt",
+                      "value": 1,
+                      "intID": "NextPointType"
+                    },
+                    {
+                      "$type": "TryFindBlinkPoint",
+                      "target": "Target",
+                      "forwardAngle": 360.0
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseInt",
+                      "value": 3,
+                      "intID": "NextPointType"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_TANUKI_PATHPOINT_BLINK_"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_TANUKI_PATHPOINT_END_"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsBySelfGroup",
+                "offset": "NextPathPointFlag",
+                "operation": "XOR"
+              },
+              "successActions": [
+                {
+                  "$type": "SetPoseInt",
+                  "value": 2,
+                  "intID": "NextPointType"
+                },
+                {
+                  "$type": "TryFindBlinkPoint",
+                  "target": "Target",
+                  "forwardAngle": 360.0
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "otherTargets": {
+                    "$type": "SelectTargetsBySelfGroup",
+                    "offset": "NextPathPointFlag",
+                    "operation": "XOR"
+                  },
+                  "successActions": [
+                    {
+                      "$type": "SetPoseInt",
+                      "value": 1,
+                      "intID": "NextPointType"
+                    },
+                    {
+                      "$type": "TryFindBlinkPoint",
+                      "target": "Target",
+                      "forwardAngle": 360.0
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "SetPoseInt",
+                      "value": 3,
+                      "intID": "NextPointType"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_TANUKI_PATHPOINT_BLINK_"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_TANUKI_PATHPOINT_END_"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseBool",
+          "boolID": "FixedMove"
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_TANUKI_NEXTPATHPOINTFLAG_",
+          "maxValue": 99,
+          "minValue": 1,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValueToOverrideMap",
+          "globalValueKey": "_TANUKI_NEXTPATHPOINTFLAG_",
+          "overrideMapKey": "NextPathPointFlag"
+        },
+        {
+          "$type": "SetPoseInt",
+          "intID": "NextPointType"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            1,
+            2,
+            3
+          ],
+          "modifierName": "InitializeModifier"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            100
+          ],
+          "modifierName": "FindingNextPoint"
+        }
+      ],
+      "abilityName": "Animal_Inu_Tanuki_FindNextPathPoint",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_TANUKI_NEXTPATHPOINTFLAG_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilitySpecials": {
+        "NextPathPointFlag": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "DoBlink"
+        },
+        {
+          "$type": "TriggerAbility",
+          "abilityName": "Animal_Inu_Tanuki_FindNextPathPoint"
+        }
+      ],
+      "abilityName": "Animal_Inu_Tanuki_DoBlink"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Inu_Tanuki_AttractionEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Inu_Tanuki_Attraction",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Inu_Tanuki_AlertBehitModifier": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "AlertHitTrigger"
+            }
+          ]
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Alert",
+            "Alert_AS",
+            "Attraction",
+            "Attraction_AS"
+          ],
+          "modifierName": "Inu_Tanuki_AttractionEffect"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Alert",
+            "Alert_AS"
+          ],
+          "modifierName": "Inu_Tanuki_AlertBehitModifier"
+        }
+      ],
+      "abilityName": "Animal_Inu_Tanuki_Attraction"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "Animal_Inu_Tanuki_KillSelf"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "KillSelf",
+          "killSelfType": "Disappear",
+          "KBKCMPMOKGM": true,
+          "ELJJHIPAFKC": true
+        }
+      ],
+      "abilityName": "Animal_Inu_Tanuki_KillSelf_Escape"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 540.0,
+          "endNormalizedTime": 0.5,
+          "attackDistance": 2.0,
+          "steerStateIDs": [
+            "Blink_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 540.0,
+          "endNormalizedTime": 0.5,
+          "attackDistance": 2.0,
+          "steerStateIDs": [
+            "End"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 540.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "attackDistance": 2.0,
+          "steerStateIDs": [
+            "Alert"
+          ]
+        }
+      ],
+      "abilityName": "Animal_Inu_Tanuki_Steer"
+    }
+  }
+]

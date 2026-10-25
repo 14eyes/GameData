@@ -1,0 +1,1320 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Avatar_Dive_SealEcho_AddSkillInfo": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveAvatarSkillInfo",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "skillID": 20062,
+              "IOEKFKNMBMH": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddAvatarSkillInfo",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "skillID": 20062
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Dive_SealEcho_Hold_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ButtonHoldChargeMixin",
+              "skillID": 20062,
+              "OnReleaseCharged": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "SealEcho_Short"
+                }
+              ],
+              "secondChargeTime": 0.25,
+              "OnReleaseSecondCharged": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "EndDiveChannelTrigger"
+                }
+              ],
+              "OnBeginSecondCharged": [
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "Focus_Father"
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Diving_Skill_In_Focus_Skill_Mark"
+                    }
+                  ],
+                  "triggerID": "StartDiveChannelTrigger"
+                },
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Diving_Skill_In_Focus_Skill_Mark"
+                    }
+                  ],
+                  "triggerID": "StartDiveChannelTrigger2"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_ABILITY_Diving_Skill_In_Focus_Skill_Mark"
+                    }
+                  ],
+                  "modifierName": "Focus_Father"
+                }
+              ],
+              "LGCNONHNMIH": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "triggerID": "EndDiveChannelTrigger"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 2,
+                      "key": "_ABILITY_Diving_Skill_In_Focus_Skill_Mark"
+                    }
+                  ],
+                  "modifierName": "Focus_Remove_Delay"
+                }
+              ],
+              "chargeStateIDs": [
+                "DiveChannelBS",
+                "DiveChannelLoop"
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "Clear_Focus_Father"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "_ABILITY_Dive_isInFondanieWater",
+              "valueSteps": [
+                -0.5,
+                0.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Clear_Focus_Father": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Focus_Father"
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Focus_Father": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Diving_Skill_In_Focus_Skill_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Diving_Skill_In_Focus_Skill_Mark",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToMultiNormalizedTimeMixin",
+              "modifierName": "Focus",
+              "normalizedStateIDList": [
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "DiveChannelBS"
+                },
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "DiveChannelLoop"
+                },
+                {
+                  "$type": "BBLDAEJEMGL",
+                  "stateID": "DiveChannelAS",
+                  "normalizeEnd": 0.17000000178813934
+                }
+              ]
+            },
+            {
+              "$type": "AttachToStateIDMixin",
+              "isCheckOnAttach": true,
+              "stateIDs": [
+                "DiveChannel_BS",
+                "DiveChannel_Loop"
+              ],
+              "modifierName": "Focus_Remove_Delay_Trigger"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Focus_Remove_Delay_Trigger": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 10,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "EndDiveChannelTrigger"
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 2,
+                  "key": "_ABILITY_Diving_Skill_In_Focus_Skill_Mark"
+                }
+              ],
+              "modifierName": "Focus_Remove_Delay"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Focus_Remove_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.13,
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Focus"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendDungeonFogEffectTrigger",
+              "muteRemoteAction": true,
+              "cameraFogEffectName": "Eff_SkillObj_Absorb_Avatar_Aim",
+              "parameter": "Aim_Close"
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Focus"
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "SealEcho_Hold"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Aim_Camera_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "DungeonFogEffects",
+                  "canBeHandledOnRecover": true,
+                  "muteRemoteAction": true,
+                  "enable": true,
+                  "cameraFogEffectName": "Eff_SkillObj_Absorb_Avatar_Aim"
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "DungeonFogEffects",
+                  "canBeHandledOnRecover": true,
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "muteRemoteAction": true,
+                  "cameraFogEffectName": "Eff_SkillObj_Absorb_Avatar_Aim"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Focus": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onRemoved": [
+            {
+              "$type": "AvatarExitFocus",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "_ABILITY_WhiteBox_Dive_Team_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 3
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "boolID": "LockMotionFlagExitChannel"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Common_IsChannelState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Focus_Father"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "Team",
+              "modifierName": "Aim_Camera_Eff"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "_ABILITY_WhiteBox_Dive_Team_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AvatarEnterFocus",
+                  "dragButtonName": "Skill2",
+                  "cameraFastFocusMode": true,
+                  "GAPFBFOGGFI": false,
+                  "assistance": {
+                    "$type": "FocusAssistanceGroup",
+                    "BFMJIOFDCLF": {
+                      "$type": "FocusAssistance"
+                    },
+                    "KFIOILLKPCF": {
+                      "$type": "FocusAssistance",
+                      "useGyro": true
+                    },
+                    "IKEDPKIGLON": {
+                      "$type": "FocusAssistance"
+                    },
+                    "IJDKCJGBBII": {
+                      "$type": "FocusAssistance"
+                    }
+                  },
+                  "MOPEHIEHKED": false,
+                  "cameraFollowUpper": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": -0.05000000074505806,
+                    "z": -1.2000000476837158,
+                    "x": 1.0
+                  },
+                  "cameraFollowLower": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": -0.05000000074505806,
+                    "z": -1.5,
+                    "x": 1.0
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1044
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AvatarEnterFocus",
+                  "dragButtonName": "Skill2",
+                  "cameraFastFocusMode": true,
+                  "GAPFBFOGGFI": false,
+                  "assistance": {
+                    "$type": "FocusAssistanceGroup",
+                    "BFMJIOFDCLF": {
+                      "$type": "FocusAssistance"
+                    },
+                    "KFIOILLKPCF": {
+                      "$type": "FocusAssistance",
+                      "useGyro": true
+                    },
+                    "IJDKCJGBBII": {
+                      "$type": "FocusAssistance"
+                    }
+                  },
+                  "MOPEHIEHKED": false,
+                  "cameraFollowUpper": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.10000000149011612,
+                    "z": -1.2000000476837158,
+                    "x": 0.800000011920929
+                  },
+                  "cameraFollowLower": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.10000000149011612,
+                    "z": -1.600000023841858,
+                    "x": 0.800000011920929
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1043
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AvatarEnterFocus",
+                  "dragButtonName": "Skill2",
+                  "cameraFastFocusMode": true,
+                  "GAPFBFOGGFI": false,
+                  "assistance": {
+                    "$type": "FocusAssistanceGroup",
+                    "BFMJIOFDCLF": {
+                      "$type": "FocusAssistance"
+                    },
+                    "KFIOILLKPCF": {
+                      "$type": "FocusAssistance",
+                      "useGyro": true
+                    },
+                    "IJDKCJGBBII": {
+                      "$type": "FocusAssistance"
+                    }
+                  },
+                  "MOPEHIEHKED": false,
+                  "cameraFollowUpper": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.15000000596046448,
+                    "z": -1.100000023841858,
+                    "x": 1.100000023841858
+                  },
+                  "cameraFollowLower": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.15000000596046448,
+                    "z": -1.5,
+                    "x": 1.100000023841858
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1042
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AvatarEnterFocus",
+                  "dragButtonName": "Skill2",
+                  "cameraFastFocusMode": true,
+                  "GAPFBFOGGFI": false,
+                  "assistance": {
+                    "$type": "FocusAssistanceGroup",
+                    "BFMJIOFDCLF": {
+                      "$type": "FocusAssistance"
+                    },
+                    "KFIOILLKPCF": {
+                      "$type": "FocusAssistance",
+                      "useGyro": true
+                    },
+                    "IJDKCJGBBII": {
+                      "$type": "FocusAssistance"
+                    }
+                  },
+                  "MOPEHIEHKED": false,
+                  "cameraFollowUpper": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.30000001192092896,
+                    "z": -1.2000000476837158,
+                    "x": 0.8999999761581421
+                  },
+                  "cameraFollowLower": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.30000001192092896,
+                    "z": -1.600000023841858,
+                    "x": 0.8999999761581421
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1041
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AvatarEnterFocus",
+                  "dragButtonName": "Skill2",
+                  "cameraFastFocusMode": true,
+                  "GAPFBFOGGFI": false,
+                  "assistance": {
+                    "$type": "FocusAssistanceGroup",
+                    "BFMJIOFDCLF": {
+                      "$type": "FocusAssistance"
+                    },
+                    "KFIOILLKPCF": {
+                      "$type": "FocusAssistance",
+                      "useGyro": true
+                    },
+                    "IJDKCJGBBII": {
+                      "$type": "FocusAssistance"
+                    }
+                  },
+                  "MOPEHIEHKED": false,
+                  "cameraFollowUpper": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": -0.30000001192092896,
+                    "z": -1.2000000476837158,
+                    "x": 1.100000023841858
+                  },
+                  "cameraFollowLower": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": -0.30000001192092896,
+                    "z": -1.600000023841858,
+                    "x": 1.100000023841858
+                  }
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1045
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "LockMotionFlagExitChannel"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "VFX"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_ABILITY_Common_IsChannelState",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "UseShootingConfigMixin",
+              "BIKKAEIFILI": {
+                "$type": "ConfigAvatarShoot",
+                "normalShoot": {
+                  "$type": "ConfigShoot",
+                  "bulletBornAttachPoint": "FocusAnchor",
+                  "autoFocusMaxRange": 7.0,
+                  "autoFocusMinRange": 2.0,
+                  "detectRangeFromViewport": 100.0
+                },
+                "aimingShoot": {
+                  "$type": "ConfigShoot",
+                  "bulletBornAttachPoint": "FocusAnchor",
+                  "autoFocusMaxRange": 25.0,
+                  "autoFocusMinRange": 2.0,
+                  "detectRadiusFromViewport": 0.15000000596046448,
+                  "detectRangeFromViewport": 100.0
+                }
+              }
+            },
+            {
+              "$type": "DisableMotionBlurMixin"
+            },
+            {
+              "$type": "EffectChangeAlphaMixin",
+              "target": "Team",
+              "endDuration": 0.30000001192092896,
+              "startDuration": 0.20000000298023224,
+              "EPJMODHHJFD": true,
+              "syncToRemote": 0,
+              "JCBNNDNGDNN": "GV_EffectChangeAlphaMixin_Team"
+            },
+            {
+              "$type": "EffectChangeAlphaMixin",
+              "endDuration": 0.30000001192092896,
+              "startDuration": 0.20000000298023224,
+              "EPJMODHHJFD": true,
+              "syncToRemote": 0,
+              "JCBNNDNGDNN": "GV_EffectChangeAlphaMixin_Team"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Diving_Echo_Sustained_Shooting_Driver"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Diving_Echo_Sustained_Shooting_Driver": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "isCheckOnAttach": true,
+              "stateIDs": [
+                "DiveChannel_BS",
+                "DiveChannel_Loop"
+              ],
+              "modifierName": "Diving_Echo_Sustained_Shooting"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Diving_Echo_Sustained_Shooting": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.6,
+          "onAdded": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 0
+                  },
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "RHand",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 40034109
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 0
+                  },
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "RHand",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 40034109
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "VFX_R"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1044
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "VFX_R"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1042
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "VFX_R"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1043
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "VFX_R"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1041
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "VFX_R"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasFeatureTag",
+                  "featureTagIDs": [
+                    1045
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "VFX_L": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Diving_Gadget_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "VFX_R": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Diving_Gadget_Loop_2",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SealEcho_Hold": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "CurLocalAvatar",
+              "successActions": [
+                {
+                  "$type": "AvatarShareCDSkillStart",
+                  "ABLJLEAMAGL": 1,
+                  "skillID": 20062
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AvatarShareCDSkillStart",
+                  "skillID": 20062
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Diving_SkillCDReduction"
+                }
+              ]
+            },
+            {
+              "$type": "ForceUseSkillSuccess",
+              "skillID": 20062,
+              "type": "Skill"
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 0
+                  },
+                  "attachPointName": "FocusAnchor",
+                  "attachPointTargetType": "Self"
+                },
+                "attachPointName": "RHand",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 40034109
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SealEcho_Short": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "CurLocalAvatar",
+              "successActions": [
+                {
+                  "$type": "AvatarShareCDSkillStart",
+                  "ABLJLEAMAGL": 1,
+                  "skillID": 20062
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "AvatarShareCDSkillStart",
+                  "skillID": 20062
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_Diving_SkillCDReduction"
+                }
+              ]
+            },
+            {
+              "$type": "ForceUseSkillSuccess",
+              "skillID": 20062,
+              "type": "Skill"
+            },
+            {
+              "$type": "SetSystemValueToOverrideMap",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "OAEJNDBEDPO": -1,
+              "key": "DamageSystemValue",
+              "type": "ElementLevelCo"
+            },
+            {
+              "$type": "ClearLockTarget",
+              "HPLFKKCIAKE": false
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "_ABILITY_WhiteBox_Dive_Team_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SightObstructDetect",
+              "index": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "GEDGKKAPHKP": true,
+      "abilityMixins": [
+        {
+          "$type": "SightObstructDetectMixin",
+          "predicates": [
+            {
+              "$type": "MOFKBDHMHJP",
+              "BONDOCOMGBI": true
+            },
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "JEHLGILNNCJ"
+                }
+              ]
+            },
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Gadget",
+                "Monster",
+                "Platform"
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ANIMAL_ENTITY_TYPE"
+            }
+          ],
+          "actionQueue": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "target": "Target"
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0.5,
+                  "z": -0.5,
+                  "y": 1.5
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                }
+              },
+              "bulletID": 40034112
+            }
+          ],
+          "index": 2,
+          "otherTargets": {
+            "$type": "SelectTargetsByShape",
+            "topLimit": 1,
+            "MGDGMHOINJC": {
+              "$type": "NNDCOKMMEOI",
+              "ANOMLBNLBGF": 0.8999999761581421,
+              "NNKLHALKEPA": true,
+              "FJIEHONAAEM": true,
+              "FDHAIDNNIGF": 0.0
+            },
+            "sortType": "HigherScoreByParam",
+            "sizeRatio": 1,
+            "campTargetType": "Enemy",
+            "shapeName": "CircleR15H30"
+          },
+          "FGLEFHBNKHG": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0.5,
+                  "z": -0.5,
+                  "y": 1.5
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 0
+                  }
+                }
+              },
+              "bulletID": 40034112,
+              "propOwnerIs": "OriginOwner",
+              "ownerIs": "OriginOwner"
+            }
+          ]
+        }
+      ],
+      "abilityName": "Ability_Avatar_Dive_SealEcho",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "key": "_ABILITY_Dive_SealEcho_Hold_Search_Tick",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "DamageSystemValue",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Dive_SealEcho_AddSkillInfo"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Avatar_Dive_SealEcho_Hold_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageSystemValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SealEcho_Bullet_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Diving_Echo_Hold_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "attackType": "Range",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 0.0,
+              "trueDamage": true,
+              "damageExtra": [
+                "DamageRatio",
+                "DamageSystemValue",
+                "MUL"
+              ],
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "Eff_Avatar_Diving_Echo_Hit",
+              "hitImpulseType": "LV0"
+            },
+            "attenuationGroup": "default",
+            "attackTag": "Dive_Echo_Bullet",
+            "canBeModifiedBy": "OriginOwner"
+          },
+          "born": {
+            "$type": "ConfigBornByCollisionPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          }
+        }
+      ],
+      "abilityName": "Absorb_SealEcho_Bullet_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "SealEcho_Bullet_Eff"
+        },
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "DamageSystemValue",
+          "type": "ElementLevelCo"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageSystemValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "SealEcho_Bullet_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Diving_Echo_Short",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "DamageByAttackValue",
+          "target": "Target",
+          "attackInfo": {
+            "$type": "ConfigAttackInfo",
+            "attackProperty": {
+              "$type": "ConfigAttackProperty",
+              "damagePercentageRatio": 0,
+              "strikeType": "Default",
+              "enBreak": 0.0,
+              "trueDamage": true,
+              "damageExtra": [
+                "DamageRatio",
+                "DamageSystemValue",
+                "MUL"
+              ],
+              "elementDurability": 0,
+              "arkheGrade": 0
+            },
+            "hitPattern": {
+              "$type": "ConfigHitPattern",
+              "onHitEffectName": "Eff_Avatar_Diving_Echo_Hit",
+              "hitImpulseType": "LV0"
+            },
+            "attenuationGroup": "default",
+            "attackTag": "Dive_Echo_Bullet",
+            "canBeModifiedBy": "OriginOwner"
+          },
+          "born": {
+            "$type": "ConfigBornByCollisionPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          }
+        }
+      ],
+      "abilityName": "Absorb_SealEcho_Bullet_02",
+      "onAdded": [
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "DamageSystemValue",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "SealEcho_Bullet_Eff"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageSystemValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  }
+]

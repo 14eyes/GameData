@@ -1,0 +1,289 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Wave_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_FauneAbyssale_Seal_Larva_Bubble",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyCollisionMixin",
+              "MMKAJFKBIIE": [
+                "MoveCollider"
+              ]
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR5H5HC"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "CurveMoveGadget"
+                  ]
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "AvatarClose"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "AvatarClose"
+            }
+          ]
+        },
+        "CanNotBeHit": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox"
+                  ],
+                  "setEnable": true
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "OnWater_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Animal_Beaver_OnWater",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UnderWater_BeHit_Monitor": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyCollisionMixin",
+              "MMKAJFKBIIE": [
+                "MoveCollider"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorTrigger",
+                  "MPTriggerOnRemote": true,
+                  "triggerID": "EscapeTrigger"
+                },
+                {
+                  "$type": "TurnDirectionToPos",
+                  "toPos": {
+                    "$type": "ConfigBornByTarget",
+                    "useRotation": true,
+                    "direction": {
+                      "$type": "ConfigDirectionByBackToHitBoxCenter"
+                    }
+                  }
+                },
+                {
+                  "$type": "SetPoseBool",
+                  "value": true,
+                  "boolID": "Escape"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "StartDither_Delay"
+                },
+                {
+                  "$type": "RemoveModifier",
+                  "modifierName": "UnderWater_BeHit_Monitor"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHitEnBreak",
+                  "enBreak": 0
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByHasModifier",
+                      "target": "Self",
+                      "modifierName": "CanNotBeHit"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "StartDither_Delay": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2.5,
+          "duration": 4.5,
+          "onRemoved": [
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Body"
+              ]
+            },
+            {
+              "$type": "KillSelf",
+              "killSelfType": "Disappear"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "StartDither",
+              "duration": 2.5
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetPoseBool",
+          "boolID": "OnWater"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "OnWaterBackstroke",
+            "OnWaterRelax",
+            "OnWaterPlay",
+            "OnWaterBackstrokeAS"
+          ],
+          "modifierName": "OnWater_VFX"
+        },
+        {
+          "$type": "SpacialSteerAttackMixin",
+          "CAIABIOOIDD": -10.0,
+          "MMOIKBAADLE": [
+            "Happy02"
+          ],
+          "GKIDEIHLIIG": 10.0,
+          "angularSpeed": 160.0
+        },
+        {
+          "$type": "SpacialSteerAttackMixin",
+          "CAIABIOOIDD": -10.0,
+          "MMOIKBAADLE": [
+            "Happy01"
+          ],
+          "GKIDEIHLIIG": 10.0,
+          "startNormalizedTime": 0.8270000219345093,
+          "angularSpeed": 120.0
+        },
+        {
+          "$type": "SpacialSteerAttackMixin",
+          "CAIABIOOIDD": -10.0,
+          "MMOIKBAADLE": [
+            "TurnPose"
+          ],
+          "GKIDEIHLIIG": 10.0,
+          "angularSpeed": 120.0
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            9001
+          ],
+          "modifierName": "Avatar_Monitor"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            2,
+            4,
+            5,
+            9003,
+            201,
+            202,
+            210,
+            99
+          ],
+          "modifierName": "UnderWater_BeHit_Monitor"
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            9003
+          ],
+          "modifierName": "CanNotBeHit"
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Swim_Loop",
+            "FastSwim",
+            "TurnPose",
+            "BeHit",
+            "Happy01"
+          ],
+          "modifierName": "Wave_VFX"
+        }
+      ],
+      "abilityName": "Animal_Beaver_SwitchToDive"
+    }
+  }
+]

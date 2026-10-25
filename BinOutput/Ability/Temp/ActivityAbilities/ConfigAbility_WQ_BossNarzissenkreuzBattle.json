@@ -1,0 +1,971 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FallingDamage_Immune": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": -1
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_ShortLockHP": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Activity_WQ_BossNarzissenkreuzBattle_ShortLockHP"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Activity_WQ_BossNarzissenkreuzBattle_ShortLockHP": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.5,
+          "elementDurability": 100,
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Initial": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 2,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_CHARGEBAR_VALUE",
+              "minValue": 0,
+              "maxValue": 100,
+              "value": 100
+            },
+            {
+              "$type": "HealHP",
+              "target": "Applier",
+              "amountByCasterMaxHPRatio": 1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_AvatarCommon_Heal",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "SetActivate",
+                "Activity_WQ_BossNarzissenkreuzBattle_Handler"
+              ],
+              "valueSteps": [
+                -0.1,
+                99.9,
+                101.1
+              ],
+              "globalValueKey": "_CHARGEBAR_VALUE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "HealHP",
+              "target": "Applier",
+              "amountByCasterMaxHPRatio": 0.05
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Avatar"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Avatar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "equip02",
+                  "sheathPoint"
+                ]
+              },
+              "modifierName": "Buff_Eff_End"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByEquipParts",
+                "equipPartNames": [
+                  "equip01",
+                  "equip02",
+                  "sheathPoint"
+                ]
+              },
+              "modifierName": "Buff_Eff_Loop"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Attack",
+              "stateID": "ExtraAttack",
+              "normalizeStart": 0.4699999988079071
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Buff_Eff_Loop": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_WQ_BossNarzissenkreuzBattle_PlayerBuff_Loop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Buff_Eff_End": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_WQ_BossNarzissenkreuzBattle_PlayerBuff_End",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Attack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0.6,
+                  "y": 0.9
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": -5,
+                    "z": 0,
+                    "y": 0
+                  }
+                }
+              },
+              "bulletID": 42000005
+            },
+            {
+              "$type": "HideReminder",
+              "id": 401318
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "GV_WQ_BossNarzissenkreuzBattle_Paimon"
+                }
+              ],
+              "modifierName": "WQReminder"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "ActivityAbility_WQ_BossNarzissenkreuzBattle"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetActivate": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "_CHARGEBAR_VALUE",
+              "value": 1,
+              "maxValue": 100
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "WQReminder": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3.5,
+          "onRemoved": [
+            {
+              "$type": "ShowReminder",
+              "id": 34049902
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_WQ_BossNarzissenkreuzBattle_Paimon",
+              "maxValue": 1,
+              "value": 1
+            },
+            {
+              "$type": "ShowReminder",
+              "id": 34049901
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Activity_WQ_BossNarzissenkreuzBattle_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 10,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_WQ_BossNarzissenkreuzBattle",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "ShowReminder",
+              "id": 401318
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ShowReminder",
+              "id": 401318
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "_CHARGEBAR_VALUE",
+          "maxValue": 100,
+          "value": 0.11
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_WQ_BossNarzissenkreuzBattle",
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Initial"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "SGV_WQ_BossNarzissenkreuzBattle"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_Handler"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "GV_WQ_BossNarzissenkreuzBattle"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_ShortLockHP"
+          ],
+          "DEFOFMOIAAI": true,
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "SGV_WQ_BossNarzissenkreuzBattle_LockCamera"
+        }
+      ],
+      "abilityName": "ActivityAbility_WQ_BossNarzissenkreuzBattle",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_WQ_BossNarzissenkreuzBattle",
+          "maxValue": 1,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_WQ_BossNarzissenkreuzBattle_Paimon",
+          "maxValue": 1,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_CHARGEBAR_VALUE",
+          "minValue": 0,
+          "maxValue": 100,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FallingDamage_Immune"
+        }
+      ],
+      "abilitySpecials": {
+        "buff_duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_WQ_BossNarzissenkreuzBattle_PlayerAttack_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_AngularVelocity"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_AngularVelocity": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_BulletMoveAngularVelocityRatio": 10
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 9.050000190734863,
+                "damagePercentage": 67.5,
+                "elementDurability": 0,
+                "bonusCritical": 1,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "Eff_WQ_BossNarzissenkreuzBattle_PlayerAttack_Bullet_WaterHit",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Activity_SpecialAttack_Charge",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "useRotation": true
+              },
+              "radius": 2.5
+            }
+          }
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_WQ_BossNarzissenkreuzBattle_PlayerAttack_Bullet_Hit02",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_1",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_VFX"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_Timer"
+        }
+      ],
+      "abilitySpecials": {
+        "Bullet_01_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_VFX": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_WQ_BossNarzissenkreuzBattle_PlayerAttack_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_AngularVelocity"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_AngularVelocity": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_BulletMoveAngularVelocityRatio": 10
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 9.050000190734863,
+                "damageExtra": "Bullet_02_Damage",
+                "elementDurability": 0,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "Default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "attenuationTag": "NormalAttack",
+              "attackTag": "Activity_SpecialAttack_Charge",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "radius": 1
+            }
+          }
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_WQ_BossNarzissenkreuzBattle_PlayerAttack_Bullet_Hit",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_2",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_VFX"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_Bullet_Timer"
+        }
+      ],
+      "abilitySpecials": {
+        "Bullet_02_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_ChargeBar": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChargeBarMixin",
+              "DFOLBCDILPA": 100,
+              "maxValue": 100
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "SetActivate",
+                "Activity_WQ_BossNarzissenkreuzBattle_Handler"
+              ],
+              "valueSteps": [
+                0.1,
+                99.9,
+                100.1
+              ],
+              "globalValueKey": "_CHARGEBAR_VALUE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetActivate": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddChargeBarValue",
+              "value": 1,
+              "minValue": 0,
+              "maxValue": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Activity_WQ_BossNarzissenkreuzBattle_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Owner",
+              "modifierName": "Activity_WQ_BossNarzissenkreuzBattle_GVSetter"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Activity_WQ_BossNarzissenkreuzBattle_GVSetter": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_WQ_BossNarzissenkreuzBattle",
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "ActivityAbility_WQ_BossNarzissenkreuzBattle_EnergyBar",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_CHARGEBAR_VALUE",
+          "minValue": 0,
+          "maxValue": 100,
+          "value": 100
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Activity_WQ_BossNarzissenkreuzBattle_ChargeBar"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffectBall": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Narcissusborn_HealBallLoop",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HealHP": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "HealHP",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "amountByTargetMaxHPRatio": 0.3
+            },
+            {
+              "$type": "ReviveStamina",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 1000
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Narcissusborn_HealBallAS",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_WQ_BossNarzissenkreuzBattle_Ball_Heal",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "WQ_BossNarzissenkreuzBattle_Ball_State",
+              "maxValue": 1,
+              "value": 1
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "CurTeamAvatars",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "HealHP"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "EffectBall"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_AvatarCommon_Heal",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RootNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "hideEntity": true
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "key": "WQ_BossNarzissenkreuzBattle_Ball_State"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "EffectBall"
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "WQ_BossNarzissenkreuzBattle_Ball_State",
+          "maxValue": 1,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_HideBlackOdette_OnOdette": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 41150002
+              },
+              "modifierName": "UNIQUE_HideBlackOdette_OnGadget"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_HideBlackOdette_OnGadget": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Odette_Partner_BlockAutoAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Caster",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Odette_Partner_BlockAutoAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 41150001
+              },
+              "modifierName": "UNIQUE_HideBlackOdette"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Odette_Partner_BlockAutoAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Caster",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_ABILITY_Odette_Partner_BlockAutoAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityInVisibleMixin",
+              "AAHPKGHIPPG": true,
+              "reason": "Gallary",
+              "FOFBDHDNCGN": true,
+              "ENMNDHGFGDM": true
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_HideBlackOdette": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "EntityInVisibleMixin",
+              "AAHPKGHIPPG": true,
+              "reason": "Gallary",
+              "FOFBDHDNCGN": true,
+              "ENMNDHGFGDM": true
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "UNIQUE_HideBlackOdette_OnOdette"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "_RONOVA_ADT_HIDE",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ],
+          "DEFOFMOIAAI": true
+        }
+      ],
+      "abilityName": "ActivityAbility_BossRonova_HideOdettePartner",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "target": "Team",
+          "key": "_RONOVA_ADT_HIDE",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  }
+]

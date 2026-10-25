@@ -1,0 +1,426 @@
+main_id = 13015
+local tbl = {}
+local n = 1301502
+local v = 1301503
+local n2 = 1301504
+tbl[1] = 1301501
+tbl[2] = n
+tbl[3] = v
+tbl[4] = n2
+sub_ids = tbl
+finish_action = {CLIENT = {}, SERVER = {}}
+fail_action = {CLIENT = {}, SERVER = {}}
+cancel_action = {CLIENT = {}, SERVER = {}}
+
+rewind_data = {
+    ["1301501"] = {},
+    ["1301502"] = {
+        npcs = {
+            {
+                id = 12839,
+                alias = "Npc12839",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BasePos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12843,
+                alias = "Npc12843",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014DebySleep",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 12842,
+                alias = "Npc12842",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BaseManager",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 12895,
+                alias = "Npc12895",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014SleepAdded1",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 12897,
+                alias = "Npc12897",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014SleepAdded2",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            }
+        }
+    },
+    ["1301503"] = {
+        npcs = {
+            {
+                id = 12839,
+                alias = "Npc12839",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BasePos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 4096,
+                alias = "Npc4096",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAdded",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 12842,
+                alias = "Npc12842",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BaseManager",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            }
+        }
+    },
+    ["1301504"] = {
+        npcs = {
+            {
+                id = 12839,
+                alias = "Npc12839",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BasePos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12843,
+                alias = "Npc12843",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddDeby",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 12842,
+                alias = "Npc12842",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddNasar",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 12840,
+                alias = "Npc12840",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedIlman",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 12847,
+                alias = "Npc12847",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedHaydar",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 12990,
+                alias = "Npc12990",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BaseClubMemberG",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 12850,
+                alias = "Npc12850",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014PeteRoute2",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 12853,
+                alias = "Npc12853",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedInas",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            },
+            {
+                id = 12964,
+                alias = "Npc12964",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedSena",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 9
+            }
+        }
+    }
+}
+
+quest_data = {
+    ["1301501"] = {
+        npcs = {
+            {
+                id = 1056,
+                alias = "Npc1056",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BaseClubMemberC",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12839,
+                alias = "Npc12839",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BasePos",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 12843,
+                alias = "Npc12843",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014DebySleep",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 12842,
+                alias = "Npc12842",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BaseManager",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 12895,
+                alias = "Npc12895",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014SleepAdded1",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 12897,
+                alias = "Npc12897",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014SleepAdded2",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            }
+        }
+    },
+    ["1301502"] = {
+        npcs = {
+            {
+                id = 1056,
+                alias = "Npc1056",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BaseClubMemberC",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 4096,
+                alias = "Npc4096",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAdded",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 4084,
+                alias = "Npc4084",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAddedPlayer",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 4083,
+                alias = "Npc4083",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAddedPlayer",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            }
+        }
+    },
+    ["1301503"] = {
+        npcs = {
+            {
+                id = 1056,
+                alias = "Npc1056",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q302217_guide_1",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 12843,
+                alias = "Npc12843",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddDeby",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 12840,
+                alias = "Npc12840",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedIlman",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 12847,
+                alias = "Npc12847",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedHaydar",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 12990,
+                alias = "Npc12990",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13013BaseClubMemberG",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            },
+            {
+                id = 12850,
+                alias = "Npc12850",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13014PeteRoute2",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 6
+            },
+            {
+                id = 12853,
+                alias = "Npc12853",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedInas",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 7
+            },
+            {
+                id = 12964,
+                alias = "Npc12964",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015FinAddedSena",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 8
+            },
+            {
+                id = 4084,
+                alias = "Npc4084",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAddedPlayer",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 9
+            },
+            {
+                id = 4083,
+                alias = "Npc4083",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAddedPlayer",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 10
+            }
+        }
+    },
+    ["1301504"] = {
+        npcs = {
+            {
+                id = 1056,
+                alias = "Npc1056",
+                script = "Actor/Npc/TempNPC",
+                pos = "Q13015NahidaEndTalk",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 1
+            },
+            {
+                id = 4082,
+                alias = "Npc4082",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015NahidaEndTalk",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 2
+            },
+            {
+                id = 4081,
+                alias = "Npc4081",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015NahidaEndTalk",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 3
+            },
+            {
+                id = 4084,
+                alias = "Npc4084",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAddedPlayer",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 4
+            },
+            {
+                id = 4083,
+                alias = "Npc4083",
+                script = "Actor/Npc/NpcFSMBehaviour",
+                pos = "Q13015SittAddedPlayer",
+                scene_id = 3,
+                room_id = 0,
+                data_index = 5
+            }
+        }
+    }
+}

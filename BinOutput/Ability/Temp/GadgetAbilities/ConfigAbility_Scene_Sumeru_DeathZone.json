@@ -1,0 +1,2571 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoreClose": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_01_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CoreInteeEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "DF_CoreDie",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "DF_CallCamera",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IdleState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DisableIntee"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "IsOpen",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AppearState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DisableIntee"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_WhiteMist_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "IsOpen",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CoreState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "IsOpen",
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_01_Unlock",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.6,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DisableIntee"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaCore_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Root"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.15,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Core"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.8,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Flower"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DisableIntee": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "IdleState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "AppearState",
+          "gadgetState": 1
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "CoreState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DeathState",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "KeepClose"
+          ],
+          "modifierName": "CoreClose"
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 201
+                }
+              ],
+              "modifierName": "CoreInteeEffect"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZoneCore_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoreClose": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_02_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CoreInteeEffect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "DF_CoreDie",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "DF_CallCamera",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IdleState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DisableIntee"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "IsOpen",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "AppearState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DisableIntee"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_WhiteMist_02",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "IsOpen",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CoreState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "IsOpen",
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_02_Unlock",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.6,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DisableIntee"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaCore_02_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.8,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Root"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.15,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Core"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.8,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Flower"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DisableIntee": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "IdleState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "AppearState",
+          "gadgetState": 1
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "CoreState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DeathState",
+          "gadgetState": 202
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "KeepClose"
+          ],
+          "modifierName": "CoreClose"
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self",
+                  "gadgetState": 201
+                }
+              ],
+              "modifierName": "CoreInteeEffect"
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZoneCore_02_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UnlockState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_01_Unlock",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LockState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_01_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_BlackMist_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.6,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "DF_LarvaDie",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaCore_01_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Root"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.15,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Core"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "UnlockState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "LockState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DeathState",
+          "gadgetState": 202
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self"
+                }
+              ],
+              "state": 202
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZoneCoreLarva_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UnlockState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_02_Unlock",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LockState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_02_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaCore_BlackMist_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2.6,
+          "onRemoved": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "DF_LarvaDie",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "EnableGadgetInteeMp"
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaCore_02_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.8,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Root"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "useCurve": true,
+              "value": 1.15,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "Core"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "UnlockState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "LockState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "DeathState",
+          "gadgetState": 202
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self"
+                }
+              ],
+              "state": 202
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZoneCoreLarva_02_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Alive": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaNexus_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "value": 0,
+              "patternName": "_DissolveVal",
+              "matName": "Root"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "value": 0,
+              "patternName": "_DissolveVal",
+              "matName": "Core"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "SelfDestory",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathCall": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "modifierName": "DistanceSummon"
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "state": 202
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathZone_ExtraDamage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "DeathZoneGV_ExtraAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DistanceSummon": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "DebugLog",
+                  "content": "DeathZonePoint Trigger DeathCry_01 !!!"
+                },
+                {
+                  "$type": "AttachModifier",
+                  "modifierName": "DeathCry_01"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "DebugLog",
+                      "content": "DeathZonePoint Trigger DeathCry_02 !!!"
+                    },
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "DeathCry_02"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "DebugLog",
+                      "content": "DeathZonePoint Trigger DeathCry_03 !!!"
+                    },
+                    {
+                      "$type": "AttachModifier",
+                      "modifierName": "DeathCry_03"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByHasAttackTarget"
+                    },
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "target": "SelfAttackTarget",
+                      "logic": "LesserOrEqual",
+                      "value": 8
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                },
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "target": "SelfAttackTarget",
+                  "logic": "LesserOrEqual",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "KillSelf": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 2,
+              "patternName": "_DissolveVal",
+              "lerpTime": 3.0,
+              "matName": "Root"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 1.2,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.0,
+              "matName": "Core"
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ]
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaNexus_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "CorePoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathCry_01": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.6,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ],
+              "modifierName": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "ShootPoint"
+              },
+              "gadgetID": 70310211,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathCry_02": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.6,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ],
+              "modifierName": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 2,
+                  "maxRandomRange": 10
+                }
+              },
+              "gadgetID": 70310212,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 2,
+                  "maxRandomRange": 10
+                }
+              },
+              "gadgetID": 70310212,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            },
+            {
+              "$type": "CreateGadget",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "onGround": true,
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 2,
+                  "maxRandomRange": 10
+                }
+              },
+              "gadgetID": 70310212,
+              "campID": 5001,
+              "campTargetType": "Enemy"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathCry_03": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "gadgetState": 202
+                }
+              ],
+              "modifierName": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR50"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                },
+                {
+                  "$type": "ByEntityIsAlive"
+                }
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 0
+                  }
+                },
+                "attachPointName": "ShootPoint"
+              },
+              "bulletID": 70310213
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 5
+                  }
+                },
+                "attachPointName": "ShootPoint"
+              },
+              "bulletID": 70310213
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": -5
+                  }
+                },
+                "attachPointName": "ShootPoint"
+              },
+              "bulletID": 70310213
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetSummonTo1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_RandomSummon",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0.5
+            },
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetSummonTo2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_RandomSummon",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1.5
+            },
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SetSummonTo3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_RandomSummon",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2.5
+            },
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Alive"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "DeathCall"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "SelfDestory"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "SetSummonTo1",
+          "gadgetState": 901
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "SetSummonTo2",
+          "gadgetState": 902
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "SetSummonTo3",
+          "gadgetState": 903
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZonePoint_01_Ability",
+      "onAdded": [
+        {
+          "$type": "KillSelf",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "gadgetState": 202
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "HitWatcher": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DeathZone_ExtraDamage"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathZone_ExtraDamage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "DeathZoneGV_ExtraAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Alert": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "AlertTime",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaNexus_Skill_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "ignoreAttackerProperty": true,
+                    "strikeType": "Default",
+                    "enBreak": 50.0,
+                    "trueDamage": true,
+                    "damagePercentage": 0,
+                    "damageExtra": [
+                      "ElementLevelCo",
+                      "DamageRatio",
+                      "MUL"
+                    ],
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV5"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "radius": 5
+                }
+              },
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaNexus_Alert_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZonePointCry_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "ElementLevelCo",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Alert"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HitWatcher"
+        }
+      ],
+      "abilitySpecials": {
+        "ElementLevelCo": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        },
+        "AlertTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.600000023841858
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Alert": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "AlertTime",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaNexus_Skill_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Range",
+                    "damagePercentageRatio": 0,
+                    "ignoreAttackerProperty": true,
+                    "strikeType": "Default",
+                    "trueDamage": true,
+                    "damagePercentage": 0,
+                    "damageExtra": [
+                      "ElementLevelCo",
+                      "DamageRatio",
+                      "MUL"
+                    ],
+                    "elementDurability": 100,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV4"
+                  },
+                  "attenuationGroup": "default"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf"
+                  },
+                  "radius": 2.5
+                }
+              },
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MaranaNexus_Alert_02",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitWatcher": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DeathZone_ExtraDamage"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathZone_ExtraDamage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "DeathZoneGV_ExtraAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZonePointCry_02_Ability",
+      "onAdded": [
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "ElementLevelCo",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HitWatcher"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Alert"
+        }
+      ],
+      "abilitySpecials": {
+        "ElementLevelCo": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        },
+        "AlertTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.600000023841858
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BulletEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaNexus_Skill_03_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitWatcher": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DeathZone_ExtraDamage"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathZone_ExtraDamage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "DeathZoneGV_ExtraAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "ignoreAttackerProperty": true,
+                "strikeType": "Pierce",
+                "enBreak": 25.0,
+                "trueDamage": true,
+                "damageExtra": [
+                  "ElementLevelCo",
+                  "DamageRatio",
+                  "MUL"
+                ],
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV3"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 1
+            }
+          }
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_DeathZonePointCry_03_Ability",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "BulletEffect"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HitWatcher"
+        },
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "ElementLevelCo",
+          "type": "ElementLevelCo"
+        }
+      ],
+      "abilitySpecials": {
+        "ElementLevelCo": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DestoryBySeed": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "CanDestoryBySeed",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_TowerTrap_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NotDestoryBySeed": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "CanDestoryBySeed",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMutexMixin",
+          "gadgetStates": [
+            0,
+            201
+          ],
+          "modifierNames": [
+            [
+              "DestoryBySeed"
+            ],
+            [
+              "NotDestoryBySeed"
+            ]
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_MaranaPus_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ShootingCD": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": [
+            "SkillCD",
+            2,
+            "DIV"
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "key": "_MaranaMissle_CD",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0.5
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowBall": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaMissle_Idle",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IntervalShooting": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_MaranaMissle_01_Ability"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ThinkIntervalMixin",
+              "onThinkInterval": [
+                {
+                  "$type": "TriggerAbility",
+                  "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_MaranaMissle_01_Ability"
+                }
+              ],
+              "thinkInterval": "FireRate"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathCall": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ShowBall"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "useCurve": true,
+              "value": 1,
+              "patternName": "_DissolveValue",
+              "lerpTime": 2.0,
+              "matName": "Mat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "successActions": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "topLimit": 1,
+                "sortType": "Random",
+                "campTargetType": "Enemy"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "EffectPoint"
+              },
+              "bulletID": 70310221
+            },
+            {
+              "$type": "EnableSceneTransformByName",
+              "transformNames": [
+                "core"
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "key": "_MaranaMissle_CD",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_MaranaMissle_CD"
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "compareType": "MoreThanAndEqual",
+              "key": "MaranaMissle_OnFiled"
+            }
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "FieldEntityCountChangeMixin",
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Avatar"
+              ]
+            }
+          ],
+          "LHEEECGFGJF": true,
+          "campTargetType": "All",
+          "MOICJEBDAMB": 0,
+          "simpleCountGlobaValueKey": "MaranaMissle_OnFiled",
+          "simpleCountMaxValue": 4
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "ShootingCD",
+            "IntervalShooting"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.8,
+            1.5
+          ],
+          "globalValueKey": "_MaranaMissle_CD",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "DeathCall"
+          ],
+          "valueSteps": [
+            0.5,
+            1.5
+          ],
+          "globalValueKey": "SelfDestory"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_MaranaMissle_01_Ability",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MaranaMissle_CD",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShowBall"
+        }
+      ],
+      "abilitySpecials": {
+        "SkillCD": {
+          "$type": "GNPGOLDCAGO",
+          "value": 5.0
+        },
+        "FireRate": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "MaranaMissle_BulletEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MaranaMissle_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HitWatcher": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Other",
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Other",
+                  "modifierName": "DeathZone_ExtraDamage"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DeathZone_ExtraDamage": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "DeathZoneGV_ExtraAttack",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "FireHitEffect",
+          "hitScene": {
+            "$type": "ConfigHitScene",
+            "defaultEffect": "Eff_SceneObj_MaranaNexus_Skill_Hit"
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Range",
+                "damagePercentageRatio": 0,
+                "ignoreAttackerProperty": true,
+                "strikeType": "Pierce",
+                "enBreak": 50.0,
+                "trueDamage": true,
+                "damageExtra": [
+                  "ElementLevelCo",
+                  "DamageRatio",
+                  "MUL"
+                ],
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "default"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 0.5
+            }
+          },
+          "entityTypes": [
+            "Avatar"
+          ]
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "MaranaMissle_BulletEffect"
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_MaranaMissle_01_Bullet_Ability",
+      "onAdded": [
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "ElementLevelCo",
+          "type": "ElementLevelCo"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "HitWatcher"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "MaranaMissle_BulletEffect"
+        }
+      ],
+      "abilitySpecials": {
+        "ElementLevelCo": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.0
+        },
+        "DamageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 1.5
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EmptyState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 201
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ActiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ChangeTag",
+              "tag": "IS_Life_Point_Instant"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_LifePuddle_03_Idle",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ChangeTag",
+              "tag": "IS_Life_Point_Instant",
+              "isAdd": true
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 0.3,
+              "patternName": "_DissolveVal",
+              "matName": "dissolveMat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "InactiveState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 1.15,
+              "patternName": "_DissolveVal",
+              "lerpTime": 2.5,
+              "matName": "dissolveMat"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_LifePuddle_03_Disappear",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_LifePointBuff_Instant": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "DeathZoneGV_ExtraHeal",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "EmptyState"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ActiveState",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "InactiveState",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_LifePuddle_01_Ability",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByTargetGadgetState",
+              "target": "Self",
+              "gadgetState": 201
+            }
+          ],
+          "successActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 202
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_LifePointBuff_Instant"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_LifeFountainHideHide_01_Ability",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "IS_Life_Point",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Intee_On": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Intee_Off": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnableGadgetInteeMp"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Active": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ChangeTag",
+              "tag": "IS_Life_Point"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_LifePuddle_Active",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ChangeTag",
+              "tag": "IS_Life_Point",
+              "isAdd": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Effect": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LockEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Item_SpecialTreasureBox_Unlock_Little",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "attachPointName": "AttachPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Item_SpecialTreasureBox_LockIdle_Little",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "isCheckOnAttach": true,
+          "stateIDs": [
+            "IdleEffect"
+          ],
+          "modifierName": "Effect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "isCheckOnAttach": true,
+          "stateIDs": [
+            "Warm",
+            "IdleEffect"
+          ],
+          "modifierName": "Active"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "isCheckOnAttach": true,
+          "stateIDs": [
+            "Lock"
+          ],
+          "modifierName": "LockEffect"
+        },
+        {
+          "$type": "AttachToGadgetStateMutexMixin",
+          "gadgetStates": [
+            0,
+            201,
+            202
+          ],
+          "modifierNames": [
+            [
+              "Intee_On"
+            ],
+            [
+              "Intee_Off"
+            ],
+            [
+              "Intee_Off"
+            ]
+          ]
+        },
+        {
+          "$type": "WidgetMpSupportMixin",
+          "succActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self"
+                }
+              ],
+              "state": 201
+            }
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Ani_Prop_LifeFountain_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExitDeathZone": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DeathZoneMixin",
+              "disactiveHaloTrigger": [
+                {
+                  "$type": "KillSelf"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "ExitDeathZone"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5
+          ],
+          "globalValueKey": "SGV_DeathZoneState"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Prop_MaranaLink_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExitDeathZone": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DeathZoneMixin",
+              "disactiveHaloTrigger": [
+                {
+                  "$type": "SendEffectTrigger",
+                  "parameter": "Disappear",
+                  "effectPattern": "Eff_ScenObj_DeathzoneLight_01"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "ExitDeathZone"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5
+          ],
+          "globalValueKey": "SGV_DeathZoneState"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Light_DeathzoneLight_01_Ability"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Disappear": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Disappear",
+              "effectPattern": "Eff_ScenObj_DeathzoneLight_02"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ExitDeathZone": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 3,
+          "onRemoved": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "DeathZoneMixin",
+              "disactiveHaloTrigger": [
+                {
+                  "$type": "SendEffectTrigger",
+                  "parameter": "Disappear",
+                  "effectPattern": "Eff_ScenObj_DeathzoneLight_02"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Disappear",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+          "modifierNameSteps": [
+            "ExitDeathZone"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5
+          ],
+          "globalValueKey": "SGV_DeathZoneState"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Xm_Property_Light_DeathzoneLight_02_Ability",
+      "onAdded": [
+        {
+          "$type": "ChangeTag",
+          "tag": "DeathZonePoint",
+          "isAdd": true
+        }
+      ]
+    }
+  }
+]

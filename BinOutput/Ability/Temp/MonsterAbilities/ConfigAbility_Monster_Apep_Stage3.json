@@ -1,0 +1,2718 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_Apep_Stage3_NormalState": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetSpecialCamera",
+              "specialCameraName": "Stage3",
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetSpecialCamera",
+              "specialCameraName": "Stage3",
+              "enable": true
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider_Stage3_Body",
+                "PushCollider_Stage3_Occluder"
+              ]
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider_Stage1_Body_Main",
+                "PushCollider_Stage1_Body_Forearm_Right",
+                "PushCollider_Stage1_Body_Forearm_Left",
+                "PushCollider_Stage1_Occluder"
+              ]
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox_Fixed"
+              ]
+            },
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Body"
+              ]
+            },
+            {
+              "$type": "TriggerSetRenderersEnable",
+              "renderNames": [
+                "Body_Stage3"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "SetEntityScale",
+              "canBeHandledOnRecover": true,
+              "scale": 1.7999999523162842
+            },
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 13002
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Monster_Apep_Stage3_NormalState_CoreEffect"
+              ],
+              "valueSteps": [
+                -0.5,
+                0.5
+              ],
+              "globalValueKey": "_MONSTER_Apep_Stage3_Core_Invisible",
+              "defaultGlobalValueOnCreate": 0
+            },
+            {
+              "$type": "AttachModifierToHPPercentMixinV2",
+              "valueSteps": [
+                0.5
+              ],
+              "modifierNameSteps": [
+                "Empty",
+                "Apep_UltTrigger"
+              ]
+            },
+            {
+              "$type": "SelectedPointsMaskMixin",
+              "points": [
+                "ElementShock"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_Apep_Stage3_NormalState_CoreEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Stage3_Standby",
+              "effectTempleteID": -1
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Apep_UltTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                303
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            301,
+            302
+          ],
+          "modifierName": "Monster_Apep_Stage3_NormalState"
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_NormalState"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Blink_State": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalPos",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908301
+              },
+              "LINAHBPILJD": false,
+              "key": "_MONSTER_Apep_BlinkAttack_Position",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -0.1,
+                  "y": 0
+                }
+              }
+            },
+            {
+              "$type": "TryFindBlinkPointByBorn",
+              "limitY": 2.5,
+              "born": {
+                "$type": "ConfigBornByGlobalValue",
+                "positionKey": "_MONSTER_Apep_BlinkAttack_Position"
+              },
+              "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+            },
+            {
+              "$type": "DoBlink"
+            },
+            {
+              "$type": "TurnDirectionToPos",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908301
+              },
+              "predicates": [
+                {
+                  "$type": "ByAnimatorInt",
+                  "target": "Self",
+                  "logic": "Equal",
+                  "value": 301,
+                  "parameter": "SkillID"
+                }
+              ],
+              "toPos": {
+                "$type": "ConfigBornByTarget"
+              }
+            },
+            {
+              "$type": "TurnDirectionToPos",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorInt",
+                  "target": "Self",
+                  "logic": "GreaterOrEqual",
+                  "value": 302,
+                  "parameter": "SkillID"
+                }
+              ],
+              "toPos": {
+                "$type": "ConfigBornByActionPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "actionPointType": "AureaePoint",
+                "selectType": {
+                  "$type": "SelectActionPointByID",
+                  "actionPointID": 2
+                }
+              }
+            },
+            {
+              "$type": "KillGadget",
+              "gadgetInfo": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908301
+              }
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_Blink_Invisible",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ClearLockTarget",
+              "target": "CurLocalAvatar"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Blink_Invincible"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Blink_DenyLockOn"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_Blink_Invisible",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox_Head",
+                    "HitBox_Body01",
+                    "HitBox_Body02",
+                    "HitBox_Hand01_L",
+                    "HitBox_Hand01_R",
+                    "HitBox_Hand03_L",
+                    "HitBox_Hand03_R",
+                    "HitBox_Hand04_L",
+                    "HitBox_Hand04_R",
+                    "HitBox_Hand06_L",
+                    "HitBox_Hand06_R",
+                    "HitBox_Tail01",
+                    "HitBox_Tail02"
+                  ]
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "pushColliderNames": [
+                    "PushCollider_Stage3_Body",
+                    "PushCollider_Stage3_Occluder",
+                    "PushCollider_Stage3_Occluder",
+                    "PushCollider_Stage1_Body_Main",
+                    "PushCollider_Stage1_Body_Forearm_Right",
+                    "PushCollider_Stage1_Body_Forearm_Left",
+                    "PushCollider_Stage1_Occluder"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox_Head",
+                    "HitBox_Body01",
+                    "HitBox_Body02",
+                    "HitBox_Hand01_L",
+                    "HitBox_Hand01_R",
+                    "HitBox_Hand03_L",
+                    "HitBox_Hand03_R",
+                    "HitBox_Hand04_L",
+                    "HitBox_Hand04_R",
+                    "HitBox_Hand06_L",
+                    "HitBox_Hand06_R",
+                    "HitBox_Tail01",
+                    "HitBox_Tail02"
+                  ],
+                  "setEnable": true
+                },
+                {
+                  "$type": "EnablePushColliderName",
+                  "setEnable": true,
+                  "pushColliderNames": [
+                    "PushCollider_Stage3_Body",
+                    "PushCollider_Stage3_Occluder",
+                    "PushCollider_Stage3_Occluder"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Blink_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "Blink_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Visible": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible",
+              "visible": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Invisible": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DistanceCheck": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ReTriggerAISkillInitialCD",
+              "skillIDs": [
+                306
+              ]
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "predicates": [
+                {
+                  "$type": "HPANBNKJCMI",
+                  "target": "Self",
+                  "logic": "GreaterOrEqual",
+                  "value": 24,
+                  "positionKey": "_MONSTER_Apep_Stage3_MidPos"
+                }
+              ],
+              "skillIDs": [
+                306
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "KillGadget",
+          "gadgetInfo": {
+            "$type": "SelectTargetsByChildren",
+            "configID": 42908301
+          }
+        },
+        {
+          "$type": "CreateGadget",
+          "target": "SelfAttackTarget",
+          "predicates": [
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "Equal",
+              "value": 301,
+              "parameter": "SkillID"
+            }
+          ],
+          "lifeByOwnerIsAlive": true,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget"
+            }
+          },
+          "gadgetID": 42908301,
+          "campID": 4001
+        },
+        {
+          "$type": "CreateGadget",
+          "target": "SelfAttackTarget",
+          "predicates": [
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "GreaterOrEqual",
+              "value": 302,
+              "parameter": "SkillID"
+            },
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "Lesser",
+              "value": 305,
+              "parameter": "SkillID"
+            }
+          ],
+          "lifeByOwnerIsAlive": true,
+          "born": {
+            "$type": "ConfigBornByActionPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "actionPointType": "AureaePoint",
+            "selectType": {
+              "$type": "SelectActionPointByID",
+              "actionPointID": 5
+            }
+          },
+          "gadgetID": 42908301,
+          "campID": 4001
+        },
+        {
+          "$type": "CreateGadget",
+          "target": "SelfAttackTarget",
+          "predicates": [
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "Equal",
+              "value": 305,
+              "parameter": "SkillID"
+            }
+          ],
+          "lifeByOwnerIsAlive": true,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "bornRandom": {
+              "$type": "BornRandomFromCenter",
+              "minRandomRange": 15,
+              "maxRandomRange": 20
+            }
+          },
+          "gadgetID": 42908301,
+          "campID": 4001
+        },
+        {
+          "$type": "CreateGadget",
+          "target": "SelfAttackTarget",
+          "predicates": [
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "Equal",
+              "value": 306,
+              "parameter": "SkillID"
+            }
+          ],
+          "lifeByOwnerIsAlive": true,
+          "born": {
+            "$type": "ConfigBornByActionPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "actionPointType": "AureaePoint",
+            "selectType": {
+              "$type": "SelectActionPointByID",
+              "actionPointID": 2
+            }
+          },
+          "gadgetID": 42908301,
+          "campID": 4001
+        },
+        {
+          "$type": "SetPoseBool",
+          "predicates": [
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "GreaterOrEqual",
+              "value": 302,
+              "parameter": "SkillID"
+            },
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "Lesser",
+              "value": 305,
+              "parameter": "SkillID"
+            }
+          ],
+          "value": true,
+          "boolID": "UltStage"
+        },
+        {
+          "$type": "SetAISkillCDAvailableNow",
+          "predicates": [
+            {
+              "$type": "ByAnimatorInt",
+              "target": "Self",
+              "logic": "Equal",
+              "value": 305,
+              "parameter": "SkillID"
+            }
+          ],
+          "skillIDs": [
+            301,
+            322
+          ]
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "BlinkAttack_BlinkState_First",
+            "BlinkAttack_BlinkState_Loop"
+          ],
+          "modifierName": "Blink_State"
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.5,
+          "steerStateIDs": [
+            "BlinkAttack_BS"
+          ],
+          "startNormalizedTime": 0.10000000149011612
+        },
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Visible",
+            "Invisible"
+          ],
+          "globalValueKey": "_MONSTER_Apep_Stage3_Blink_Invisible",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Standby"
+          ],
+          "modifierName": "DistanceCheck"
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_BlinkAttack",
+      "onAdded": [
+        {
+          "$type": "SetGlobalPos",
+          "key": "_MONSTER_Apep_Stage3_MidPos",
+          "born": {
+            "$type": "ConfigBornByActionPoint",
+            "onGround": true,
+            "onGroundRaycastUpDist": 5.0,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "actionPointType": "AureaePoint",
+            "selectType": {
+              "$type": "SelectActionPointByID",
+              "actionPointID": 2
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Apep_Stage3_BlinkAttack_PositionGadget_WindZone": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_COMMON_GADGET_ISSUMMON"
+                }
+              ],
+              "modifierName": "Kill_Summon_Gadget"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Effect_Latency"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "WindZoneMixin",
+              "targetType": "Enemy",
+              "innerRadius": 0,
+              "strength": -10,
+              "attenuation": 2,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "shapeName": "CircleR5",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                },
+                {
+                  "$type": "ByTargetWeight",
+                  "logic": "LesserOrEqual",
+                  "weight": 250
+                }
+              ]
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "All",
+                "shapeName": "CircleR20"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "_COMMON_GADGET_ISSUMMON"
+                }
+              ],
+              "modifierName": "Kill_Summon_Gadget"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Effect_Latency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_MONSTER_Apep_Stage3_BlinkGadgatPos",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "COMHDKHJBAI",
+                  "KMCOMLLKHJH": 2,
+                  "globalPos": "_MONSTER_Apep_Stage3_BlinkGadgatPos"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Apep_Stage3_BlinkAttack_AS",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "COMHDKHJBAI",
+                  "logic": "LesserOrEqual",
+                  "KMCOMLLKHJH": 2,
+                  "globalPos": "_MONSTER_Apep_Stage3_BlinkGadgatPos"
+                }
+              ],
+              "effectPattern": "Eff_Monster_Apep_Stage3_BlinkAttack_AS",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Kill_Summon_Gadget": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Apep_Stage3_BlinkAttack_PositionGadget",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Apep_Stage3_BlinkAttack_PositionGadget_WindZone"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.42899999022483826,
+          "steerStateIDs": [
+            "RangeAttack1"
+          ],
+          "startNormalizedTime": 0.28600001335144043
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_RangeAttack1"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "target": "SelfAttackTarget",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "bulletID": 42908302
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.5,
+          "steerStateIDs": [
+            "RangeAttack2"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_RangeAttack2"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Grass",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 10.0,
+                "damagePercentage": 0.5,
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "z": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "HitVector",
+                "shakeRange": 0.05999999865889549
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV4"
+              },
+              "attenuationGroup": "Apep_Bullet_Attenuation",
+              "attenuationTag": "Apep_Bullet_Attenuation",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "radius": 1.5
+            }
+          }
+        },
+        {
+          "$type": "FireSubEmitterEffect",
+          "born": {
+            "$type": "ConfigBornByCollisionPoint"
+          },
+          "effectPattern": "Eff_Monster_Apep_Stage3_RangeAttack2_Hit"
+        }
+      ],
+      "abilityName": "Apep_Stage3_RangeAttack2_Bullet"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_Apep_Stage3_RangeAttack3_LifeTime": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 3,
+          "duration": 8,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "CreateGadget",
+              "target": "SelfAttackTarget",
+              "predicates": [
+                {
+                  "$type": "ByTargetHPRatio",
+                  "target": "Self",
+                  "HPRatio": 0
+                }
+              ],
+              "lifeByOwnerIsAlive": true,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "alongGround": true,
+                "onGround": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "x": 0.10000000149011612
+                  }
+                },
+                "bornRandom": {
+                  "$type": "BornRandomFromCenter",
+                  "minRandomRange": 1,
+                  "maxRandomRange": 2
+                }
+              },
+              "gadgetID": 42908305,
+              "campID": 4001
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_Apep_Stage3_RangeAttack3_Core_Invisible": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_Core_Invisible",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_Core_Invisible",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "target": "SelfAttackTarget",
+          "lifeByOwnerIsAlive": true,
+          "born": {
+            "$type": "ConfigBornByTarget",
+            "alongGround": true,
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            }
+          },
+          "gadgetID": 42908304,
+          "campID": 4001
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Monster_Apep_Stage3_RangeAttack3_LifeTime"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "steerStateIDs": [
+            "RangeAttack3"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 90.0,
+          "endNormalizedTime": 0.30000001192092896,
+          "steerStateIDs": [
+            "RangeAttack3"
+          ]
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Monster_Apep_Stage3_RangeAttack3_Core_Invisible",
+          "normalizeEnd": 0.8349999785423279,
+          "stateID": "RangeAttack3",
+          "normalizeStart": 0.4620000123977661
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_RangeAttack3"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FirstAttack_Latency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Apep_Stage3_RangeAttack3_FirstAttack",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "x": 0.10000000149011612
+                  }
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 100.0,
+                    "damagePercentage": 1,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "z": -1.0
+                    },
+                    "shakeTime": 0.11999999731779099,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 30.0,
+                    "shakeRange": 0.11999999731779099
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV4"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 10,
+                  "height": 20.0
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Stage3_RangeAttack3_FirstAttack_Alert",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Apep_Stage3_RangeAttack3_DamageGadget_FirstAttack",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FirstAttack_Latency"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "RepeatAttack_Latency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Apep_Stage3_RangeAttack3_RepeatAttack",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "alongGround": true,
+                "onGround": true,
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByWorld",
+                  "eularAngles": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "x": 0.10000000149011612
+                  }
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Grass",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Blunt",
+                    "enBreak": 50.0,
+                    "damagePercentage": 0.7,
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "cameraShake": {
+                    "$type": "ConfigCameraShake",
+                    "shakeDir": {
+                      "$type": "NFFDDFHHDHG",
+                      "z": -1.0
+                    },
+                    "shakeTime": 0.11999999731779099,
+                    "shakeType": "CustomVector",
+                    "shakeDistance": 30.0,
+                    "shakeRange": 0.11999999731779099
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitImpulseType": "LV4"
+                  },
+                  "forceCameraShake": true,
+                  "attenuationGroup": "default",
+                  "canBeModifiedBy": "OriginOwner"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackCircle",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "useRotation": true,
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 7.5,
+                  "height": 20.0
+                }
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Stage3_RangeAttack3_RepeatAttack_Alert",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Apep_Stage3_RangeAttack3_DamageGadget_RepeatAttack",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "RepeatAttack_Latency"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_Apep_Stage3_UltAttack_StateReset": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908306
+              },
+              "modifierName": "KillSelf"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908307
+              },
+              "modifierName": "KillSelf"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908308
+              },
+              "modifierName": "KillSelf"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908309
+              },
+              "modifierName": "KillSelf"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908310
+              },
+              "modifierName": "KillSelf"
+            },
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "configID": 42908311
+              },
+              "modifierName": "KillSelf"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_LOG_DotHit"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_LOG_FinalHit"
+                }
+              ],
+              "paramList": [
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_LOG_DotHit"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_LOG_FinalHit"
+                }
+              ],
+              "paramList": [
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_LOG_DotHit"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_LOG_FinalHit"
+                }
+              ],
+              "paramList": [
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field01_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field02_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field03_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_LOG_DotHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_LOG_FinalHit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ServerMonsterLog",
+              "paramList": [
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "target": "AllTeams",
+              "modifierName": "UNIQUE_Apep_Stage3_UltAttack_Field_AvatarTag"
+            },
+            {
+              "$type": "ShowReminder",
+              "id": 201790301
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "KillSelf": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Apep_Stage3_UltAttack_Shield_AS",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                42908306,
+                42908307,
+                42908308,
+                42908309,
+                42908310,
+                42908311
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageArea_Stage1": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR10"
+              },
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Grass",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 0.0,
+                      "damagePercentage": 0.1,
+                      "elementDurability": 25,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "none",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "forceRetreat": true,
+                      "hitImpulseType": "LV5"
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_LOG_DotHit",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Apep_Stage3_UltAttack_Field_AvatarTag"
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageArea_Stage2": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR18"
+              },
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Grass",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 0.0,
+                      "damagePercentage": 0.1,
+                      "elementDurability": 25,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "none",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "forceRetreat": true,
+                      "hitImpulseType": "LV5"
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_LOG_DotHit",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Apep_Stage3_UltAttack_Field_AvatarTag"
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DamageArea_Stage3": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR40"
+              },
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Grass",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 0.0,
+                      "damagePercentage": 0.1,
+                      "elementDurability": 25,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "none",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "forceRetreat": true,
+                      "hitImpulseType": "LV5"
+                    },
+                    "attenuationGroup": "default"
+                  }
+                },
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "_LOG_DotHit",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Apep_Stage3_UltAttack_Field_AvatarTag"
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UltAttack_Reconnect": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "skillIDs": [
+                304
+              ]
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAnimatorStateIDMixin",
+          "stateIDs": [
+            "Stage3_UltAttack1"
+          ],
+          "modifierName": "Monster_Apep_Stage3_UltAttack_StateReset"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Empty",
+            "DamageArea_Stage1",
+            "DamageArea_Stage2",
+            "DamageArea_Stage3"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5,
+            3.5
+          ],
+          "globalValueKey": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            302
+          ],
+          "modifierName": "UltAttack_Reconnect"
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_Manager"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_DamageArea_Stage1"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 2
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_DamageArea_Stage2"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 3
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_DamageArea_Stage3"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FinalBlast_Duration": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 2.1,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_DamageArea_Stage",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR40H40HC"
+              },
+              "successActions": [
+                {
+                  "$type": "DamageByAttackValue",
+                  "target": "Target",
+                  "attackInfo": {
+                    "$type": "ConfigAttackInfo",
+                    "attackProperty": {
+                      "$type": "ConfigAttackProperty",
+                      "elementType": "Grass",
+                      "damagePercentageRatio": 0,
+                      "strikeType": "Default",
+                      "enBreak": 100.0,
+                      "damagePercentage": 4,
+                      "elementDurability": 25,
+                      "arkheGrade": 0
+                    },
+                    "hitPattern": {
+                      "$type": "ConfigHitPattern",
+                      "onHitEffectName": "none",
+                      "hitHaltTimeScale": 0.009999999776482582,
+                      "forceRetreat": true,
+                      "hitImpulseType": "LV5"
+                    },
+                    "attenuationGroup": "Apep_Stage3_UltAttack",
+                    "attenuationTag": "Apep_Stage3_UltAttack"
+                  }
+                },
+                {
+                  "$type": "Predicated",
+                  "target": "Target",
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "_CHALLENGE_82169_STATE_",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 2
+                    },
+                    {
+                      "$type": "SetGlobalValue",
+                      "key": "_LOG_FinalHit",
+                      "minValue": 0,
+                      "maxValue": 0,
+                      "value": 1
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByEntityTypes",
+                      "entityTypes": [
+                        "Avatar"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_MONSTER_Apep_Stage3_UltAttack_Field_AvatarTag"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "FinalBlast_Duration"
+        },
+        {
+          "$type": "SetPoseBool",
+          "boolID": "UltStage"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_CHALLENGE_82169_STATE_"
+            }
+          ],
+          "key": "_CHALLENGE_82169_STATE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "ServerFinishWatcherMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "_CHALLENGE_82169_STATE_"
+            }
+          ],
+          "watcherId": 82169
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_FinalBlast",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_CHALLENGE_82169_STATE_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BulletLatency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "configID": 42908309
+              }
+            },
+            {
+              "$type": "TriggerBullet",
+              "target": "SelfAttackTarget",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                },
+                "attachPointName": "Stage3_Ult_Point1",
+                "attachPointTargetType": "Caster"
+              },
+              "bulletID": 42908306,
+              "lifeByOwnerV2": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "born": {
+            "$type": "ConfigBornByActionPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 8.66,
+              "z": -5,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity"
+            },
+            "actionPointType": "AureaePoint",
+            "selectType": {
+              "$type": "SelectActionPointByID",
+              "actionPointID": 2
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 42908309,
+          "campID": 4001
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletLatency"
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_Field_Stage1"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BulletLatency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "configID": 42908310
+              }
+            },
+            {
+              "$type": "TriggerBullet",
+              "target": "SelfAttackTarget",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                },
+                "attachPointName": "Stage3_Ult_Point2",
+                "attachPointTargetType": "Caster"
+              },
+              "bulletID": 42908307,
+              "lifeByOwnerV2": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "born": {
+            "$type": "ConfigBornByActionPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 15,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity"
+            },
+            "actionPointType": "AureaePoint",
+            "selectType": {
+              "$type": "SelectActionPointByID",
+              "actionPointID": 2
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 42908310,
+          "campID": 4001
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletLatency"
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_Field_Stage2"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BulletLatency": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByChildren",
+                "topLimit": 1,
+                "sortType": "Nearest",
+                "configID": 42908311
+              }
+            },
+            {
+              "$type": "TriggerBullet",
+              "target": "SelfAttackTarget",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget"
+                },
+                "attachPointName": "Stage3_Ult_Point3",
+                "attachPointTargetType": "Caster"
+              },
+              "bulletID": 42908308,
+              "lifeByOwnerV2": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "CreateGadget",
+          "born": {
+            "$type": "ConfigBornByActionPoint",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": -4.33,
+              "z": -2.5,
+              "y": 0
+            },
+            "direction": {
+              "$type": "ConfigDirectionByEntity"
+            },
+            "actionPointType": "AureaePoint",
+            "selectType": {
+              "$type": "SelectActionPointByID",
+              "actionPointID": 2
+            }
+          },
+          "lifeByOwnerV2": true,
+          "gadgetID": 42908311,
+          "campID": 4001
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BulletLatency"
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_UltAttack_Field_Stage3"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Apep_Stage3_UltAttack_FieldBullet": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Stage3_UltAttack_Shield_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Apep_Stage3_UltAttack_FieldBullet_Common",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Apep_Stage3_UltAttack_FieldBullet"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger_Message": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field01_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Owner",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByAttackNotHitScene",
+                  "checkWaterLayer": true,
+                  "attackPattern": {
+                    "$type": "ConfigAttackSphere",
+                    "triggerType": "TriggerNoRepeat",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "useRotation": true,
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "radius": 0.8
+                  }
+                }
+              ]
+            }
+          ],
+          "modifierName": "FieldTrigger_Message"
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldBullet01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger_Message": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field01_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Owner",
+          "modifierName": "FieldTrigger_Message"
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldBullet01_LifeOver"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger_Message": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field02_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Owner",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByAttackNotHitScene",
+                  "checkWaterLayer": true,
+                  "attackPattern": {
+                    "$type": "ConfigAttackSphere",
+                    "triggerType": "TriggerNoRepeat",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "useRotation": true,
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "radius": 0.8
+                  }
+                }
+              ]
+            }
+          ],
+          "modifierName": "FieldTrigger_Message"
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldBullet02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger_Message": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field02_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Owner",
+          "modifierName": "FieldTrigger_Message"
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldBullet02_LifeOver"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger_Message": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field03_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Owner",
+          "predicates": [
+            {
+              "$type": "ByNot",
+              "predicates": [
+                {
+                  "$type": "ByAttackNotHitScene",
+                  "checkWaterLayer": true,
+                  "attackPattern": {
+                    "$type": "ConfigAttackSphere",
+                    "triggerType": "TriggerNoRepeat",
+                    "born": {
+                      "$type": "ConfigBornBySelf",
+                      "useRotation": true,
+                      "offset": {
+                        "$type": "DynamicFloatVector",
+                        "x": 0,
+                        "z": 0,
+                        "y": 0
+                      }
+                    },
+                    "radius": 0.8
+                  }
+                }
+              ]
+            }
+          ],
+          "modifierName": "FieldTrigger_Message"
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldBullet03"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger_Message": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field03_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Owner",
+          "modifierName": "FieldTrigger_Message"
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldBullet03_LifeOver"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Apep_Stage3_UltAttack_Field_AvatarTag": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "IgnoreDamage"
+              ],
+              "globalValueTarget": "Applier",
+              "globalValueKey": "_Field_Trigger",
+              "valueSteps": [
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "IgnoreDamage": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "target": "CurTeamAvatars",
+              "modifierName": "IgnoreDamage_CurAvatar"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurTeamAvatars",
+              "modifierName": "IgnoreDamage_CurAvatar"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "IgnoreDamage_CurAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field_AvatarTag",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "key": "_MONSTER_Apep_Stage3_UltAttack_Field_AvatarTag",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "RemoveModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Team"
+              ]
+            }
+          ],
+          "modifierName": "UNIQUE_Apep_Stage3_UltAttack_Field_AvatarTag"
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldGadget_Common",
+      "onFieldEnter": [
+        {
+          "$type": "ApplyModifier",
+          "target": "Target",
+          "predicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Team"
+              ]
+            }
+          ],
+          "modifierName": "UNIQUE_Apep_Stage3_UltAttack_Field_AvatarTag"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Field_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Stage3_UltAttack_Shield",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "FieldTrigger"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_MONSTER_Apep_Stage3_UltAttack_Field01_Trigger",
+          "valueSteps": [
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldGadget01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Field_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Stage3_UltAttack_Shield",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "FieldTrigger"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_MONSTER_Apep_Stage3_UltAttack_Field02_Trigger",
+          "valueSteps": [
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldGadget02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FieldTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_Field_Trigger",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Apep_Stage3_UltAttack_Shield",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "FieldTrigger"
+          ],
+          "globalValueTarget": "Owner",
+          "globalValueKey": "_MONSTER_Apep_Stage3_UltAttack_Field03_Trigger",
+          "valueSteps": [
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Apep_Stage3_UltAttack_FieldGadget03"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onKill": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_MONSTER_Apep_Stage3_Core_Invisible",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ],
+      "abilityName": "Monster_Apep_Stage3_Die"
+    }
+  }
+]

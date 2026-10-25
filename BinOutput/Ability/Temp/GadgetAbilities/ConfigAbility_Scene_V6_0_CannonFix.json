@@ -1,0 +1,1265 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "ActivityAbility_CannonFix_GameLogic_Input",
+      "isDynamicAbility": true
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "VisualEffectHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "ResetEnergyAnimator"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_InField",
+              "valueSteps": [
+                -1.5,
+                0
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "ShowEffect"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_InFieldTimer",
+              "valueSteps": [
+                0.25,
+                2.25
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "Energy_1",
+                "Energy_2",
+                "Energy_3",
+                "Energy_4"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_InFieldTimer",
+              "valueSteps": [
+                0.25,
+                0.75,
+                1.25,
+                1.75,
+                2.25
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ResetEnergyAnimator": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "State",
+              "value": -1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_03",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_03",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Energy_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "State",
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_03",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Energy_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "State",
+              "value": 200,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_03",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Energy_3": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "State",
+              "value": 201,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_03",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Energy_4": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "State",
+              "value": 202,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_03",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_InFieldTimer",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "ReconnectEvent",
+              "luaCallType": "FromGroup"
+            }
+          ],
+          "thinkInterval": 0.1,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "JumpState",
+              "gadgetState": 201
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "WinState",
+              "gadgetState": 203
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalPos",
+              "key": "_target_pos"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "value": true,
+                  "boolID": "Idle"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "SetAnimatorBool",
+                  "boolID": "Idle"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": "SGV_CampMark",
+                  "compareType": "LessAndEqual",
+                  "key": "_target_pos_1"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "JumpState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 202
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "JumpBool"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorBool",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": "SGV_Column",
+                  "compareType": "LessAndEqual",
+                  "key": "_target_pos_1"
+                }
+              ],
+              "value": true,
+              "boolID": "JumpBool"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "WinState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "duration": 5,
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "Emo",
+              "value": 5
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Noise"
+            },
+            {
+              "$type": "ChangeGadgetState"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "Emo",
+              "value": 2
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "Noise"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_WinStateTimer",
+              "value": 0.5,
+              "maxValue": 0
+            },
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "GV_WinStateTimer"
+                }
+              ],
+              "triggerID": "Attack"
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "GV_WinStateTimer"
+                }
+              ],
+              "effectPattern": "Eff_Avatar_Girl_Pole_Ineffa_ElementalArt_Robot_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_InFieldTimer",
+        "SGV_Column",
+        "SGV_CampMark"
+      ],
+      "abilityName": "SceneObj_Property_Ani_Prop_CannonMaintenanceRobot_Controller",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "target": "Team",
+          "minValue": 0,
+          "key": "GV_InFieldTimer",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "VisualEffectHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "InitVisualEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": -90,
+                    "z": 0,
+                    "y": 0
+                  },
+                  "useCorrectDir": true
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckDelayChangeState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 2
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_InFieldTimer",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_InField",
+              "maxValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "Disappear",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Bool"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "CompleteDisappear",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Bool"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_02",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": -90,
+                    "z": 0,
+                    "y": 0
+                  },
+                  "useCorrectDir": true
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_04",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "TimerStateCheck": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "YellowState"
+              ],
+              "globalValueKey": "GV_WatingTimer",
+              "valueSteps": [
+                5.5,
+                6.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "RedState"
+              ],
+              "globalValueKey": "GV_WatingTimer",
+              "valueSteps": [
+                10.5,
+                11.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OffState"
+              ],
+              "globalValueKey": "GV_WatingTimer",
+              "valueSteps": [
+                11.5,
+                15.5
+              ]
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self"
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_WatingTimer",
+              "value": 1,
+              "maxValue": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "YellowState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "ColorState",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RedState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "ColorState",
+              "value": 2,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OffState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_DelayTimer",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "Disappear",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Bool"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_DelayTimer",
+              "value": 0.5,
+              "maxValue": 0
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "GV_DelayTimer"
+                }
+              ],
+              "state": 3
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "GV_WatingTimer",
+        "GV_DelayTimer"
+      ],
+      "abilityName": "SceneObj_Property_Ani_Prop_RobotDetectArea",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Other",
+          "predicates": [
+            {
+              "$type": "ILMHBGFOAJN",
+              "configIdArray": [
+                73014022
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 13.5,
+              "compareType": "LessAndEqual",
+              "key": "GV_WatingTimer"
+            }
+          ],
+          "successActions": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 1
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "CheckDelayChangeState"
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_WatingTimer",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_DelayTimer",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "InitVisualEffect"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "TimerStateCheck"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "UNIQUE_ExitFieldTimerCheck",
+                "UNIQUE_EnterFieldTimerCheck"
+              ],
+              "globalValueTarget": "Team",
+              "globalValueKey": "GV_InField",
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "InitVisualEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": -90,
+                    "z": 0,
+                    "y": 0
+                  },
+                  "useCorrectDir": true
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CheckDelayChangeState": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "ChangeGadgetState",
+              "state": 2
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "UNIQUE_ExitFieldTimerCheck"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_InField",
+              "maxValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "target": "Team",
+              "minValue": 0,
+              "key": "GV_InFieldTimer",
+              "maxValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "Disappear",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Bool"
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "CompleteDisappear",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Bool"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_02",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByEntity",
+                  "angleOffsetCorrect": {
+                    "$type": "DynamicFloatVector",
+                    "x": -90,
+                    "z": 0,
+                    "y": 0
+                  },
+                  "useCorrectDir": true
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_04",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "state": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_EnterFieldTimerCheck": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "ColorState",
+              "type": "Int"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_WatingTimer",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "WideState",
+              "value": 1,
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "target": "Team",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 1,
+                  "key": "GV_InField"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 2.5,
+                  "compareType": "LessAndEqual",
+                  "key": "GV_InFieldTimer"
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_InFieldTimer",
+              "value": 0.5,
+              "maxValue": 0
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 2.25,
+                  "compareType": "MoreThanAndEqual",
+                  "key": "GV_InFieldTimer"
+                }
+              ],
+              "modifierName": "CheckDelayChangeState"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ExitFieldTimerCheck": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "YellowState"
+              ],
+              "globalValueKey": "GV_WatingTimer",
+              "valueSteps": [
+                5.5,
+                6.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "RedState"
+              ],
+              "globalValueKey": "GV_WatingTimer",
+              "valueSteps": [
+                12.5,
+                13.5
+              ]
+            },
+            {
+              "$type": "AttachModifierToGlobalValueMixin",
+              "modifierNameSteps": [
+                "OffState"
+              ],
+              "globalValueKey": "GV_WatingTimer",
+              "valueSteps": [
+                13.5,
+                15.5
+              ]
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "predicates": [
+                {
+                  "$type": "ByTargetGadgetState",
+                  "target": "Self"
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_WatingTimer",
+              "value": 0.5,
+              "maxValue": 0
+            },
+            {
+              "$type": "AddGlobalValueV2",
+              "target": "Team",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "compareType": "MoreThan",
+                  "key": "GV_InFieldTimer"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Team",
+                  "value": 0,
+                  "key": "GV_InField"
+                }
+              ],
+              "minValue": 0,
+              "key": "GV_InFieldTimer",
+              "value": -0.5,
+              "maxValue": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "YellowState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "ColorState",
+              "value": 1,
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "RedState": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "ColorState",
+              "value": 2,
+              "type": "Int"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "OffState": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "onAdded": [
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_DelayTimer",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "Disappear",
+              "value": 1,
+              "effectPattern": "Eff_SceneObj_OverhaulSignal_01",
+              "type": "Bool"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_DelayTimer",
+              "value": 0.5,
+              "maxValue": 0
+            },
+            {
+              "$type": "ChangeGadgetState",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "target": "Self",
+                  "value": 1,
+                  "key": "GV_DelayTimer"
+                }
+              ],
+              "state": 3
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onFieldExit": [
+        {
+          "$type": "Predicated",
+          "target": "Other",
+          "predicates": [
+            {
+              "$type": "ILMHBGFOAJN",
+              "configIdArray": [
+                73014022
+              ]
+            }
+          ],
+          "successActions": [
+            {
+              "$type": "SendEffectTrigger",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "parameter": "WideState",
+              "type": "Int"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "GV_InField",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ]
+        }
+      ],
+      "ANHJPOLNHIG": [
+        "GV_WatingTimer",
+        "GV_InFieldTimer",
+        "GV_DelayTimer",
+        "GV_InField"
+      ],
+      "abilityName": "SceneObj_Property_Ani_Prop_RobotDetectAreaV2",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Other",
+          "predicates": [
+            {
+              "$type": "ILMHBGFOAJN",
+              "configIdArray": [
+                73014022
+              ]
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 11.5,
+              "compareType": "LessAndEqual",
+              "key": "GV_WatingTimer"
+            }
+          ],
+          "successActions": [
+            {
+              "$type": "SetGlobalValue",
+              "target": "Team",
+              "key": "GV_InField",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "SetGlobalValueV2",
+          "minValue": 0,
+          "key": "GV_WatingTimer",
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "target": "Team",
+          "key": "GV_InFieldTimer",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_DelayTimer",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "SetGlobalValue",
+          "target": "Team",
+          "key": "GV_InField",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "InitVisualEffect"
+        },
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StateMachineHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Idle"
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "White",
+              "gadgetState": 1
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Yellow",
+              "gadgetState": 2
+            },
+            {
+              "$type": "AttachToGadgetStateMixin",
+              "modifierName": "Red",
+              "gadgetState": 3
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Idle": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "MGFPCLPKIMI": 2.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "White": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 1,
+              "MGFPCLPKIMI": 2.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Yellow": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 2,
+              "MGFPCLPKIMI": 2.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Red": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ShaderStateMachineSwitchMixin",
+              "IKJPMDJLPLP": 3,
+              "MGFPCLPKIMI": 2.0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Property_Ani_Prop_CannonFixLight",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "StateMachineHandler"
+        }
+      ]
+    }
+  }
+]

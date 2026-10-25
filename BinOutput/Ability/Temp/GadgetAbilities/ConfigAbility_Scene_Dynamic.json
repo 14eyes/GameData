@@ -1,0 +1,447 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Wudi": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": -1
+          },
+          "elementDurability": 100,
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        },
+        "empty": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CommonFlora_ServerLuaCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "AddWindFloraScore",
+              "param3": 0,
+              "CallParamList": [
+                235800001
+              ],
+              "luaCallType": "SpecificGroup"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_GET_COMMONFLORA",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToPredicateMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "_GET_COMMONFLORA"
+            }
+          ],
+          "modifierName": "CommonFlora_ServerLuaCall"
+        }
+      ],
+      "abilityName": "SceneObj_Dynamic_WindFlora_Wudi",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Wudi"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "BallonTypeController": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_HIGHBALLOON"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NormalAttack_01",
+                    "NormalAttack_02",
+                    "NormalAttack_03",
+                    "NormalAttack_04",
+                    "NormalAttack_05",
+                    "NormalAttack_06",
+                    "ExtraAttack"
+                  ]
+                }
+              ],
+              "modifierName": "HighCall"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_LOWBALLOON"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NormalAttack_01",
+                    "NormalAttack_02",
+                    "NormalAttack_03",
+                    "NormalAttack_04",
+                    "NormalAttack_05",
+                    "NormalAttack_06",
+                    "ExtraAttack"
+                  ]
+                }
+              ],
+              "modifierName": "LowCall"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_SUBBALLOON"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NormalAttack_01",
+                    "NormalAttack_02",
+                    "NormalAttack_03",
+                    "NormalAttack_04",
+                    "NormalAttack_05",
+                    "NormalAttack_06",
+                    "ExtraAttack"
+                  ]
+                }
+              ],
+              "modifierName": "SubCall"
+            },
+            {
+              "$type": "ApplyModifier",
+              "target": "Target",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BOMBBALLOON"
+                },
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "NormalAttack_01",
+                    "NormalAttack_02",
+                    "NormalAttack_03",
+                    "NormalAttack_04",
+                    "NormalAttack_05",
+                    "NormalAttack_06",
+                    "ExtraAttack"
+                  ]
+                }
+              ],
+              "modifierName": "BombBalloonSeeker"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BombBalloonSeeker": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Alliance",
+                "shapeName": "CircleR5H10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "Balloon03_TargetFlag"
+                }
+              ],
+              "modifierName": "FindBalloon"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Ballon_03_Shoot",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70000000
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FindBalloon": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Ballon_03_Shoot",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_HIGHBALLOON"
+                }
+              ],
+              "modifierName": "HighCall"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_LOWBALLOON"
+                }
+              ],
+              "modifierName": "LowCall"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_SUBBALLOON"
+                }
+              ],
+              "modifierName": "SubCall"
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "IS_BOMBBALLOON"
+                }
+              ],
+              "modifierName": "BombBalloonSeeker"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70000000
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HighCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "target": "Caster",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "ShootBalloonHighScore",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70000000
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "LowCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "target": "Caster",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "ShootBalloonLowScore",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70000000
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SubCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "target": "Caster",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "ShootBalloonSubScore",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70000000
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Dynamic_WindFlora_ShootBalloon",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "BallonTypeController"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Wudi": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": -1
+          },
+          "elementDurability": 100,
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        },
+        "CALLSERVERLUA": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "target": "Team",
+              "isTarget": true,
+              "param1": 0,
+              "param2": 0,
+              "funcName": "OnEnterWrongFloor",
+              "param3": 0,
+              "CallParamList": [
+                235800003
+              ],
+              "luaCallType": "SpecificGroup"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "CommonFlora_ServerLuaCall": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "AddWindFloraScore",
+              "param3": 0,
+              "CallParamList": [
+                235800001
+              ],
+              "luaCallType": "SpecificGroup"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_GET_COMMONFLORA",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "stacking": "Multiple",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToPredicateMixin",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "_GET_COMMONFLORA"
+            }
+          ],
+          "modifierName": "CommonFlora_ServerLuaCall"
+        }
+      ],
+      "abilityName": "SceneObj_Dynamic_WindFlora_RecordFloorMemory",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Wudi"
+        }
+      ]
+    }
+  }
+]

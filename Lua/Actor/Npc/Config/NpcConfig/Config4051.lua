@@ -1,0 +1,38 @@
+require("Actor/ActorCommon")
+local NpcConfigCommon = require("Actor/Npc/Config/NpcConfigCommon")
+
+local generalPattern = NpcConfigCommon.GeneralPattern
+local dailyCondition = NpcConfigCommon.DailyCondition
+local questState = NpcConfigCommon.QuestState
+local actionPointType = NpcConfigCommon.ActionPointType
+local compareOperation = NpcConfigCommon.CompareOperation
+local focusToPlayerType = NpcConfigCommon.FocusToPlayerType
+local reactEnableType = NpcConfigCommon.ReactEnableType
+local reactEventType = NpcConfigCommon.ReactEventType
+local actorMoveType = NpcConfigCommon.ActorMoveType
+
+return {
+    Data = {
+        NpcId = "4051",
+        Alias = "Npc4051",
+        DailyScheduleData = {
+            {
+                condition = {daily = dailyCondition.AllDay, sceneId = 3, priority = 0},
+                actionPoints = {
+                    {
+                        dummypoint = {pos = {x = -367.3687, y = 237.819, z = 2802.388}, rot = {x = 0, y = 156.392, z = 0}},
+                        freestyle = 1230,
+                        action = generalPattern.Stand
+                    }
+                }
+            }
+        },
+        NahidaNarratorData = {
+            {
+                validQuestIds = {0},
+                priority = 10,
+                dialogDataList = {{dialogId = 1018405100, duration = 0, intervalMin = 20, intervalMax = 30}}
+            }
+        }
+    }
+}

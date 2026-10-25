@@ -1,0 +1,1069 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Init": {
+          "$type": "ConfigAbilityModifier",
+          "onReconnect": [
+            {
+              "$type": "DebugLog",
+              "content": "Klee Guard -> On Reconnect"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "RemoveModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "ChargeBar_Mixin"
+                },
+                {
+                  "$type": "SetGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_KleeMasteryGuard_State",
+                  "maxValue": 0,
+                  "value": "_KleeGuard_State"
+                },
+                {
+                  "$type": "ApplyModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "GV_KleeMasteryGuard_State"
+                    }
+                  ],
+                  "modifierName": "Delay_ApplyMixin"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByHasModifier",
+                  "modifierName": "Activated_State"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "SetEntityScaleMixin",
+              "JHDJEICCLMG": 0,
+              "LCDHELKGFJC": 0,
+              "namedTransform": "RootNode",
+              "scale": 2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Disabled_State": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetChargeBarValue",
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_KleeMasteryGuard_State",
+              "maxValue": 0,
+              "value": -1
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_AttackTimer",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_EntityCount",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "TauntTrigger"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "TimerManager"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Guard_Charging"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Guard_Defending"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "Guard_Attacking"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "BillboardV2Mixin",
+              "FMEEEHPMHDB": {
+                "$type": "CBPGECPPMLE",
+                "IPFABCFDBGG": {
+                  "$type": "FAOBDFOILPC",
+                  "JACFGNPNMGL": {
+                    "$type": "CLIPIGLEMDI",
+                    "NFGFIMDKMHC": true
+                  }
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Activated_State": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "TauntTrigger"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "TimerManager"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "GV_KleeMasteryGuard_State",
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "TauntTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerTaunt",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR10"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "TimerManager": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "DebugLog",
+              "content": "KleeMastery_Guard: Tick"
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "ServerLuaCall",
+                      "param1": "SGV_ChargeValue",
+                      "param2": 0,
+                      "paramNum": 1,
+                      "funcName": "SLC_Klee_Guard_Tick",
+                      "param3": 0,
+                      "luaCallType": "FromGroup"
+                    },
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "_CHARGEBAR_VALUE",
+                      "maxValue": 0,
+                      "value": "SGV_ChargeValue"
+                    }
+                  ],
+                  "failActions": [
+                    {
+                      "$type": "DebugLog",
+                      "content": "KleeMastery_Guard: Danger close!"
+                    },
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "GV_KleeMasteryGuard_State",
+                      "maxValue": 0,
+                      "value": 1
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "GV_EntityCount"
+                    }
+                  ]
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "HealHP",
+                      "target": "AllPlayerAvatars",
+                      "amountByTargetMaxHPRatio": "KleeMasteryGuard_HealRatio"
+                    },
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "GV_KleeMasteryGuard_State",
+                      "maxValue": 0,
+                      "value": 2
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "GV_KleeMasteryGuard_State"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": "SGV_Charge_Duration",
+                      "compareType": "MoreThanAndEqual",
+                      "key": "_CHARGEBAR_VALUE"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "GV_KleeMasteryGuard_State"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "GV_KleeMasteryGuard_State",
+                      "maxValue": 0,
+                      "value": 0
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "key": "GV_EntityCount"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "GV_KleeMasteryGuard_State"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValueV2",
+                  "minValue": 0,
+                  "key": "GV_AttackTimer",
+                  "value": 1,
+                  "maxValue": 0
+                },
+                {
+                  "$type": "Predicated",
+                  "successActions": [
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "GV_KleeMasteryGuard_State",
+                      "maxValue": 0,
+                      "value": 0
+                    },
+                    {
+                      "$type": "SetGlobalValueV2",
+                      "minValue": 0,
+                      "key": "GV_AttackTimer",
+                      "maxValue": 0,
+                      "value": 0
+                    },
+                    {
+                      "$type": "DebugLog",
+                      "content": "Done Attacking!!!"
+                    }
+                  ],
+                  "targetPredicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": "SGV_Attack_Duration",
+                      "compareType": "MoreThanAndEqual",
+                      "key": "GV_AttackTimer"
+                    }
+                  ]
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 2,
+                  "key": "GV_KleeMasteryGuard_State"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Guard_Charging": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "KleeMastery_Guard: Guard_Charging"
+            },
+            {
+              "$type": "RemoveModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "ChargeBar_Mixin"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_KleeGuard_State",
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 0
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "KleeGuardCharge",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "ServerLuaCall",
+              "param1": "SGV_ChargeValue",
+              "param2": 0,
+              "paramNum": 1,
+              "funcName": "SLC_Klee_Guard_Tick",
+              "param3": 0,
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Alert",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.75
+                },
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_BS",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "Delay_ApplyMixin"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_CHARGEBAR_VALUE",
+              "maxValue": 0,
+              "value": "SGV_ChargeValue"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "BillboardV2Mixin",
+              "FMEEEHPMHDB": {
+                "$type": "CBPGECPPMLE",
+                "DGBLGBHELLG": {
+                  "$type": "CBKJIGKBFJJ"
+                },
+                "IPFABCFDBGG": {
+                  "$type": "FAOBDFOILPC",
+                  "JACFGNPNMGL": {
+                    "$type": "CLIPIGLEMDI",
+                    "NFGFIMDKMHC": true
+                  },
+                  "size": "Big",
+                  "CHBMKLMPFNC": {
+                    "$type": "OPPKNEGKBGK",
+                    "FEENOOJONEH": [
+                      "Distance"
+                    ],
+                    "showDistance": 150.0
+                  }
+                },
+                "INJHBCKFHJP": {
+                  "$type": "ILCDFJKHKGA",
+                  "attachPointName": "BillboardAttach",
+                  "showDistance": 150.0,
+                  "worldOffset": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 1.5
+                  },
+                  "KIKPLDBHHLB": {
+                    "$type": "NFFDDFHHDHG",
+                    "x": -0.10000000149011612
+                  }
+                }
+              }
+            }
+          ],
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0
+        },
+        "Delay_ApplyMixin": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ChargeBar_Mixin"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargeBar_Mixin": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChargeBarMixin",
+              "DFOLBCDILPA": "SGV_ChargeValue",
+              "chargeBarElementType": "Fire",
+              "maxValue": "SGV_Charge_Duration",
+              "chargeBarIconID": 2
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Guard_Defending": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "KleeMastery_Guard: Guard_Defending"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ChargeBar_Mixin"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_KleeGuard_State",
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 201
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "KleeGuardDefense",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "AfraidNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Emoji_Afraid_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "AfraidNode",
+              "attachPoint": "AfraidNode",
+              "effectPattern": "Eff_SceneObj_Emoji_Afraid_Loop"
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Alert",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "useRotation": true,
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0.75
+                }
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Shield",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "state": "LockHP",
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "DebugLog",
+              "content": "KleeMastery_Guard: Hit while shield up"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Shield_Hit",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByHitPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByBackToHitBoxCenter",
+                  "useCorrectDir": true
+                }
+              },
+              "effectTempleteID": -1
+            }
+          ]
+        },
+        "Guard_Attacking": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1.3,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "KleeMastery_Guard: Guard_Attacking"
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "ChargeBar_Mixin"
+            },
+            {
+              "$type": "SetGlobalValueV2",
+              "minValue": 0,
+              "key": "_KleeGuard_State",
+              "maxValue": 0,
+              "value": 2
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "GadgetState",
+              "value": 202
+            },
+            {
+              "$type": "ServerLuaTriggerEvent",
+              "param1": 0,
+              "param2": 0,
+              "param3": 0,
+              "sourceName": "KleeGuardAttack",
+              "luaCallType": "FromGroup"
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EmojiNode"
+              },
+              "scale": 2,
+              "effectPattern": "Eff_EmojiBubble_Emoji_Angry_Loop_KleeMastery",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "EmojiNode",
+              "attachPoint": "EmojiNode",
+              "effectPattern": "Eff_EmojiBubble_Emoji_Angry_Loop_KleeMastery"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_ElementWave_01_Fire_KleeGuard",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetChargeBarValue",
+              "value": 0
+            },
+            {
+              "$type": "TriggerThinkInterval"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "BillboardV2Mixin",
+              "FMEEEHPMHDB": {
+                "$type": "CBPGECPPMLE",
+                "IPFABCFDBGG": {
+                  "$type": "FAOBDFOILPC",
+                  "JACFGNPNMGL": {
+                    "$type": "CLIPIGLEMDI"
+                  },
+                  "size": "Big",
+                  "CHBMKLMPFNC": {
+                    "$type": "OPPKNEGKBGK",
+                    "FEENOOJONEH": [
+                      "Distance"
+                    ],
+                    "showDistance": 150.0
+                  }
+                },
+                "INJHBCKFHJP": {
+                  "$type": "ILCDFJKHKGA",
+                  "attachPointName": "BillboardAttach",
+                  "showDistance": 150.0,
+                  "localOffset": {
+                    "$type": "NFFDDFHHDHG",
+                    "y": 1.5
+                  }
+                }
+              }
+            }
+          ],
+          "onThinkIntervalIsFixedUpdate": true,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "AttackEffectCoroutine"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "AttackEffectCoroutine": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.35,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Attack_Fire",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EffectNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "EffectNode",
+              "attachPoint": "EffectNode",
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Attack_Fire"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "BulletAttack"
+            },
+            {
+              "$type": "DebugLog",
+              "content": "KleeMastery_Guard: Spawned Bullet"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Attack_BS",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EffectNode"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "EffectNode",
+              "attachPoint": "EffectNode",
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Attack_BS"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkIntervalIsFixedUpdate": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "BulletAttack": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.025,
+          "onRemoved": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 2,
+                "entityTypePriority": [
+                  "Monster"
+                ],
+                "sortType": "Random",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR1000"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "target": "SelfAttackTarget",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "randomAngleHor": 90.0,
+                  "randomAngleVer": 90.0
+                },
+                "attachPointName": "EffectNode",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 73108002
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 2,
+                "entityTypePriority": [
+                  "Monster"
+                ],
+                "sortType": "Random",
+                "sizeRatio": 1,
+                "campTargetType": "Enemy",
+                "shapeName": "CircleR1000"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "TriggerBullet",
+              "target": "SelfAttackTarget",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttackTarget",
+                  "randomAngleHor": 90.0,
+                  "randomAngleVer": 90.0
+                },
+                "attachPointName": "EffectNode",
+                "attachPointTargetType": "Self"
+              },
+              "bulletID": 73108002
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "ANHJPOLNHIG": [
+        "SGV_Charge_Duration",
+        "SGV_Attack_Duration",
+        "SGV_ChargeValue",
+        "_KleeGuard_State"
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_AirRaidBomb_Boom_12M",
+          "scale": 0.3,
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 1
+            }
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Guard_Charging",
+            "Guard_Defending",
+            "Guard_Attacking"
+          ],
+          "globalValueKey": "GV_KleeMasteryGuard_State",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5
+          ],
+          "DEFOFMOIAAI": true
+        },
+        {
+          "$type": "FieldEntityCountChangeMixin",
+          "PMECOANPKHN": true,
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Monster"
+              ]
+            }
+          ],
+          "LHEEECGFGJF": true,
+          "campTargetType": "Enemy",
+          "MOICJEBDAMB": 0,
+          "simpleCountGlobaValueKey": "GV_EntityCount",
+          "simpleCountMaxValue": 25
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Disabled_State"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Activated_State",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Level_Property_Ani_Level_KleeMastery_Guard",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Init"
+        }
+      ],
+      "abilitySpecials": {
+        "KleeMasteryGuard_HealRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Explode": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "KleeMastery_Guard: BULLET EXPLODE!!"
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Fire",
+                    "damagePercentageRatio": 0,
+                    "ignoreModifyDamage": true,
+                    "ignoreAttackerProperty": true,
+                    "strikeType": "Default",
+                    "enBreak": 0.0,
+                    "trueDamage": true,
+                    "damageExtra": [
+                      "Value_DamageRate",
+                      "DamageSystemValue",
+                      "MUL"
+                    ],
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attenuationTag": "KleeMastery_BulletAttack",
+                  "attackTag": "KleeMastery_BulletAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornByCollisionPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 2
+                }
+              }
+            },
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                73108002
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ShowBulletEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Attack_Bullet",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetEffectFollowPath",
+              "DPNPNCGKIMP": "RootNode",
+              "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Attack_Bullet"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "DebugLog",
+          "content": "击中角色，关卡或怪物 爆炸！"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Explode"
+        }
+      ],
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_KleeMasteryGuard_Attack_Burst",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Level_Property_Ani_Level_KleeMastery_Guard_Bullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "ShowBulletEffect"
+        },
+        {
+          "$type": "SetSystemValueToOverrideMap",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "OAEJNDBEDPO": -1,
+          "key": "DamageSystemValue",
+          "type": "ElementLevelCo"
+        }
+      ],
+      "abilitySpecials": {
+        "DamageSystemValue": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Value_DamageRate": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  }
+]

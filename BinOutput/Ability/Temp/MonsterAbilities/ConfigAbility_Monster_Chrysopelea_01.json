@@ -1,0 +1,235 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onKill": [
+        {
+          "$type": "EnableHDMesh",
+          "enable": true,
+          "hdMeshKey": "Default"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "endNormalizedTime": 0.550000011920929,
+          "steerStateIDs": [
+            "Attack_01"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 160.0,
+          "endNormalizedTime": 0.800000011920929,
+          "steerStateIDs": [
+            "Turn"
+          ],
+          "startNormalizedTime": 0.10000000149011612
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 3600.0,
+          "endNormalizedTime": 0.10000000149011612,
+          "steerStateIDs": [
+            "Blink"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 60.0,
+          "steerStateIDs": [
+            "Blink"
+          ],
+          "startNormalizedTime": 0.10000000149011612
+        }
+      ],
+      "abilityName": "Monster_Chrysopelea_SteerAttack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerBullet",
+          "target": "SelfAttackTarget",
+          "born": {
+            "$type": "ConfigBornBySelf",
+            "useRotation": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0.758,
+              "y": 0.932
+            },
+            "direction": {
+              "$type": "ConfigDirectionByAttackTarget"
+            }
+          },
+          "bulletID": 42806001
+        }
+      ],
+      "abilityName": "Monster_Chrysopelea_Attack01"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Bullect_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Chysopelea_None_Attack01_Bullet",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 10.0,
+                "damagePercentage": 1,
+                "elementDurability": 100,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "default",
+                "hitHaltTimeScale": 0.009999999776482582,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "canBeModifiedBy": "OriginOwner"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByCollisionPoint"
+              },
+              "radius": 0.5
+            }
+          }
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "Monster_Chrysopelea_Attack01_Bullet",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Bullect_Effect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "HeadControl_Disable": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableHeadControl",
+              "enable": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableHeadControl"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToAIAlertnessMixin",
+          "alertness": [
+            0,
+            1
+          ],
+          "modifierName": "HeadControl_Disable"
+        }
+      ],
+      "abilityName": "Monster_Chrysopelea_HeadControlOff"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Sleep_Collider": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachActionToModifierMixin",
+              "onAdded": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBoxSleep"
+                  ],
+                  "setEnable": true
+                },
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox"
+                  ]
+                }
+              ],
+              "onRemoved": [
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBoxSleep"
+                  ]
+                },
+                {
+                  "$type": "EnableHitBoxByName",
+                  "hitBoxNames": [
+                    "HitBox"
+                  ],
+                  "setEnable": true
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Sleep",
+            "Alert_Sleep"
+          ],
+          "modifierName": "Sleep_Collider"
+        }
+      ],
+      "abilityName": "Monster_Chrysopelea_SleepState"
+    }
+  }
+]

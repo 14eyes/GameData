@@ -1,0 +1,747 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "MoveEffect1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "TailEffectPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SlimeBalloon_Move_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Standby",
+            "WalkForward"
+          ],
+          "modifierName": "MoveEffect1"
+        }
+      ],
+      "abilityName": "Monster_AutoMachine_SlimeBalloon_Label",
+      "onAdded": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_SlimeBalloon_Appear_01",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_SlimeBalloon_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "PacMan_Monster_Destroy",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "MoveEffect2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FungusBalloon_Move_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Standby",
+            "WalkForward"
+          ],
+          "modifierName": "MoveEffect2"
+        }
+      ],
+      "abilityName": "Monster_AutoMachine_FungusBalloon_Label",
+      "onAdded": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_FungusBalloon_Appear_01",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_FungusBalloon_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DitherCheck": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 1,
+                "entityTypePriority": [
+                  "Monster"
+                ],
+                "sortType": "Random",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR3"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_PacMan_Balloon_"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "modifierName": "UNIQUE_Balloon_Dither"
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "RemoveUniqueModifier",
+                  "modifierName": "UNIQUE_Balloon_Dither"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Balloon_Dither": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onRemoved": [
+            {
+              "$type": "StartDither",
+              "reverse": true,
+              "duration": 0.10000000149011612
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "StartDither",
+              "duration": 1.0
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Monster_AutoMachine_Balloon_Dither",
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "_PacMan_Balloon_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "DitherCheck"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Circle_Logic": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "PacMan_Monster_Destroy"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_SlimeBalloonBlink_"
+                }
+              ],
+              "modifierName": "NormalCircleEffect"
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "PacMan_Monster_Destroy"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_SlimeBalloonBlink_"
+                }
+              ],
+              "modifierName": "SpecialCircleEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "PacMan_Monster_Destroy"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_SlimeBalloonBlink_"
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "NormalCircleEffect"
+            },
+            {
+              "$type": "RemoveModifier",
+              "predicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "PacMan_Monster_Destroy"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_SlimeBalloonBlink_"
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "SpecialCircleEffect"
+            },
+            {
+              "$type": "AttachModifier",
+              "predicates": [
+                {
+                  "$type": "GOBNKFIFGFJ",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "PacMan_Monster_Destroy"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_SlimeBalloonBlink_"
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "SpecialCircleEffect"
+            },
+            {
+              "$type": "RemoveModifier",
+              "predicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "PacMan_Monster_Destroy"
+                    },
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_SlimeBalloonBlink_"
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "NormalCircleEffect"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "NormalCircleEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MonsterBalloon_Attack_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MonsterBalloon_Attack_Appear",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "SpecialCircleEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MonsterBalloon_Change_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_MonsterBalloon_Change_Appear",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Empty": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_DestroyLogic"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Circle_Logic",
+            "Empty"
+          ],
+          "globalValueKey": "SGV_PacMan_Monster_Flee",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Monster_AutoMachine_Balloon_Effect"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DestroySkill": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_DestroyLogic"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_DestroyLogic": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.2,
+          "duration": 8,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "PacMan_Monster_Destroy",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "PacMan_Monster_Destroy",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "topLimit": 10,
+                "entityTypePriority": [
+                  "Gadget"
+                ],
+                "sortType": "Nearest",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR2_2H3"
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "Is_PacMan_Move_Wall"
+                }
+              ],
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Target",
+                  "modifierName": "PacMan_Gadget_KillSelf"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "PacMan_Gadget_KillSelf": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "KillSelf",
+              "configIdArray": [
+                70290843
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "DestroyAtk"
+          ],
+          "modifierName": "DestroySkill"
+        }
+      ],
+      "abilityName": "Monster_AutoMachine_Balloon_Destroy"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Blink_Control": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "DoBlink"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SlimeBalloonBlink_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_SlimeBalloonBlink_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "TryFindBlinkPointByBorn",
+              "target": "SelfAttackTarget",
+              "DKKAFIDPHMD": false,
+              "limitY": 2.5,
+              "born": {
+                "$type": "ConfigBornByActionPoint",
+                "predicates": [
+                  {
+                    "$type": "PLGKBKMCACP"
+                  }
+                ],
+                "onGround": true,
+                "actionPointType": "PacManBlinkPoint",
+                "selectType": {
+                  "$type": "CAABAMNDMEG"
+                }
+              }
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_MonsterBalloon_Warning",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByTeleportToPoint"
+              },
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blink_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_SlimeBalloon_Transform_01",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "NormalAtk"
+          ],
+          "modifierName": "Blink_Control"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "NormalAtk_AS"
+          ],
+          "modifierName": "Blink_Effect"
+        }
+      ],
+      "abilityName": "Monster_AutoMachine_Balloon_Blink"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Monster_AutoMachine_Balloon_TimeScaleEmpty": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "boolID": "TimeScale"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_AutoMachine_Balloon_TimeScale": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseBool",
+              "value": true,
+              "boolID": "TimeScale"
+            }
+          ],
+          "properties": {
+            "Animator_OverallSpeedRatioMultiplied": 0.15
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "PauseEffectMixin",
+              "CAMHOLKDNCN": 0.15,
+              "FDAHGFHIOLL": [
+                "Eff_SceneObj_SimSlimeBalloon_Attack_Appear"
+              ]
+            },
+            {
+              "$type": "PauseEffectMixin",
+              "CAMHOLKDNCN": 0.15,
+              "FDAHGFHIOLL": [
+                "Eff_SceneObj_MonsterBalloon_Warning"
+              ]
+            },
+            {
+              "$type": "PauseEffectMixin",
+              "CAMHOLKDNCN": 0.15,
+              "FDAHGFHIOLL": [
+                "Eff_SceneObj_SlimeBalloon_Transform_01"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_AutoMachine_Balloon_FollowEffect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_SimSlimeBalloon_Attack_Disappear",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_SimSlimeBalloon_Attack_Appear",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "state": "LockHP",
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByShape",
+                "sizeRatio": 1,
+                "campTargetType": "AllExceptSelf",
+                "shapeName": "CircleR2H2"
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "target": "Team",
+                  "modifierName": "Monster_SlimeBallon_CatchAvatar"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar"
+                  ]
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Monster_SlimeBallon_CatchAvatar": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.01,
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "TeamAbility_V5_6_Activity_ThemeParkTriathlon_HP_Manage_01"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "Monster_AutoMachine_Balloon_FollowEffect"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "Monster_AutoMachine_Balloon_TimeScaleEmpty",
+            "Monster_AutoMachine_Balloon_TimeScale"
+          ],
+          "globalValueTarget": "Team",
+          "globalValueKey": "_ThemeParkTriathlon_WitchTime",
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "Monster_AutoMachine_Balloon_FakeTimeScale",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "Monster_AutoMachine_Balloon_FollowEffect"
+        }
+      ]
+    }
+  }
+]

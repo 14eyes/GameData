@@ -1,0 +1,3449 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "ExtraAttack_StaminaCost": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarSkillStart",
+              "skillID": 10002,
+              "cdRatio": 1,
+              "costStaminaRatio": "ExtraAttack_Pole_Stamina_Cost",
+              "GIBAINFKPBO": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "ButtonHoldChargeMixin",
+          "skillID": 10261,
+          "OnReleaseCharged": [
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ],
+          "OnBeginUncharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "predicates": [
+                {
+                  "$type": "ByAny",
+                  "predicates": [
+                    {
+                      "$type": "ByAnimatorInt",
+                      "logic": "Equal",
+                      "value": 0,
+                      "parameter": "ComboCount"
+                    },
+                    {
+                      "$type": "ByAnimatorInt",
+                      "logic": "Equal",
+                      "value": 6,
+                      "parameter": "ComboCount"
+                    }
+                  ]
+                }
+              ],
+              "intID": "SkillID",
+              "value": 99
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            }
+          ],
+          "secondChargeTime": 0.2,
+          "chargeTime": 0.11999999731779099,
+          "OnBeginCharged": [
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "IsCharging"
+            }
+          ],
+          "OnBeginSecondCharged": [
+            {
+              "$type": "SetAnimatorTrigger",
+              "predicates": [
+                {
+                  "$type": "ByLocalAvatarStamina",
+                  "logic": "GreaterOrEqual",
+                  "stamina": [
+                    "ExtraAttack_Pole_Stamina_Cost",
+                    "Flexible_Stamina",
+                    "ADD"
+                  ]
+                }
+              ],
+              "triggerID": "DoSkill"
+            },
+            {
+              "$type": "SetAnimatorInt",
+              "predicates": [
+                {
+                  "$type": "ByLocalAvatarStamina",
+                  "logic": "GreaterOrEqual",
+                  "stamina": [
+                    "ExtraAttack_Pole_Stamina_Cost",
+                    "Flexible_Stamina",
+                    "ADD"
+                  ]
+                }
+              ],
+              "intID": "SkillID",
+              "value": 6
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "IsCharging"
+            }
+          ],
+          "chargeStateIDs": [
+            "Attack01",
+            "Attack02",
+            "Attack03",
+            "Attack04",
+            "Attack05",
+            "Run"
+          ],
+          "OnReleaseUncharged": [
+            {
+              "$type": "SetAnimatorInt",
+              "intID": "SkillID",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "ExtraAttack"
+          ],
+          "modifierName": "ExtraAttack_StaminaCost"
+        }
+      ],
+      "abilityName": "Avatar_Xiao_ExtraAttack",
+      "abilitySpecials": {
+        "ExtraAttack_Pole_Stamina_Cost": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Flexible_Stamina": {
+          "$type": "GNPGOLDCAGO",
+          "value": -2.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DevilDash_DropBall_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "successActions": [
+                {
+                  "$type": "ApplyModifier",
+                  "born": {
+                    "$type": "PPLILBLAJHB",
+                    "value": true
+                  },
+                  "modifierName": "DevilDash_DropBall_Base"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "Elemental_Art"
+                  ]
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_DropBall_Base": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.5,
+          "onAdded": [
+            {
+              "$type": "GenerateElemBall",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "ratio": 1,
+              "JIBBGCFIDIM": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": -1,
+                  "y": 0.5
+                }
+              },
+              "configID": 2021,
+              "baseEnergy": 9.0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_Dust_Material": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_DevilDash_Dust",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_Air_LooseWeight": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetVelocityIgnoreAirGY",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetVelocityIgnoreAirGY",
+              "ignoreAirGY": true
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_CameraPullBack": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.0,
+                "forceRadius": 5.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_ClearVelocityForce": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType"
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "InertiaType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_SoulReaper_Timer": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.25,
+          "onRemoved": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "DevilDash_SoulReaper"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_SoulReaper": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DevilDash_SoulReaper_Duration",
+          "stacking": "MultipleAllRefresh",
+          "stackingOption": {
+            "$type": "ConfigModifierStackingOption",
+            "maxModifierNumForMultipleType": "DevilDash_SoulReaper_MaxStack"
+          },
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": "DevilDash_SoulReaper_DamageUp",
+              "attackTags": [
+                "Elemental_Art"
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_Infinite_FallingAnthemCount_Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_Infinite_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAttackLanded": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddGlobalValue",
+                  "target": "Caster",
+                  "useLimitRange": true,
+                  "key": "_ABILITY_DevilDash_FallingAnthemCount",
+                  "maxValue": 2,
+                  "minValue": 0,
+                  "value": 1
+                },
+                {
+                  "$type": "SetTargetToTargetKey",
+                  "target": "Target",
+                  "targetKey": "_ABILITY_Xiao_DevilDash_Infinite_Target_Cache"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "FallingAttack"
+                  ]
+                },
+                {
+                  "$type": "ByHitStrikeType",
+                  "strikeType": "Blunt"
+                },
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster"
+                  ]
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ANIMAL_ENTITY_TYPE"
+                },
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                },
+                {
+                  "$type": "ByUnlockTalentParam",
+                  "target": "Caster",
+                  "talentParam": "Talent_DevilDash_Infinite"
+                },
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetType",
+                      "targetType": "TempTarget",
+                      "GCGFDNHKCIH": "_ABILITY_Xiao_DevilDash_Infinite_Target_Cache"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_Infinite_Handler_Reset": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_DevilDash_FallingAnthemCount",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_Xiao_DevilDash_Infinite_Target_Cache_0",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "SetGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_Xiao_DevilDash_Infinite_Target_Cache_1",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_Infinite_Activator": {
+          "$type": "ConfigAbilityModifier",
+          "duration": "DevilDash_Infinite_Activator_Duration",
+          "onRemoved": [
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_DevilDash_FallingAnthemCount",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_DevilDash_Infinite_Flag",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": -5
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ModifyAvatarSkillCD",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "BySkillReady",
+                      "skillID": 10262
+                    }
+                  ]
+                }
+              ],
+              "skillID": 10262,
+              "cdRatio": -1
+            },
+            {
+              "$type": "ModifyAvatarSkillCD",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "BySkillReady",
+                      "skillID": 10263
+                    }
+                  ]
+                }
+              ],
+              "skillID": 10263,
+              "cdRatio": -1
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_DevilDash_Infinite_Flag",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilDash_ClearTrigger": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ResetAnimatorTrigger",
+              "triggerID": "DoSkill"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "SetAnimatorTrigger",
+          "triggerID": "DevilDash_Skin"
+        },
+        {
+          "$type": "RemoveModifier",
+          "modifierName": "DevilDash_DropBall_Base"
+        },
+        {
+          "$type": "TriggerBullet",
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "attachPointName": "RootNode"
+          },
+          "bulletID": 41026001
+        },
+        {
+          "$type": "ApplyModifier",
+          "predicates": [
+            {
+              "$type": "ByUnlockTalentParam",
+              "talentParam": "Talent_DevilDash_SoulReaper"
+            }
+          ],
+          "modifierName": "DevilDash_SoulReaper_Timer"
+        },
+        {
+          "$type": "AvatarSkillStart",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_ABILITY_DevilDash_Infinite_Flag",
+              "forceByCaster": true
+            }
+          ],
+          "skillID": 10262,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        },
+        {
+          "$type": "AvatarSkillStart",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "key": "_ABILITY_DevilDash_Infinite_Flag",
+              "forceByCaster": true
+            }
+          ],
+          "skillID": 10263,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AvatarChangeSkillMixin",
+          "OLDBNEGFONF": 10263,
+          "index": 1,
+          "IJBAHBAGBCN": 10263,
+          "priority": "AvatarSpecial"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "DevilDashAir",
+            "DevilDashAir_AS"
+          ],
+          "modifierName": "DevilDash_Air_LooseWeight"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "DevilDash_Dust_Material",
+          "normalizeEnd": 0.5,
+          "stateID": "DevilDash",
+          "normalizeStart": 0.3400000035762787
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "DevilDash_CameraPullBack",
+          "normalizeEnd": 0.8999999761581421,
+          "stateID": "DevilDash"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "DevilDash_CameraPullBack",
+          "normalizeEnd": 0.8999999761581421,
+          "stateID": "DevilDashAir"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "DevilDash_ClearVelocityForce",
+          "stateID": "DevilDashAir"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "DevilDash_ClearTrigger",
+          "normalizeEnd": 0.800000011920929,
+          "stateID": "DevilDash",
+          "normalizeStart": 0.4000000059604645
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "DevilDash_ClearTrigger",
+          "normalizeEnd": 0.800000011920929,
+          "stateID": "DevilDashAir",
+          "normalizeStart": 0.4000000059604645
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "DevilDash_Infinite_Handler_Reset"
+        },
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "DevilDash_Infinite_FallingAnthemCount_Blank",
+            "DevilDash_Infinite_Activator"
+          ],
+          "JNDPFAKECFB": false,
+          "valueSteps": [
+            -1,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "_ABILITY_DevilDash_FallingAnthemCount",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Avatar_Xiao_DevilDash_Handler",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_DevilDash_FallingAnthemCount",
+          "maxValue": 0,
+          "minValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_DevilDash_Infinite_Flag",
+          "maxValue": 0,
+          "minValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "DevilDash_DropBall_Handler"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "DevilDash_Infinite_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "DevilDash_SoulReaper_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DevilDash_SoulReaper_MaxStack": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DevilDash_SoulReaper_DamageUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DevilDash_Infinite_Activator_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "DamageByAttackValue",
+              "target": "Target",
+              "attackInfo": {
+                "$type": "ConfigAttackInfo",
+                "attackProperty": {
+                  "$type": "ConfigAttackProperty",
+                  "elementType": "Wind",
+                  "attackType": "Melee",
+                  "damagePercentageRatio": 0,
+                  "strikeType": "Slash",
+                  "enBreak": 100.0,
+                  "damagePercentage": "DevilDash_Damage",
+                  "elementDurability": 25,
+                  "arkheGrade": 0
+                },
+                "hitPattern": {
+                  "$type": "ConfigHitPattern",
+                  "onHitEffectName": "default",
+                  "hitHaltTimeScale": 0.009999999776482582,
+                  "hitImpulseType": "LV3"
+                },
+                "attenuationGroup": "Xiao_DevilDash",
+                "attenuationTag": "Elemental_Art",
+                "attackTag": "Elemental_Art",
+                "canBeModifiedBy": "OriginOwner"
+              }
+            }
+          ],
+          "failActions": [
+            {
+              "$type": "TriggerAttackEvent",
+              "target": "OriginOwner",
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Wind",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 100.0,
+                    "damagePercentage": "DevilDash_Damage",
+                    "elementDurability": 25,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.009999999776482582,
+                    "hitImpulseType": "LV3"
+                  },
+                  "attenuationGroup": "Xiao_DevilDash",
+                  "attenuationTag": "Elemental_Art",
+                  "attackTag": "Elemental_Art"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "filterByFrame": true,
+                  "born": {
+                    "$type": "ConfigBornByCollisionPoint",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 0.8
+                }
+              }
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "MonsterEquip"
+              ]
+            }
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Xiao_DevilDash_Bullet",
+      "abilitySpecials": {
+        "DevilDash_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Xiao_CloseCollider": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerSetPassThrough",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "EnableHDMesh",
+              "canBeHandledOnRecover": true,
+              "enable": true,
+              "hdMeshKey": "Default"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetPassThrough",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "GMPACBDHKMB": true
+            },
+            {
+              "$type": "EnableHDMesh",
+              "hdMeshKey": "Default"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Xiao_Invisible": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerSetVisible",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "visible": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Xiao_CloseCollider_Air": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerSetPassThrough",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "EnableHDMesh",
+              "canBeHandledOnRecover": true,
+              "enable": true,
+              "hdMeshKey": "Default"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetPassThrough",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "GMPACBDHKMB": true
+            },
+            {
+              "$type": "EnableHDMesh",
+              "hdMeshKey": "Default"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Xiao_Invisible_Air": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerSetVisible",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "visible": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerSetVisible"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Xiao_CloseCollider",
+          "normalizeEnd": 0.3240000009536743,
+          "stateID": "DevilDash"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Xiao_CloseCollider_Air",
+          "normalizeEnd": 0.3240000009536743,
+          "stateID": "DevilDashAir"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Xiao_Invisible",
+          "normalizeEnd": 0.3240000009536743,
+          "stateID": "DevilDash"
+        },
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Xiao_Invisible_Air",
+          "normalizeEnd": 0.3240000009536743,
+          "stateID": "DevilDashAir"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "Xiao_CloseCollider"
+        }
+      ],
+      "abilityName": "Avatar_Xiao_CloseCollider"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "FallingAnthem_BS_Material": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                }
+              ],
+              "effectPattern": "Eff_Avatar_Pole_FallingAnthem_BS_Normal",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "FireEffect",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                }
+              ],
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_FallingAnthem_BS_Howling",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_BS_VelocityForce_Initialize": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType"
+              ]
+            }
+          ],
+          "properties": {
+            "Actor_AddGravityScale": -2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_DamageHandler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "FallingAnthem_Loop_Normal",
+                "FallingAnthem_Loop_HowlingSoul"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_HowlingSoul_Flag",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_LoopDamage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "onAdded": [
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 25.0,
+                    "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                    "elementDurability": 0,
+                    "overrideByWeapon": true,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Wind",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 37.5,
+                    "damagePercentage": "FallingAnthem_HowlingSoul_Loop_Damage",
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 0,
+                  "compareType": "NoneOrEqual",
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 25.0,
+                    "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                    "elementDurability": 0,
+                    "overrideByWeapon": true,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            },
+            {
+              "$type": "TriggerAttackEvent",
+              "predicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "_ABILITY_HowlingSoul_Flag",
+                  "forceByCaster": true
+                }
+              ],
+              "targetType": "Enemy",
+              "attackEvent": {
+                "$type": "ConfigAttackEvent",
+                "attackInfo": {
+                  "$type": "ConfigAttackInfo",
+                  "attackProperty": {
+                    "$type": "ConfigAttackProperty",
+                    "elementType": "Wind",
+                    "attackType": "Melee",
+                    "damagePercentageRatio": 0,
+                    "strikeType": "Slash",
+                    "enBreak": 25.0,
+                    "damagePercentage": "FallingAnthem_HowlingSoul_Loop_Damage",
+                    "elementDurability": 0,
+                    "arkheGrade": 0
+                  },
+                  "hitPattern": {
+                    "$type": "ConfigHitPattern",
+                    "onHitEffectName": "default",
+                    "hitHaltTimeScale": 0.019999999552965164,
+                    "hitImpulseType": "LV2"
+                  },
+                  "attenuationGroup": "default",
+                  "attackTag": "FallingAttack"
+                },
+                "attackPattern": {
+                  "$type": "ConfigAttackSphere",
+                  "triggerType": "TriggerNoRepeat",
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 0,
+                      "y": 0
+                    }
+                  },
+                  "radius": 1
+                }
+              }
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_FallingDamageImmune": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_FallingDamageRatio": -1
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "FallingAnthem_Loop_Normal_Rank_1",
+                "FallingAnthem_Loop_Normal_Rank_2"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_FallingAnthem_UseCamera",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Loop_01_Normal",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_Normal_Rank_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Loop_02_Normal",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_HowlingSoul": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "FallingAnthem_Loop_HowlingSoul_Rank_1",
+                "FallingAnthem_Loop_HowlingSoul_Rank_2"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_FallingAnthem_UseCamera",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_HowlingSoul_Rank_1": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_FallingAnthem_Loop_01_HowlingSoul",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Loop_HowlingSoul_Rank_2": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_FallingAnthem_Loop_02_HowlingSoul",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Inertia": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ApplyInertiaVelocityMixin",
+              "JOHELJNOOBE": false,
+              "useY": false
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Height_Detect": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "useLimitRange": true,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "maxValue": 1,
+              "minValue": 0,
+              "value": 5
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "logic": "LesserOrEqual",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 0
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "predicates": [
+                {
+                  "$type": "ByTargetAltitude",
+                  "value": 2.4
+                }
+              ],
+              "floatID": "FallingAnthem_UseCamera",
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.20000000298023224,
+                "forceRadius": 4.5
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_OverHead_Camera_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_Landed_Camera": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AvatarCameraParam",
+              "predicates": [
+                {
+                  "$type": "ByAnimatorFloat",
+                  "logic": "Equal",
+                  "parameter": "FallingAnthem_UseCamera",
+                  "value": 1
+                }
+              ],
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.10000000149011612,
+                "forceRadius": 6.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "FallingAnthem_ClearVelocityForce": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "RemoveVelocityForce",
+              "forces": [
+                "RushMoveType",
+                "InertiaType"
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 100.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_1_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.23999999463558197,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.23999999463558197
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV4"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "radius": 3,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 150.0,
+                "damagePercentage": "FallingAnthem_Normal_Rank_2_Damage",
+                "elementDurability": 25,
+                "overrideByWeapon": true,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.4000000059604645,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.20000000298023224,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.5
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV7"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "radius": 5,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Wind",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 150.0,
+                "damagePercentage": "FallingAnthem_HowlingSoul_Rank_1_Damage",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.23999999463558197,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.11999999731779099,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.23999999463558197
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV7"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "radius": 4,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "TriggerAttackEvent",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Wind",
+                "attackType": "Melee",
+                "damagePercentageRatio": 0,
+                "strikeType": "Blunt",
+                "enBreak": 225.0,
+                "damagePercentage": "FallingAnthem_HowlingSoul_Rank_2_Damage",
+                "elementDurability": 25,
+                "arkheGrade": 0
+              },
+              "cameraShake": {
+                "$type": "ConfigCameraShake",
+                "extension": {
+                  "$type": "ConfigCameraShakeExt",
+                  "rangeAttenuation": 0.30000001192092896,
+                  "baseCycle": 0.4000000059604645,
+                  "cycleDamping": 0.0
+                },
+                "shakeDir": {
+                  "$type": "NFFDDFHHDHG",
+                  "y": 1.0
+                },
+                "shakeTime": 0.20000000298023224,
+                "shakeType": "CustomVector",
+                "shakeDistance": 30.0,
+                "shakeRange": 0.5
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "none",
+                "hitHaltTimeScale": 0.10000000149011612,
+                "hitImpulseType": "LV7"
+              },
+              "forceCameraShake": true,
+              "attenuationGroup": "default",
+              "attackTag": "FallingAttack"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": -0.5
+                }
+              },
+              "radius": 6,
+              "height": 2.0
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Strike_01_Normal",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Pole_FallingAnthem_Strike_02_Normal",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_FallingAnthem_Strike_01_HowlingSoul",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "FireEffect",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "forceByCaster": true
+            },
+            {
+              "$type": "ByTargetGlobalValue",
+              "value": 1,
+              "key": "_ABILITY_FallingAnthem_UseCamera",
+              "forceByCaster": true
+            }
+          ],
+          "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_FallingAnthem_Strike_02_HowlingSoul",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AvatarChangeSkillMixin",
+          "OLDBNEGFONF": 10264,
+          "IJBAHBAGBCN": 10264
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_Material"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_DamageHandler"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "FallingAnthem_LoopDamage"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_BS_VelocityForce_Initialize"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_Height_Detect"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_FallingDamageImmune"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop"
+          ],
+          "modifierName": "Inertia"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS",
+            "FallingAnthem_Loop",
+            "FallingAnthem_AS_1",
+            "FallingAnthem_AS_2"
+          ],
+          "modifierName": "FallingAnthem_OverHead_Camera"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "FallingAnthem_BS"
+          ],
+          "modifierName": "FallingAnthem_ClearVelocityForce"
+        }
+      ],
+      "abilityName": "Avatar_Xiao_FallingAnthem",
+      "abilitySpecials": {
+        "FallingAnthem_Normal_Loop_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_HowlingSoul_Loop_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_1_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_Normal_Rank_2_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_HowlingSoul_Rank_1_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "FallingAnthem_HowlingSoul_Rank_2_Damage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "HowlingSoul_Camera_Protection_Ghost": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachAbilityStateResistance",
+              "resistanceListID": 11002
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_Camera_Protection_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_Camera_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "WindZoneMixin",
+              "targetType": "Enemy",
+              "innerRadius": 0,
+              "strength": -3,
+              "attenuation": 2,
+              "born": {
+                "$type": "ConfigBornByTarget",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                }
+              },
+              "shapeName": "CircleR3",
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Monster",
+                    "Grass"
+                  ]
+                },
+                {
+                  "$type": "ByTargetWeight",
+                  "logic": "LesserOrEqual",
+                  "weight": 250
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_Camera_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableHeadControl",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "enable": true
+            },
+            {
+              "$type": "AvatarExitCameraShot",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "ControlEmotion",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "TriggerHideWeapon",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "partNames": [
+                "equip01"
+              ],
+              "visible": true
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ControlEmotion",
+              "MJCILBIAAJA": false,
+              "PIIDHCFMKEM": false,
+              "LIIHBLNMGAF": false
+            },
+            {
+              "$type": "TriggerHideWeapon",
+              "partNames": [
+                "equip01"
+              ]
+            },
+            {
+              "$type": "AvatarCameraParam",
+              "cameraParam": {
+                "$type": "ConfigStateCameraParam",
+                "shouldKeepForceRadius": true,
+                "forceRadiusDuration": 0.10000000149011612,
+                "forceRadius": 5.0
+              }
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_HowlingSoul_Mask_Material": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_HowlingSoul_Mask",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_HowlingSoul_Pre_Weather": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1.5,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "duration": 1.5,
+              "transDuration": 0.30000001192092896,
+              "type": "Skill",
+              "weatherPattern": "Weather_Xiao_HowlingSoul_Pre"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "EnableHeadControl",
+          "LIHMHHKBCPI": false
+        },
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Mask_Material_Remover"
+        },
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Mask_Material"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Mask_Material"
+        },
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Weather"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Pre_Weather"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_HowlingSoul_Start",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AvatarEnterCameraShot",
+          "predicates": [
+            {
+              "$type": "ByAttackNotHitScene",
+              "checkWaterLayer": true,
+              "attackPattern": {
+                "$type": "ConfigAttackSphere",
+                "triggerType": "TriggerNoRepeat",
+                "born": {
+                  "$type": "ConfigBornBySelf",
+                  "offset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0.2,
+                    "y": 1
+                  }
+                },
+                "radius": 0.4
+              }
+            },
+            {
+              "$type": "ByAvatarInWaterDepth",
+              "compareType": "LessAndEqual",
+              "depth": 0.5
+            }
+          ],
+          "cameraMoveCfgPath": "Camera_Xiao_HowlingSoul"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Xiao_HowlingSoul"
+          ],
+          "modifierName": "HowlingSoul_Camera_Protection_Ghost"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Xiao_HowlingSoul"
+          ],
+          "modifierName": "HowlingSoul_Camera_Protection_Invincible"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Xiao_HowlingSoul"
+          ],
+          "modifierName": "HowlingSoul_Camera_Handler"
+        },
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Xiao_HowlingSoul"
+          ],
+          "modifierName": "HowlingSoul_Camera_Remover"
+        }
+      ],
+      "abilityName": "Avatar_Xiao_HowlingSoul_CameraController"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_HowlingSoul_Main_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "duration": [
+            "HowlingSoul_Duration",
+            0.8,
+            "ADD"
+          ],
+          "onRemoved": [
+            {
+              "$type": "EnableRocketJump",
+              "canBeHandledOnRecover": true,
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            },
+            {
+              "$type": "AddGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "useLimitRange": true,
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "maxValue": 0,
+              "minValue": 0,
+              "value": -999
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_HowlingSoul_Weather"
+            },
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_HowlingSoul_Mask_Dissipate",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "SetAnimatorFloat",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "floatID": "HowlingSoul_Flag",
+              "value": 0
+            },
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_HowlingSoul_Mask_Material_Remover"
+            },
+            {
+              "$type": "SetEmissionScaler",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "materialType": "Arm",
+              "value": 0.5
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": true,
+              "boolID": "CanSpecialPerform"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetEmissionScaler",
+              "materialType": "Arm",
+              "value": 20.0,
+              "duration": 20.0
+            },
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_HowlingSoul_Flag",
+              "maxValue": 1,
+              "minValue": 1,
+              "value": 1
+            },
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_HowlingSoul_Loop",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "EnableRocketJump",
+              "canBeHandledOnRecover": true,
+              "extention": {
+                "$type": "NGBCAJAHICF",
+                "xzMultiplier": 2.299999952316284,
+                "yMultiplier": 5.0
+              },
+              "enable": true
+            },
+            {
+              "$type": "ClearEndura"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "CanSpecialPerform"
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_HowlingSoul_Main_Handler"
+            }
+          ],
+          "properties": {
+            "Actor_EndureDelta": 0.5
+          },
+          "onKill": [
+            {
+              "$type": "SetEmissionScaler",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "materialType": "Arm",
+              "value": 0.5
+            },
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_HowlingSoul_Main_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "onAvatarIn": [
+            {
+              "$type": "SetAnimatorFloat",
+              "floatID": "HowlingSoul_Flag",
+              "value": 1
+            }
+          ],
+          "modifierMixins": [
+            {
+              "$type": "ReplaceEventPatternMixin",
+              "newPatterns": [
+                "Xiao_Attack01_HowlingSoul",
+                "Xiao_Attack02_HowlingSoul",
+                "Xiao_Attack03_HowlingSoul",
+                "Xiao_Attack04_HowlingSoul",
+                "Xiao_Attack05_HowlingSoul",
+                "Xiao_Attack06_HowlingSoul",
+                "Xiao_ExtraAttack_HowlingSoul",
+                "Audio_Boy_FallingAnthem_AS_1_HS_Xiao",
+                "Audio_Boy_Attack01_HS_Xiao",
+                "Audio_Boy_Attack02_HS_Xiao",
+                "Audio_Boy_Attack03_HS_Xiao",
+                "Audio_Boy_Attack04_HS_Xiao",
+                "Audio_Boy_Attack05_HS_Xiao",
+                "Audio_Boy_Attack06_HS_Xiao",
+                "Audio_Boy_ExtraAtk_HowlingSoul_Xiao"
+              ],
+              "oldPatterns": [
+                "Xiao_Attack01",
+                "Xiao_Attack02",
+                "Xiao_Attack03",
+                "Xiao_Attack04",
+                "Xiao_Attack05",
+                "Xiao_Attack06",
+                "Xiao_ExtraAttack",
+                "Audio_Boy_FallingAnthem_AS_1_Normal_Xiao",
+                "Audio_Boy_Attack01_Xiao",
+                "Audio_Boy_Attack02_Xiao",
+                "Audio_Boy_Attack03_Xiao",
+                "Audio_Boy_Attack04_Xiao",
+                "Audio_Boy_Attack05_Xiao",
+                "Audio_Boy_Attack06_Xiao",
+                "Audio_Boy_ExtraAtk_Xiao"
+              ]
+            },
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Jump"
+              ],
+              "modifierName": "HowlingSoul_Jump_Material"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_StayInAir_FallingProtection",
+              "normalizeEnd": 0.20000000298023224,
+              "stateID": "Jump"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_StayInAir_FallingProtection",
+              "normalizeEnd": 0.20000000298023224,
+              "stateID": "JumpForRun"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_StayInAir_FallingProtection",
+              "normalizeEnd": 0.20000000298023224,
+              "stateID": "JumpForWalk"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_StayInAir_FallingProtection",
+              "normalizeEnd": 0.20000000298023224,
+              "stateID": "JumpForSprint"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_AfterImage_Main_Handler_DevilDash",
+              "normalizeEnd": 0.699999988079071,
+              "stateID": "DevilDash"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_AfterImage_Main_Handler_DevilDashAir",
+              "normalizeEnd": 0.699999988079071,
+              "stateID": "DevilDashAir"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_AfterImage_Main_Handler_Attack03",
+              "normalizeEnd": 0.15000000596046448,
+              "stateID": "Attack03"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_AfterImage_Main_Handler_Attack04",
+              "normalizeEnd": 0.20000000298023224,
+              "stateID": "Attack04"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_AfterImage_Main_Handler_Attack05",
+              "normalizeEnd": 0.10999999940395355,
+              "stateID": "Attack05"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_AfterImage_Main_Handler_Attack06",
+              "normalizeEnd": 0.10000000149011612,
+              "stateID": "Attack06"
+            },
+            {
+              "$type": "AttachToNormalizedTimeMixin",
+              "modifierName": "HowlingSoul_AfterImage_Main_Handler_Attack06",
+              "normalizeEnd": 0.25,
+              "stateID": "Attack06",
+              "normalizeStart": 0.20999999344348907
+            },
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": "HowlingSoul_DamageUp",
+              "attackTags": [
+                "NormalAttack_01",
+                "NormalAttack_02",
+                "NormalAttack_03",
+                "NormalAttack_04",
+                "NormalAttack_05",
+                "NormalAttack_06",
+                "ExtraAttack",
+                "FallingAttack"
+              ]
+            }
+          ],
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "LoseHP",
+              "amountByTargetCurrentHPRatio": "HowlingSoul_LifeCostRatio",
+              "OIIGPGHDHHG": false
+            },
+            {
+              "$type": "EnableRocketJump",
+              "canBeHandledOnRecover": true,
+              "extention": {
+                "$type": "NGBCAJAHICF",
+                "xzMultiplier": 2.299999952316284,
+                "yMultiplier": 5.0
+              },
+              "enable": true
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_HowlingSoul_Weather": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "TriggerWeatherMixin",
+              "duration": 999.0,
+              "type": "Skill",
+              "weatherPattern": "Weather_Xiao_HowlingSoul"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_Jump_Material": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_HowlingSoul_Jump",
+              "scale": 1,
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_StayInAir_Hard": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": -0.7
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_StayInAir_Normal": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Animator_MoveSpeedRatio": -0.5
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_StayInAir_FallingProtection": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "HowlingSoul_StayInAir_FallingProtection_Handler"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_StayInAir_FallingProtection_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.2,
+          "properties": {
+            "Actor_FallingDamageRatio": -1
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_HowlingSoul_Mask_Material_Remover": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "duration": 1.6,
+          "onAdded": [
+            {
+              "$type": "SendEffectTrigger",
+              "parameter": "Fade",
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_HowlingSoul_Mask"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_HowlingSoul_Mask_Material"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Main_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Main_Handler_DevilDash": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Main_Handler_DevilDashAir": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Main_Handler_Attack03": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Main_Handler_Attack04": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Main_Handler_Attack05": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Main_Handler_Attack06": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "HowlingSoul_AfterImage_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.35,
+          "onRemoved": [
+            {
+              "$type": "EnableAfterImage",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              }
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "EnableAfterImage",
+              "enable": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Pre_Weather"
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Weather"
+        },
+        {
+          "$type": "SetAnimatorFloat",
+          "floatID": "HowlingSoul_Flag",
+          "value": 1
+        },
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_HowlingSoul_Main_Handler"
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_HowlingSoul_Burst",
+          "scale": 1,
+          "effectTempleteID": -1
+        },
+        {
+          "$type": "AvatarSkillStart",
+          "skillID": 10265,
+          "cdRatio": 1,
+          "costStaminaRatio": 1,
+          "GIBAINFKPBO": 1
+        }
+      ],
+      "abilityName": "Avatar_Xiao_HowlingSoul",
+      "onAdded": [
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "_ABILITY_HowlingSoul_Flag",
+          "maxValue": 0,
+          "minValue": 0,
+          "value": -999
+        }
+      ],
+      "abilitySpecials": {
+        "HowlingSoul_LifeCostRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "HowlingSoul_Duration": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "HowlingSoul_DamageUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Zen_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByIsLocalAvatar"
+                    }
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_Zen_ChargeEfficiencyUp"
+            }
+          ],
+          "onAvatarOut": [
+            {
+              "$type": "ApplyModifier",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_Zen_ChargeEfficiencyUp"
+            }
+          ],
+          "elementDurability": 100,
+          "onAvatarIn": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Zen_ChargeEfficiencyUp"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Zen_ChargeEfficiencyUp": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_ChargeEfficiencyDelta": "Xiao_Talent_Zen_ChargeEfficiencyUp"
+          },
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Xiao_Talent_Zen",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Zen_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "Xiao_Talent_Zen_ChargeEfficiencyUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "DevilMayCry_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "DevilMayCry_Blank",
+                "DevilMayCry_TimeToDamage"
+              ],
+              "valueSteps": [
+                -1,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_HowlingSoul_Flag",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilMayCry_Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilMayCry_TimeToDamage": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": "DevilMayCry_TimeToDamage_Interval",
+          "onAdded": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_XIAO_DEVILMAYCRY_DELTATIME",
+              "maxValue": 5,
+              "minValue": 1,
+              "value": -4
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_XIAO_DEVILMAYCRY_DELTATIME",
+              "overrideMapKey": "DevilMayCry_DeltaTime"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ModifyDamageMixin",
+              "damagePercentageRatio": [
+                "DevilMayCry_DamageUp",
+                "DevilMayCry_DeltaTime",
+                "MUL"
+              ],
+              "ignoreEventInfo": true
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "DevilMayCry_Material_Low",
+                "DevilMayCry_Material_High"
+              ],
+              "valueSteps": [
+                0,
+                4.5,
+                5.5
+              ],
+              "globalValueKey": "_ABILITY_XIAO_DEVILMAYCRY_DELTATIME",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "AddGlobalValue",
+              "useLimitRange": true,
+              "key": "_ABILITY_XIAO_DEVILMAYCRY_DELTATIME",
+              "maxValue": 5,
+              "minValue": 1,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValueToOverrideMap",
+              "globalValueKey": "_ABILITY_XIAO_DEVILMAYCRY_DELTATIME",
+              "overrideMapKey": "DevilMayCry_DeltaTime"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilMayCry_Material_Low": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_DevilMayCry_Low",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "DevilMayCry_Material_High": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_Avatar_Boy_Pole_Xiao_DevilMayCry_High",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Xiao_Talent_DevilMayCry",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "DevilMayCry_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "DevilMayCry_DamageUp": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DevilMayCry_DeltaTime": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "DevilMayCry_TimeToDamage_Interval": {
+          "$type": "GNPGOLDCAGO",
+          "value": 3.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_01A_DamagePercentage",
+          "animEventNames": [
+            "ATK01A",
+            "ATK01A_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_01B_DamagePercentage",
+          "animEventNames": [
+            "ATK01B",
+            "ATK01B_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_02_DamagePercentage",
+          "animEventNames": [
+            "ATK02",
+            "ATK02_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_03_DamagePercentage",
+          "animEventNames": [
+            "ATK03",
+            "ATK03_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_04A_DamagePercentage",
+          "animEventNames": [
+            "ATK04A",
+            "ATK04A_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_04B_DamagePercentage",
+          "animEventNames": [
+            "ATK04B",
+            "ATK04B_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_05_DamagePercentage",
+          "animEventNames": [
+            "ATK05",
+            "ATK05_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "NormalAttack_06_DamagePercentage",
+          "animEventNames": [
+            "ATK06",
+            "ATK06_HowlingSoul"
+          ]
+        },
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": 0,
+          "damagePercentage": "ExtraAttack_DamagePercentage",
+          "animEventNames": [
+            "ExtraAttack",
+            "ExtraAttack_HowlingSoul"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Xiao_NormalAttack_DamageHandler",
+      "abilitySpecials": {
+        "NormalAttack_01A_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_01B_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_02_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_03_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_04A_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_04B_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_05_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "NormalAttack_06_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "ExtraAttack_DamagePercentage": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "ModifyDamageMixin",
+          "damagePercentageRatio": "CoreSkill_DamagePercentageRatio",
+          "attackTags": [
+            "ExtraAttack"
+          ]
+        }
+      ],
+      "abilityName": "Avatar_Xiao_CoreSkill",
+      "abilitySpecials": {
+        "CoreSkill_DamagePercentageRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Xiao_Talent_LowHP_DefenceUp_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.3,
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "Xiao_Talent_LowHP_DefenceUp_Blank",
+                "Xiao_Talent_LowHP_DefenceUp_Buff"
+              ],
+              "valueSteps": [
+                -0.5,
+                0.5,
+                1.5
+              ],
+              "globalValueKey": "_ABILITY_Xiao_Talent_LowHP_DefenceUp_Active",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetHPRatio",
+                  "target": "Self",
+                  "logic": "LesserOrEqual",
+                  "HPRatio": "Xiao_Talent_LowHPRatio"
+                }
+              ],
+              "key": "_ABILITY_Xiao_Talent_LowHP_DefenceUp_Active",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            },
+            {
+              "$type": "SetGlobalValue",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "predicates": [
+                {
+                  "$type": "ByTargetHPRatio",
+                  "target": "Self",
+                  "HPRatio": "Xiao_Talent_LowHPRatio"
+                }
+              ],
+              "key": "_ABILITY_Xiao_Talent_LowHP_DefenceUp_Active",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Xiao_Talent_LowHP_DefenceUp_Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Xiao_Talent_LowHP_DefenceUp_Buff": {
+          "$type": "ConfigAbilityModifier",
+          "isLimitedProperties": true,
+          "properties": {
+            "Actor_DefenceRatio": "Xiao_Talent_LowHP_DefenceRatio"
+          },
+          "elementDurability": 100,
+          "state": "DefenseUp",
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Xiao_Talent_LowHP_DefenceUp",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Xiao_Talent_LowHP_DefenceUp_Handler"
+        }
+      ],
+      "abilitySpecials": {
+        "Xiao_Talent_LowHPRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        },
+        "Xiao_Talent_LowHP_DefenceRatio": {
+          "$type": "GNPGOLDCAGO",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Avatar_Xiao_FallingDamageReduction"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Xiao_ClimbStaminaReduction_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "AttachModifier",
+              "target": "CurTeamAvatars",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_ClimbStaminaReduction"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_ClimbStaminaReduction": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "AttachToStateIDMixin",
+              "stateIDs": [
+                "Climb"
+              ],
+              "modifierName": "ClimbStamina_Reduction"
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ClimbStamina_Reduction": {
+          "$type": "ConfigAbilityModifier",
+          "properties": {
+            "Actor_CostStaminaRatio": -0.2
+          },
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "Avatar_Xiao_ClimbStamina_Reduction",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "target": "CurTeamAvatars",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "UNIQUE_ClimbStaminaReduction"
+        },
+        {
+          "$type": "AttachModifier",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "modifierName": "Xiao_ClimbStaminaReduction_Handler"
+        }
+      ]
+    }
+  }
+]

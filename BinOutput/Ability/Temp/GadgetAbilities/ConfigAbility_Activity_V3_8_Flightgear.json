@@ -1,0 +1,1018 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "NormalRange": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "基础拾取距离"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "topLimit": 6,
+                "sortType": "Nearest",
+                "tag": "IS_PETALCOIN"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "compareType": "XYZ",
+                      "value": 3
+                    }
+                  ],
+                  "key": "GV_PetalPicked",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "SuperRange": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 0.1,
+          "onAdded": [
+            {
+              "$type": "DebugLog",
+              "content": "超级拾取距离"
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "CurLocalAvatarMixinV2",
+              "modifierName": "Avatar_SuperRange_Eff"
+            }
+          ],
+          "onThinkInterval": [
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByTag",
+                "topLimit": 6,
+                "sortType": "Nearest",
+                "tag": "IS_PETALCOIN"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "target": "Target",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetPositionToSelfPosition",
+                      "logic": "LesserOrEqual",
+                      "compareType": "XYZ",
+                      "value": 6
+                    }
+                  ],
+                  "key": "GV_PetalPicked",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Avatar_SuperRange_Eff": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onRemoved": [
+        {
+          "$type": "SetGlobalValue",
+          "target": "Team",
+          "key": "GV_PetalCoinRangeLevel",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Blank",
+            "NormalRange",
+            "SuperRange"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            100
+          ],
+          "globalValueKey": "GV_PetalCoinRangeLevel",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Activity_Flightgear_CoinGet_TeamAbility",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "target": "Team",
+          "key": "GV_PetalCoinRangeLevel",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "CoinMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_CoinCircle_01_Die",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "KillSelf"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_CoinCircle_01",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "BePicked": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Activity_PenumbraFlightgear_CoinGet",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            },
+            {
+              "$type": "ReviveStamina",
+              "target": "Vehicle",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 15
+            },
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "CoinMaterial"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToGlobalValueMixin",
+          "modifierNameSteps": [
+            "BePicked"
+          ],
+          "globalValueKey": "GV_PetalPicked",
+          "valueSteps": [
+            0.5,
+            1.5
+          ]
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_CoinCircle_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "CoinMaterial"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "GV_PetalPicked",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "ChangeTag",
+          "tag": "IS_PETALCOIN",
+          "isAdd": true
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StandByEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_WindField_Horizontal_UGC",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_WindField_Special_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ReviveStamina",
+              "target": "Vehicle",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 1000
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Vehicle"
+              ]
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "StandByEffect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StandByEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_FlyPlat_03",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RotatePoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RotatePoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FlyPlat_01",
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EffRotatePoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_FlyPlat_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onRemoved": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_FlyPlat_04",
+          "scale": 1,
+          "born": {
+            "$type": "ConfigBornByAttachPoint",
+            "useRotation": true,
+            "attachPointName": "RotatePoint"
+          },
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_FlyPlat_01",
+      "onFieldEnter": [
+        {
+          "$type": "Predicated",
+          "target": "Target",
+          "successActions": [
+            {
+              "$type": "ReviveStamina",
+              "target": "Vehicle",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "value": 1000
+            }
+          ],
+          "targetPredicates": [
+            {
+              "$type": "ByEntityTypes",
+              "entityTypes": [
+                "Vehicle"
+              ]
+            }
+          ]
+        }
+      ],
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "StandByEffect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "StandBy_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "CoreMat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Blur_Effect": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "NeedEmit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            },
+            {
+              "$type": "Predicated",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "campTargetType": "All"
+              },
+              "successActions": [
+                {
+                  "$type": "SetGlobalValue",
+                  "key": "NeedEmit",
+                  "minValue": 0,
+                  "maxValue": 0,
+                  "value": 1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Vehicle"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "successActions": [
+                {
+                  "$type": "ChangeGadgetState",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "target": "Self",
+                      "value": 0,
+                      "key": "AlreadyEmit"
+                    }
+                  ],
+                  "state": 201
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "ChangeGadgetState"
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetGlobalValue",
+                  "value": 1,
+                  "key": "NeedEmit"
+                }
+              ]
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Elf_Target_Seeker": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onRemoved": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "AlreadyEmit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "matName": "CoreMat"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 10,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "CoreMat"
+            },
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "campTargetType": "All"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Vehicle"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "modifierName": "Elf_Bullet_Queue"
+            },
+            {
+              "$type": "SetGlobalValue",
+              "key": "AlreadyEmit",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "SetSelfAttackTarget",
+              "otherTargets": {
+                "$type": "SelectTargetsByLCTrigger",
+                "campTargetType": "All"
+              },
+              "predicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Vehicle"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "modifierName": "Elf_Bullet_Queue"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "Elf_Bullet_Queue": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Jamballoon_05",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "AttachPoint"
+                },
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "predicates": [
+                {
+                  "$type": "ByHasAttackTarget"
+                }
+              ],
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootPoint1"
+              },
+              "bulletID": 70291138,
+              "lifeByOwnerV2": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Elf_Target_Seeker",
+          "gadgetState": 201
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "StandBy_Effect"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_Jamballoon_01",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "Blur_Effect"
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "NeedEmit",
+          "maxValue": 0,
+          "minValue": 0,
+          "value": 0
+        },
+        {
+          "$type": "AddGlobalValue",
+          "useLimitRange": true,
+          "key": "AlreadyEmit",
+          "maxValue": 0,
+          "minValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Standby": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "CoreMat"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Active": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 5,
+          "onAdded": [
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "value": 0,
+              "patternName": "_EmissionStrength",
+              "matName": "CoreMat"
+            },
+            {
+              "$type": "SetMaterialParamFloatByTransform",
+              "canBeHandledOnRecover": true,
+              "lerpCurveIndex": 1,
+              "useCurve": true,
+              "value": 10,
+              "patternName": "_EmissionStrength",
+              "lerpTime": 1.0,
+              "matName": "CoreMat"
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ShootBullet"
+            }
+          ],
+          "elementDurability": 100,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "ShootBullet"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "ShootBullet": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.1,
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_SceneObj_Jamballoon_05",
+              "scale": 1,
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "direction": {
+                  "$type": "ConfigDirectionByAttachPoint",
+                  "attachPointName": "AttachPoint"
+                },
+                "attachPointName": "AttachPoint"
+              },
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "TriggerBullet",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "ShootPoint1"
+              },
+              "bulletID": 70291138,
+              "lifeByOwnerV2": true
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Standby"
+        },
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "Active",
+          "gadgetState": 201
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_Jamballoon_02"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "born": {
+            "$type": "PPLILBLAJHB",
+            "value": true
+          },
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attenuationGroup": "default",
+              "attackTag": "SorushHit"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackSphere",
+              "triggerType": "TriggerNoRepeat",
+              "radius": 5
+            }
+          }
+        },
+        {
+          "$type": "KillSelf"
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_Jamballoon_Bullet_01_Damage"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "EffectMaterial": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "RootNode"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Jamballoon_04",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onKill": [
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_SceneObj_Jamballoon_02",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_Jamballoon_Bullet_01_Material",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "EffectMaterial"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "AddEffect": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "useRotation": true,
+                "attachPointName": "EffectPoint"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_SceneObj_Challengestarter_02",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "ReMove": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 2,
+          "onRemoved": [
+            {
+              "$type": "RemoveModifier",
+              "modifierName": "AddEffect"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToGadgetStateMixin",
+          "modifierName": "ReMove",
+          "gadgetState": 202
+        }
+      ],
+      "abilityName": "SceneObj_Area_Common_Property_Prop_FlightgearOperator_01",
+      "onAdded": [
+        {
+          "$type": "AttachModifier",
+          "modifierName": "AddEffect"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Blank": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_FlightgearBeHit_TeamHandle": {
+          "$type": "ConfigAbilityModifier",
+          "thinkInterval": 1,
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "onThinkInterval": [
+            {
+              "$type": "ApplyModifier",
+              "target": "Vehicle",
+              "born": {
+                "$type": "PPLILBLAJHB",
+                "value": true
+              },
+              "modifierName": "UNIQUE_FlightgearBeHit_DetectDamage"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_FlightgearBeHit_DetectDamage": {
+          "$type": "ConfigAbilityModifier",
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "state": "LockHP",
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "ApplyModifier",
+              "predicates": [
+                {
+                  "$type": "ByAttackTags",
+                  "attackTags": [
+                    "SorushHit"
+                  ]
+                }
+              ],
+              "modifierName": "UNIQUE_FlightgearBeHit_DamageProgress"
+            }
+          ]
+        },
+        "UNIQUE_FlightgearBeHit_DamageProgress": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 1,
+          "onAdded": [
+            {
+              "$type": "TriggerAudio",
+              "operation": {
+                "$type": "ConfigAudioEventOp",
+                "operation": {
+                  "$type": "ConfigWwiseString",
+                  "text": "Play_motion_amb_sceneObj_gear_jamballoon_05"
+                }
+              }
+            },
+            {
+              "$type": "ServerLuaCall",
+              "param1": 0,
+              "param2": 0,
+              "funcName": "SLC_Activity_PenumbraFlightgear_BeHit",
+              "param3": 0,
+              "luaCallType": "CurGalleryControlGroup"
+            }
+          ],
+          "stacking": "Unique",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onRemoved": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "target": "Vehicle",
+          "modifierName": "UNIQUE_FlightgearBeHit_DetectDamage"
+        }
+      ],
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "UNIQUE_FlightgearBeHit_TeamHandle"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5
+          ],
+          "globalValueKey": "Sorush_Active",
+          "defaultGlobalValueOnCreate": 0
+        }
+      ],
+      "abilityName": "Activity_Flightgear_BeHit_TeamAbility",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "SetGlobalValue",
+          "key": "Sorush_Active",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Activity_Flightgear_BanItem": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "HideActionSlotMixin",
+              "slotType": "SlotQuickUse"
+            }
+          ],
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "CurLocalAvatarMixinV2",
+          "modifierName": "Activity_Flightgear_BanItem"
+        }
+      ],
+      "abilityName": "Activity_Flightgear_BanItem_TeamAbility",
+      "isDynamicAbility": true
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityName": "Activity_Flightgear_ClearLocalGadgets_TeamAbility",
+      "isDynamicAbility": true,
+      "onAdded": [
+        {
+          "$type": "ClearLocalGadgets"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,826 @@
+[
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Kanis_ChargeBar_Handler": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Kanis_ChargeBar"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "UNIQUE_Kanis_ChargeBar"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Kanis_ChargeBar": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "SetChargeBarValue",
+              "value": 0
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetChargeBarValue",
+              "value": 0
+            }
+          ],
+          "elementDurability": 100,
+          "modifierMixins": [
+            {
+              "$type": "ChargeBarMixin",
+              "DFOLBCDILPA": 0,
+              "chargeBarElementType": "Rock",
+              "maxValue": 100,
+              "chargeBarIconID": 2
+            },
+            {
+              "$type": "AttachModifierToSelfGlobalValueMixin",
+              "modifierNameSteps": [
+                "ChargeActivated"
+              ],
+              "valueSteps": [
+                99.5,
+                100.5
+              ],
+              "globalValueKey": "_CHARGEBAR_VALUE",
+              "defaultGlobalValueOnCreate": 0
+            }
+          ],
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "ChargeActivated": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_KANIS_POSE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 1
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_None": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "intID": "ActivatedTag"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "ActivatedTag"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "boolID": "ShaderActivatedTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_NormalToActivated": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "value": 1,
+              "intID": "ActivatedTag"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        },
+        "Pose_Activated": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Hound_Kanis_Rock_EyeEff_Add"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetPoseInt",
+              "value": 2,
+              "intID": "ActivatedTag"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "ActivatedTag"
+            },
+            {
+              "$type": "SetAnimatorBool",
+              "value": true,
+              "boolID": "ShaderActivatedTag"
+            },
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Hound_Kanis_Rock_EyeEff_Remove"
+            }
+          ],
+          "properties": {
+            "Actor_RockSubHurtDelta": -0.3
+          },
+          "elementDurability": 100,
+          "state": "DefenseDown",
+          "AIHNJLDFEGJ": 0
+        },
+        "UNIQUE_Kanis_BeHitCheck": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0,
+          "onBeingHit": [
+            {
+              "$type": "Predicated",
+              "target": "Target",
+              "successActions": [
+                {
+                  "$type": "AddChargeBarValue",
+                  "value": 34,
+                  "minValue": 0,
+                  "maxValue": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                },
+                {
+                  "$type": "ByHitElement",
+                  "element": "Rock"
+                }
+              ]
+            },
+            {
+              "$type": "Predicated",
+              "target": "TargetOriginOwner",
+              "successActions": [
+                {
+                  "$type": "AddChargeBarValue",
+                  "value": 34,
+                  "minValue": 0,
+                  "maxValue": 0
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByEntityTypes",
+                  "entityTypes": [
+                    "Avatar",
+                    "Vehicle",
+                    "Partner"
+                  ]
+                },
+                {
+                  "$type": "ByHitElement",
+                  "element": "Rock"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachModifierToSelfGlobalValueMixin",
+          "modifierNameSteps": [
+            "Pose_None",
+            "Pose_NormalToActivated",
+            "Pose_Activated"
+          ],
+          "valueSteps": [
+            -0.5,
+            0.5,
+            1.5,
+            2.5
+          ],
+          "globalValueKey": "_KANIS_POSE_TAG_",
+          "defaultGlobalValueOnCreate": 0
+        },
+        {
+          "$type": "AttachToPoseIDMixin",
+          "poseIDs": [
+            201,
+            301,
+            401
+          ],
+          "modifierName": "Kanis_ChargeBar_Handler"
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Pose",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Kanis_BeHitCheck"
+        },
+        {
+          "$type": "SetGlobalValue",
+          "key": "_KANIS_Rock_TAG_",
+          "minValue": 0,
+          "maxValue": 0,
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Kanis_Rock_EyeEff": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "AttachEffect",
+              "born": {
+                "$type": "ConfigBornByAttachPoint",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0,
+                  "y": 0
+                },
+                "attachPointName": "Head"
+              },
+              "scale": 1,
+              "effectPattern": "Eff_Monster_Kanis_Rock_Eye",
+              "effectTempleteID": -1
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "onAbilityStart": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Kanis_Rock_EyeEff"
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_EyeEff_Add",
+      "onAdded": [
+        {
+          "$type": "ApplyModifier",
+          "modifierName": "UNIQUE_Kanis_Rock_EyeEff"
+        }
+      ]
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "RemoveUniqueModifier",
+          "modifierName": "UNIQUE_Kanis_Rock_EyeEff"
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_EyeEff_Remove"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "abilityMixins": [
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 120.0,
+          "steerStateIDs": [
+            "Turn"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.25,
+          "steerStateIDs": [
+            "WavePaw"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 180.0,
+          "endNormalizedTime": 0.4000000059604645,
+          "steerStateIDs": [
+            "Strike_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.8999999761581421,
+          "steerStateIDs": [
+            "Biting_BS"
+          ]
+        },
+        {
+          "$type": "SteerAttackMixin",
+          "angularSpeed": 240.0,
+          "endNormalizedTime": 0.20000000298023224,
+          "steerStateIDs": [
+            "JumpBack_BS"
+          ]
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Steer"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "UNIQUE_Strike_Actions": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ],
+              "setEnable": true
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "setEnable": true,
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "TriggerSetVisible",
+              "visible": true
+            },
+            {
+              "$type": "HideUIBillBoard"
+            },
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 2,
+                      "key": "_KANIS_POSE_TAG_"
+                    }
+                  ]
+                }
+              ],
+              "abilityName": "Monster_Hound_Kanis_Rock_EyeEff_Add"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "FireEffect",
+              "effectPattern": "Eff_Monster_Kanis_Rock_Strike_BS",
+              "scale": 1,
+              "effectTempleteID": -1
+            },
+            {
+              "$type": "ClearLockTarget",
+              "target": "CurLocalAvatar"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Strike_Invincible"
+            },
+            {
+              "$type": "AttachModifier",
+              "modifierName": "Strike_DenyLockOn"
+            },
+            {
+              "$type": "TriggerSetVisible"
+            },
+            {
+              "$type": "HideUIBillBoard",
+              "hide": true
+            },
+            {
+              "$type": "EnableHitBoxByName",
+              "hitBoxNames": [
+                "HitBox"
+              ]
+            },
+            {
+              "$type": "EnablePushColliderName",
+              "pushColliderNames": [
+                "PushCollider"
+              ]
+            },
+            {
+              "$type": "ApplyModifier",
+              "modifierName": "Strike_Blink"
+            },
+            {
+              "$type": "Randomed",
+              "chance": 0.5,
+              "successActions": [
+                {
+                  "$type": "SetAISkillCDAvailableNow",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 0,
+                      "compareType": "NoneOrEqual",
+                      "key": "_KANIS_POSE_TAG_"
+                    }
+                  ],
+                  "skillIDs": [
+                    201
+                  ]
+                },
+                {
+                  "$type": "SetAISkillCDAvailableNow",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 1,
+                      "key": "_KANIS_POSE_TAG_"
+                    }
+                  ],
+                  "skillIDs": [
+                    202
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "TriggerAbility",
+              "predicates": [
+                {
+                  "$type": "ByNot",
+                  "predicates": [
+                    {
+                      "$type": "ByTargetGlobalValue",
+                      "value": 2,
+                      "key": "_KANIS_POSE_TAG_"
+                    }
+                  ]
+                }
+              ],
+              "abilityName": "Monster_Hound_Kanis_Rock_EyeEff_Remove"
+            }
+          ],
+          "elementDurability": 100,
+          "isUnique": true,
+          "AIHNJLDFEGJ": 0
+        },
+        "Strike_Invincible": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "Invincible",
+          "AIHNJLDFEGJ": 0
+        },
+        "Strike_DenyLockOn": {
+          "$type": "ConfigAbilityModifier",
+          "elementDurability": 100,
+          "state": "DenyLockOn",
+          "AIHNJLDFEGJ": 0
+        },
+        "Strike_Blink": {
+          "$type": "ConfigAbilityModifier",
+          "duration": 0.3,
+          "onRemoved": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Hound_Kanis_Rock_Strike_DoBlink"
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "TriggerAbility",
+              "abilityName": "Monster_Hound_Kanis_Rock_Strike_FindBlinkPoint"
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToStateIDMixin",
+          "stateIDs": [
+            "Strike_Loop"
+          ],
+          "modifierName": "UNIQUE_Strike_Actions"
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Strike_State"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TryFindBlinkPointByBorn",
+          "target": "SelfAttackTarget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 0,
+              "compareType": "NoneOrEqual",
+              "key": "_ROUGUE_HOUNDSTRIKE_TAG_"
+            }
+          ],
+          "limitY": 2.5,
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "linearMin": 0,
+            "linearOffset": 0.85,
+            "BADHEOCLPAH": false,
+            "linearMax": 25
+          },
+          "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+        },
+        {
+          "$type": "TryFindBlinkPointByBorn",
+          "target": "SelfAttackTarget",
+          "predicates": [
+            {
+              "$type": "ByTargetGlobalValue",
+              "target": "Self",
+              "value": 1,
+              "key": "_ROUGUE_HOUNDSTRIKE_TAG_"
+            }
+          ],
+          "limitY": 2.5,
+          "born": {
+            "$type": "ConfigBornByTargetLinearPoint",
+            "onGround": true,
+            "offset": {
+              "$type": "DynamicFloatVector",
+              "x": 0,
+              "z": 0,
+              "y": 0
+            },
+            "linearMin": 0,
+            "linearOffset": 0.85,
+            "BADHEOCLPAH": false,
+            "linearMax": 25
+          },
+          "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Strike_FindBlinkPoint"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "DoBlink"
+        },
+        {
+          "$type": "TurnDirectionToPos",
+          "target": "SelfAttackTarget",
+          "toPos": {
+            "$type": "ConfigBornByTarget"
+          }
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Strike_DoBlink"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "onAbilityStart": [
+        {
+          "$type": "TriggerAttackEvent",
+          "targetType": "Enemy",
+          "attackEvent": {
+            "$type": "ConfigAttackEvent",
+            "attackInfo": {
+              "$type": "ConfigAttackInfo",
+              "attackProperty": {
+                "$type": "ConfigAttackProperty",
+                "elementType": "Rock",
+                "damagePercentageRatio": 0,
+                "strikeType": "Default",
+                "enBreak": 20.0,
+                "damagePercentage": 1,
+                "elementDurability": 50,
+                "arkheGrade": 0
+              },
+              "hitPattern": {
+                "$type": "ConfigHitPattern",
+                "onHitEffectName": "Eff_Monster_Riftstalker_Hit",
+                "hitHaltTimeScale": 0.05000000074505806,
+                "hitImpulseType": "LV2"
+              },
+              "attenuationGroup": "default",
+              "attackTag": "Hound_Corruption_Tag"
+            },
+            "attackPattern": {
+              "$type": "ConfigAttackCircle",
+              "triggerType": "TriggerNoRepeat",
+              "born": {
+                "$type": "ConfigBornBySelf",
+                "offset": {
+                  "$type": "DynamicFloatVector",
+                  "x": 0,
+                  "z": 0.72,
+                  "y": -0.2
+                },
+                "direction": {
+                  "$type": "ConfigDirectionByDefault",
+                  "angleOffset": {
+                    "$type": "DynamicFloatVector",
+                    "x": 0,
+                    "z": 0,
+                    "y": 30
+                  }
+                }
+              },
+              "radius": 2.5,
+              "height": 2.0,
+              "fanAngle": 200.0
+            }
+          }
+        },
+        {
+          "$type": "FireEffect",
+          "effectPattern": "Eff_Monster_Kanis_Rock_Strike_Attack",
+          "scale": 1,
+          "effectTempleteID": -1
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Strike_Attack"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Biting_Action": {
+          "$type": "ConfigAbilityModifier",
+          "onAdded": [
+            {
+              "$type": "Predicated",
+              "target": "SelfAttackTarget",
+              "successActions": [
+                {
+                  "$type": "TryFindBlinkPointByBorn",
+                  "target": "SelfAttackTarget",
+                  "limitY": 2.5,
+                  "born": {
+                    "$type": "ConfigBornBySelf",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": 1,
+                      "y": 0
+                    }
+                  },
+                  "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+                },
+                {
+                  "$type": "FixedMonsterRushMove",
+                  "animatorStateIDs": [
+                    "Biting"
+                  ],
+                  "toPos": {
+                    "$type": "ConfigBornByTeleportToPoint"
+                  },
+                  "timeRange": 0.6
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Kanis_Rock_Biting",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "failActions": [
+                {
+                  "$type": "TryFindBlinkPointByBorn",
+                  "target": "SelfAttackTarget",
+                  "limitY": 2.5,
+                  "born": {
+                    "$type": "ConfigBornByTarget",
+                    "offset": {
+                      "$type": "DynamicFloatVector",
+                      "x": 0,
+                      "z": -1.3,
+                      "y": 0
+                    }
+                  },
+                  "hitSceneType": "BlinkHitSceneTestByThreeSegments"
+                },
+                {
+                  "$type": "FixedMonsterRushMove",
+                  "animatorStateIDs": [
+                    "Biting"
+                  ],
+                  "toPos": {
+                    "$type": "ConfigBornByTeleportToPoint"
+                  },
+                  "timeRange": 1
+                },
+                {
+                  "$type": "FireEffect",
+                  "effectPattern": "Eff_Monster_Kanis_Rock_Biting",
+                  "scale": 1,
+                  "effectTempleteID": -1
+                }
+              ],
+              "targetPredicates": [
+                {
+                  "$type": "ByTargetPositionToSelfPosition",
+                  "logic": "LesserOrEqual",
+                  "value": 3.5
+                }
+              ]
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Biting_Action",
+          "stateID": "Biting",
+          "normalizeStart": 0.05000000074505806
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Biting"
+    }
+  },
+  {
+    "Default": {
+      "$type": "ConfigAbility",
+      "modifiers": {
+        "Kanis_Activated_Actions": {
+          "$type": "ConfigAbilityModifier",
+          "onRemoved": [
+            {
+              "$type": "RemoveUniqueModifier",
+              "modifierName": "UNIQUE_Kanis_ChargeBar"
+            },
+            {
+              "$type": "SetAISkillCDAvailableNow",
+              "skillIDs": [
+                601
+              ]
+            }
+          ],
+          "onAdded": [
+            {
+              "$type": "SetGlobalValue",
+              "key": "_KANIS_POSE_TAG_",
+              "minValue": 0,
+              "maxValue": 0,
+              "value": 2
+            }
+          ],
+          "elementDurability": 100,
+          "AIHNJLDFEGJ": 0
+        }
+      },
+      "abilityMixins": [
+        {
+          "$type": "AttachToNormalizedTimeMixin",
+          "modifierName": "Kanis_Activated_Actions",
+          "stateID": "Activated",
+          "normalizeStart": 0.05000000074505806
+        }
+      ],
+      "abilityName": "Monster_Hound_Kanis_Rock_Acitvated"
+    }
+  }
+]
